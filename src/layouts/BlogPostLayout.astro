@@ -1,56 +1,147 @@
 ---
-/** Layout para posts del blog: article schema + breadcrumbs + metadata visible. */
+/** Layout de publicaciones de Builder Lab: Article schema + breadcrumbs + metadata visible + CTA contextual. */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import BaseLayout from './BaseLayout.astro';
 import ArticleSchema from '../components/schema/ArticleSchema.astro';
-import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import DraftBanner from '../components/ui/DraftBanner.astro';
+import CTABanner from '../components/ui/CTABanner.astro';
+import NewsletterSignup from '../components/forms/NewsletterSignup.astro';
 import { SITE } from '../config/site.config';
+import { POST_CATEGORIES } from '../content.config';
+import { formatDate } from '../lib/format';
 
 interface Props {
+  slug: string;
   title: string;
   description: string;
   pubDate: Date;
   updatedDate?: Date;
+  reviewedDate?: Date;
+  category: keyof typeof POST_CATEGORIES;
   author?: string;
-  image?: string;
+  heroImage?: ImageMetadata;
+  heroImageAlt?: string;
+  videoUrl?: string;
   tags?: string[];
+  resources?: { label: string; url: string }[];
+  ctaType?: 'builder-drops' | 'contacto' | 'conferencias';
+  draft?: boolean;
+  seo?: { title?: string; description?: string };
 }
-const { title, description, pubDate, updatedDate, author = SITE.blog.defaultAuthor, image, tags = [] } = Astro.props;
-const fmt = (d: Date) => d.toLocaleDateString(SITE.lang, { year: 'numeric', month: 'long', day: 'numeric' });
+const {
+  slug, title, description, pubDate, updatedDate, reviewedDate, category, author = SITE.blog.defaultAuthor,
+  heroImage, heroImageAlt = '', videoUrl, tags = [], resources = [], ctaType = 'builder-drops', draft = false, seo,
+} = Astro.props;
+const url = `${SITE.blog.basePath}/${slug}`;
+const ogImage = heroImage?.src;
+
+// Solo YouTube/Vimeo se incrustan; cualquier otro enlace se muestra como link.
+function embedUrl(u: string): string | undefined {
+  const yt = u.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{11})/);
+  if (yt) return `https://www.youtube-nocookie.com/embed/${yt[1]}`;
+  const vm = u.match(/vimeo\.com\/(\d+)/);
+  if (vm) return `https://player.vimeo.com/video/${vm[1]}`;
+}
+const embed = videoUrl ? embedUrl(videoUrl) : undefined;
 ---
 <BaseLayout
-  title={title}
-  description={description}
-  image={image}
+  title={seo?.title ?? title}
+  description={seo?.description ?? description}
+  image={ogImage}
   type="article"
   publishedTime={pubDate.toISOString()}
   modifiedTime={updatedDate?.toISOString()}
   author={author}
+  noindex={draft}
 >
-  <ArticleSchema
-    title={title}
-    description={description}
-    publishedTime={pubDate.toISOString()}
-    modifiedTime={updatedDate?.toISOString()}
-    author={author}
-    image={image}
-  />
-  <BreadcrumbSchema items={[{ name: SITE.blog.title, url: '/blog' }, { name: title, url: Astro.url.pathname }]} />
+  {!draft && (
+    <ArticleSchema title={title} description={description} publishedTime={pubDate.toISOString()} modifiedTime={updatedDate?.toISOString()} author={author} image={ogImage} />
+  )}
+  {draft && <DraftBanner label="Ejemplo / borrador · no se publica" />}
 
-  <article class="post">
-    <header>
-      <h1>{title}</h1>
-      <p class="meta">
-        Por {author} · <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
-        {updatedDate && <> · Actualizado: <time datetime={updatedDate.toISOString()}>{fmt(updatedDate)}</time></>}
-      </p>
-      {tags.length > 0 && (
-        <ul class="tags">
-          {tags.map((t) => <li><a href={`/blog/tag/${t}`}>#{t}</a></li>)}
-        </ul>
-      )}
+  <article>
+    <header class="post-hero dark">
+      <div class="container">
+        <Breadcrumbs items={[{ name: 'Builder Lab', url: SITE.blog.basePath }, { name: title, url }]} />
+        <span class="eyebrow eyebrow--lime">{POST_CATEGORIES[category]}</span>
+        <h1>{title}</h1>
+        <p class="post-hero__desc">{description}</p>
+        <p class="post-hero__meta">
+          Por {author} · <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+          {updatedDate && <> · Actualizado: <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time></>}
+          {reviewedDate && <> · Revisado: <time datetime={reviewedDate.toISOString()}>{formatDate(reviewedDate)}</time></>}
+        </p>
+      </div>
     </header>
-    <div class="prose">
-      <slot />
+
+    <div class="section">
+      <div class="container post-layout">
+        {heroImage && (
+          <figure class="post-figure media">
+            <Image src={heroImage} alt={heroImageAlt} widths={[640, 960, 1280]} sizes="(min-width: 1024px) 880px, 100vw" />
+          </figure>
+        )}
+        {embed && (
+          <div class="post-video">
+            <iframe src={embed} title={`Video: ${title}`} loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          </div>
+        )}
+        {videoUrl && !embed && <p><a class="link-arrow" href={videoUrl} target="_blank" rel="noopener">Ver video <span aria-hidden="true">↗</span></a></p>}
+
+        <div class="prose"><slot /></div>
+
+        {resources.length > 0 && (
+          <aside class="post-resources" aria-labelledby="post-resources-title">
+            <h2 id="post-resources-title">Recursos y fuentes</h2>
+            <ul>{resources.map((r) => <li><a href={r.url} target="_blank" rel="noopener">{r.label}<span class="sr-only"> (abre en otra pestaña)</span></a></li>)}</ul>
+          </aside>
+        )}
+
+        {tags.length > 0 && (
+          <ul class="post-tags" aria-label="Etiquetas">{tags.map((t) => <li>#{t}</li>)}</ul>
+        )}
+      </div>
     </div>
   </article>
+
+  <section class="section section--alt" aria-label="Siguiente paso">
+    <div class="container">
+      {ctaType === 'builder-drops' && (
+        <div class="post-drops">
+          <div>
+            <span class="eyebrow">Builder Drops</span>
+            <h2>Ideas, herramientas y oportunidades en tu correo.</h2>
+            <p class="lead">Una selección de lo que estoy probando, aprendiendo y construyendo. Sin ruido ni correos todos los días.</p>
+          </div>
+          <NewsletterSignup id="post-drops" showInterests={false} />
+        </div>
+      )}
+      {ctaType === 'contacto' && (
+        <CTABanner title="¿Qué oportunidad estás viendo?" ctaLabel="Cuéntame tu reto" ctaHref="/contacto">
+          <p>Empecemos por entenderla y decidir qué vale la pena construir.</p>
+        </CTABanner>
+      )}
+      {ctaType === 'conferencias' && (
+        <CTABanner lime title="Llevemos estas ideas a tu empresa o evento." ctaLabel="Solicitar propuesta" ctaHref="/builder-lab/conferencias" />
+      )}
+    </div>
+  </section>
 </BaseLayout>
+<style>
+  .post-hero { background: var(--navy-3); padding: clamp(3rem, 2rem + 4vw, 5.5rem) 0; }
+  .post-hero h1 { font-size: clamp(2.1rem, 1.5rem + 2.6vw, 3.6rem); max-width: 24ch; }
+  .post-hero__desc { font-size: var(--fs-lead); max-width: 44rem; margin-top: 1.25rem; }
+  .post-hero__meta { font-size: .875rem; margin: 0; }
+  .post-layout { max-width: calc(880px + var(--gutter) * 2); }
+  .post-figure { margin: 0 0 2.5rem; }
+  .post-video { position: relative; aspect-ratio: 16 / 9; margin-bottom: 2.5rem; border-radius: var(--radius); overflow: hidden; background: var(--navy); }
+  .post-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .post-resources { margin-top: 3rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); }
+  .post-resources h2 { font-size: 1.35rem; }
+  .post-resources a { color: var(--accent-text); }
+  .post-tags { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 2rem; font-size: .875rem; color: var(--muted); }
+  .post-drops { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 3rem; }
+  @media (max-width: 1023px) { .post-drops { grid-template-columns: minmax(0, 1fr); } }
+</style>

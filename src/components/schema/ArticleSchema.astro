@@ -20,12 +20,9 @@ const schema = {
   image: new URL(image, SITE.url).href,
   datePublished: publishedTime,
   dateModified: modifiedTime ?? publishedTime,
-  author: { '@type': 'Person', name: author },
-  publisher: {
-    '@type': 'Organization',
-    name: SITE.name,
-    logo: { '@type': 'ImageObject', url: new URL(SITE.logo, SITE.url).href },
-  },
+  author: { '@type': 'Person', name: author, url: SITE.url },
+  publisher: { '@type': 'Person', '@id': `${SITE.url}/#person`, name: SITE.person.name },
+  inLanguage: SITE.lang,
   mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
 };
 ---

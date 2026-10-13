@@ -1,0 +1,25 @@
+---
+/** H05 — FeaturedProjects. */
+import { getCollection } from 'astro:content';
+import SectionHeading from '../ui/SectionHeading.astro';
+import ProjectCard from '../ui/ProjectCard.astro';
+import { SHOW_DRAFTS } from '../../lib/drafts';
+
+const projects = (await getCollection('proyectos', ({ data }) => data.featured)).sort((a, b) => a.data.order - b.data.order);
+const caseHref = (p: (typeof projects)[number]) => (p.data.hasCase && (p.data.published || SHOW_DRAFTS) ? `/proyectos/${p.id}` : undefined);
+---
+<section class="section" aria-labelledby="proyectos-title">
+  <div class="container">
+    <SectionHeading id="proyectos-title" eyebrow="En la práctica" title="Cómo pienso. Qué construyo.">
+      <p class="lead">La mejor forma de entender mi trabajo es conocer los proyectos en los que participo.</p>
+    </SectionHeading>
+    <div class="grid grid-3">
+      {projects.map((p, i) => (
+        <ProjectCard name={p.data.name} industry={p.data.industry} description={p.data.shortDescription} status={p.data.status} href={caseHref(p)} index={i} />
+      ))}
+    </div>
+    <div class="actions">
+      <a class="btn btn--outline-dark" href="/proyectos">Ver todos los proyectos <span class="btn__icon" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>

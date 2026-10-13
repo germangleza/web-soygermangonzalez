@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import SpeakerInquiryForm from '../../components/forms/SpeakerInquiryForm.astro';
+import { TALKS, TALK_FORMATS } from '../../data/content';
+---
+<BaseLayout
+  fullTitle="Conferencias y workshops de IA y negocios | Germán González"
+  description="Conferencias y workshops sobre inteligencia artificial, tecnología, innovación y oportunidades de negocio para empresas, universidades, comunidades y eventos."
+>
+  <PageHero variant="lab" eyebrow="Builder Lab · Conferencias" title="Ideas que inspiran. Herramientas que se ponen a trabajar." breadcrumbs={[{ name: 'Builder Lab', url: '/builder-lab' }, { name: 'Conferencias', url: '/builder-lab/conferencias' }]}>
+    <p>Conferencias y workshops sobre inteligencia artificial, tecnología, innovación y oportunidades de negocio para empresas, universidades, comunidades y eventos.</p>
+    <div class="actions"><a class="btn btn--lime" href="#solicitud">Solicitar propuesta <span class="btn__icon" aria-hidden="true">↓</span></a></div>
+  </PageHero>
+
+  <section class="section" aria-labelledby="experiencias-title">
+    <div class="container">
+      <SectionHeading id="experiencias-title" eyebrow="Experiencias" title="Temas." />
+      <ol class="talks" role="list">
+        {TALKS.map((t, i) => (
+          <li class="talk">
+            <span class="talk__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="talk__title">{t.title}</h3>
+            <span class="talk__kind">{t.kind}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="formatos-title">
+    <div class="container">
+      <SectionHeading id="formatos-title" eyebrow="Formatos" title="Se adapta a tu evento." />
+      <ul class="grid grid-4 formats" role="list">
+        {TALK_FORMATS.map((f) => <li class="card"><h3 style="margin:0">{f}</h3></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="solicitud" aria-labelledby="solicitud-title">
+    <div class="container split" style="align-items:start">
+      <div>
+        <span class="eyebrow">Solicitar propuesta</span>
+        <h2 id="solicitud-title">Cuéntame sobre tu evento.</h2>
+        <p class="lead">Con estos datos puedo preparar una propuesta a la medida del público y del objetivo.</p>
+      </div>
+      <SpeakerInquiryForm />
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .talks { list-style: none; padding: 0; border-top: 1px solid var(--line); }
+  .talk { display: grid; grid-template-columns: 4rem minmax(0, 1fr) auto; gap: 1rem 1.5rem; align-items: baseline; padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+  .talk__num { font-family: var(--font-display); font-weight: 700; color: var(--accent-text); font-size: 1.1rem; }
+  .talk__title { margin: 0; font-size: clamp(1.3rem, 1.1rem + .8vw, 1.85rem); }
+  .talk__kind { font-size: .8125rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-align: right; }
+  .formats { list-style: none; padding: 0; }
+  @media (max-width: 679px) {
+    .talk { grid-template-columns: 2.5rem minmax(0, 1fr); }
+    .talk__kind { grid-column: 2; text-align: left; }
+  }
+</style>

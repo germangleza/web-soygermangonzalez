@@ -1,0 +1,199 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import PostCard from '../../components/ui/PostCard.astro';
+import ResourceCard from '../../components/ui/ResourceCard.astro';
+import EventCard from '../../components/ui/EventCard.astro';
+import StatusLabel from '../../components/ui/StatusLabel.astro';
+import CategoryFilter from '../../components/ui/CategoryFilter.astro';
+import CTABanner from '../../components/ui/CTABanner.astro';
+import NewsletterSignup from '../../components/forms/NewsletterSignup.astro';
+import { POST_CATEGORIES } from '../../content.config';
+import { LAB_CONCEPTS, PLANNED_POSTS, RESOURCE_COLLECTIONS, TRAINING } from '../../data/content';
+import { SHOW_DRAFTS } from '../../lib/drafts';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft || SHOW_DRAFTS))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const resources = (await getCollection('recursos', ({ data }) => data.published || SHOW_DRAFTS)).slice(0, 3);
+const events = (await getCollection('eventos', ({ data }) => (data.published || SHOW_DRAFTS) && data.status !== 'past'))
+  .sort((a, b) => (a.data.date?.valueOf() ?? Infinity) - (b.data.date?.valueOf() ?? Infinity));
+const EVENT_STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas', sold_out: 'Cupo lleno', past: 'Finalizado' } as const;
+---
+<BaseLayout
+  fullTitle="Builder Lab | IA, tecnología, negocios y comunidad"
+  description="Builder Lab by Germán González: exploramos inteligencia artificial, tecnología, negocios y nuevas oportunidades. Experimentos, aprendizajes y herramientas para construir."
+>
+  <PageHero variant="lab" eyebrow="Builder Lab · by Germán González" title={'Exploramos. Probamos. <span class="text-lime">Construimos.</span>'} breadcrumbs={[{ name: 'Builder Lab', url: '/builder-lab' }]}>
+    <p>Un espacio para quienes no solo quieren enterarse de lo que viene, sino probarlo y construir con ello. Exploramos inteligencia artificial, tecnología, negocios y nuevas oportunidades. Compartimos experimentos, aprendizajes y herramientas para llevar ideas a la realidad.</p>
+    <div class="actions">
+      <a class="btn btn--lime" href="#registro">Únete a Builder Lab <span class="btn__icon" aria-hidden="true">↗</span></a>
+      <a class="btn btn--outline" href="#explora">Ver lo que exploramos <span class="btn__icon" aria-hidden="true">↓</span></a>
+    </div>
+  </PageHero>
+
+  <!-- BL02 -->
+  <section class="section" aria-labelledby="conceptos-title">
+    <div class="container">
+      <h2 id="conceptos-title" class="sr-only">Explora, Aprende, Conecta</h2>
+      <ul class="grid grid-3 concepts" role="list">
+        {LAB_CONCEPTS.map((c, i) => (
+          <li class="card">
+            <span class="card__kicker">{String(i + 1).padStart(2, '0')}</span>
+            <h3><span class="concept-icon" aria-hidden="true">{c.icon}</span> {c.title}</h3>
+            <p>{c.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- BL03 -->
+  <section class="section section--alt" id="explora" aria-labelledby="explora-title">
+    <div class="container">
+      <SectionHeading id="explora-title" eyebrow="Biblioteca" title="Lo que estoy explorando.">
+        <p class="lead">Constantemente pruebo herramientas, investigo tecnologías y encuentro ideas que podrían cambiar cómo trabajamos o construimos negocios. Aquí comparto lo que me parece interesante, qué he probado y qué aprendí.</p>
+      </SectionHeading>
+      <CategoryFilter target="posts" categories={POST_CATEGORIES} />
+      <ul class="grid grid-3 cards" role="list" data-filter-target="posts">
+        {posts.map((p) => (
+          <li>
+            <PostCard
+              title={p.data.title}
+              description={p.data.description}
+              category={p.data.category}
+              categoryLabel={POST_CATEGORIES[p.data.category]}
+              href={`/builder-lab/${p.id}`}
+              date={p.data.pubDate}
+              image={p.data.heroImage}
+              imageAlt={p.data.heroImageAlt}
+              hasVideo={Boolean(p.data.videoUrl)}
+              status={p.data.draft ? 'Borrador' : undefined}
+            />
+          </li>
+        ))}
+        {PLANNED_POSTS.map((p) => (
+          <li>
+            <article class="card planned" data-category={p.category}>
+              <span class="card__kicker">{POST_CATEGORIES[p.category]}</span>
+              <h3>{p.title}</h3>
+              <div class="card__footer"><StatusLabel>En preparación</StatusLabel></div>
+            </article>
+          </li>
+        ))}
+      </ul>
+      <p class="small mt-md" data-filter-empty="posts" hidden>Todavía no hay publicaciones en esta categoría.</p>
+      <p class="small mt-md">¿Quieres enterarte cuando publique? <a href="#registro" style="color:var(--accent-text)">Suscríbete a Builder Drops</a>.</p>
+    </div>
+  </section>
+
+  <!-- BL04 -->
+  <section class="section" id="recursos" aria-labelledby="recursos-title">
+    <div class="container">
+      <SectionHeading id="recursos-title" eyebrow="Recursos" title="Herramientas y recursos para construir.">
+        <p class="lead">No necesitas empezar de cero cada vez. Aquí reuniré algunas herramientas, plantillas, prompts y frameworks que voy utilizando en diferentes proyectos.</p>
+      </SectionHeading>
+      {resources.length > 0 ? (
+        <>
+          <div class="grid grid-3">
+            {resources.map((r) => (
+              <ResourceCard title={r.data.title} description={r.data.description} categoryLabel={RESOURCE_COLLECTIONS[r.data.category].title}
+                href={r.data.requiresEmail ? '#registro' : r.data.fileOrUrl} updatedAt={r.data.updatedAt} slug={r.id} />
+            ))}
+          </div>
+          <div class="actions"><a class="btn btn--outline-dark" href="/builder-lab/recursos">Ver biblioteca de recursos <span class="btn__icon" aria-hidden="true">↗</span></a></div>
+        </>
+      ) : (
+        <ul class="grid grid-3" role="list">
+          {Object.values(RESOURCE_COLLECTIONS).map((c) => (
+            <li class="card">
+              <h3>{c.title}</h3>
+              <p>{c.text}</p>
+              <div class="card__footer"><StatusLabel>En preparación</StatusLabel></div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+
+  <!-- BL05 -->
+  <section class="section section--alt" id="formacion" aria-labelledby="formacion-title">
+    <div class="container">
+      <SectionHeading id="formacion-title" eyebrow="Formación" title="Aprende haciendo.">
+        <p class="lead">La mejor forma de entender una tecnología es probarla. En Builder Lab organizaremos sesiones para experimentar con nuevas herramientas, resolver problemas reales y desarrollar ideas que puedan convertirse en algo concreto.</p>
+      </SectionHeading>
+      <div class="grid grid-3">
+        {events.map((e) => (
+          <EventCard name={e.data.name} description={e.data.description} statusLabel={EVENT_STATUS[e.data.status]} href={e.data.status === 'proposed' ? undefined : `/builder-lab/eventos/${e.id}`} />
+        ))}
+        {TRAINING.map((t) => (
+          <EventCard name={t.name} description={t.text} statusLabel={t.status} ctaLabel="Recibir próximas fechas" ctaHref="#registro" />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- BL06 -->
+  <section class="section" aria-label="Conferencias corporativas">
+    <div class="container">
+      <CTABanner lime eyebrow="Empresas · Universidades · Comunidades · Eventos" title="Llevemos estas ideas a tu empresa o evento." ctaLabel="Conoce las conferencias y workshops" ctaHref="/builder-lab/conferencias">
+        <p>También comparto estos temas a través de conferencias y experiencias prácticas para empresas, universidades, comunidades y eventos.</p>
+        <ul class="talk-list">
+          <li>Ventaja competitiva al construir más rápido</li>
+          <li>Dónde está la oportunidad</li>
+          <li>Cómo hacer que la IA recomiende tu negocio</li>
+          <li>IA aplicada al trabajo</li>
+        </ul>
+      </CTABanner>
+    </div>
+  </section>
+
+  <!-- BL07 -->
+  <section class="section section--tight" aria-labelledby="comunidad-title">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Comunidad</span>
+        <h2 id="comunidad-title">Lo más interesante también es lo que podemos construir juntos.</h2>
+      </div>
+      <div>
+        <p class="lead">Builder Lab nace de una idea sencilla: hay muchas personas explorando herramientas, empezando proyectos y buscando nuevas formas de hacer las cosas. Quiero reunir a quienes tienen esa misma curiosidad para compartir descubrimientos, aprender unos de otros y encontrar oportunidades para colaborar.</p>
+        <StatusLabel>Comunidad en formación</StatusLabel>
+      </div>
+    </div>
+  </section>
+
+  <!-- BL08 -->
+  <section class="section section--alt" id="registro" aria-labelledby="registro-title">
+    <div class="container">
+      <div class="drops">
+        <div>
+          <span class="eyebrow">Builder Drops</span>
+          <h2 id="registro-title">Ideas, herramientas y oportunidades en tu correo.</h2>
+          <p class="lead">Una selección de lo que estoy probando, aprendiendo y construyendo. Sin ruido ni correos todos los días.</p>
+          <p class="small">Frecuencia inicial: quincenal.</p>
+        </div>
+        <NewsletterSignup />
+      </div>
+    </div>
+  </section>
+
+  <!-- BL09 -->
+  <section class="section">
+    <div class="container">
+      <CTABanner lime title="Builder Lab es para los que prefieren probar antes que quedarse con la curiosidad." ctaLabel="Únete a Builder Lab" ctaHref="#registro" />
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .concepts, .cards { list-style: none; padding: 0; }
+  .cards > li { display: flex; }
+  .cards > li > :global(*) { flex: 1; }
+  .concept-icon { color: var(--accent-text); }
+  .planned { border-style: dashed; background: transparent; }
+  .talk-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+  .talk-list li { border: 1px solid var(--line-dark); border-radius: 999px; padding: .4rem .9rem; font-size: .875rem; color: var(--muted-on-dark); }
+  .drops { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(2rem, 1rem + 4vw, 4rem); background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(1.5rem, 1rem + 3vw, 3.5rem); }
+  @media (max-width: 1023px) { .drops { grid-template-columns: minmax(0, 1fr); } }
+</style>

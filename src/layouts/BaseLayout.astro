@@ -1,13 +1,17 @@
 ---
-/** Layout base: HTML semántico + SEO + schemas globales. Todas las páginas lo usan. */
-import SEO from '../components/SEO.astro';
-import OrganizationSchema from '../components/schema/OrganizationSchema.astro';
-import WebSiteSchema from '../components/schema/WebSiteSchema.astro';
-import { SITE } from '../config/site.config';
+/** Layout base: HTML semántico + SEO + schemas globales + header/footer. Todas las páginas lo usan. */
+import '@fontsource-variable/manrope/wght.css';
 import '../styles/global.css';
+import SEO from '../components/SEO.astro';
+import PersonSchema from '../components/schema/PersonSchema.astro';
+import WebSiteSchema from '../components/schema/WebSiteSchema.astro';
+import SiteHeader from '../components/layout/SiteHeader.astro';
+import SiteFooter from '../components/layout/SiteFooter.astro';
+import { SITE } from '../config/site.config';
 
 interface Props {
   title?: string;
+  fullTitle?: string;
   description?: string;
   image?: string;
   type?: 'website' | 'article';
@@ -17,6 +21,7 @@ interface Props {
   author?: string;
 }
 const props = Astro.props;
+const ga = SITE.analytics.googleAnalyticsId;
 ---
 <!doctype html>
 <html lang={SITE.lang}>
@@ -24,33 +29,45 @@ const props = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content={SITE.themeColor} />
+    <meta name="color-scheme" content="light" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name} — ${SITE.blog.title}`} href="/rss.xml" />
+    {SITE.fonts.adobeKitId && (
+      <>
+        <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+        <link rel="stylesheet" href={`https://use.typekit.net/${SITE.fonts.adobeKitId}.css`} />
+      </>
+    )}
     <SEO {...props} />
-    <OrganizationSchema />
+    <PersonSchema />
     <WebSiteSchema />
     {SITE.analytics.plausibleDomain && (
       <script defer data-domain={SITE.analytics.plausibleDomain} src="https://plausible.io/js/script.js"></script>
     )}
+    {ga && (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga}`}></script>
+        <script is:inline define:vars={{ ga }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', ga);
+        </script>
+      </>
+    )}
   </head>
   <body>
-    <header class="site-header">
-      <nav aria-label="Principal">
-        <a href="/" class="brand">{SITE.name}</a>
-        <ul>
-          <li><a href="/blog">Blog</a></li>
-          <li><a href="/#contacto">Contacto</a></li>
-        </ul>
-      </nav>
-    </header>
-
-    <main>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <SiteHeader />
+    <main id="contenido" tabindex="-1">
       <slot />
     </main>
-
-    <footer class="site-footer">
-      <p>© {new Date().getFullYear()} {SITE.business.legalName || SITE.name}. Todos los derechos reservados.</p>
-    </footer>
+    <SiteFooter />
+    <script>
+      import { captureAttribution } from '../scripts/analytics';
+      captureAttribution();
+    </script>
   </body>
 </html>

@@ -1,6 +1,9 @@
-# 🚀 Astro Template — Genérico (SEO + GEO listo)
+# Germán González — Business Builder
 
-Template base para cualquier sitio: landing + blog + SEO técnico completo preconfigurado.
+Sitio de marca personal (Business Building + Builder Lab) construido sobre el template Astro con SEO/GEO.
+
+- Arquitectura, fases, formularios, CMS y analítica: **[docs/IMPLEMENTACION.md](docs/IMPLEMENTACION.md)**
+- Pendientes antes de producción: **[docs/REVISION.md](docs/REVISION.md)**
 
 ## ¿Qué incluye?
 
@@ -33,7 +36,7 @@ npm run build    # build de producción (valida frontmatter del blog)
 npm run check    # type-check
 ```
 
-## Escribir en el blog
+## Escribir en Builder Lab (o desde /admin)
 
 Crea un archivo en `src/content/blog/mi-post.md`:
 
@@ -42,6 +45,7 @@ Crea un archivo en `src/content/blog/mi-post.md`:
 title: "Título (máx 70 chars)"
 description: "Descripción para Google (50-160 chars)"
 pubDate: 2026-07-23
+category: "ia-herramientas"
 tags: ["tag1"]
 ---
 

@@ -7,6 +7,8 @@ import { SITE } from '../config/site.config';
 
 interface Props {
   title?: string;
+  /** Título completo tal cual (sin sufijo " | Germán González"). Tiene prioridad sobre title. */
+  fullTitle?: string;
   description?: string;
   image?: string;          // Ruta relativa o absoluta de la imagen OG
   canonical?: string;      // Se autogenera si no se pasa
@@ -19,6 +21,7 @@ interface Props {
 
 const {
   title,
+  fullTitle,
   description = SITE.description,
   image = SITE.ogImage,
   type = 'website',
@@ -28,7 +31,7 @@ const {
   author,
 } = Astro.props;
 
-const pageTitle = title ? `${title} | ${SITE.name}` : SITE.title;
+const pageTitle = fullTitle ?? (title ? `${title} | ${SITE.name}` : SITE.title);
 const canonical = Astro.props.canonical ?? new URL(Astro.url.pathname, SITE.url).href;
 const ogImage = new URL(image, SITE.url).href;
 ---
@@ -54,7 +57,6 @@ const ogImage = new URL(image, SITE.url).href;
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
-{SITE.socials.twitter && <meta name="twitter:site" content={`@${SITE.socials.twitter}`} />}
 <meta name="twitter:title" content={pageTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImage} />

@@ -1,0 +1,63 @@
+/**
+ * Analítica y atribución (Blueprint §11).
+ * - track() envía eventos a GA4 (gtag) y/o Plausible SOLO si están configurados.
+ * - Las conversiones se disparan únicamente tras una confirmación real del servidor.
+ * - captureAttribution() guarda UTM y página de entrada (first touch) en sessionStorage
+ *   para adjuntarlos al Lead.
+ */
+
+export type ConversionEvent =
+  | 'contact_submit_success'
+  | 'conference_inquiry_success'
+  | 'builder_drops_signup_success'
+  | 'event_signup_success'
+  | 'resource_download';
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+    plausible?: (event: string, opts?: { props?: Record<string, string> }) => void;
+  }
+}
+
+const KEY = 'gg_attribution';
+const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'] as const;
+
+export type Attribution = Partial<Record<(typeof UTM_KEYS)[number], string>> & {
+  landingPage?: string;
+  referrer?: string;
+};
+
+export function captureAttribution(): void {
+  try {
+    const params = new URLSearchParams(location.search);
+    const hasUtm = UTM_KEYS.some((k) => params.has(k));
+    if (sessionStorage.getItem(KEY) && !hasUtm) return;
+    const data: Attribution = { landingPage: location.pathname };
+    if (document.referrer && !document.referrer.startsWith(location.origin)) data.referrer = document.referrer;
+    for (const k of UTM_KEYS) {
+      const v = params.get(k);
+      if (v) data[k] = v.slice(0, 120);
+    }
+    sessionStorage.setItem(KEY, JSON.stringify(data));
+  } catch {
+    /* almacenamiento no disponible: se ignora */
+  }
+}
+
+export function getAttribution(): Attribution {
+  try {
+    return JSON.parse(sessionStorage.getItem(KEY) ?? '{}') as Attribution;
+  } catch {
+    return {};
+  }
+}
+
+export function track(event: ConversionEvent, props: Record<string, string> = {}): void {
+  try {
+    window.gtag?.('event', event, props);
+    window.plausible?.(event, { props });
+  } catch {
+    /* nunca romper la UX por analítica */
+  }
+}

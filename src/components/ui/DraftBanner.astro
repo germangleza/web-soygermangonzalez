@@ -1,0 +1,12 @@
+---
+/** Aviso visible para contenido no publicado (solo visible en desarrollo/preview). */
+interface Props { label?: string; }
+const { label = 'Borrador · pendiente de validar · no indexable' } = Astro.props;
+---
+<div class="draft-banner" role="note">
+  <div class="container"><strong>{label}</strong> <span><slot /></span></div>
+</div>
+<style>
+  .draft-banner { background: var(--coral); color: var(--navy); font-size: 0.875rem; padding: 0.6rem 0; }
+  .draft-banner strong { text-transform: uppercase; letter-spacing: .06em; font-size: 0.75rem; margin-right: .5rem; }
+</style>

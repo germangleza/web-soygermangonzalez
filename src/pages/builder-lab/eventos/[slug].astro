@@ -1,0 +1,54 @@
+---
+/** Evento real (Fase 3). Solo se genera para eventos con published: true. Registro solo con signupUrl. */
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/ui/PageHero.astro';
+import StatusLabel from '../../../components/ui/StatusLabel.astro';
+import DraftBanner from '../../../components/ui/DraftBanner.astro';
+import EventSchema from '../../../components/schema/EventSchema.astro';
+import { SHOW_DRAFTS } from '../../../lib/drafts';
+
+export async function getStaticPaths() {
+  const events = await getCollection('eventos', ({ data }) => (data.published || SHOW_DRAFTS) && data.status !== 'proposed');
+  return events.map((e) => ({ params: { slug: e.id }, props: { event: e } }));
+}
+const { event } = Astro.props;
+const { Content } = await render(event);
+const d = event.data;
+const url = `/builder-lab/eventos/${event.id}`;
+const STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas', sold_out: 'Cupo lleno', past: 'Finalizado' } as const;
+const dateLabel = d.date?.toLocaleString('es-MX', { dateStyle: 'full', timeStyle: 'short', timeZone: d.timeZone });
+---
+<BaseLayout title={d.name} description={d.description.slice(0, 160)} noindex={!d.published}>
+  {!d.published && <DraftBanner />}
+  {d.published && d.date && d.status === 'scheduled' && (
+    <EventSchema name={d.name} description={d.description} startDate={d.date.toISOString()} status={d.status} location={d.locationOrOnline} url={url} price={d.price} />
+  )}
+  <PageHero variant="lab" eyebrow="Builder Lab · Evento" title={d.name} breadcrumbs={[{ name: 'Builder Lab', url: '/builder-lab' }, { name: d.name, url }]}>
+    <p>{d.description}</p>
+    <StatusLabel tone="sky">{STATUS[d.status]}</StatusLabel>
+  </PageHero>
+  <section class="section">
+    <div class="container split" style="align-items:start">
+      <div class="prose"><Content /></div>
+      <aside class="card">
+        <dl class="event-facts">
+          {dateLabel && <><dt>Fecha</dt><dd>{dateLabel} ({d.timeZone})</dd></>}
+          {d.locationOrOnline && <><dt>Lugar</dt><dd>{d.locationOrOnline}</dd></>}
+          {d.seats && <><dt>Cupo</dt><dd>{d.seats} lugares</dd></>}
+          {d.price && <><dt>Inversión</dt><dd>{d.price}</dd></>}
+        </dl>
+        {d.signupUrl && d.status === 'scheduled' ? (
+          <a class="btn btn--dark btn--block" href={d.signupUrl} data-event-signup={event.id} target="_blank" rel="noopener">Registrarme <span class="btn__icon" aria-hidden="true">↗</span></a>
+        ) : (
+          <a class="btn btn--outline-dark btn--block" href="/builder-lab#registro">Recibir próximas fechas</a>
+        )}
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .event-facts { display: grid; gap: .25rem 1rem; grid-template-columns: auto minmax(0, 1fr); margin: 0 0 1.5rem; }
+  .event-facts dt { font-weight: 800; }
+  .event-facts dd { margin: 0; color: var(--muted); }
+</style>

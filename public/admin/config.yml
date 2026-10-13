@@ -1,0 +1,137 @@
+# Decap CMS — configuración. Cada guardado crea un commit en GitHub.
+# PENDIENTE: configurar autenticación OAuth de GitHub (ver docs/IMPLEMENTACION.md).
+backend:
+  name: github
+  repo: germangleza/web-soygermangonzalez
+  branch: main
+  # base_url: https://<tu-proveedor-oauth>   # requerido fuera de Netlify
+publish_mode: editorial_workflow   # borradores → revisión → publicar (abre PR)
+locale: es
+media_folder: src/assets/uploads
+public_folder: ../../assets/uploads
+site_url: https://soygermangonzalez.com
+display_url: https://soygermangonzalez.com
+
+collections:
+  - name: blog
+    label: Builder Lab · Publicaciones
+    label_singular: Publicación
+    folder: src/content/blog
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} · {{pubDate | date('YYYY-MM-DD')}}{{draft | ternary(' · BORRADOR', '')}}"
+    fields:
+      - { name: title, label: "Título (máx. 70)", widget: string, pattern: ['^.{1,70}$', 'Máximo 70 caracteres'] }
+      - { name: description, label: "Descripción para Google (50–160)", widget: text, pattern: ['^[\s\S]{50,160}$', 'Entre 50 y 160 caracteres'] }
+      - { name: pubDate, label: Fecha de publicación, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { name: updatedDate, label: Fecha de actualización, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { name: reviewedDate, label: Fecha de revisión de herramientas/enlaces, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - name: category
+        label: Categoría
+        widget: select
+        options:
+          - { label: "IA y herramientas", value: "ia-herramientas" }
+          - { label: "Negocios y Growth", value: "negocios-growth" }
+          - { label: "Build in Public", value: "build-in-public" }
+          - { label: "Tecnología y fintech", value: "tecnologia-fintech" }
+      - { name: heroImage, label: Imagen principal, widget: image, required: false }
+      - { name: heroImageAlt, label: Texto alternativo de la imagen, widget: string, required: false }
+      - { name: videoUrl, label: "Video (YouTube o Vimeo)", widget: string, required: false }
+      - { name: tags, label: Etiquetas, widget: list, required: false }
+      - name: resources
+        label: Recursos y fuentes
+        widget: list
+        required: false
+        fields:
+          - { name: label, label: Texto, widget: string }
+          - { name: url, label: URL, widget: string }
+      - name: ctaType
+        label: Llamado a la acción al final
+        widget: select
+        default: builder-drops
+        options:
+          - { label: "Suscripción a Builder Drops", value: "builder-drops" }
+          - { label: "Contacto comercial", value: "contacto" }
+          - { label: "Conferencias", value: "conferencias" }
+      - { name: draft, label: "Borrador (no publicar)", widget: boolean, default: true }
+      - { name: body, label: Contenido, widget: markdown }
+
+  - name: proyectos
+    label: Proyectos
+    label_singular: Proyecto
+    folder: src/content/proyectos
+    create: true
+    slug: "{{slug}}"
+    identifier_field: name
+    summary: "{{name}}{{published | ternary('', ' · caso en borrador')}}"
+    fields:
+      - { name: name, label: Nombre, widget: string }
+      - { name: industry, label: "Industria / etiqueta", widget: string }
+      - { name: shortDescription, label: Descripción corta, widget: text }
+      - { name: status, label: "Estado verificable (opcional)", widget: string, required: false }
+      - { name: germanRole, label: "Rol exacto de Germán (opcional)", widget: string, required: false }
+      - { name: order, label: Orden, widget: number, default: 100 }
+      - { name: featured, label: Destacado en la home, widget: boolean, default: false }
+      - { name: hasCase, label: Tiene página de caso, widget: boolean, default: false }
+      - { name: published, label: "Caso publicado (validado)", widget: boolean, default: false }
+      - { name: website, label: Sitio web, widget: string, required: false }
+      - name: approvedMedia
+        label: Imágenes autorizadas
+        widget: list
+        required: false
+        fields:
+          - { name: src, label: Imagen, widget: image }
+          - { name: alt, label: Texto alternativo, widget: string }
+      - { name: body, label: "Caso (Contexto, Oportunidad, Qué se construyó, Mi participación, Evidencia, Aprendizajes)", widget: markdown, required: false }
+
+  - name: recursos
+    label: Recursos
+    label_singular: Recurso
+    folder: src/content/recursos
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { name: title, label: Título, widget: string }
+      - { name: description, label: Descripción, widget: text }
+      - name: category
+        label: Colección
+        widget: select
+        options:
+          - { label: "AI Toolkit", value: "ai-toolkit" }
+          - { label: "Prompts y workflows", value: "prompts-workflows" }
+          - { label: "Business Building Templates", value: "business-building-templates" }
+      - { name: fileOrUrl, label: "Archivo o URL", widget: string }
+      - { name: requiresEmail, label: Requiere registro, widget: boolean, default: false }
+      - { name: updatedAt, label: Actualizado, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { name: published, label: Publicado, widget: boolean, default: false }
+
+  - name: eventos
+    label: Eventos
+    label_singular: Evento
+    folder: src/content/eventos
+    create: true
+    slug: "{{slug}}"
+    identifier_field: name
+    fields:
+      - { name: name, label: Nombre, widget: string }
+      - { name: description, label: Descripción corta, widget: text }
+      - name: status
+        label: Estado
+        widget: select
+        options:
+          - { label: Propuesto, value: proposed }
+          - { label: Programado, value: scheduled }
+          - { label: Cupo lleno, value: sold_out }
+          - { label: Finalizado, value: past }
+      - name: type
+        label: Tipo
+        widget: select
+        options: [workshop, lab, bootcamp, conferencia, encuentro]
+      - { name: date, label: Fecha y hora, widget: datetime, required: false }
+      - { name: timeZone, label: Zona horaria, widget: string, default: America/Mexico_City }
+      - { name: locationOrOnline, label: "Lugar o 'En línea'", widget: string, required: false }
+      - { name: seats, label: Cupo, widget: number, required: false }
+      - { name: price, label: Precio, widget: string, required: false }
+      - { name: signupUrl, label: URL de registro, widget: string, required: false }
+      - { name: published, label: Publicado, widget: boolean, default: false }
+      - { name: body, label: Detalle, widget: markdown, required: false }

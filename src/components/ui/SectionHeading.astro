@@ -1,0 +1,22 @@
+---
+/** SectionHeading: eyebrow + H2 + intro opcional. Úsalo para mantener jerarquía consistente. */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  id?: string;
+  as?: 'h1' | 'h2';
+  lime?: boolean;
+  class?: string;
+}
+const { eyebrow, title, id, as: Tag = 'h2', lime = false, class: cls } = Astro.props;
+---
+<div class:list={['section-heading', cls]}>
+  {eyebrow && <span class:list={['eyebrow', { 'eyebrow--lime': lime }]}>{eyebrow}</span>}
+  <Tag id={id} set:html={title} />
+  {Astro.slots.has('default') && <div class="section-heading__intro"><slot /></div>}
+</div>
+<style>
+  .section-heading { max-width: 56rem; margin-bottom: clamp(2rem, 1.5rem + 2vw, 3rem); }
+  .section-heading :global(h2) { margin-bottom: 1rem; }
+  .section-heading__intro :global(p:last-child) { margin-bottom: 0; }
+</style>

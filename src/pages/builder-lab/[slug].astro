@@ -1,0 +1,19 @@
+---
+import { getCollection, render } from 'astro:content';
+import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
+import { SHOW_DRAFTS } from '../../lib/drafts';
+
+export async function getStaticPaths() {
+  const RESERVED = ['recursos', 'conferencias', 'eventos'];
+  const posts = await getCollection('blog', ({ data }) => !data.draft || SHOW_DRAFTS);
+  return posts
+    .filter((p) => !RESERVED.includes(p.id))
+    .map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+<BlogPostLayout slug={post.id} {...post.data}>
+  <Content />
+</BlogPostLayout>

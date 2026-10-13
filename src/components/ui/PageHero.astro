@@ -1,0 +1,36 @@
+---
+/** PageHero: cabecera oscura de páginas internas (H1 + subtítulo + CTA opcional). */
+import Breadcrumbs from './Breadcrumbs.astro';
+interface Props {
+  eyebrow?: string;
+  title: string;
+  breadcrumbs?: { name: string; url: string }[];
+  variant?: 'default' | 'lab';
+}
+const { eyebrow, title, breadcrumbs, variant = 'default' } = Astro.props;
+---
+<section class:list={['page-hero', 'dark', `page-hero--${variant}`]}>
+  <div class="container page-hero__inner">
+    {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
+    {eyebrow && <span class:list={['eyebrow', { 'eyebrow--lime': variant === 'lab' }]}>{eyebrow}</span>}
+    <h1 set:html={title} />
+    <div class="page-hero__body"><slot /></div>
+  </div>
+  {variant === 'lab' && <div class="page-hero__rings" aria-hidden="true"></div>}
+</section>
+<style>
+  .page-hero { position: relative; overflow: hidden; background: var(--navy); padding: clamp(3.75rem, 2.5rem + 5vw, 6.5rem) 0; }
+  .page-hero--lab { background: var(--navy-3); }
+  .page-hero__inner { position: relative; z-index: 1; }
+  .page-hero h1 { font-size: var(--fs-h1-page); max-width: 20ch; }
+  .page-hero__body { max-width: 46rem; margin-top: 1.5rem; }
+  .page-hero__body :global(p) { font-size: var(--fs-lead); color: var(--muted-on-dark); }
+  .page-hero__body :global(p:last-child) { margin-bottom: 0; }
+  .page-hero__body:empty { display: none; }
+  .page-hero__rings {
+    position: absolute; width: 560px; aspect-ratio: 1; right: -180px; top: 50%; translate: 0 -50%;
+    border: 1px solid #2f5170; border-radius: 50%; opacity: .55; pointer-events: none;
+    box-shadow: 0 0 0 80px transparent, 0 0 0 81px #284963, 0 0 0 160px transparent, 0 0 0 161px #22415a;
+  }
+  @media (max-width: 679px) { .page-hero__rings { display: none; } }
+</style>

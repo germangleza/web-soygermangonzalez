@@ -1,0 +1,59 @@
+---
+/**
+ * BORRADOR de aviso de privacidad integral (México, LFPDPPP).
+ * PENDIENTE: revisión legal y datos del responsable (domicilio, medio de contacto ARCO).
+ * Mientras tenga pendientes, la página muestra un aviso visible.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import DraftBanner from '../components/ui/DraftBanner.astro';
+import { SITE } from '../config/site.config';
+
+const contactEmail = SITE.business.email || '[PENDIENTE: correo para solicitudes de privacidad]';
+const lastUpdate = '13 de octubre de 2026';
+---
+<BaseLayout title="Aviso de privacidad" description="Aviso de privacidad: cómo se tratan los datos personales que compartes en los formularios de contacto, conferencias y Builder Drops.">
+  <DraftBanner label="Borrador pendiente de revisión legal">Completar los datos marcados como PENDIENTE antes de publicar.</DraftBanner>
+  <PageHero eyebrow="Legal" title="Aviso de privacidad" breadcrumbs={[{ name: 'Aviso de privacidad', url: '/aviso-de-privacidad' }]}>
+    <p>Última actualización: {lastUpdate}.</p>
+  </PageHero>
+  <section class="section">
+    <div class="container">
+      <div class="prose">
+        <h2>Responsable</h2>
+        <p>{SITE.person.name} (en adelante, “el Responsable”), con domicilio en [PENDIENTE: domicilio para oír y recibir notificaciones], es responsable del tratamiento de los datos personales que proporcionas a través de {SITE.url.replace('https://', '')}.</p>
+
+        <h2>Datos personales que se recaban</h2>
+        <p>Únicamente los que tú proporcionas en los formularios del sitio:</p>
+        <ul>
+          <li><strong>Contacto:</strong> nombre, correo electrónico, empresa o proyecto, descripción de tu reto, plazos y, en su caso, datos del evento (organización, fecha tentativa, modalidad y número de asistentes).</li>
+          <li><strong>Conferencias y workshops:</strong> nombre, organización, correo electrónico, tipo de evento, tema, fecha tentativa, ciudad, modalidad, asistentes estimados, objetivo y presupuesto (opcional).</li>
+          <li><strong>Builder Drops:</strong> correo electrónico, nombre (opcional) e intereses de formación (opcional).</li>
+        </ul>
+        <p>También se registran datos técnicos de origen de la visita (página de entrada, sitio de referencia y parámetros de campaña UTM) para entender cómo llegaste al sitio. No se recaban datos personales sensibles.</p>
+
+        <h2>Finalidades</h2>
+        <p><strong>Finalidades primarias</strong> (necesarias para atender tu solicitud):</p>
+        <ul>
+          <li>Responder a tu solicitud de contacto, propuesta de colaboración o solicitud de conferencia o workshop.</li>
+          <li>Preparar y dar seguimiento a propuestas de trabajo.</li>
+          <li>Enviarte Builder Drops cuando te suscribas, y las próximas fechas de formación que hayas seleccionado.</li>
+        </ul>
+        <p><strong>Finalidades secundarias:</strong> elaborar estadísticas agregadas sobre el origen de las visitas y solicitudes. Puedes oponerte a ellas escribiendo a {contactEmail}; esto no afectará la atención de tu solicitud.</p>
+
+        <h2>Transferencias y encargados</h2>
+        <p>Tus datos no se venden ni se transfieren a terceros para fines propios de ellos. Para operar el sitio se utilizan proveedores que actúan como encargados (alojamiento web, plataforma de correo y herramienta de gestión de contactos), obligados a tratar los datos solo conforme a estas finalidades. [PENDIENTE: listar proveedores una vez definidos.]</p>
+
+        <h2>Derechos ARCO y revocación del consentimiento</h2>
+        <p>Puedes acceder, rectificar, cancelar u oponerte al tratamiento de tus datos, así como revocar tu consentimiento, enviando una solicitud a {contactEmail} con tu nombre, el derecho que deseas ejercer y una descripción clara de los datos. Recibirás respuesta en los plazos que establece la ley aplicable.</p>
+        <p>Para dejar de recibir Builder Drops basta con usar el enlace de baja incluido en cada correo.</p>
+
+        <h2>Cookies y tecnologías similares</h2>
+        <p>[PENDIENTE: describir la herramienta de analítica que se active (por ejemplo, Google Analytics o Plausible) y cómo deshabilitarla.] Mientras no se configure, el sitio no utiliza cookies de analítica ni de publicidad.</p>
+
+        <h2>Cambios a este aviso</h2>
+        <p>Cualquier cambio se publicará en esta misma página, indicando la fecha de la última actualización.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

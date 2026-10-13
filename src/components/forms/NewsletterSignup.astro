@@ -1,0 +1,44 @@
+---
+/** NewsletterSignup: Builder Drops (Blueprint §6 BL08). Confirmación solo tras envío exitoso. */
+import FormMeta from './FormMeta.astro';
+import Consent from './Consent.astro';
+import { TRAINING_INTERESTS } from '../../lib/leads';
+interface Props { id?: string; showInterests?: boolean; }
+const { id = 'drops', showInterests = true } = Astro.props;
+---
+<form class="form newsletter" data-lead-form id={`form-${id}`}
+  data-success="¡Listo! Tu registro quedó confirmado. Revisa tu correo: si la plataforma lo requiere, te pediremos confirmar tu suscripción.">
+  <FormMeta formType="builder-drops" />
+  <div class="newsletter__row">
+    <div class="field">
+      <label for={`${id}-email`}>Correo electrónico</label>
+      <input id={`${id}-email`} name="email" type="email" required autocomplete="email" maxlength="160" aria-describedby={`${id}-email-error`} aria-invalid="false" />
+      <span id={`${id}-email-error`} class="field__error" aria-live="polite"></span>
+    </div>
+    <div class="field">
+      <label for={`${id}-nombre`}>Nombre <span class="optional">(opcional)</span></label>
+      <input id={`${id}-nombre`} name="nombre" type="text" autocomplete="given-name" maxlength="100" aria-describedby={`${id}-nombre-error`} aria-invalid="false" />
+      <span id={`${id}-nombre-error`} class="field__error" aria-live="polite"></span>
+    </div>
+  </div>
+  {showInterests && (
+    <fieldset class="field">
+      <legend>También quiero recibir próximas fechas de: <span class="optional">(opcional)</span></legend>
+      <div class="checks">
+        {Object.entries(TRAINING_INTERESTS).map(([v, l]) => (
+          <label class="check"><input type="checkbox" name="intereses" value={v} /> <span>{l}</span></label>
+        ))}
+      </div>
+    </fieldset>
+  )}
+  <Consent form={id} text="Acepto recibir Builder Drops por correo. Puedo darme de baja en cualquier momento. Más información en el" />
+  <div><button type="submit" class="btn btn--dark">Quiero recibir Builder Drops <span class="btn__icon" aria-hidden="true">↗</span></button></div>
+  <div class="form-status" data-form-status role="status" aria-live="polite" tabindex="-1"></div>
+</form>
+<script>
+  import '../../scripts/forms';
+</script>
+<style>
+  .newsletter__row { display: grid; grid-template-columns: 1.3fr 1fr; gap: 1rem; }
+  @media (max-width: 679px) { .newsletter__row { grid-template-columns: minmax(0, 1fr); } .newsletter .btn { width: 100%; } }
+</style>

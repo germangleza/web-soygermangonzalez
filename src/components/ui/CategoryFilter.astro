@@ -1,0 +1,44 @@
+---
+/** CategoryFilter: filtra tarjetas [data-category] dentro de [data-filter-target]. Sin JS, se ven todas. */
+interface Props { target: string; categories: Record<string, string>; }
+const { target, categories } = Astro.props;
+---
+<div class="filter" data-filter={target} role="group" aria-label="Filtrar por categoría">
+  <button type="button" class="filter__btn" aria-pressed="true" data-value="all">Todos</button>
+  {Object.entries(categories).map(([v, l]) => (
+    <button type="button" class="filter__btn" aria-pressed="false" data-value={v}>{l}</button>
+  ))}
+</div>
+<p class="sr-only" aria-live="polite" data-filter-status={target}></p>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-filter]').forEach((group) => {
+    const id = group.dataset.filter!;
+    const list = document.querySelector<HTMLElement>(`[data-filter-target="${id}"]`);
+    const status = document.querySelector<HTMLElement>(`[data-filter-status="${id}"]`);
+    const empty = document.querySelector<HTMLElement>(`[data-filter-empty="${id}"]`);
+    group.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-value]');
+      if (!btn || !list) return;
+      const v = btn.dataset.value!;
+      group.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      let shown = 0;
+      list.querySelectorAll<HTMLElement>('[data-category]').forEach((card) => {
+        const show = v === 'all' || card.dataset.category === v;
+        (card.closest('li') ?? card).hidden = !show;
+        if (show) shown++;
+      });
+      if (empty) empty.hidden = shown > 0;
+      if (status) status.textContent = `${shown} ${shown === 1 ? 'elemento' : 'elementos'}`;
+    });
+  });
+</script>
+<style>
+  .filter { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.75rem; }
+  .filter__btn {
+    min-height: 44px; padding: .5rem 1rem; border-radius: 999px; cursor: pointer;
+    background: #fff; border: 1.5px solid #c3d3de; color: var(--ink); font-size: .875rem; font-weight: 700;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .filter__btn:hover { border-color: var(--navy); }
+  .filter__btn[aria-pressed='true'] { background: var(--navy); border-color: var(--navy); color: #fff; }
+</style>

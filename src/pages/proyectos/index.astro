@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import ProjectCard from '../../components/ui/ProjectCard.astro';
+import CTABanner from '../../components/ui/CTABanner.astro';
+import { SHOW_DRAFTS } from '../../lib/drafts';
+
+const projects = (await getCollection('proyectos')).sort((a, b) => a.data.order - b.data.order);
+const caseHref = (p: (typeof projects)[number]) => (p.data.hasCase && (p.data.published || SHOW_DRAFTS) ? `/proyectos/${p.id}` : undefined);
+---
+<BaseLayout
+  fullTitle="Proyectos de negocio, Growth e inteligencia artificial | Germán González"
+  description="Proyectos de retail, inteligencia artificial, marketing, fintech y nuevos negocios: encontrar la oportunidad, diseñar cómo aprovecharla y llevarla a la realidad."
+>
+  <PageHero eyebrow="Proyectos y experiencias" title="Distintos negocios. Una misma forma de construir." breadcrumbs={[{ name: 'Proyectos', url: '/proyectos' }]}>
+    <p>He participado en proyectos de retail, inteligencia artificial, marketing, fintech y nuevos negocios. Cada uno tiene retos distintos, pero comparte una lógica: encontrar la oportunidad, diseñar cómo aprovecharla y llevarla a la realidad.</p>
+  </PageHero>
+
+  <section class="section" aria-labelledby="lista-proyectos">
+    <div class="container">
+      <h2 id="lista-proyectos" class="sr-only">Proyectos</h2>
+      <div class="grid grid-3">
+        {projects.map((p, i) => (
+          <ProjectCard name={p.data.name} industry={p.data.industry} description={p.data.shortDescription} status={p.data.status} href={caseHref(p)} index={i} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <CTABanner title="¿Tienes una oportunidad parecida? Platiquemos." ctaLabel="Cuéntame tu reto" ctaHref="/contacto" />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+/** StatusLabel: distingue lo publicado de lo propuesto / en desarrollo / ejemplo (Blueprint §0). */
+interface Props {
+  tone?: 'default' | 'lime' | 'coral' | 'sky';
+}
+const { tone = 'default' } = Astro.props;
+---
+<span class:list={['status', `status--${tone}`]}><slot /></span>
+<style>
+  .status {
+    display: inline-flex; align-items: center; gap: 0.4rem; align-self: flex-start;
+    padding: 0.3rem 0.6rem; border-radius: 4px;
+    font-size: 0.6875rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+    background: #e6f0f7; color: #1d5379;
+  }
+  .status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .7; }
+  .status--lime { background: #eef9d6; color: #3d5a0b; }
+  .status--coral { background: #ffe9e5; color: #8f2e1f; }
+  .status--sky { background: rgba(131,197,255,.16); color: var(--sky); }
+</style>

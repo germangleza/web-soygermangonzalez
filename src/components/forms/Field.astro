@@ -1,0 +1,42 @@
+---
+/** Campo de formulario accesible: label, hint, error enlazado con aria-describedby. */
+interface Props {
+  form: string;
+  name: string;
+  label: string;
+  as?: 'input' | 'select' | 'textarea';
+  type?: astroHTML.JSX.HTMLInputTypeAttribute;
+  required?: boolean;
+  options?: Record<string, string>;
+  placeholderOption?: string;
+  hint?: string;
+  autocomplete?: string;
+  minlength?: number;
+  maxlength?: number;
+  placeholder?: string;
+  rows?: number;
+  value?: string;
+}
+const {
+  form, name, label, as = 'input', type = 'text', required = false, options = {}, placeholderOption = 'Selecciona una opción',
+  hint, autocomplete, minlength, maxlength, placeholder, rows = 5, value,
+} = Astro.props;
+const id = `${form}-${name}`;
+const describedBy = [hint && `${id}-hint`, `${id}-error`].filter(Boolean).join(' ');
+const common = { id, name, required, 'aria-describedby': describedBy, 'aria-invalid': 'false' as const };
+---
+<div class="field">
+  <label for={id}>{label}{!required && <span class="optional"> (opcional)</span>}</label>
+  {hint && <span id={`${id}-hint`} class="field__hint">{hint}</span>}
+  {as === 'select' ? (
+    <select {...common}>
+      <option value="" selected={!value} disabled={required}>{placeholderOption}</option>
+      {Object.entries(options).map(([v, l]) => <option value={v} selected={v === value}>{l}</option>)}
+    </select>
+  ) : as === 'textarea' ? (
+    <textarea {...common} rows={rows} minlength={minlength} maxlength={maxlength} placeholder={placeholder} />
+  ) : (
+    <input {...common} type={type} autocomplete={autocomplete} minlength={minlength} maxlength={maxlength} placeholder={placeholder} value={value} />
+  )}
+  <span id={`${id}-error`} class="field__error" aria-live="polite"></span>
+</div>

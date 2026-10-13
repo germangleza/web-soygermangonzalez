@@ -1,0 +1,22 @@
+---
+/** JSON-LD de Person (marca personal). Incluir una vez por sitio (en BaseLayout). */
+import { SITE, socialUrls } from '../../config/site.config';
+
+const p = SITE.person;
+const schema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${SITE.url}/#person`,
+  name: p.name,
+  jobTitle: p.jobTitle,
+  url: SITE.url,
+  image: new URL('/og-default.jpg', SITE.url).href,
+  alumniOf: { '@type': 'CollegeOrUniversity', name: p.alumniOf },
+  knowsAbout: p.knowsAbout,
+  knowsLanguage: 'es',
+};
+const sameAs = socialUrls();
+if (sameAs.length) schema.sameAs = sameAs;
+if (SITE.business.email) schema.email = SITE.business.email;
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

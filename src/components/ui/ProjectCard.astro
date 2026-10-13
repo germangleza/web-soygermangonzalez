@@ -1,0 +1,32 @@
+---
+/** ProjectCard: tarjeta tipográfica (sin imágenes no autorizadas). Enlaza al caso solo si existe. */
+import StatusLabel from './StatusLabel.astro';
+interface Props {
+  name: string;
+  industry: string;
+  description: string;
+  status?: string;
+  href?: string;
+  index?: number;
+  headingLevel?: 'h2' | 'h3';
+}
+const { name, industry, description, status, href, index, headingLevel: H = 'h3' } = Astro.props;
+---
+<article class:list={['card', 'project-card', { 'card--link': href }]}>
+  <div class="project-card__top">
+    <span class="card__kicker">{industry}</span>
+    {typeof index === 'number' && <span class="project-card__num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>}
+  </div>
+  <H class="project-card__name">
+    {href ? <a class="card__title-link" href={href}>{name}</a> : name}
+  </H>
+  <p>{description}</p>
+  {status && <StatusLabel>{status}</StatusLabel>}
+  {href && <div class="card__footer"><span class="link-arrow" aria-hidden="true">Conocer caso ↗</span></div>}
+</article>
+<style>
+  .project-card { min-height: 15rem; }
+  .project-card__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+  .project-card__num { font-family: var(--font-display); font-weight: 700; font-size: 2.25rem; line-height: 1; letter-spacing: -0.04em; color: #c9d7e1; }
+  .project-card__name { font-size: clamp(1.45rem, 1.2rem + 0.8vw, 1.85rem); margin: 0.25rem 0 0.75rem; }
+</style>

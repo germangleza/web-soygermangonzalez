@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import ContactForm from '../components/forms/ContactForm.astro';
+import { SITE } from '../config/site.config';
+---
+<BaseLayout
+  title="Contacto"
+  description="¿Tienes un problema concreto, una oportunidad de negocio o una idea que quieres explorar? Cuéntame qué estás buscando y veamos si tiene sentido construir algo juntos."
+>
+  <PageHero eyebrow="Contacto" title="¿Qué quieres construir?" breadcrumbs={[{ name: 'Contacto', url: '/contacto' }]}>
+    <p>Ya sea que tengas un problema concreto, una oportunidad de negocio o una idea que quieres explorar, cuéntame qué estás buscando. Veamos si tiene sentido construir algo juntos.</p>
+  </PageHero>
+
+  <section class="section" aria-labelledby="form-title">
+    <div class="container contact">
+      <div class="contact__aside">
+        <h2 id="form-title">Cuéntame qué estás buscando.</h2>
+        <p class="lead">Con tu respuesta preparo una primera conversación: entender el reto, el negocio y el resultado que necesita moverse.</p>
+        {SITE.bookingUrl && (
+          <p><a class="btn btn--outline-dark" href={SITE.bookingUrl} target="_blank" rel="noopener">Agendar una Opportunity Session <span class="btn__icon" aria-hidden="true">↗</span></a></p>
+        )}
+        {SITE.business.email && <p class="small">También puedes escribirme a <a href={`mailto:${SITE.business.email}`}>{SITE.business.email}</a>.</p>}
+      </div>
+      <ContactForm />
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .contact { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.3fr); gap: clamp(2rem, 1rem + 4vw, 5rem); align-items: start; }
+  .contact__aside { position: sticky; top: calc(var(--header-h) + 2rem); }
+  .contact__aside h2 { font-size: clamp(1.8rem, 1.4rem + 1.6vw, 2.6rem); }
+  @media (max-width: 1023px) { .contact { grid-template-columns: minmax(0, 1fr); } .contact__aside { position: static; } }
+</style>

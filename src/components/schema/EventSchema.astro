@@ -1,0 +1,32 @@
+---
+/** JSON-LD de Event. Usar SOLO en eventos reales programados (Blueprint §12). */
+import { SITE } from '../../config/site.config';
+
+interface Props {
+  name: string;
+  description: string;
+  startDate: string;
+  status: 'scheduled' | 'sold_out' | 'past' | 'proposed';
+  location?: string;
+  url: string;
+  price?: string;
+}
+const { name, description, startDate, location, url, status } = Astro.props;
+const online = !location || /online|en l[ií]nea|virtual/i.test(location);
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name,
+  description,
+  startDate,
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: online ? 'https://schema.org/OnlineEventAttendanceMode' : 'https://schema.org/OfflineEventAttendanceMode',
+  location: online
+    ? { '@type': 'VirtualLocation', url: new URL(url, SITE.url).href }
+    : { '@type': 'Place', name: location, address: location },
+  organizer: { '@type': 'Person', name: SITE.person.name, url: SITE.url },
+  url: new URL(url, SITE.url).href,
+};
+const render = status !== 'proposed';
+---
+{render && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}

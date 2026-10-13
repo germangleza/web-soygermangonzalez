@@ -1,0 +1,27 @@
+---
+/** Breadcrumbs visibles + JSON-LD BreadcrumbList. */
+import BreadcrumbSchema from '../schema/BreadcrumbSchema.astro';
+interface Crumb { name: string; url: string; }
+interface Props { items: Crumb[]; dark?: boolean; }
+const { items, dark = true } = Astro.props;
+---
+<BreadcrumbSchema items={items} />
+<nav aria-label="Ruta de navegación" class:list={['crumbs', { 'crumbs--dark': dark }]}>
+  <ol>
+    <li><a href="/">Inicio</a></li>
+    {items.map((c, i) => (
+      <li>
+        {i === items.length - 1 ? <span aria-current="page">{c.name}</span> : <a href={c.url}>{c.name}</a>}
+      </li>
+    ))}
+  </ol>
+</nav>
+<style>
+  .crumbs ol { display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; list-style: none; padding: 0; margin: 0 0 1.75rem; font-size: 0.8125rem; }
+  .crumbs li { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--muted); }
+  .crumbs li + li::before { content: '/'; opacity: .6; }
+  .crumbs a { color: inherit; text-underline-offset: 3px; }
+  .crumbs li { min-width: 0; }
+  .crumbs [aria-current] { font-weight: 700; max-width: min(40ch, 60vw); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .crumbs--dark li { color: var(--muted-on-dark); }
+</style>

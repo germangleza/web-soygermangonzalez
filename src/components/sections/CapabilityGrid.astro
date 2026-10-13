@@ -1,0 +1,41 @@
+---
+/** H03 — CapabilityGrid. */
+import { Image } from 'astro:assets';
+import SectionHeading from '../ui/SectionHeading.astro';
+import { CAPABILITIES } from '../../data/content';
+import bridge from '../../assets/photos/puente-oportunidad.png';
+---
+<section class="section section--alt" id="capacidades" aria-labelledby="capacidades-title">
+  <div class="container">
+    <div class="cap-head">
+      <SectionHeading id="capacidades-title" eyebrow="Qué construimos" title="De una necesidad a algo construido.">
+        <p class="lead">No todos los proyectos necesitan las mismas capacidades. La oportunidad define qué activamos.</p>
+      </SectionHeading>
+      <div class="media cap-media">
+        <Image src={bridge} alt="Maqueta de un puente que une dos lados de una grieta, rodeado de bocetos y piezas" widths={[360, 650]} sizes="(min-width: 1024px) 340px, 0px" loading="lazy" />
+      </div>
+    </div>
+    <ol class="grid grid-3 cap-list" role="list">
+      {CAPABILITIES.map((c, i) => (
+        <li class="card">
+          <span class="card__kicker">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{c.title}</h3>
+          <p>{c.text}</p>
+        </li>
+      ))}
+      <li class="card card--dark card--link cap-cta">
+        <span class="card__kicker">Siguiente paso</span>
+        <h3><a class="card__title-link" href="/que-hago">Conoce cómo puedo ayudarte <span aria-hidden="true" class="text-sky">↗</span></a></h3>
+      </li>
+    </ol>
+  </div>
+</section>
+<style>
+  .cap-head { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 3rem; align-items: end; margin-bottom: clamp(2rem, 1.5rem + 2vw, 3rem); }
+  .cap-head :global(.section-heading) { margin-bottom: 0; }
+  .cap-media { aspect-ratio: 4 / 3; }
+  .cap-list { list-style: none; padding: 0; }
+  .cap-cta { justify-content: space-between; }
+  .cap-cta h3 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); margin-top: auto; }
+  @media (max-width: 1023px) { .cap-head { grid-template-columns: minmax(0, 1fr); } .cap-media { display: none; } }
+</style>

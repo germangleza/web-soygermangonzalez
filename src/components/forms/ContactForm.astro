@@ -1,0 +1,70 @@
+---
+/** ContactForm: califica solicitudes comerciales y colaboraciones (Blueprint §9). */
+import Field from './Field.astro';
+import FormMeta from './FormMeta.astro';
+import Consent from './Consent.astro';
+import { CONTACT_TYPES, MODALITIES } from '../../lib/leads';
+const f = 'contacto';
+---
+<form class="form" data-lead-form id="form-contacto" aria-describedby="contacto-required-note"
+  data-success="¡Gracias! Recibí tu solicitud. La revisaré y te responderé por correo.">
+  <FormMeta formType="contacto" />
+  <p id="contacto-required-note" class="small" style="margin:0">Todos los campos son obligatorios salvo los marcados como opcionales.</p>
+
+  <Field form={f} name="tipo" label="¿Qué estás buscando?" as="select" required options={CONTACT_TYPES} />
+  <div class="form-row">
+    <Field form={f} name="nombre" label="Nombre" required autocomplete="name" minlength={2} maxlength={100} />
+    <Field form={f} name="email" label="Correo electrónico" type="email" required autocomplete="email" maxlength={160} />
+  </div>
+  <Field form={f} name="empresa" label="Empresa o proyecto" autocomplete="organization" maxlength={150} />
+
+  <fieldset class="event-fields" data-event-fields hidden disabled>
+    <legend class="eyebrow" style="margin-bottom:.75rem">Datos del evento</legend>
+    <div class="form-row">
+      <Field form={f} name="eventoOrganizacion" label="Organización" autocomplete="organization" maxlength={150} />
+      <Field form={f} name="eventoFecha" label="Fecha tentativa" maxlength={60} placeholder="Ej. marzo 2027" />
+    </div>
+    <div class="form-row">
+      <Field form={f} name="eventoModalidad" label="Modalidad" as="select" options={MODALITIES} />
+      <Field form={f} name="eventoAsistentes" label="Asistentes estimados" maxlength={40} />
+    </div>
+    <p class="small" style="margin:0">¿Prefieres darme más detalle? Usa el <a href="/builder-lab/conferencias#solicitud" style="color:var(--accent-text)">formulario de conferencias</a>.</p>
+  </fieldset>
+
+  <Field form={f} name="reto" label="Cuéntame tu reto" as="textarea" required minlength={10} maxlength={4000}
+    hint="Contexto, qué quieres resolver o construir y qué resultado buscas." />
+  <Field form={f} name="plazos" label="Plazos" maxlength={200} placeholder="Ej. en los próximos 3 meses" />
+  <Consent form={f} />
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn--dark">Enviar solicitud <span class="btn__icon" aria-hidden="true">↗</span></button>
+  </div>
+  <div class="form-status" data-form-status role="status" aria-live="polite" tabindex="-1"></div>
+</form>
+
+<script>
+  import '../../scripts/forms';
+  const form = document.getElementById('form-contacto') as HTMLFormElement | null;
+  const tipo = form?.querySelector<HTMLSelectElement>('[name="tipo"]');
+  const eventFields = form?.querySelector<HTMLFieldSetElement>('[data-event-fields]');
+  const MAP: Record<string, string> = { problema: 'crecer', crecer: 'crecer', oportunidad: 'lanzar', lanzar: 'lanzar', conferencia: 'conferencia', colaboracion: 'colaboracion' };
+
+  function sync() {
+    if (!tipo || !eventFields) return;
+    const on = tipo.value === 'conferencia';
+    eventFields.hidden = !on;
+    eventFields.disabled = !on;
+  }
+  const interes = new URLSearchParams(location.search).get('interes');
+  if (tipo && interes && MAP[interes]) tipo.value = MAP[interes];
+  tipo?.addEventListener('change', sync);
+  form?.addEventListener('change', sync);
+  sync();
+</script>
+
+<style>
+  .event-fields { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem; display: grid; gap: 1.15rem; margin: 0; background: var(--surface-alt); }
+  .event-fields legend { padding: 0 .25rem; }
+  .form-actions { display: flex; }
+  @media (max-width: 479px) { .form-actions .btn { width: 100%; } }
+</style>

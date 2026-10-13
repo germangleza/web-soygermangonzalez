@@ -1,0 +1,120 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import CTABanner from '../components/ui/CTABanner.astro';
+import { Image } from 'astro:assets';
+import bridge from '../assets/photos/puente-oportunidad.png';
+import { SERVICE_GROUPS, COMMERCIAL_MODEL, VEHICLES } from '../data/content';
+---
+<BaseLayout
+  fullTitle="Desarrollo y crecimiento de negocios | Germán González"
+  description="Te ayudo a lanzar tu negocio o hacer crecer el que ya tienes: growth digital, IA y automatización, nuevos negocios, sistemas comerciales y alianzas."
+>
+  <PageHero eyebrow="Business Building" title="Te ayudo a lanzar tu negocio o hacer crecer el que ya tienes." breadcrumbs={[{ name: 'Qué hago', url: '/que-hago' }]}>
+    <p>Desde una necesidad concreta de marketing, ventas, web o inteligencia artificial hasta una nueva línea de negocio.</p>
+    <p class="promise">Combino estrategia, ejecución y las capacidades necesarias para convertir la oportunidad en algo real.</p>
+    <div class="actions"><a class="btn" href="/contacto">Hablemos de tu proyecto <span class="btn__icon" aria-hidden="true">↗</span></a></div>
+  </PageHero>
+
+  <section class="section" aria-labelledby="puntos-title">
+    <div class="container">
+      <SectionHeading id="puntos-title" eyebrow="Business Building" title="Dos puntos de partida." />
+      <div class="grid grid-2">
+        <article class="card block" id="operacion" data-interes="problema">
+          <span class="card__kicker">Empresas en operación</span>
+          <h3>Tu negocio ya funciona. ¿Qué sigue?</h3>
+          <p>Tienes clientes, una marca, procesos y capacidades, pero sabes que existe espacio para crecer. Podemos trabajar en adquisición, conversión, automatización, sistemas comerciales, nuevas fuentes de ingresos o alianzas.</p>
+          <div class="card__footer"><a class="link-arrow" href="/contacto?interes=crecer">Quiero hacer crecer mi negocio <span aria-hidden="true">↗</span></a></div>
+        </article>
+        <article class="card card--dark block" id="nuevos" data-interes="oportunidad">
+          <span class="card__kicker">Nuevos negocios y oportunidades</span>
+          <h3>Tienes una idea. Construyamos una forma de probarla.</h3>
+          <p>Puede ser una nueva empresa, producto, servicio, canal o unidad de negocio. Te ayudo a aterrizar la oportunidad, definir para quién es, construir una oferta, validar interés y diseñar su salida al mercado.</p>
+          <div class="card__footer"><a class="link-arrow" style="color:var(--sky)" href="/contacto?interes=lanzar">Quiero lanzar una oportunidad <span aria-hidden="true">↗</span></a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="capacidades-title">
+    <div class="container">
+      <SectionHeading id="capacidades-title" eyebrow="Capacidades" title="La oportunidad define qué activamos.">
+        <p class="lead">Estas son las capacidades que combino según cada proyecto. No son paquetes cerrados: el alcance se decide después de entender el reto.</p>
+      </SectionHeading>
+      <ul class="grid grid-3 groups" role="list">
+        {SERVICE_GROUPS.map((g, i) => (
+          <li class="card">
+            <span class="card__kicker">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{g.title}</h3>
+            <p>{g.text}</p>
+          </li>
+        ))}
+        <li class="card groups__img media" aria-hidden="true">
+          <Image src={bridge} alt="" widths={[400, 650]} sizes="(min-width: 1024px) 380px, 50vw" loading="lazy" />
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="vehiculos-title">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Quién construye</span>
+        <h2 id="vehiculos-title">Estrategia, ejecución y aliados.</h2>
+        <p class="lead">Yo me encargo de la estrategia y la dirección. La ejecución se apoya en equipos especializados según lo que pida la oportunidad.</p>
+      </div>
+      <dl class="vehicles">
+        {VEHICLES.map((v) => (
+          <div class="vehicles__row"><dt>{v.name}</dt><dd>{v.role}</dd></div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section--dark dark" aria-labelledby="modelo-title">
+    <div class="container">
+      <SectionHeading id="modelo-title" eyebrow="Modelo de trabajo" title="Cómo empieza un proyecto.">
+        <p class="lead">El alcance se decide después del diagnóstico.</p>
+      </SectionHeading>
+      <ol class="grid grid-4 model" role="list">
+        {COMMERCIAL_MODEL.map((m, i) => (
+          <li class="card card--on-dark">
+            <span class="card__kicker">{String(i + 1).padStart(2, '0')}{m.optional && ' · Cuando aplique'}</span>
+            <h3>{m.step}</h3>
+            <p>{m.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <CTABanner title="¿Qué quieres resolver?" ctaLabel="Cuéntame qué quieres resolver" ctaHref="/contacto">
+        <p>Una necesidad concreta o una oportunidad abierta. Empecemos por una conversación.</p>
+      </CTABanner>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Preserva el contexto de la home (?interes=...) resaltando el bloque correspondiente.
+  const interes = new URLSearchParams(location.search).get('interes');
+  if (interes) document.querySelector(`[data-interes="${CSS.escape(interes)}"]`)?.classList.add('block--focus');
+</script>
+
+<style>
+  .promise { color: #fff !important; font-weight: 600; }
+  .block { min-height: 18rem; scroll-margin-top: calc(var(--header-h) + 24px); }
+  .block h3 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
+  .block--focus { outline: 3px solid var(--sky); outline-offset: 4px; }
+  .groups { list-style: none; padding: 0; }
+  .groups__img { padding: 0; min-height: 14rem; border: 0; }
+  .vehicles { margin: 0; border-top: 1px solid var(--line); }
+  .vehicles__row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 1rem; padding: 1.15rem 0; border-bottom: 1px solid var(--line); }
+  .vehicles dt { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; letter-spacing: -0.01em; }
+  .vehicles dd { margin: 0; color: var(--muted); }
+  .model { list-style: none; padding: 0; }
+  @media (max-width: 479px) { .vehicles__row { grid-template-columns: minmax(0, 1fr); gap: .25rem; } }
+</style>

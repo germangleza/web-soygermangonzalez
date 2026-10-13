@@ -1,7 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
 ---
 <BaseLayout title="Página no encontrada" noindex={true}>
-  <h1>404 — No encontramos esta página</h1>
-  <p>Puede que el enlace haya cambiado. <a href="/">Volver al inicio</a> o visita el <a href="/blog">blog</a>.</p>
+  <PageHero eyebrow="Error 404" title="No encontramos esta página.">
+    <p>Puede que el enlace haya cambiado.</p>
+    <div class="actions">
+      <a class="btn" href="/">Volver al inicio</a>
+      <a class="btn btn--outline" href="/builder-lab">Ir a Builder Lab</a>
+    </div>
+  </PageHero>
 </BaseLayout>

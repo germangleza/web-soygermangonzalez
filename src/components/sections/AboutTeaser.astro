@@ -1,0 +1,25 @@
+---
+/** H07 — Sobre mí breve (con fotografía real proporcionada). */
+import { Image } from 'astro:assets';
+import photo from '../../assets/photos/german-gonzalez.png';
+---
+<section class="section section--alt" aria-labelledby="about-title">
+  <div class="container split about">
+    <div class="about__photo media">
+      <Image src={photo} alt="Germán González, Business Builder, sonriendo con los brazos cruzados" widths={[400, 700, 1000]} sizes="(min-width: 1024px) 520px, 100vw" loading="lazy" />
+    </div>
+    <div>
+      <span class="eyebrow">Sobre mí</span>
+      <h2 id="about-title">Construir antes que recomendar.</h2>
+      <p class="lead">Soy Germán González. Mi trayectoria me ha llevado por empresas familiares, tecnología, inteligencia artificial, marketing, crypto, pagos digitales y nuevos negocios. Aunque son industrias diferentes, encuentro algo en común: detectar una oportunidad, entender qué hace falta y encontrar cómo llevarla a la realidad.</p>
+      <p class="about__close">Eso es lo que me gusta hacer: construir oportunidades que se conviertan en algo real.</p>
+      <a class="link-arrow" href="/sobre-mi">Conoce mi historia <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+<style>
+  .about__photo { aspect-ratio: 4 / 5; max-height: 640px; }
+  .about__photo img { object-position: center 20%; }
+  .about__close { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.15rem, 1rem + .5vw, 1.4rem); letter-spacing: -0.02em; line-height: 1.3; }
+  @media (max-width: 1023px) { .about__photo { max-width: 460px; aspect-ratio: 1 / 1; } }
+</style>

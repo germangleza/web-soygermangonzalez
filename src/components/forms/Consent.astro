@@ -1,0 +1,13 @@
+---
+/** Consentimiento explícito con enlace al aviso de privacidad. */
+interface Props { form: string; text?: string; }
+const { form, text = 'Acepto que mis datos se usen para responder a esta solicitud, conforme al' } = Astro.props;
+const id = `${form}-consentimiento`;
+---
+<div class="field">
+  <label class="check" for={id} style="font-weight:500">
+    <input type="checkbox" id={id} name="consentimiento" value="true" required aria-describedby={`${id}-error`} aria-invalid="false" />
+    <span>{text} <a href="/aviso-de-privacidad" target="_blank" rel="noopener">aviso de privacidad<span class="sr-only"> (abre en otra pestaña)</span></a>.</span>
+  </label>
+  <span id={`${id}-error`} class="field__error" aria-live="polite"></span>
+</div>

@@ -1,0 +1,38 @@
+---
+/** CTABanner: panel oscuro con eyebrow, H2, texto y CTA (cierres de página). */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  ctaLabel: string;
+  ctaHref: string;
+  lime?: boolean;
+  secondary?: { label: string; href: string };
+}
+const { eyebrow, title, ctaLabel, ctaHref, lime = false, secondary } = Astro.props;
+---
+<div class="cta-banner dark">
+  {eyebrow && <span class:list={['eyebrow', { 'eyebrow--lime': lime }]}>{eyebrow}</span>}
+  <h2 set:html={title} />
+  <div class="cta-banner__body"><slot /></div>
+  <div class="actions">
+    <a class:list={['btn', { 'btn--lime': lime }]} href={ctaHref}>{ctaLabel} <span class="btn__icon" aria-hidden="true">↗</span></a>
+    {secondary && <a class="btn btn--outline" href={secondary.href}>{secondary.label}</a>}
+  </div>
+</div>
+<style>
+  .cta-banner {
+    position: relative; overflow: hidden;
+    background: var(--navy-2); border-radius: var(--radius-lg);
+    padding: clamp(2.25rem, 1.5rem + 4vw, 4.5rem);
+  }
+  .cta-banner::after {
+    content: ''; position: absolute; right: -120px; bottom: -160px; width: 420px; aspect-ratio: 1; border-radius: 50%;
+    border: 1px solid rgba(131,197,255,.18); box-shadow: 0 0 0 60px rgba(131,197,255,.03), 0 0 0 61px rgba(131,197,255,.12);
+    pointer-events: none;
+  }
+  .cta-banner h2 { max-width: 22ch; position: relative; z-index: 1; }
+  .cta-banner__body { max-width: 44rem; position: relative; z-index: 1; }
+  .cta-banner__body :global(p) { font-size: var(--fs-lead); }
+  .cta-banner__body:empty { display: none; }
+  .cta-banner .actions { position: relative; z-index: 1; }
+</style>

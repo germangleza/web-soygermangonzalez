@@ -1,72 +1,58 @@
-# Brief de Cliente
+# Brief de Cliente — Germán González · Business Builder
 
-> Template. Llenar al arrancar el proyecto, junto con `cliente.json`.
-> Este documento es la fuente de verdad para el contenido del sitio y del blog.
+> Fuente: Website Blueprint V3 (octubre 2026). Campos marcados PENDIENTE requieren confirmación.
+> Este documento es la fuente de verdad para el contenido del sitio y de Builder Lab.
 
 ## Negocio
 
-- **Nombre comercial:**
-- **Razón social:**
-- **Vertical:**
-- **Qué vende / qué hace (una frase):**
-- **Servicios o productos principales:**
-  1.
-  2.
-  3.
-- **Zona de operación:** (ciudad, estado, país, o "nacional / online")
-- **Contacto público:** (teléfono, email, dirección si aplica)
-- **Competidores directos:** (2–5, con URL)
+- **Nombre comercial:** Germán González — Business Builder
+- **Razón social:** PENDIENTE
+- **Vertical:** servicios (marca personal B2B + plataforma educativa/comunitaria)
+- **Qué hace (una frase):** Identifica oportunidades de crecimiento y construye la combinación de negocio, growth digital, tecnología y alianzas necesaria para aprovecharlas.
+- **Servicios principales:**
+  1. Crecimiento digital (posicionamiento, campañas, contenido, web, adquisición, conversión) — ejecución con Maguey.
+  2. IA y automatización (agentes, WhatsApp, CRM, integraciones) — ejecución con Life Agent.
+  3. Nuevos negocios y productos; sistemas comerciales; alianzas y nuevos canales.
+  4. Conferencias y workshops (Builder Lab).
+- **Modelo comercial:** Opportunity Session → Opportunity Map (cuando aplique) → Build Proposal → Execution.
+- **Zona de operación:** PENDIENTE
+- **Contacto público:** PENDIENTE
+- **Competidores directos:** PENDIENTE
 
 ## Audiencia
 
-- **Cliente ideal:** (quién es, edad, rol, contexto)
-- **Problema que quiere resolver:**
-- **Objeciones frecuentes:**
-- **Cómo decide la compra:** (busca en Google, recomendación, redes, etc.)
-- **Idioma / tono:** (formal, cercano, técnico — y variante: es-MX, es-ES...)
+- **Cliente ideal (ICP V2):** decisor empresarial con una necesidad reconocible (Ads, web, CRM, IA, automatización) u oportunidad abierta (empresa, nueva línea, alianza).
+- **Builder Lab:** personas curiosas, emprendedores, empresarios y builders que quieren probar y construir con nueva tecnología.
+- **Idioma / tono:** es-MX; directo, empresarial, cercano, sin frases grandilocuentes.
 
 ## Posicionamiento
 
-- **Propuesta de valor (una frase):**
-- **Diferenciadores reales:** (lo que sí se puede sostener)
-- **Pruebas / credenciales:** (años, certificaciones, casos, número de clientes)
-- **Qué NO somos:** (para evitar promesas fuera de alcance)
-- **Llamado a la acción principal:** (agendar cita, cotizar, comprar, llamar)
+- **Propuesta de valor:** Construyo oportunidades de crecimiento.
+- **Categoría / palabra:** Business Builder · CONSTRUIR. Método: Opportunity Building (Detect → Design → Activate → Build).
+- **Pruebas / credenciales:** Finanzas, Tec de Monterrey; Ópticas Jarmar, Life Agent, Maguey. Sin métricas ni testimonios publicables por ahora.
+- **Qué NO somos:** agencia genérica, influencer de IA, asesor financiero. IA/Bitcoin/inversiones no son identidad principal.
+- **Llamado a la acción principal:** Cuéntame tu reto → /contacto.
 
 ## SEO
 
-### Keywords objetivo
+### Keywords objetivo (PENDIENTE de investigación)
 
 | Keyword | Intención | Prioridad | Página destino |
 |---|---|---|---|
-|  | informacional / transaccional / local |  |  |
-|  |  |  |  |
-|  |  |  |  |
+| business builder | informacional | alta | / |
+| desarrollo y crecimiento de negocios | transaccional | alta | /que-hago |
+| conferencias de IA para empresas | transaccional | media | /builder-lab/conferencias |
 
 ### Temas sí
 
-- (temas que el cliente aprueba y quiere cubrir en el blog)
+- Herramientas de IA probadas, negocios y growth, build in public, tecnología y fintech (Bitcoin como territorio secundario), aprendizajes de proyectos reales.
 
 ### Temas no
 
-- (temas vetados: competencia, política, promesas de resultados, etc.)
+- Asesoría financiera o de inversión, promesas de resultados o de posicionamiento garantizado en asistentes de IA, testimonios/métricas no verificables.
 
 ### Notas técnicas
 
-- **Dominio final:** (debe coincidir con `url` en `src/config/site.config.ts`)
-- **Google Search Console / Analytics:** (quién es el dueño de las cuentas)
-- **Contenido existente a migrar:** (URLs viejas, redirecciones necesarias)
-
-## Salud (solo si la vertical es salud)
-
-> Contenido YMYL: requiere revisión profesional antes de publicar.
-
-### Médicos revisores
-
-| Nombre | Especialidad | Cédula profesional | Perfil / URL | Qué revisa |
-|---|---|---|---|---|
-|  |  |  |  |  |
-
-- **Responsable sanitario del contenido:**
-- **Disclaimer obligatorio:** (texto legal que debe aparecer en los posts)
-- **Restricciones de claim:** (qué no se puede afirmar: curas, garantías, antes/después)
+- **Dominio final:** PENDIENTE (provisional `soygermangonzalez.com`).
+- **Google Search Console / Analytics:** PENDIENTE.
+- **Contenido existente a migrar:** ninguno conocido.

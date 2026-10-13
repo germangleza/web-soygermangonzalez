@@ -6,6 +6,8 @@ import { SITE } from '../config/site.config';
 // a propósito: para GEO quieres que te lean y te citen.
 const body = `User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /api/
 
 Sitemap: ${SITE.url}/sitemap-index.xml
 `;

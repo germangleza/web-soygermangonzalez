@@ -1,0 +1,40 @@
+---
+/** SpeakerInquiryForm: solicitud de conferencias/workshops institucionales (Blueprint §7). */
+import Field from './Field.astro';
+import FormMeta from './FormMeta.astro';
+import Consent from './Consent.astro';
+import { CONFERENCE_TOPICS, EVENT_TYPES, FORMAT_TYPES, MODALITIES } from '../../lib/leads';
+const f = 'conf';
+---
+<form class="form" data-lead-form id="form-conferencia"
+  data-success="¡Gracias! Recibí tu solicitud. Te contactaré por correo para conocer los detalles del evento.">
+  <FormMeta formType="conferencia" />
+  <p class="small" style="margin:0">Todos los campos son obligatorios salvo los marcados como opcionales.</p>
+  <div class="form-row">
+    <Field form={f} name="nombre" label="Nombre" required autocomplete="name" minlength={2} maxlength={100} />
+    <Field form={f} name="organizacion" label="Organización" required autocomplete="organization" minlength={2} maxlength={150} />
+  </div>
+  <Field form={f} name="email" label="Correo electrónico" type="email" required autocomplete="email" maxlength={160} />
+  <div class="form-row">
+    <Field form={f} name="tipoEvento" label="Tipo de evento" as="select" required options={EVENT_TYPES} />
+    <Field form={f} name="formato" label="Formato" as="select" options={FORMAT_TYPES} />
+  </div>
+  <Field form={f} name="tema" label="Tema" as="select" required options={CONFERENCE_TOPICS} />
+  <div class="form-row">
+    <Field form={f} name="fecha" label="Fecha tentativa" maxlength={60} placeholder="Ej. marzo 2027" />
+    <Field form={f} name="asistentes" label="Asistentes estimados" maxlength={40} />
+  </div>
+  <div class="form-row">
+    <Field form={f} name="ciudad" label="Ciudad" autocomplete="address-level2" maxlength={120} />
+    <Field form={f} name="modalidad" label="Modalidad" as="select" options={MODALITIES} />
+  </div>
+  <Field form={f} name="objetivo" label="Objetivo del evento" as="textarea" required minlength={10} maxlength={3000}
+    hint="¿Quién asiste y qué te gustaría que se llevaran?" />
+  <Field form={f} name="presupuesto" label="Presupuesto" maxlength={120} />
+  <Consent form={f} />
+  <div><button type="submit" class="btn btn--dark">Solicitar propuesta <span class="btn__icon" aria-hidden="true">↗</span></button></div>
+  <div class="form-status" data-form-status role="status" aria-live="polite" tabindex="-1"></div>
+</form>
+<script>
+  import '../../scripts/forms';
+</script>

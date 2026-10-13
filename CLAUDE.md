@@ -5,7 +5,12 @@ Este es un sitio Astro basado en un template estandarizado con SEO/GEO preconfig
 ## Arquitectura
 
 - **`src/config/site.config.ts`** — ÚNICO archivo de configuración. Nombre, dominio, contacto, redes, blog, analytics. Todo el sitio (SEO, schemas, sitemap, RSS, llms.txt) se alimenta de aquí. Cuando el usuario pida cambiar datos del sitio, edita este archivo.
-- **`src/content/blog/`** — Posts en Markdown. Frontmatter validado con Zod en `src/content.config.ts`.
+- **`src/content/blog/`** — Publicaciones de Builder Lab (se sirven en `/builder-lab/[slug]`). Frontmatter validado con Zod en `src/content.config.ts`.
+- **`src/content/proyectos|recursos|eventos/`** — Demás colecciones del CMS. Ver `docs/IMPLEMENTACION.md`.
+- **`src/data/content.ts`** — Copy estructurado del Blueprint V3 (capacidades, método, formación, conferencias).
+- **`src/components/{layout,sections,ui,forms}/`** — Componentes reutilizables. Reutilizar antes de crear nuevos.
+- **`src/pages/api/lead.ts`** — Endpoint de formularios (webhook vía variables de entorno). No exponer secretos al cliente.
+- **`docs/REVISION.md`** — Pendientes de validación. NO inventar testimonios, métricas, eventos, enlaces ni datos de proyectos.
 - **`src/components/SEO.astro`** — Meta tags centralizados. NO agregar meta tags sueltos en páginas.
 - **`src/components/schema/`** — JSON-LD (Organization, Article, FAQ, Breadcrumb). Reutilizar estos componentes, no escribir JSON-LD inline.
 - **`src/layouts/`** — BaseLayout (todas las páginas) y BlogPostLayout (posts).
@@ -21,9 +26,11 @@ Frontmatter obligatorio:
 title: "Máximo 70 caracteres"
 description: "Entre 50 y 160 caracteres — es lo que sale en Google"
 pubDate: 2026-01-15
+category: "ia-herramientas"   # ia-herramientas | negocios-growth | build-in-public | tecnologia-fintech
 tags: ["opcional"]
 ---
 ```
+- No nombrar posts `recursos`, `conferencias` ni `eventos` (rutas reservadas).
 - Usar `updatedDate` al actualizar posts existentes (no cambiar `pubDate`).
 - `draft: true` para ocultar sin borrar.
 - El slug de la URL = nombre del archivo.

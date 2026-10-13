@@ -1,0 +1,31 @@
+---
+/** H02 — Dos puertas de entrada comerciales. */
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+<section class="section" aria-labelledby="puertas-title">
+  <div class="container">
+    <SectionHeading id="puertas-title" eyebrow="El punto de partida" title="Muchas oportunidades empiezan por algo concreto.">
+      <p class="lead">Puede que hoy necesites más clientes, una página que convierta, mejores campañas, automatizar procesos o implementar IA. O puede que tengas una oportunidad de negocio que todavía no sabes cómo aterrizar.</p>
+    </SectionHeading>
+    <div class="grid grid-2">
+      <article class="card card--link path">
+        <span class="card__kicker">Ruta 01</span>
+        <h3><a class="card__title-link" href="/que-hago?interes=problema#operacion">Tengo un problema que resolver</a></h3>
+        <p>Marketing, ventas, web, CRM, seguimiento, WhatsApp, IA o automatización.</p>
+        <div class="card__footer"><span class="link-arrow" aria-hidden="true">Resolver una necesidad ↗</span></div>
+      </article>
+      <article class="card card--link card--dark path">
+        <span class="card__kicker">Ruta 02</span>
+        <h3><a class="card__title-link" href="/que-hago?interes=oportunidad#nuevos">Tengo una oportunidad que construir</a></h3>
+        <p>Una empresa, producto, línea de negocio, canal comercial, alianza o mercado nuevo.</p>
+        <div class="card__footer"><span class="link-arrow" style="color:var(--sky)" aria-hidden="true">Explorar una oportunidad ↗</span></div>
+      </article>
+    </div>
+    <p class="paths-close">En cualquiera de los dos casos, empezamos por entender qué resultado necesita mover el negocio.</p>
+  </div>
+</section>
+<style>
+  .path { min-height: 15rem; }
+  .path h3 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
+  .paths-close { margin: 2rem 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.15rem, 1rem + .5vw, 1.4rem); letter-spacing: -0.02em; max-width: 40rem; }
+</style>

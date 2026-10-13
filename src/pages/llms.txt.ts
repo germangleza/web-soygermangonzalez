@@ -1,26 +1,35 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { SITE } from '../config/site.config';
+import { POST_CATEGORIES } from '../content.config';
 
 /**
- * llms.txt — estándar emergente para GEO.
- * Le da a ChatGPT/Claude/Perplexity un resumen estructurado del sitio
- * para que te entiendan y te citen correctamente. Se regenera en cada build.
+ * llms.txt — resumen estructurado del sitio para asistentes de IA (GEO).
+ * Solo incluye contenido publicado. Se regenera en cada build.
  */
 export const GET: APIRoute = async () => {
   const posts = (await getCollection('blog', ({ data }) => !data.draft))
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  const projects = (await getCollection('proyectos')).sort((a, b) => a.data.order - b.data.order);
+  const u = (p: string) => `${SITE.url}${p}`;
 
-  const body = `# ${SITE.name}
+  const body = `# ${SITE.name} — ${SITE.role}
 
 > ${SITE.description}
 
-## Información
-- Sitio: ${SITE.url}
-- Contacto: ${SITE.business.email}
+Germán González es Business Builder: identifica oportunidades de crecimiento y construye la combinación de negocio, growth digital, tecnología y alianzas necesaria para aprovecharlas. Trabaja con empresas en operación que quieren crecer y con nuevas oportunidades de negocio. Método: Opportunity Building (Detect, Design, Activate, Build).
 
-## Blog
-${posts.map((p) => `- [${p.data.title}](${SITE.url}/blog/${p.id}): ${p.data.description}`).join('\n')}
-`;
+## Páginas principales
+- [Inicio](${u('/')}): posicionamiento y forma de trabajo.
+- [Qué hago](${u('/que-hago')}): growth digital, IA y automatización, Business Building, comercial y expansión, experiencias.
+- [Proyectos](${u('/proyectos')}): ${projects.map((p) => p.data.name).join(', ')}.
+- [Builder Lab](${u('/builder-lab')}): contenido, recursos, formación y comunidad sobre IA, tecnología y negocios.
+- [Conferencias y workshops](${u('/builder-lab/conferencias')}): IA, innovación y oportunidades de negocio para empresas, universidades y eventos.
+- [Sobre mí](${u('/sobre-mi')}): trayectoria.
+- [Contacto](${u('/contacto')}): solicitudes comerciales, conferencias y colaboraciones.
+${posts.length ? `
+## Builder Lab — publicaciones
+${posts.map((p) => `- [${p.data.title}](${u(`/builder-lab/${p.id}`)}) (${POST_CATEGORIES[p.data.category]}): ${p.data.description}`).join('\n')}
+` : ''}`;
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
 };

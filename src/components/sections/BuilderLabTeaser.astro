@@ -1,0 +1,45 @@
+---
+/** H06 — BuilderLabTeaser (UN solo bloque en la home). */
+import { LAB_CONCEPTS } from '../../data/content';
+---
+<section class="section section--tight" aria-labelledby="lab-teaser-title">
+  <div class="container">
+    <div class="lab dark">
+      <div class="lab__copy">
+        <span class="eyebrow eyebrow--lime">Builder Lab</span>
+        <h2 id="lab-teaser-title">Exploramos. Probamos. <span class="text-lime">Construimos.</span></h2>
+        <p class="lead">La tecnología está cambiando lo que podemos crear, cómo trabajamos y la forma en que hacemos negocios. En Builder Lab comparto las herramientas que pruebo, lo que voy descubriendo y los aprendizajes de proyectos reales.</p>
+        <p>Un espacio para explorar IA, tecnología, negocios y nuevas oportunidades junto a personas que también quieren construir.</p>
+        <a class="btn btn--lime" href="/builder-lab">Conoce Builder Lab <span class="btn__icon" aria-hidden="true">↗</span></a>
+      </div>
+      <ul class="lab__concepts" role="list">
+        {LAB_CONCEPTS.map((c) => (
+          <li><span class="lab__icon" aria-hidden="true">{c.icon}</span><span class="lab__name">{c.title}</span></li>
+        ))}
+      </ul>
+      <div class="lab__rings" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+<style>
+  .lab {
+    position: relative; overflow: hidden; isolation: isolate;
+    display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 3rem; align-items: center;
+    background: var(--navy-3); border-radius: var(--radius-lg); padding: clamp(2.25rem, 1.5rem + 4vw, 4.5rem);
+  }
+  .lab__copy .btn { margin-top: 1rem; }
+  .lab__concepts { list-style: none; padding: 0; display: grid; gap: 0.75rem; }
+  .lab__concepts li {
+    display: flex; align-items: center; gap: 1rem;
+    border: 1px solid var(--line-dark); border-radius: var(--radius); padding: 1.1rem 1.25rem;
+    background: rgba(255,255,255,.03);
+  }
+  .lab__icon { color: var(--lime); font-size: 1.4rem; width: 1.5rem; text-align: center; }
+  .lab__name { font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em; }
+  .lab__rings {
+    position: absolute; z-index: -1; width: 520px; aspect-ratio: 1; right: -200px; top: -160px; border-radius: 50%;
+    border: 1px solid #2f5170; opacity: .5;
+    box-shadow: 0 0 0 70px transparent, 0 0 0 71px #284963, 0 0 0 140px transparent, 0 0 0 141px #22415a;
+  }
+  @media (max-width: 1023px) { .lab { grid-template-columns: minmax(0, 1fr); } }
+</style>

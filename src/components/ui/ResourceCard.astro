@@ -1,0 +1,33 @@
+---
+/** ResourceCard: recurso real (plantilla, prompt, guía, herramienta). */
+interface Props {
+  title: string;
+  description: string;
+  categoryLabel: string;
+  href: string;
+  updatedAt: Date;
+  slug: string;
+}
+const { title, description, categoryLabel, href, updatedAt, slug } = Astro.props;
+const external = /^https?:\/\//.test(href);
+import { formatDate } from '../../lib/format';
+---
+<article class="card">
+  <span class="card__kicker">{categoryLabel}</span>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <p class="small">Actualizado: <time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time></p>
+  <div class="card__footer">
+    <a class="link-arrow" href={href} data-resource={slug} {...(external ? { target: '_blank', rel: 'noopener' } : { download: '' })}>
+      {external ? 'Consultar recurso' : 'Descargar recurso'} <span aria-hidden="true">↗</span>
+      {external && <span class="sr-only">(abre en otra pestaña)</span>}
+    </a>
+  </div>
+</article>
+<script>
+  import { track } from '../../scripts/analytics';
+  document.querySelectorAll<HTMLAnchorElement>('a[data-resource]').forEach((a) => {
+    if (a.getAttribute('href')?.startsWith('#')) return; // requiere registro: no es descarga
+    a.addEventListener('click', () => track('resource_download', { resource: a.dataset.resource ?? '' }));
+  });
+</script>

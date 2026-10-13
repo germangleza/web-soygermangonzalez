@@ -1,0 +1,19 @@
+---
+/** EventCard: formación/evento con estado explícito. Nunca prometer fechas no confirmadas. */
+import StatusLabel from './StatusLabel.astro';
+interface Props {
+  name: string;
+  description: string;
+  statusLabel: string;
+  href?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+const { name, description, statusLabel, href, ctaLabel, ctaHref } = Astro.props;
+---
+<article class:list={['card', { 'card--link': href }]}>
+  <StatusLabel tone="lime">{statusLabel}</StatusLabel>
+  <h3 style="margin-top:1rem">{href ? <a class="card__title-link" href={href}>{name}</a> : name}</h3>
+  <p>{description}</p>
+  {ctaLabel && ctaHref && !href && <div class="card__footer"><a class="link-arrow" href={ctaHref}>{ctaLabel} <span aria-hidden="true">↗</span></a></div>}
+</article>

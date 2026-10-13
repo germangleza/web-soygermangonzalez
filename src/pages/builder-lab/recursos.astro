@@ -1,0 +1,52 @@
+---
+/** Biblioteca de recursos. Sin recursos reales → noindex y fuera de la navegación (no páginas vacías). */
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/ui/PageHero.astro';
+import ResourceCard from '../../components/ui/ResourceCard.astro';
+import StatusLabel from '../../components/ui/StatusLabel.astro';
+import CTABanner from '../../components/ui/CTABanner.astro';
+import { RESOURCE_COLLECTIONS } from '../../data/content';
+import { SHOW_DRAFTS } from '../../lib/drafts';
+
+const resources = (await getCollection('recursos', ({ data }) => data.published || SHOW_DRAFTS))
+  .sort((a, b) => b.data.updatedAt.valueOf() - a.data.updatedAt.valueOf());
+const empty = resources.length === 0;
+---
+<BaseLayout
+  title="Biblioteca de recursos de Builder Lab"
+  description="Plantillas, prompts, guías y herramientas que uso en distintos proyectos de IA, tecnología y Business Building."
+  noindex={empty}
+>
+  <PageHero variant="lab" eyebrow="Builder Lab · Recursos" title="Herramientas y recursos para construir." breadcrumbs={[{ name: 'Builder Lab', url: '/builder-lab' }, { name: 'Recursos', url: '/builder-lab/recursos' }]}>
+    <p>No necesitas empezar de cero cada vez. Aquí reuniré algunas herramientas, plantillas, prompts y frameworks que voy utilizando en diferentes proyectos.</p>
+  </PageHero>
+
+  {Object.entries(RESOURCE_COLLECTIONS).map(([key, c]) => {
+    const items = resources.filter((r) => r.data.category === key);
+    return (
+      <section class="section" aria-labelledby={`col-${key}`}>
+        <div class="container">
+          <h2 id={`col-${key}`}>{c.title}</h2>
+          <p class="lead">{c.text}</p>
+          {items.length > 0 ? (
+            <div class="grid grid-3 mt-md">
+              {items.map((r) => (
+                <ResourceCard title={r.data.title} description={r.data.description} categoryLabel={c.title}
+                  href={r.data.requiresEmail ? '/builder-lab#registro' : r.data.fileOrUrl} updatedAt={r.data.updatedAt} slug={r.id} />
+              ))}
+            </div>
+          ) : (
+            <StatusLabel>En preparación</StatusLabel>
+          )}
+        </div>
+      </section>
+    );
+  })}
+
+  <section class="section section--tight">
+    <div class="container">
+      <CTABanner lime title="Recibe los recursos nuevos en tu correo." ctaLabel="Quiero recibir Builder Drops" ctaHref="/builder-lab#registro" />
+    </div>
+  </section>
+</BaseLayout>

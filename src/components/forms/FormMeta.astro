@@ -1,0 +1,10 @@
+---
+/** Campos ocultos comunes: tipo de formulario, honeypot y marca de tiempo antispam. */
+interface Props { formType: string; }
+const { formType } = Astro.props;
+---
+<input type="hidden" name="formType" value={formType} />
+<input type="hidden" name="startedAt" value="" />
+<div class="hp" aria-hidden="true">
+  <label>No llenar este campo <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+</div>

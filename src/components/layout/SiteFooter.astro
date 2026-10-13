@@ -1,0 +1,72 @@
+---
+/** SiteFooter: nombre, posicionamiento, navegación, redes (solo confirmadas), aviso de privacidad. */
+import { Image } from 'astro:assets';
+import logo from '../../assets/brand/logo-blanco.png';
+import { SITE, socialLinks } from '../../config/site.config';
+
+const socials = socialLinks();
+const year = new Date().getFullYear();
+---
+<footer class="site-footer dark">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <a href="/" aria-label={`${SITE.name} — Inicio`}>
+          <Image src={logo} alt="" width={150} densities={[1, 2]} loading="lazy" />
+        </a>
+        <p>{SITE.role} · {SITE.tagline}</p>
+      </div>
+
+      <nav aria-label="Pie de página" class="site-footer__nav">
+        <div>
+          <p class="site-footer__title">Sitio</p>
+          <ul>
+            {SITE.nav.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+            <li><a href="/contacto">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="site-footer__title">Builder Lab</p>
+          <ul>
+            <li><a href="/builder-lab#explora">Lo que estoy explorando</a></li>
+            <li><a href="/builder-lab#formacion">Formación</a></li>
+            <li><a href="/builder-lab/conferencias">Conferencias y workshops</a></li>
+            <li><a href="/builder-lab#registro">Builder Drops</a></li>
+          </ul>
+        </div>
+        {socials.length > 0 && (
+          <div>
+            <p class="site-footer__title">Redes</p>
+            <ul>
+              {socials.map((s) => <li><a href={s.url} rel="me noopener" target="_blank">{s.label}<span class="sr-only"> (abre en otra pestaña)</span></a></li>)}
+            </ul>
+          </div>
+        )}
+      </nav>
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© {year} {SITE.name}. Todos los derechos reservados.</p>
+      <a href="/aviso-de-privacidad">Aviso de privacidad</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--navy); padding: clamp(3.5rem, 2.5rem + 3vw, 5rem) 0 2rem; }
+  .site-footer__top { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 2fr); gap: 3rem; }
+  .site-footer__brand img { width: 150px; height: auto; margin-bottom: 1.25rem; }
+  .site-footer__brand p { max-width: 22rem; font-size: 0.9375rem; }
+  .site-footer__nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem; }
+  .site-footer__title { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky) !important; margin-bottom: 0.75rem; }
+  .site-footer ul { list-style: none; padding: 0; }
+  .site-footer li a { display: inline-flex; min-height: 36px; align-items: center; font-size: 0.9375rem; color: var(--muted-on-dark); text-decoration: none; }
+  .site-footer li a:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+  .site-footer__bottom {
+    margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line-dark);
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; font-size: 0.8125rem;
+  }
+  .site-footer__bottom p { margin: 0; }
+  .site-footer__bottom a { color: var(--muted-on-dark); }
+  @media (max-width: 767px) { .site-footer__top { grid-template-columns: minmax(0, 1fr); gap: 2.25rem; } }
+</style>
