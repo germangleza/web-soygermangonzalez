@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FAQSchema from '../components/schema/FAQSchema.astro';
+import { SITE } from '../config/site.config';
+
+// Edita/borra estas FAQs. Son ejemplo de cómo alimentar SEO + GEO desde la home.
+const faqs = [
+  { question: `¿Qué hace ${SITE.name}?`, answer: SITE.description },
+  { question: '¿Cómo puedo contactarlos?', answer: `Escríbenos a ${SITE.business.email}.` },
+];
+---
+<BaseLayout>
+  <FAQSchema faqs={faqs} />
+
+  <section class="hero">
+    <h1>{SITE.name}</h1>
+    <p>{SITE.description}</p>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-title">
+    <h2 id="faq-title">Preguntas frecuentes</h2>
+    {faqs.map((f) => (
+      <details>
+        <summary>{f.question}</summary>
+        <p>{f.answer}</p>
+      </details>
+    ))}
+  </section>
+
+  <section id="contacto" aria-labelledby="contacto-title">
+    <h2 id="contacto-title">Contacto</h2>
+    <p><a href={`mailto:${SITE.business.email}`}>{SITE.business.email}</a></p>
+  </section>
+</BaseLayout>

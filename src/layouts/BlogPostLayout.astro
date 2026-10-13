@@ -1,0 +1,56 @@
+---
+/** Layout para posts del blog: article schema + breadcrumbs + metadata visible. */
+import BaseLayout from './BaseLayout.astro';
+import ArticleSchema from '../components/schema/ArticleSchema.astro';
+import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+import { SITE } from '../config/site.config';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  author?: string;
+  image?: string;
+  tags?: string[];
+}
+const { title, description, pubDate, updatedDate, author = SITE.blog.defaultAuthor, image, tags = [] } = Astro.props;
+const fmt = (d: Date) => d.toLocaleDateString(SITE.lang, { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  type="article"
+  publishedTime={pubDate.toISOString()}
+  modifiedTime={updatedDate?.toISOString()}
+  author={author}
+>
+  <ArticleSchema
+    title={title}
+    description={description}
+    publishedTime={pubDate.toISOString()}
+    modifiedTime={updatedDate?.toISOString()}
+    author={author}
+    image={image}
+  />
+  <BreadcrumbSchema items={[{ name: SITE.blog.title, url: '/blog' }, { name: title, url: Astro.url.pathname }]} />
+
+  <article class="post">
+    <header>
+      <h1>{title}</h1>
+      <p class="meta">
+        Por {author} · <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
+        {updatedDate && <> · Actualizado: <time datetime={updatedDate.toISOString()}>{fmt(updatedDate)}</time></>}
+      </p>
+      {tags.length > 0 && (
+        <ul class="tags">
+          {tags.map((t) => <li><a href={`/blog/tag/${t}`}>#{t}</a></li>)}
+        </ul>
+      )}
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>

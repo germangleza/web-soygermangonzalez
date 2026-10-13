@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE } from '../../config/site.config';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<BaseLayout title={SITE.blog.title} description={SITE.blog.description}>
+  <h1>{SITE.blog.title}</h1>
+  <ul class="post-list">
+    {posts.map((post) => (
+      <li>
+        <a href={`/blog/${post.id}`}>
+          <h2>{post.data.title}</h2>
+        </a>
+        <p>{post.data.description}</p>
+        <time datetime={post.data.pubDate.toISOString()}>
+          {post.data.pubDate.toLocaleDateString(SITE.lang, { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
+<style>
+  .post-list { list-style: none; padding: 0; display: grid; gap: 2rem; }
+  .post-list a { text-decoration: none; color: inherit; }
+  .post-list h2 { margin-bottom: 0.25rem; }
+  .post-list time { color: #666; font-size: 0.9rem; }
+</style>

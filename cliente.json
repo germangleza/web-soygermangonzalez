@@ -1,0 +1,8 @@
+{
+  "nombre": "Nombre del Cliente",
+  "vertical": "salud | legal | inmobiliaria | educacion | retail | servicios | otro",
+  "dominio": "ejemplo.com",
+  "estatus": "prospecto | onboarding | activo | pausado | cerrado",
+  "inicio": "2026-01-01",
+  "tipo": "sitio-astro"
+}

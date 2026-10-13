@@ -1,0 +1,32 @@
+---
+/** JSON-LD de Article/BlogPosting. Usar en posts del blog. */
+import { SITE } from '../../config/site.config';
+
+interface Props {
+  title: string;
+  description: string;
+  publishedTime: string;
+  modifiedTime?: string;
+  author?: string;
+  image?: string;
+}
+const { title, description, publishedTime, modifiedTime, author = SITE.blog.defaultAuthor, image = SITE.ogImage } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  image: new URL(image, SITE.url).href,
+  datePublished: publishedTime,
+  dateModified: modifiedTime ?? publishedTime,
+  author: { '@type': 'Person', name: author },
+  publisher: {
+    '@type': 'Organization',
+    name: SITE.name,
+    logo: { '@type': 'ImageObject', url: new URL(SITE.logo, SITE.url).href },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

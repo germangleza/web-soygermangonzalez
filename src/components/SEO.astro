@@ -1,0 +1,60 @@
+---
+/**
+ * <SEO /> — Componente central de SEO. Se usa dentro de <head> en BaseLayout.
+ * Genera: title, description, canonical, Open Graph, Twitter Cards, robots.
+ */
+import { SITE } from '../config/site.config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;          // Ruta relativa o absoluta de la imagen OG
+  canonical?: string;      // Se autogenera si no se pasa
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  publishedTime?: string;  // ISO date — solo para type="article"
+  modifiedTime?: string;
+  author?: string;
+}
+
+const {
+  title,
+  description = SITE.description,
+  image = SITE.ogImage,
+  type = 'website',
+  noindex = false,
+  publishedTime,
+  modifiedTime,
+  author,
+} = Astro.props;
+
+const pageTitle = title ? `${title} | ${SITE.name}` : SITE.title;
+const canonical = Astro.props.canonical ?? new URL(Astro.url.pathname, SITE.url).href;
+const ogImage = new URL(image, SITE.url).href;
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content={SITE.locale} />
+{publishedTime && <meta property="article:published_time" content={publishedTime} />}
+{modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+{author && <meta property="article:author" content={author} />}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+{SITE.socials.twitter && <meta name="twitter:site" content={`@${SITE.socials.twitter}`} />}
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />

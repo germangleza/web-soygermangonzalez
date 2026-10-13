@@ -1,0 +1,17 @@
+{
+  "name": "astro-template-generic",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.0.0",
+    "@astrojs/rss": "^4.0.11",
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.1.0"
+  }
+}

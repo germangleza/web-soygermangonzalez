@@ -1,0 +1,22 @@
+---
+/** JSON-LD de BreadcrumbList. Uso: <BreadcrumbSchema items={[{name:'Blog', url:'/blog'}]} /> */
+import { SITE } from '../../config/site.config';
+interface Crumb { name: string; url: string; }
+interface Props { items: Crumb[]; }
+const { items } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: SITE.url },
+    ...items.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 2,
+      name: c.name,
+      item: new URL(c.url, SITE.url).href,
+    })),
+  ],
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

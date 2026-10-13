@@ -1,0 +1,56 @@
+---
+/** Layout base: HTML semántico + SEO + schemas globales. Todas las páginas lo usan. */
+import SEO from '../components/SEO.astro';
+import OrganizationSchema from '../components/schema/OrganizationSchema.astro';
+import WebSiteSchema from '../components/schema/WebSiteSchema.astro';
+import { SITE } from '../config/site.config';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+}
+const props = Astro.props;
+---
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content={SITE.themeColor} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
+    <SEO {...props} />
+    <OrganizationSchema />
+    <WebSiteSchema />
+    {SITE.analytics.plausibleDomain && (
+      <script defer data-domain={SITE.analytics.plausibleDomain} src="https://plausible.io/js/script.js"></script>
+    )}
+  </head>
+  <body>
+    <header class="site-header">
+      <nav aria-label="Principal">
+        <a href="/" class="brand">{SITE.name}</a>
+        <ul>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <p>© {new Date().getFullYear()} {SITE.business.legalName || SITE.name}. Todos los derechos reservados.</p>
+    </footer>
+  </body>
+</html>

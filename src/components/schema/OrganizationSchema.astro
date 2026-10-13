@@ -1,0 +1,35 @@
+---
+/** JSON-LD de Organization o LocalBusiness. Incluir una vez por sitio (en BaseLayout). */
+import { SITE, socialUrls } from '../../config/site.config';
+
+const b = SITE.business;
+const isLocal = b.type === 'LocalBusiness';
+
+const schema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': b.type,
+  name: SITE.name,
+  legalName: b.legalName,
+  url: SITE.url,
+  logo: new URL(SITE.logo, SITE.url).href,
+  email: b.email,
+  telephone: b.phone,
+  sameAs: socialUrls(),
+};
+
+if (isLocal && b.address.city) {
+  schema.address = {
+    '@type': 'PostalAddress',
+    streetAddress: b.address.street,
+    addressLocality: b.address.city,
+    addressRegion: b.address.state,
+    postalCode: b.address.zip,
+    addressCountry: b.address.country,
+  };
+  if (b.geo.lat) {
+    schema.geo = { '@type': 'GeoCoordinates', latitude: b.geo.lat, longitude: b.geo.lng };
+  }
+  if (b.openingHours.length) schema.openingHours = b.openingHours;
+}
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
