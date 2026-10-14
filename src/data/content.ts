@@ -31,14 +31,6 @@ export const LAB_CONCEPTS = [
   { title: 'Conecta', icon: '◎', text: 'Encuentros, colaboración y comunidad en formación.' },
 ];
 
-/** BL03 — Temas en preparación. NO son publicaciones: se muestran como "En preparación". */
-export const PLANNED_POSTS = [
-  { title: 'Conectar Claude a Meta Ads', category: 'ia-herramientas' },
-  { title: 'Tres fugas antes de invertir en publicidad', category: 'negocios-growth' },
-  { title: 'De idea a nueva línea de negocio', category: 'build-in-public' },
-  { title: 'Bitcoin y oportunidades fintech', category: 'tecnologia-fintech' },
-] as const;
-
 /** BL04 — Colecciones de recursos. */
 export const RESOURCE_COLLECTIONS = {
   'ai-toolkit': { title: 'AI Toolkit', text: 'Herramientas de IA que uso y para qué sirven.' },

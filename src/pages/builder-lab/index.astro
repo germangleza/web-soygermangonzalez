@@ -11,7 +11,7 @@ import CategoryFilter from '../../components/ui/CategoryFilter.astro';
 import CTABanner from '../../components/ui/CTABanner.astro';
 import NewsletterSignup from '../../components/forms/NewsletterSignup.astro';
 import { POST_CATEGORIES } from '../../content.config';
-import { LAB_CONCEPTS, PLANNED_POSTS, RESOURCE_COLLECTIONS, TRAINING } from '../../data/content';
+import { LAB_CONCEPTS, RESOURCE_COLLECTIONS, TRAINING } from '../../data/content';
 import { SHOW_DRAFTS } from '../../lib/drafts';
 import { byNewest } from '../../lib/posts';
 
@@ -74,15 +74,6 @@ const EVENT_STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas
             />
           </li>
         ))}
-        {PLANNED_POSTS.map((p) => (
-          <li>
-            <article class="card planned" data-category={p.category}>
-              <span class="card__kicker">{POST_CATEGORIES[p.category]}</span>
-              <h3>{p.title}</h3>
-              <div class="card__footer"><StatusLabel>En preparación</StatusLabel></div>
-            </article>
-          </li>
-        ))}
       </ul>
       <p class="small mt-md" data-filter-empty="posts" hidden>Todavía no hay publicaciones en esta categoría.</p>
       <p class="small mt-md">¿Quieres enterarte cuando publique? <a href="#registro" style="color:var(--accent-text)">Suscríbete a Builder Drops</a>.</p>
@@ -111,17 +102,7 @@ const EVENT_STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas
           </div>
           <div class="actions"><a class="btn btn--outline-dark" href="/builder-lab/recursos">Ver biblioteca de recursos <span class="btn__icon" aria-hidden="true">↗</span></a></div>
         </>
-      ) : (
-        <ul class="grid grid-3" role="list">
-          {Object.values(RESOURCE_COLLECTIONS).map((c) => (
-            <li class="card">
-              <h3>{c.title}</h3>
-              <p>{c.text}</p>
-              <div class="card__footer"><StatusLabel>En preparación</StatusLabel></div>
-            </li>
-          ))}
-        </ul>
-      )}
+      ) : null}
     </div>
   </section>
 
@@ -198,8 +179,7 @@ const EVENT_STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas
   .cards > li { display: flex; }
   .cards > li > :global(*) { flex: 1; }
   .concept-icon { color: var(--accent-text); }
-  .planned { border-style: dashed; background: transparent; }
-  .dx-feature { margin-bottom: 1.4rem; }
+  .dx-feature { margin-bottom: 0; }
   .dx-feature h3 { font-size: clamp(1.4rem, 1.2rem + .8vw, 1.9rem); max-width: 30ch; }
   .dx-feature p { max-width: 46rem; }
   .talk-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
