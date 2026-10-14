@@ -119,3 +119,5 @@ html.canva-text .slide::before, html.canva-text .slide *::before, html.canva-tex
 html.canva-text .slide * { background: transparent !important; border-color: transparent !important; box-shadow: none !important; text-shadow: none !important; }
 html.canva-text .slide img, html.canva-text .emo, html.canva-text .dots, html.canva-text .tg, html.canva-text .bg { visibility: hidden !important; }
 html.canva-text .slide p, html.canva-text .slide h1, html.canva-text .slide h2, html.canva-text .slide span, html.canva-text .slide div { text-align: left; }
+/* Canva reinterpreta mal ligaduras (tt, fi) (las muestra como un cuadro vacío). */
+html.canva-text .slide * { font-variant-ligatures: none !important; font-feature-settings: "liga" 0, "clig" 0, "calt" 0 !important; }
