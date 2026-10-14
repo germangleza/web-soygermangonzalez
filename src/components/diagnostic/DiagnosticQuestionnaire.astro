@@ -1,0 +1,74 @@
+---
+/** DiagnosticQuestionnaire: una pregunta por pantalla, barra de progreso, Atrás/Siguiente (spec §10). */
+import { DIMENSIONS, QUESTIONS } from '../../lib/diagnostic/questions';
+const total = QUESTIONS.length;
+---
+<form class="quiz" id="dx-quiz" novalidate aria-labelledby="dx-quiz-title">
+  <h2 id="dx-quiz-title" class="sr-only">Cuestionario</h2>
+  <div class="quiz__progress">
+    <p class="quiz__count" data-dx-count>Pregunta 1 de {total}</p>
+    <div class="quiz__bar" role="progressbar" aria-label="Avance del diagnóstico" aria-valuemin="0" aria-valuemax={total} aria-valuenow="1" data-dx-bar>
+      <span data-dx-fill style={`width:${(1 / total) * 100}%`}></span>
+    </div>
+  </div>
+
+  {QUESTIONS.map((q, i) => (
+    <fieldset class="quiz__step" data-step={i} data-dimension={q.dimension}>
+      <legend tabindex="-1">
+        <span class="quiz__dim">{DIMENSIONS[q.dimension].label}</span>
+        <span class="quiz__q">{q.text}</span>
+      </legend>
+      {q.hint && <p class="quiz__hint">{q.hint}</p>}
+      <div class="quiz__options">
+        {q.options.map((o) => (
+          <label class:list={['quiz__option', { 'quiz__option--unknown': o.unknown }]}>
+            <input type="radio" name={q.id} value={o.id} />
+            <span>{o.label}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  ))}
+
+  <p class="quiz__error" role="alert" data-dx-error></p>
+  <div class="quiz__nav">
+    <button type="button" class="btn btn--outline-dark" data-dx-back disabled>← Atrás</button>
+    <button type="submit" class="btn btn--dark" data-dx-next>Siguiente →</button>
+  </div>
+  <p class="sr-only" aria-live="polite" data-dx-live></p>
+</form>
+<noscript>
+  <p class="quiz__noscript">El diagnóstico necesita JavaScript para calcular tu resultado. Si prefieres, <a href="/contacto">escríbeme</a> y lo revisamos juntos.</p>
+</noscript>
+
+<style>
+  .quiz { max-width: 44rem; margin-inline: auto; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(1.25rem, .9rem + 2vw, 2.5rem); }
+  .quiz__progress { margin-bottom: 1.75rem; }
+  .quiz__count { font-size: .8125rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
+  .quiz__bar { height: 8px; border-radius: 999px; background: #e3ebf1; overflow: hidden; }
+  .quiz__bar span { display: block; height: 100%; background: var(--navy); border-radius: inherit; transition: width .35s cubic-bezier(.22,1,.36,1); }
+  .quiz__step { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .quiz__step + .quiz__step { margin-top: 2.5rem; }
+  :global(.js-quiz) .quiz__step + .quiz__step { margin-top: 0; }
+  .quiz legend { padding: 0; display: grid; gap: .6rem; outline: none; }
+  .quiz__dim { font-size: .75rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-text); }
+  .quiz__q { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.35rem, 1.1rem + 1vw, 1.85rem); line-height: 1.2; letter-spacing: -0.02em; color: var(--ink); }
+  .quiz__hint { color: var(--muted); margin: .75rem 0 0; }
+  .quiz__options { display: grid; gap: .65rem; margin-top: 1.5rem; }
+  .quiz__option {
+    display: flex; align-items: center; gap: .85rem; min-height: 56px; padding: .8rem 1rem;
+    border: 1.5px solid #c3d3de; border-radius: 8px; cursor: pointer; font-weight: 600;
+    transition: border-color .15s ease, background-color .15s ease;
+  }
+  .quiz__option:hover { border-color: var(--navy); }
+  .quiz__option input { width: 20px; height: 20px; flex: none; accent-color: var(--navy); margin: 0; }
+  .quiz__option:has(input:checked) { border-color: var(--navy); background: #eef4f9; box-shadow: inset 0 0 0 1px var(--navy); }
+  .quiz__option:has(input:focus-visible) { outline: 3px solid var(--accent-text); outline-offset: 2px; }
+  .quiz__option--unknown { border-style: dashed; color: var(--muted); }
+  .quiz__error { color: var(--danger); font-weight: 700; font-size: .9375rem; margin: 1rem 0 0; min-height: 1.4em; }
+  .quiz__error:empty { min-height: 0; margin: 0; }
+  .quiz__nav { display: flex; justify-content: space-between; gap: .75rem; margin-top: 1.5rem; }
+  .quiz__nav .btn { flex: 1 1 0; max-width: 14rem; }
+  .quiz__nav [data-dx-next] { margin-left: auto; }
+  .quiz__noscript { text-align: center; margin-top: 1rem; }
+</style>

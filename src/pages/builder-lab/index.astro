@@ -94,6 +94,12 @@ const EVENT_STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas
       <SectionHeading id="recursos-title" eyebrow="Recursos" title="Herramientas y recursos para construir.">
         <p class="lead">No necesitas empezar de cero cada vez. Aquí reuniré algunas herramientas, plantillas, prompts y frameworks que voy utilizando en diferentes proyectos.</p>
       </SectionHeading>
+      <article class="card card--link card--dark dx-feature">
+        <span class="card__kicker">Herramienta · Clínicas</span>
+        <h3><a class="card__title-link" href="/diagnostico-clinicas">Diagnóstico de Visibilidad Digital para Clínicas</a></h3>
+        <p>15 preguntas para descubrir tus prioridades en Google Maps, sitio web, reseñas, información para buscadores e IA y contacto con pacientes. Resultado inmediato, sin registro.</p>
+        <div class="card__footer"><span class="link-arrow" style="color:var(--lime)" aria-hidden="true">Evaluar mi clínica ↗</span></div>
+      </article>
       {resources.length > 0 ? (
         <>
           <div class="grid grid-3">
@@ -192,6 +198,9 @@ const EVENT_STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas
   .cards > li > :global(*) { flex: 1; }
   .concept-icon { color: var(--accent-text); }
   .planned { border-style: dashed; background: transparent; }
+  .dx-feature { margin-bottom: 1.4rem; }
+  .dx-feature h3 { font-size: clamp(1.4rem, 1.2rem + .8vw, 1.9rem); max-width: 30ch; }
+  .dx-feature p { max-width: 46rem; }
   .talk-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
   .talk-list li { border: 1px solid var(--line-dark); border-radius: 999px; padding: .4rem .9rem; font-size: .875rem; color: var(--muted-on-dark); }
   .drops { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(2rem, 1rem + 4vw, 4rem); background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(1.5rem, 1rem + 3vw, 3.5rem); }

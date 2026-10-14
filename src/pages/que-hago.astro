@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/ui/PageHero.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import CTABanner from '../components/ui/CTABanner.astro';
+import ClinicDiagnosticCTA from '../components/sections/ClinicDiagnosticCTA.astro';
 import { Image } from 'astro:assets';
 import bridge from '../assets/photos/puente-oportunidad.png';
 import { SERVICE_GROUPS, COMMERCIAL_MODEL, VEHICLES } from '../data/content';
@@ -37,7 +38,9 @@ import { SERVICE_GROUPS, COMMERCIAL_MODEL, VEHICLES } from '../data/content';
     </div>
   </section>
 
-  <section class="section section--alt" aria-labelledby="capacidades-title">
+  <ClinicDiagnosticCTA tone="alt" />
+
+  <section class="section" aria-labelledby="capacidades-title">
     <div class="container">
       <SectionHeading id="capacidades-title" eyebrow="Capacidades" title="La oportunidad define qué activamos.">
         <p class="lead">Estas son las capacidades que combino según cada proyecto. No son paquetes cerrados: el alcance se decide después de entender el reto.</p>
@@ -57,7 +60,7 @@ import { SERVICE_GROUPS, COMMERCIAL_MODEL, VEHICLES } from '../data/content';
     </div>
   </section>
 
-  <section class="section" aria-labelledby="vehiculos-title">
+  <section class="section section--alt" aria-labelledby="vehiculos-title">
     <div class="container split">
       <div>
         <span class="eyebrow">Quién construye</span>

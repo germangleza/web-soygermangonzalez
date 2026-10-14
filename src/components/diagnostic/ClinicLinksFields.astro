@@ -1,0 +1,55 @@
+---
+/**
+ * Sitio web, Google Maps y redes (spec §4). Ninguno es obligatorio.
+ * Instagram y Facebook visibles; TikTok/LinkedIn tras "Agregar otra red". Se aceptan @usuario o URL.
+ */
+import Field from '../forms/Field.astro';
+interface Props { form: string; whatsapp?: boolean; }
+const { form, whatsapp = false } = Astro.props;
+---
+<fieldset class="field links">
+  <legend>Tu clínica en internet <span class="optional">(opcional)</span></legend>
+  <p class="field__hint">Nos ayuda a revisar tu caso. Puedes pegar el enlace o escribir tu @usuario.</p>
+
+  <div class="links__web">
+    <Field form={form} name="website_url" label="Sitio web" type="text" placeholder="miclinica.com" maxlength={300} autocomplete="url"
+      attrs={{ 'data-link-kind': 'website', inputmode: 'url', autocapitalize: 'off', spellcheck: 'false' }} />
+    <label class="check"><input type="checkbox" name="no_website" value="true" data-no-website /> <span>No tengo sitio web</span></label>
+  </div>
+
+  <Field form={form} name="google_business_url" label="Ficha de Google Maps" type="text" maxlength={300}
+    placeholder="https://maps.app.goo.gl/…" hint="En Google Maps: abre tu clínica → Compartir → Copiar enlace."
+    attrs={{ 'data-link-kind': 'google_business', inputmode: 'url', autocapitalize: 'off', spellcheck: 'false' }} />
+
+  <div class="form-row">
+    <Field form={form} name="instagram_url" label="Instagram" type="text" maxlength={300} placeholder="@miclinica"
+      attrs={{ 'data-link-kind': 'instagram', autocapitalize: 'off', spellcheck: 'false' }} />
+    <Field form={form} name="facebook_url" label="Facebook" type="text" maxlength={300} placeholder="facebook.com/miclinica"
+      attrs={{ 'data-link-kind': 'facebook', autocapitalize: 'off', spellcheck: 'false' }} />
+  </div>
+
+  <div class="links__more" data-more-links hidden>
+    <div class="form-row">
+      <Field form={form} name="tiktok_url" label="TikTok" type="text" maxlength={300} placeholder="@miclinica"
+        attrs={{ 'data-link-kind': 'tiktok', autocapitalize: 'off', spellcheck: 'false' }} />
+      <Field form={form} name="linkedin_url" label="LinkedIn" type="text" maxlength={300} placeholder="linkedin.com/company/…"
+        attrs={{ 'data-link-kind': 'linkedin', inputmode: 'url', autocapitalize: 'off', spellcheck: 'false' }} />
+    </div>
+    {whatsapp && (
+      <Field form={form} name="business_whatsapp" label="WhatsApp de la clínica" type="tel" maxlength={20} placeholder="+52 81 1234 5678" autocomplete="tel"
+        attrs={{ 'data-link-kind': 'whatsapp', inputmode: 'tel' }} />
+    )}
+  </div>
+  <button type="button" class="links__add" data-add-links aria-expanded="false">+ Agregar otra red{whatsapp ? ' o WhatsApp' : ''}</button>
+</fieldset>
+<style>
+  .links { display: grid; gap: 1rem; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem; margin: 0; background: var(--surface-alt); }
+  .links legend { padding: 0 .35rem; }
+  .links .field__hint { margin: -.25rem 0 0; }
+  .links__web { display: grid; gap: .5rem; }
+  .links__more { display: grid; gap: 1rem; }
+  .links__add {
+    justify-self: start; min-height: 44px; padding: .5rem .25rem; background: none; border: 0; cursor: pointer;
+    color: var(--accent-text); font-weight: 800; font-size: .9375rem; text-decoration: underline; text-underline-offset: 4px;
+  }
+</style>

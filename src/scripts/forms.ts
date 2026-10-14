@@ -9,6 +9,8 @@ const CONVERSIONS: Record<string, ConversionEvent> = {
   contacto: 'contact_submit_success',
   conferencia: 'conference_inquiry_success',
   'builder-drops': 'builder_drops_signup_success',
+  'diagnostico-reporte': 'report_requested',
+  'diagnostico-revision': 'review_requested',
 };
 
 type Field = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;

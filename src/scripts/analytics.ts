@@ -11,7 +11,12 @@ export type ConversionEvent =
   | 'conference_inquiry_success'
   | 'builder_drops_signup_success'
   | 'event_signup_success'
-  | 'resource_download';
+  | 'resource_download'
+  // Diagnóstico de clínicas (meeting_booked, proposal_sent y customer_won solo con integración real de CRM)
+  | 'diagnostic_started'
+  | 'diagnostic_completed'
+  | 'report_requested'
+  | 'review_requested';
 
 declare global {
   interface Window {

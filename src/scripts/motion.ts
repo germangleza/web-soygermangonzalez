@@ -34,6 +34,8 @@ function hide(el: HTMLElement, y = 28) {
 }
 
 function insidePrepared(el: Element): boolean {
+  // [data-no-reveal]: zonas con su propia animación (p. ej. el diagnóstico) quedan fuera.
+  if (el.closest('[data-no-reveal]')) return true;
   for (let p = el.parentElement; p; p = p.parentElement) if (prepared.has(p)) return true;
   return false;
 }

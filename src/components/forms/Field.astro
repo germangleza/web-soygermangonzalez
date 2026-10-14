@@ -16,14 +16,16 @@ interface Props {
   placeholder?: string;
   rows?: number;
   value?: string;
+  /** Atributos extra para el control (p. ej. data-link-kind, inputmode). */
+  attrs?: Record<string, string>;
 }
 const {
   form, name, label, as = 'input', type = 'text', required = false, options = {}, placeholderOption = 'Selecciona una opción',
-  hint, autocomplete, minlength, maxlength, placeholder, rows = 5, value,
+  hint, autocomplete, minlength, maxlength, placeholder, rows = 5, value, attrs = {},
 } = Astro.props;
 const id = `${form}-${name}`;
 const describedBy = [hint && `${id}-hint`, `${id}-error`].filter(Boolean).join(' ');
-const common = { id, name, required, 'aria-describedby': describedBy, 'aria-invalid': 'false' as const };
+const common = { id, name, required, 'aria-describedby': describedBy, 'aria-invalid': 'false' as const, ...attrs };
 ---
 <div class="field">
   <label for={id}>{label}{!required && <span class="optional"> (opcional)</span>}</label>

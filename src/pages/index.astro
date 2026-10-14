@@ -8,11 +8,13 @@ import FeaturedProjects from '../components/sections/FeaturedProjects.astro';
 import BuilderLabTeaser from '../components/sections/BuilderLabTeaser.astro';
 import AboutTeaser from '../components/sections/AboutTeaser.astro';
 import CTABanner from '../components/ui/CTABanner.astro';
+import ClinicDiagnosticCTA from '../components/sections/ClinicDiagnosticCTA.astro';
 import { SITE } from '../config/site.config';
 ---
 <BaseLayout fullTitle={SITE.title} description={SITE.description}>
   <HomeHero />
   <TwoPaths />
+  <ClinicDiagnosticCTA tone="alt" />
   <CapabilityGrid />
   <MethodSteps />
   <FeaturedProjects />

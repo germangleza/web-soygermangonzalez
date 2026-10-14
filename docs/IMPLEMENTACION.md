@@ -130,3 +130,29 @@ Librería [Motion](https://motion.dev) v12 (API vanilla, sin React) en `src/scri
 - **Transiciones entre páginas** con View Transitions (CSS, navegadores compatibles).
 
 Reglas: solo `transform`/`opacity`; solo se ocultan elementos fuera de pantalla (sin parpadeos ni CLS); sin JS todo se ve; con `prefers-reduced-motion` no se ejecuta ninguna animación. Para excluir un bloque, quítalo de los selectores `GROUPS`/`SINGLES` del script.
+
+## 12. Diagnóstico de Visibilidad Digital para Clínicas (`/diagnostico-clinicas`)
+
+Recurso de Builder Lab (también en `/builder-lab/diagnostico-clinicas`, que redirige). CTA en Home, Qué hago, Builder Lab y footer.
+
+| Pieza | Archivo |
+|---|---|
+| Preguntas, opciones, especialidades y calificación comercial (datos tipados) | `src/lib/diagnostic/questions.ts` |
+| Puntuación, rangos, recomendaciones y `lead_score` (funciones puras) | `src/lib/diagnostic/scoring.ts` |
+| Normalización/validación de URLs y redes (sin fetch del servidor → sin SSRF) | `src/lib/diagnostic/urls.ts` |
+| Validación de servidor y registro `DiagnosticLead` | `src/lib/leads.ts` (`diagnostico-reporte`, `diagnostico-revision`) |
+| UI | `src/components/diagnostic/*`, `src/scripts/diagnostic.ts`, `src/pages/diagnostico-clinicas.astro` |
+| Pruebas | `tests/diagnostic.test.ts` (`npm test`) |
+
+**Flujo:** cuestionario anónimo → resultado inmediato (puntuación global y por área, rango, «No sé» marcado como pendiente, 3 recomendaciones) → dos acciones separadas: *Enviar mi reporte* (solo email obligatorio; marketing opcional en casilla aparte) y *Solicitar revisión personalizada* (datos de la clínica + calificación comercial interna).
+
+**Integración (reutiliza `/api/lead`):** el servidor **recalcula** la puntuación con las respuestas (no confía en el cliente) y envía el `DiagnosticLead` a `DIAGNOSTIC_WEBHOOK_URL` (o `LEAD_WEBHOOK_URL` si no existe). Campos clave para el CRM:
+
+- `requested_report` / `requested_review` / `maguey_salud_review` / `priority_contact` → identifican quién pidió evaluación comercial con Maguey Studio Salud.
+- `lead_score`, `lead_segment` (A ≥75, B 50–74, C <50), `lead_score_breakdown` → solo en revisiones; nunca se muestran al visitante.
+- `dedupe_key` (= email) → el CRM debe hacer *upsert* por email y conservar el historial e UTMs.
+- `top_recommendations` (título, área, por qué, primera acción) → contenido listo para el correo del reporte.
+
+**Pendiente de conectar (no existe aún en el proyecto):** CRM y plataforma de correo. La automatización que reciba el webhook debe (1) crear/actualizar el contacto, (2) enviar el reporte cuando `requested_report = true` y (3) notificar al equipo de Maguey cuando `requested_review = true`. Los eventos `meeting_booked`, `proposal_sent` y `customer_won` solo se registrarán cuando exista esa integración real.
+
+**Analítica:** `diagnostic_started`, `diagnostic_completed` (con puntuación, sin PII), `report_requested`, `review_requested` (solo tras respuesta `ok` del servidor).

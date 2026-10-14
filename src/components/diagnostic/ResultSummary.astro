@@ -1,0 +1,113 @@
+---
+/**
+ * ResultSummary + DimensionChart + RecommendationCards (spec §3, §10).
+ * El contenido lo llena src/scripts/diagnostic.ts con las funciones puras de scoring.
+ */
+import { BANDS } from '../../lib/diagnostic/scoring';
+import { SITE } from '../../config/site.config';
+interface Props { magueyUrl: string; }
+const { magueyUrl } = Astro.props;
+---
+<div class="result" data-dx-result>
+  <div class="result__head">
+    <div class="result__score" aria-hidden="true">
+      <span data-dx-score>0</span><small>/100</small>
+    </div>
+    <div>
+      <span class="eyebrow">Tu resultado</span>
+      <h2 id="dx-result-title" tabindex="-1" data-dx-headline>Tu clínica obtuvo 0/100</h2>
+      <p class="result__band"><strong>Rango orientativo:</strong> <span data-dx-band></span></p>
+      <p class="result__weakest" data-dx-weakest></p>
+    </div>
+  </div>
+
+  <div class="result__notice" data-dx-unknown hidden role="note"></div>
+
+  <div class="result__grid">
+    <section aria-labelledby="dx-dims-title" class="card">
+      <h3 id="dx-dims-title">Tus cinco áreas</h3>
+      <ul class="dims" data-dx-dims role="list"></ul>
+    </section>
+    <section aria-labelledby="dx-scale-title" class="card">
+      <h3 id="dx-scale-title">Cómo leer tu resultado</h3>
+      <ul class="scale" role="list" data-dx-scale>
+        {BANDS.map((b) => (
+          <li data-band={b.id}><span class="scale__range">{b.min}–{b.max}</span> <span class="scale__label">{b.label}</span> <span class="scale__you">← Tu rango</span></li>
+        ))}
+      </ul>
+      <p class="small" style="margin:1rem 0 0">Evaluación orientativa basada en tus respuestas. No es una auditoría técnica ni garantiza aparecer o ser recomendado por Google, ChatGPT, Gemini u otros sistemas.</p>
+    </section>
+  </div>
+
+  <section aria-labelledby="dx-recs-title" class="recs">
+    <h3 id="dx-recs-title" class="recs__title">Tus tres prioridades</h3>
+    <ol class="grid grid-3 recs__list" data-dx-recs role="list"></ol>
+  </section>
+
+  <div class="result__tools">
+    <button type="button" class="btn btn--outline-dark" data-dx-print>Imprimir o guardar en PDF</button>
+    <button type="button" class="link-arrow result__restart" data-dx-restart>Reiniciar el diagnóstico</button>
+  </div>
+
+  <section class="help dark" aria-labelledby="dx-help-title">
+    <span class="eyebrow eyebrow--lime">¿Quieres ayuda para implementarlas?</span>
+    <h3 id="dx-help-title">Maguey Studio Salud puede ejecutar estas mejoras contigo.</h3>
+    <p>Este diagnóstico es un recurso de {SITE.name}. Si quieres ayuda para llevarlo a la práctica, el equipo de Maguey Studio Salud —con el que construimos capacidades digitales para clínicas— puede revisar tu caso.</p>
+    <div class="actions">
+      <a class="btn btn--lime" href="#solicitar-revision">Quiero que revisen mi clínica <span class="btn__icon" aria-hidden="true">↓</span></a>
+      <a class="btn btn--outline" href={magueyUrl} target="_blank" rel="noopener" data-dx-maguey>Conoce Maguey Salud <span class="btn__icon" aria-hidden="true">↗</span><span class="sr-only"> (abre en otra pestaña)</span></a>
+    </div>
+  </section>
+</div>
+
+<style>
+  .result__head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(1.25rem, 1rem + 2vw, 2.5rem); align-items: center; margin-bottom: 2rem; }
+  .result__score {
+    width: clamp(120px, 22vw, 168px); aspect-ratio: 1; border-radius: 50%; display: grid; place-content: center; text-align: center;
+    background: conic-gradient(var(--navy) calc(var(--p, 0) * 1%), #dfe8ef 0); position: relative;
+  }
+  .result__score::before { content: ''; position: absolute; inset: 12px; border-radius: 50%; background: #fff; }
+  .result__score span, .result__score small { position: relative; font-family: var(--font-display); font-weight: 700; line-height: 1; }
+  .result__score span { font-size: clamp(2.4rem, 1.8rem + 2vw, 3.4rem); letter-spacing: -0.04em; }
+  .result__score small { font-size: .95rem; color: var(--muted); }
+  .result__head h2 { font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.6rem); outline: none; }
+  .result__band { margin: .75rem 0 .25rem; }
+  .result__weakest { font-size: var(--fs-lead); color: var(--ink); margin: 0; }
+  .result__notice { border: 1.5px dashed #c99a2e; background: #fff8e6; color: #6b4a00; border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+  .result__notice :global(strong) { display: block; margin-bottom: .25rem; }
+  .result__grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 1.25rem; }
+  .dims { list-style: none; padding: 0; display: grid; gap: 1rem; margin-top: .5rem; }
+  .dims :global(li) { display: grid; gap: .35rem; }
+  .dims :global(.dims__row) { display: flex; justify-content: space-between; gap: 1rem; font-weight: 700; font-size: .9375rem; }
+  .dims :global(.dims__track) { height: 10px; border-radius: 999px; background: #e3ebf1; overflow: hidden; }
+  .dims :global(.dims__fill) { display: block; height: 100%; background: var(--navy); border-radius: inherit; }
+  .dims :global(.dims__fill--weak) { background: var(--coral); }
+  .dims :global(.dims__note) { font-size: .8125rem; color: var(--muted); }
+  .scale { list-style: none; padding: 0; display: grid; gap: .5rem; margin-top: .5rem; }
+  .scale li { display: flex; gap: .75rem; align-items: baseline; padding: .55rem .75rem; border-radius: 6px; color: var(--muted); }
+  .scale__range { font-weight: 800; min-width: 4.2rem; color: var(--ink); }
+  .scale__you { display: none; margin-left: auto; font-weight: 800; color: var(--navy); font-size: .8125rem; }
+  .scale li.is-current { background: #eef4f9; color: var(--ink); font-weight: 700; box-shadow: inset 3px 0 0 var(--navy); }
+  .scale li.is-current .scale__you { display: inline; }
+  .recs { margin-top: 2.5rem; }
+  .recs__title { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); margin-bottom: 1.25rem; }
+  .recs__list { list-style: none; padding: 0; }
+  .recs__list :global(.rec) { height: 100%; }
+  .recs__list :global(.rec h4) { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.25; letter-spacing: -0.01em; margin: .5rem 0 .75rem; }
+  .recs__list :global(.rec dl) { margin: 0; display: grid; gap: .65rem; }
+  .recs__list :global(.rec dt) { font-size: .75rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); }
+  .recs__list :global(.rec dd) { margin: 0; color: var(--muted); font-size: .9375rem; }
+  .recs__list :global(.rec__top) { display: flex; justify-content: space-between; gap: .5rem; align-items: center; flex-wrap: wrap; }
+  .recs__list :global(.rec__verify) { font-size: .6875rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: .25rem .5rem; border-radius: 4px; background: #fff3d6; color: #6b4a00; }
+  .result__tools { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center; margin-top: 2rem; }
+  .result__restart { background: none; border: 0; cursor: pointer; padding: 0; }
+  .help { margin-top: 2.5rem; background: var(--navy-2); border-radius: var(--radius-lg); padding: clamp(1.75rem, 1.25rem + 3vw, 3.5rem); }
+  .help h3 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.2rem); max-width: 26ch; }
+  .help p { max-width: 44rem; }
+  @media (max-width: 1023px) { .result__grid { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 479px) { .result__head { grid-template-columns: minmax(0, 1fr); justify-items: start; } }
+  @media print {
+    :global(.site-header), :global(.site-footer), :global(.dx-hero), :global(.dx-quiz-section), :global(.dx-forms), .result__tools, .help { display: none !important; }
+    .result__score { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>

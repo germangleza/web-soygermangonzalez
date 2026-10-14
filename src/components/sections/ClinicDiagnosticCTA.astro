@@ -1,0 +1,28 @@
+---
+/** CTA al Diagnóstico de Visibilidad Digital para Clínicas (Home, Qué hago, Builder Lab). */
+interface Props { tone?: 'light' | 'alt'; }
+const { tone = 'light' } = Astro.props;
+---
+<section class:list={['section section--tight', { 'section--alt': tone === 'alt' }]} aria-labelledby="dx-cta-title">
+  <div class="container">
+    <div class="dx-cta">
+      <div>
+        <span class="eyebrow">Recurso gratuito · Clínicas</span>
+        <h2 id="dx-cta-title">Evalúa la presencia digital de tu clínica</h2>
+        <p>15 preguntas sobre Google Maps, sitio web, reseñas, información para buscadores e IA y contacto con pacientes. Resultado inmediato, sin registro.</p>
+      </div>
+      <a class="btn btn--dark" href="/diagnostico-clinicas">Evalúa la presencia digital de tu clínica <span class="btn__icon" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+<style>
+  .dx-cta {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem 3rem; align-items: center;
+    border: 1px solid var(--line); border-left: 4px solid var(--lime); border-radius: var(--radius-lg);
+    background: #fff; padding: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+  }
+  .dx-cta h2 { font-size: clamp(1.6rem, 1.3rem + 1.3vw, 2.4rem); margin-bottom: .75rem; }
+  .dx-cta p { color: var(--muted); margin: 0; max-width: 40rem; }
+  @media (max-width: 1023px) { .dx-cta { grid-template-columns: minmax(0, 1fr); } .dx-cta .btn { justify-self: start; } }
+  @media (max-width: 479px) { .dx-cta .btn { width: 100%; } }
+</style>

@@ -35,6 +35,13 @@ Nada de esta lista se inventó en el sitio: donde falta información, el element
 - [ ] **OAuth del CMS** (ver `docs/IMPLEMENTACION.md` §8).
 - [ ] **Hosting**: el adaptador es Vercel; confirmar proyecto y dominio.
 
+## Diagnóstico para clínicas
+
+- [ ] **Destino de leads del diagnóstico** → `DIAGNOSTIC_WEBHOOK_URL` (CRM/automatización de Maguey Salud) y automatización que envíe el reporte por correo.
+- [ ] **Aviso de privacidad de Maguey Studio Salud** y su razón social (los datos de las revisiones se comparten con Maguey).
+- [ ] Validar copy de apoyo: textos de las recomendaciones, «Una persona del equipo revisa tu ficha de Google, tu sitio y tus redes…» y la descripción de Maguey Salud.
+- [ ] Validar ponderaciones de `lead_score` (heurísticas en `src/lib/diagnostic/scoring.ts`).
+
 ## Legal
 
 - [ ] **Aviso de privacidad**: es un borrador (LFPDPPP). Completar domicilio, correo ARCO, proveedores y analítica; revisión por abogado. Mientras tanto la página muestra un banner visible.

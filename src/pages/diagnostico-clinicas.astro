@@ -1,0 +1,106 @@
+---
+/**
+ * Diagnóstico de Visibilidad Digital para Clínicas (spec MVP 1.0).
+ * Recurso de Builder Lab. También accesible en /builder-lab/diagnostico-clinicas (redirección).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import DiagnosticQuestionnaire from '../components/diagnostic/DiagnosticQuestionnaire.astro';
+import ResultSummary from '../components/diagnostic/ResultSummary.astro';
+import ReportRequestForm from '../components/diagnostic/ReportRequestForm.astro';
+import ReviewRequestForm from '../components/diagnostic/ReviewRequestForm.astro';
+import { DIMENSIONS, DIMENSION_ORDER, QUESTIONS } from '../lib/diagnostic/questions';
+
+/** CTA a Maguey Salud con UTMs consistentes (spec §2, §10). */
+const MAGUEY_SALUD = 'https://www.magueystudio.mx/salud';
+const magueyUrl = `${MAGUEY_SALUD}?${new URLSearchParams({
+  utm_source: 'soygermangonzalez',
+  utm_medium: 'referral',
+  utm_campaign: 'diagnostico-clinicas',
+  utm_content: 'resultado',
+})}`;
+---
+<BaseLayout
+  fullTitle="Diagnóstico de visibilidad digital para clínicas | Germán González"
+  description="Responde 15 preguntas y descubre tus prioridades en Google Maps, sitio web, reseñas, información para buscadores e IA y contacto con pacientes. Gratis, 3–4 minutos."
+>
+  <section class="dx-hero dark">
+    <div class="container dx-hero__inner">
+      <Breadcrumbs items={[{ name: 'Builder Lab', url: '/builder-lab' }, { name: 'Diagnóstico para clínicas', url: '/diagnostico-clinicas' }]} />
+      <span class="eyebrow eyebrow--lime">Recurso gratuito · Germán González</span>
+      <h1>¿Qué tan fácil es encontrar y elegir tu clínica en Google y en la IA?</h1>
+      <p class="dx-hero__lead">Responde 15 preguntas y descubre cuáles son tus prioridades en Google Maps, página web, reseñas, información pública para buscadores e IA, y contacto con pacientes. Toma aproximadamente 3–4 minutos.</p>
+      <div class="actions">
+        <a class="btn btn--lime" href="#evaluacion" data-dx-start>Evaluar mi clínica <span class="btn__icon" aria-hidden="true">↓</span></a>
+      </div>
+      <p class="dx-hero__note" role="note">
+        <strong>Importante:</strong> evaluación orientativa basada en tus respuestas. No es una auditoría técnica ni garantiza aparecer o ser recomendado por Google, ChatGPT, Gemini u otros sistemas.
+      </p>
+      <ul class="dx-hero__dims" role="list" aria-label="Áreas que evalúa">
+        {DIMENSION_ORDER.map((d) => <li>{DIMENSIONS[d].label}</li>)}
+      </ul>
+    </div>
+    <div class="page-hero__rings" aria-hidden="true"></div>
+  </section>
+
+  <section class="section section--alt dx-quiz-section" id="evaluacion" data-dx-quiz-section aria-label="Evaluación">
+    <div class="container">
+      <p class="dx-quiz-intro small">{QUESTIONS.length} preguntas · sin registro · tu resultado aparece al terminar</p>
+      <DiagnosticQuestionnaire />
+    </div>
+  </section>
+
+  <section class="section dx-result-section" id="resultado" data-dx-result-section data-no-reveal hidden aria-labelledby="dx-result-title" aria-live="polite">
+    <div class="container">
+      <ResultSummary magueyUrl={magueyUrl} />
+    </div>
+  </section>
+
+  <section class="section section--alt dx-forms" data-dx-forms data-no-reveal hidden aria-label="Siguientes pasos">
+    <div class="container dx-forms__grid">
+      <div class="dx-form-card" id="enviar-reporte">
+        <span class="eyebrow">Opción 1 · Gratis</span>
+        <h2 id="dx-report-title">Envíame mi reporte y recomendaciones</h2>
+        <p>Te mandamos por correo tu resultado, el desglose por área y tus tres prioridades. Solo necesitamos tu email.</p>
+        <ReportRequestForm />
+      </div>
+      <div class="dx-form-card dx-form-card--review" id="solicitar-revision">
+        <span class="eyebrow">Opción 2 · Con Maguey Studio Salud</span>
+        <h2 id="dx-review-title">Quiero que revisen mi clínica</h2>
+        <p>Una persona del equipo revisa tu ficha de Google, tu sitio y tus redes, y te propone por dónde empezar.</p>
+        <ReviewRequestForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import '../scripts/diagnostic';
+  // Los formularios solo tienen sentido con un resultado: se muestran al terminar.
+  const forms = document.querySelector<HTMLElement>('[data-dx-forms]');
+  const result = document.querySelector<HTMLElement>('[data-dx-result-section]');
+  if (forms && result) {
+    const sync = () => (forms.hidden = result.hidden);
+    new MutationObserver(sync).observe(result, { attributes: true, attributeFilter: ['hidden'] });
+    sync();
+  }
+</script>
+
+<style>
+  .dx-hero { position: relative; overflow: hidden; background: var(--navy-3); padding: clamp(3.25rem, 2.25rem + 4vw, 6rem) 0; }
+  .dx-hero__inner { position: relative; z-index: 1; }
+  .dx-hero h1 { font-size: var(--fs-h1-page); max-width: 21ch; }
+  .dx-hero__lead { font-size: var(--fs-lead); max-width: 44rem; margin-top: 1.5rem; color: #dce8f1 !important; }
+  .dx-hero__note { max-width: 44rem; margin-top: 1.75rem; padding: .9rem 1.1rem; border: 1px solid var(--line-dark); border-radius: var(--radius); font-size: .9375rem; background: rgba(255,255,255,.04); }
+  .dx-hero__note strong { color: #fff; }
+  .dx-hero__dims { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
+  .dx-hero__dims li { border: 1px solid var(--line-dark); border-radius: 999px; padding: .35rem .85rem; font-size: .8125rem; color: var(--muted-on-dark); }
+  .dx-quiz-intro { text-align: center; margin-bottom: 1.25rem; }
+  .dx-result-section { scroll-margin-top: calc(var(--header-h) + 8px); }
+  .dx-forms__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(1.25rem, 1rem + 2vw, 2.5rem); align-items: start; }
+  .dx-form-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(1.25rem, 1rem + 2vw, 2.5rem); scroll-margin-top: calc(var(--header-h) + 16px); }
+  .dx-form-card h2 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem); }
+  .dx-form-card > p { color: var(--muted); }
+  .dx-form-card--review { border-color: var(--navy); box-shadow: 0 0 0 1px var(--navy); }
+  @media (max-width: 1023px) { .dx-forms__grid { grid-template-columns: minmax(0, 1fr); } }
+</style>
