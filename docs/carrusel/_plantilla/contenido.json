@@ -1,0 +1,57 @@
+{
+  "titulo": "Plantilla de carrusel (ejemplo)",
+  "meta": { "url": "soygermangonzalez.com", "urlFinal": "soygermangonzalez.com/builder-lab", "autor": "Germán González" },
+  "laminas": [
+    {
+      "layout": "portada",
+      "pill": "Tip · 1 minuto",
+      "eyebrow": "Builder Lab · IA aplicada",
+      "titulo": "Título de tu tip\ncon *palabra clave*",
+      "texto": "Subtítulo de una o dos líneas que explica la promesa.",
+      "fondo": "fondo-ejemplo.jpg",
+      "fondoPosicion": "70% center"
+    },
+    {
+      "layout": "contenido",
+      "pill": "Contexto",
+      "titulo": "Título de la lámina",
+      "texto": "Texto de apoyo. Usa **negritas**, *verde* o _celeste_ para resaltar.",
+      "ui": [
+        { "tipo": "usuario", "texto": "Pregunta de ejemplo al asistente" },
+        { "tipo": "ia", "texto": "Respuesta de ejemplo con **dato clave**." }
+      ],
+      "nota": "Maqueta ilustrativa · datos de ejemplo"
+    },
+    {
+      "layout": "contenido",
+      "pill": "Paso 1 de 2",
+      "eyebrow": "Pasos",
+      "pasos": ["Primer paso con **énfasis**", "Segundo paso con `código o URL`", "Tercer paso"],
+      "badge": "Resultado esperado ✅"
+    },
+    {
+      "layout": "contenido",
+      "pill": "Paso 2 de 2",
+      "eyebrow": "Lista",
+      "titulo": "Lista con íconos",
+      "tamanoTitulo": 76,
+      "items": [
+        { "icono": "📊", "etiqueta": "Etiqueta", "texto": "Texto del punto uno" },
+        { "icono": "⚡", "etiqueta": "Etiqueta", "texto": "Texto del punto dos" }
+      ]
+    },
+    {
+      "layout": "frase",
+      "pill": "El resultado",
+      "titulo": "Una frase grande con _celeste_ y *verde*.",
+      "alerta": "**Advertencia o regla importante.** Texto de apoyo."
+    },
+    {
+      "layout": "cta",
+      "pill": "Gratis",
+      "antes": "Comenta",
+      "palabra": "TIP",
+      "despues": "y te mando *el recurso* por DM 👇"
+    }
+  ]
+}

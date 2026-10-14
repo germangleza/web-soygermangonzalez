@@ -1,0 +1,82 @@
+{
+  "titulo": "Conecta Claude a Meta Ads",
+  "meta": { "url": "soygermangonzalez.com", "urlFinal": "soygermangonzalez.com/builder-lab", "autor": "Germán González" },
+  "laminas": [
+    {
+      "layout": "portada",
+      "pill": "Tutorial · 3 pasos",
+      "eyebrow": "Builder Lab · IA aplicada",
+      "titulo": "Conecta Claude\na *Meta Ads*",
+      "texto": "Analiza, crea y ajusta tus campañas hablando. Sin pelearte con Ads Manager.",
+      "diagrama": { "de": "Claude", "a": "Meta Ads", "etiqueta": "MCP" }
+    },
+    {
+      "layout": "contenido",
+      "pill": "Contexto",
+      "titulo": "Meta ya tiene conector oficial para la IA",
+      "texto": "Analiza, crea y ajusta campañas hablando. Necesitas: **cuenta de Claude** + **acceso de admin** a tu cuenta publicitaria.",
+      "ui": [
+        { "tipo": "usuario", "texto": "¿Cómo van mis campañas esta semana?" },
+        { "tipo": "ia", "texto": "Tus campañas activas, últimos 7 días:", "tabla": { "columnas": ["Campaña", "Gasto", "CPA", "CTR"], "filas": [["Leads", "$4,200", "$84 ↓", "1.9%"], ["Remarketing", "$1,350", "$135 ↑", "0.8%"]] } }
+      ],
+      "nota": "Maqueta ilustrativa · datos de ejemplo",
+      "desliza": "Desliza 👉"
+    },
+    {
+      "layout": "contenido",
+      "pill": "Paso 1 de 3",
+      "eyebrow": "Conéctalo (1/3)",
+      "pasos": [
+        "Claude → **Configuración** → **Conectores** → **“Agregar conector personalizado”**",
+        "Nombre: **Meta Ads** · URL: `mcp.facebook.com/ads`",
+        "**“Conectar”** e inicia sesión con el Facebook que administra tus anuncios"
+      ],
+      "ui": [
+        { "tipo": "titulo", "texto": "Agregar conector personalizado" },
+        { "tipo": "campo", "label": "Nombre", "valor": "Meta Ads" },
+        { "tipo": "campo", "label": "URL del servidor", "valor": "https://mcp.facebook.com/ads", "resaltar": true },
+        { "tipo": "boton", "texto": "Conectar" }
+      ],
+      "nota": "Maqueta ilustrativa · los textos de la interfaz pueden variar"
+    },
+    {
+      "layout": "contenido",
+      "pill": "Paso 2 de 3",
+      "eyebrow": "Actívalo (2/3)",
+      "titulo": "En un chat nuevo: *“+”* → Conectores → enciende Meta Ads",
+      "tamanoTitulo": 70,
+      "ui": [
+        { "tipo": "toggle", "texto": "Meta Ads" },
+        { "tipo": "usuario", "texto": "Muéstrame mis cuentas publicitarias" },
+        { "tipo": "ia", "texto": "Encontré **2 cuentas publicitarias** a las que tienes acceso:\n• Cuenta de ejemplo A · Activa\n• Cuenta de ejemplo B · Activa" }
+      ],
+      "badge": "Si te las lista, ya quedó 🔥"
+    },
+    {
+      "layout": "contenido",
+      "pill": "Paso 3 de 3",
+      "eyebrow": "Qué pedirle (3/3)",
+      "titulo": "Pídeselo como se lo pedirías a tu equipo",
+      "tamanoTitulo": 76,
+      "items": [
+        { "icono": "📊", "etiqueta": "Analiza", "texto": "“¿Qué anuncio tiene el peor CPA esta semana y por qué?”" },
+        { "icono": "🚨", "etiqueta": "Detecta", "texto": "“Detecta anomalías: CPM, frecuencia, conversiones”" },
+        { "icono": "⚡", "etiqueta": "Optimiza", "texto": "“Pausa los anuncios con CPA mayor a $X”" },
+        { "icono": "🚀", "etiqueta": "Crea", "texto": "“Arma una campaña de leads con 3 variantes de copy”" }
+      ]
+    },
+    {
+      "layout": "frase",
+      "pill": "El resultado",
+      "titulo": "Lo que te tomaba _1 hora_ en Ads Manager, ahora es *una pregunta.*",
+      "alerta": "**Lo que crea Claude queda en pausa por default.** Revisa antes de activar."
+    },
+    {
+      "layout": "cta",
+      "pill": "Gratis",
+      "antes": "Comenta",
+      "palabra": "ADS",
+      "despues": "y te mando mis *15 prompts* para Meta Ads por DM 👇"
+    }
+  ]
+}

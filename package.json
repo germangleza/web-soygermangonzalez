@@ -7,7 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "test": "vitest run"
+    "test": "vitest run",
+    "carrusel": "node tools/carrusel/build.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.0",

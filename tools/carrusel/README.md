@@ -1,0 +1,40 @@
+# Plantilla de carruseles (Instagram 1080×1350)
+
+Un carrusel = una carpeta en `docs/carrusel/<slug>/` con un `contenido.json` (y, si quieres, imágenes de fondo).
+
+```bash
+npm run carrusel -- <slug>
+```
+
+Genera en esa carpeta:
+- `slide-1.png … slide-N.png` → listas para publicar.
+- `carrusel.pdf` → texto real (no imagen): se importa a Canva como diseño **editable**.
+
+Requisito local (una sola vez): `npm i -D playwright && npx playwright install chromium`.
+
+## Layouts
+
+| `layout` | Para qué | Campos |
+|---|---|---|
+| `portada` | Lámina 1 | `pill`, `eyebrow`, `titulo`, `texto`, `diagrama` {de, a, etiqueta}, `fondo`, `fondoPosicion`, `fondoOscuro` |
+| `contenido` | Explicar, pasos, listas, maquetas | `pill`, `eyebrow`, `titulo`, `tamanoTitulo`, `texto`, `pasos[]`, `items[]` {icono, etiqueta, texto}, `ui[]`, `nota`, `badge`, `alerta` |
+| `frase` | Payoff / idea grande | `pill`, `titulo`, `alerta` |
+| `cta` | Cierre | `pill`, `antes`, `palabra`, `despues` |
+
+`ui[]` (maqueta de chat o pantalla): `{tipo: "usuario"|"ia"|"titulo"|"campo"|"boton"|"toggle", texto, label, valor, resaltar, tabla: {columnas, filas}}`. Las maquetas son ilustrativas: márcalas con `nota`.
+
+**Marcado en textos:** `*verde lima*`, `_celeste_`, `**negritas**`, `` `código` ``, `\n` = salto de línea.
+
+## Imagen de fondo en la portada
+
+1. Copia la imagen (JPG/PNG, idealmente vertical ≥1080×1350) a la carpeta del carrusel.
+2. En la portada: `"fondo": "mi-foto.jpg"`. Opcional: `"fondoPosicion": "70% center"` para encuadrar y `"fondoOscuro": true` si la foto es muy clara.
+3. Se aplica un degradado azul de marca para que el texto siempre se lea.
+
+Ejemplo completo con todos los layouts y fondo: `docs/carrusel/_plantilla/`.
+
+## Canva
+
+- **Editar un carrusel:** importa su `carrusel.pdf` a Canva (Crear diseño → Importar archivo). Los textos quedan editables.
+- **Plantilla en Canva:** importa `docs/carrusel/_plantilla/carrusel.pdf` y, con Canva Pro/Teams, conviértelo en *Plantilla de marca* (Compartir → Plantilla de marca). Duplícala para cada tip nuevo.
+- La tipografía de títulos es Inter Display (libre). Si licencias Nimbus Sans, se cambia en `tools/carrusel/estilos.css` y en Canva.
