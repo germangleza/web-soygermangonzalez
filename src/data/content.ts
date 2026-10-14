@@ -24,6 +24,13 @@ export const METHOD = [
   { num: '04', key: 'BUILD', text: 'Construimos, medimos y ajustamos.', image: build, alt: 'Casa terminada e iluminada: construir' },
 ];
 
+/** Home — Con quién lo construyes (estrategia + empresas de ejecución). */
+export const HOME_TEAM = [
+  { name: 'Germán González', area: 'Estrategia y dirección', text: 'Lo ves conmigo: entendemos el reto, priorizamos y definimos qué construir.' },
+  { name: 'Maguey Estudio', area: 'Marketing y growth', text: 'Campañas, contenido, sitios web y posicionamiento.' },
+  { name: 'Life Agent', area: 'IA y automatización', text: 'Agentes, WhatsApp, CRM e integraciones.' },
+];
+
 /** BL02 — Conceptos internos de Builder Lab. */
 export const LAB_CONCEPTS = [
   { title: 'Explora', icon: '↗', text: 'Herramientas de IA, tecnología, crypto, fintech, oportunidades, tendencias y análisis de negocio.' },

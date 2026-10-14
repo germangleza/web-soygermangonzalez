@@ -10,9 +10,8 @@ import hero from '../../assets/photos/hero-escalera.png';
   <div class="container hero__inner">
     <div class="hero__copy">
       <span class="eyebrow">Germán González · Business Builder</span>
-      <h1 id="hero-title">Construyo oportunidades de crecimiento.</h1>
-      <p class="hero__lead">Identifico dónde existe una oportunidad y construyo la combinación de negocio, growth digital, tecnología y alianzas necesaria para aprovecharla.</p>
-      <p class="hero__support">Desde una necesidad de marketing o IA hasta el lanzamiento de un nuevo negocio.</p>
+      <h1 id="hero-title">Te ayudo a hacer crecer tu negocio o a lanzar uno nuevo.</h1>
+      <p class="hero__lead">Detecto dónde está la oportunidad y armo lo necesario para aprovecharla: estrategia, marketing, inteligencia artificial y alianzas.</p>
       <div class="actions">
         <a class="btn" href="/contacto">Cuéntame tu reto <span class="btn__icon" aria-hidden="true">↗</span></a>
         <a class="btn btn--outline" href="#metodo">Explora cómo trabajo <span class="btn__icon" aria-hidden="true">↓</span></a>
@@ -29,10 +28,9 @@ import hero from '../../assets/photos/hero-escalera.png';
     background: linear-gradient(90deg, var(--navy) 0%, var(--navy) 30%, rgba(7,25,43,.85) 48%, rgba(7,25,43,.2) 100%);
   }
   .hero__inner { min-height: min(86vh, 720px); display: flex; align-items: center; padding-block: clamp(4rem, 3rem + 5vw, 7rem); }
-  .hero__copy { max-width: 46rem; }
-  .hero h1 { max-width: 13ch; }
+  .hero__copy { max-width: 58rem; }
+  .hero h1 { max-width: 18ch; font-size: clamp(2.5rem, 1.6rem + 3.6vw, 4.75rem); }
   .hero__lead { font-size: clamp(1.1rem, 1rem + 0.45vw, 1.3rem); color: #dce8f1 !important; max-width: 38rem; margin-top: 1.75rem; }
-  .hero__support { color: var(--muted-on-dark); max-width: 36rem; margin-bottom: 0; }
   @media (max-width: 1023px) {
     .hero__media { width: 100%; }
     .hero::before { background: linear-gradient(90deg, rgba(7,25,43,.97) 0%, rgba(7,25,43,.75) 100%); }
@@ -41,6 +39,5 @@ import hero from '../../assets/photos/hero-escalera.png';
     .hero__media img { object-position: 62% center; }
     .hero::before { background: linear-gradient(180deg, rgba(7,25,43,.7) 0%, rgba(7,25,43,.9) 75%); }
     .hero__inner { min-height: auto; padding-block: 3.5rem 4rem; }
-    .hero__support { display: none; }
   }
 </style>
