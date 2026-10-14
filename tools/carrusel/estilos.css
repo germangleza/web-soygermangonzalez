@@ -1,14 +1,21 @@
 
-@font-face { font-family: 'Manrope'; src: url('assets/manrope.woff2') format('woff2'); font-weight: 200 800; }
+@font-face { font-family: 'Inter'; src: url('assets/Inter_500Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'Inter'; src: url('assets/Inter_600SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Inter'; src: url('assets/Inter_700Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'Inter'; src: url('assets/Inter_800ExtraBold.ttf') format('truetype'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'Manrope'; src: url('assets/Manrope_500Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'Manrope'; src: url('assets/Manrope_600SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Manrope'; src: url('assets/Manrope_700Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'Manrope'; src: url('assets/Manrope_800ExtraBold.ttf') format('truetype'); font-weight: 800; font-style: normal; }
 :root { --navy:#07192b; --navy2:#102940; --navy3:#0a2035; --sky:#83c5ff; --lime:#c5ee66; --coral:#ff907e; --line:#284050; --muted:#c3d4e2; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #222; font-family: 'Manrope', sans-serif; color: #fff; display: grid; gap: 40px; justify-content: center; padding: 40px; }
+body { background: #222; font-family: 'Manrope', 'Inter', sans-serif; color: #fff; display: grid; gap: 40px; justify-content: center; padding: 40px; }
 .slide { width: 1080px; height: 1350px; position: relative; overflow: hidden; background: var(--navy); padding: 96px 88px 150px; display: flex; flex-direction: column; isolation: isolate; }
 .slide::before { content: ''; position: absolute; z-index: -1; width: 900px; aspect-ratio: 1; right: -380px; top: -300px; border-radius: 50%; border: 2px solid #1f3b55;
   box-shadow: 0 0 0 110px transparent, 0 0 0 112px #183450, 0 0 0 220px transparent, 0 0 0 222px #142c44; opacity: .9; }
 .slide--alt { background: var(--navy3); }
 .slide--alt::before { right: auto; left: -420px; top: auto; bottom: -360px; }
-h1, h2, .display { font-family: 'Inter Display', 'Inter', Helvetica, Arial, sans-serif; font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; }
+h1, h2, .display { font-family: 'Inter', Helvetica, Arial, sans-serif; font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; }
 .eyebrow { font-size: 26px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--lime); margin-bottom: 36px; }
 .eyebrow--sky { color: var(--sky); }
 h1 { font-size: 132px; }
@@ -40,7 +47,7 @@ table.m td { padding: 12px 10px; border-bottom: 1px solid #e4e1da; font-weight: 
 .steps { display: grid; gap: 22px; margin-bottom: 44px; }
 .step { display: grid; grid-template-columns: 64px 1fr; gap: 24px; align-items: start; font-size: 34px; line-height: 1.35; font-weight: 600; }
 .step b { font-weight: 800; color: #fff; }
-.num { width: 64px; height: 64px; border-radius: 50%; background: var(--lime); color: var(--navy); display: grid; place-items: center; font-family: 'Inter Display', sans-serif; font-weight: 800; font-size: 32px; }
+.num { width: 64px; height: 64px; border-radius: 50%; background: var(--lime); color: var(--navy); display: grid; place-items: center; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 32px; }
 code { font-family: 'Manrope', monospace; background: rgba(197,238,102,.14); color: var(--lime); padding: 2px 12px; border-radius: 8px; font-weight: 800; }
 
 .modal__t { font-size: 32px; font-weight: 800; margin-bottom: 6px; }
@@ -66,13 +73,13 @@ code { font-family: 'Manrope', monospace; background: rgba(197,238,102,.14); col
 .warn b { color: #fff; }
 
 .connect { margin-top: auto; display: flex; align-items: center; gap: 0; }
-.node { flex: none; border-radius: 28px; padding: 34px 40px; font-family: 'Inter Display', sans-serif; font-weight: 800; font-size: 46px; }
+.node { flex: none; border-radius: 28px; padding: 34px 40px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 46px; }
 .node--a { background: #f6f5f1; color: var(--navy); }
 .node--b { background: var(--sky); color: var(--navy); }
 .wire { flex: 1; height: 6px; background: repeating-linear-gradient(90deg, var(--lime) 0 26px, transparent 26px 40px); position: relative; }
 .wire::after { content: attr(data-label); position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: var(--lime); color: var(--navy); font-weight: 800; font-size: 24px; letter-spacing: .1em; border-radius: 99px; padding: 10px 22px; }
 
-.ads { display: inline-block; font-family: 'Inter Display', sans-serif; font-weight: 800; font-size: 250px; letter-spacing: -0.04em; line-height: 1; color: var(--navy); background: var(--lime); border-radius: 36px; padding: 18px 54px 30px; margin: 30px 0 46px; }
+.ads { display: inline-block; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 250px; letter-spacing: -0.04em; line-height: 1; color: var(--navy); background: var(--lime); border-radius: 36px; padding: 18px 54px 30px; margin: 30px 0 46px; }
 
 /* ---- Plantilla: piezas genéricas ---- */
 .stack { display: flex; flex-direction: column; gap: 0; }
@@ -97,3 +104,18 @@ code { font-family: 'Manrope', monospace; background: rgba(197,238,102,.14); col
 .b { color: #fff; font-weight: 800; }
 .ui .b { color: inherit; }
 .mt { margin-top: 50px; }
+
+/* ---- Exportación para Canva ----
+   html.canva-bg   → se captura TODO el diseño sin texto (fondo de cada página).
+   html.canva-text → solo el texto, sobre ese fondo, en fuentes que Canva tiene (Inter, Manrope). */
+html.canva-bg, html.canva-text { --canva-font: 'Inter', Helvetica, Arial, sans-serif; }
+html.canva-bg h1, html.canva-bg h2, html.canva-bg .display, html.canva-bg .num, html.canva-bg .node, html.canva-bg .ads,
+html.canva-text h1, html.canva-text h2, html.canva-text .display, html.canva-text .num, html.canva-text .node, html.canva-text .ads { font-family: var(--canva-font); }
+html.canva-bg .slide * { color: transparent !important; }
+html.canva-bg .slide .emo { color: #fff !important; }
+html.canva-bg .wire::after { color: var(--navy) !important; }
+html.canva-text .slide { background-color: transparent; background-size: 1080px 1350px; background-repeat: no-repeat; }
+html.canva-text .slide::before, html.canva-text .slide *::before, html.canva-text .slide *::after { display: none !important; }
+html.canva-text .slide * { background: transparent !important; border-color: transparent !important; box-shadow: none !important; text-shadow: none !important; }
+html.canva-text .slide img, html.canva-text .emo, html.canva-text .dots, html.canva-text .tg, html.canva-text .bg { visibility: hidden !important; }
+html.canva-text .slide p, html.canva-text .slide h1, html.canva-text .slide h2, html.canva-text .slide span, html.canva-text .slide div { text-align: left; }

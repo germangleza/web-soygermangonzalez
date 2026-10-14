@@ -1,7 +1,7 @@
 /**
  * Genera un carrusel desde docs/carrusel/<slug>/contenido.json:
  *   - slide-1.png … slide-N.png (1080×1350) para publicar
- *   - carrusel.pdf con texto real (vectorial) para importar a Canva y editar
+ *   - carrusel.pdf para Canva: diseño como fondo por página + texto real editable (fuentes Inter/Manrope)
  *
  * Uso:  npm run carrusel -- <slug>
  * Requiere Playwright con Chromium (local: `npx playwright install chromium`).
@@ -41,6 +41,15 @@ await page.evaluate(() => document.fonts.ready);
 for (const f of fs.readdirSync(dir)) if (/^slide-\d+\.png$/.test(f)) fs.unlinkSync(path.join(dir, f));
 const n = data.laminas.length;
 for (let i = 1; i <= n; i++) await page.locator(`#s${i}`).screenshot({ path: path.join(dir, `slide-${i}.png`) });
+// PDF para Canva: el diseño completo como imagen de fondo + el texto como texto real editable.
+await page.evaluate(() => document.documentElement.classList.add('canva-bg'));
+await page.evaluate(() => document.fonts.ready);
+const backgrounds = [];
+for (let i = 1; i <= n; i++) backgrounds.push((await page.locator(`#s${i}`).screenshot()).toString('base64'));
+await page.evaluate((bgs) => {
+  document.documentElement.classList.replace('canva-bg', 'canva-text');
+  document.querySelectorAll('.slide').forEach((s, i) => { s.style.backgroundImage = `url(data:image/png;base64,${bgs[i]})`; });
+}, backgrounds);
 await page.emulateMedia({ media: 'print' });
 await page.pdf({ path: path.join(dir, 'carrusel.pdf'), width: '1080px', height: '1350px', printBackground: true, margin: { top: 0, right: 0, bottom: 0, left: 0 } });
 await browser.close();

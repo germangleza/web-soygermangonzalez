@@ -5,7 +5,9 @@
  * Marcado en textos:  *texto* → verde lima · _texto_ → celeste · **texto** → negritas blancas · `texto` → código
  */
 
-const esc = (s = '') => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const escAttr = (s = '') => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+/** Texto visible: escapa HTML y envuelve emojis (en la versión para Canva, los emojis van en la imagen de fondo). */
+const esc = (s = '') => escAttr(s).replace(/\p{Extended_Pictographic}\uFE0F?/gu, (m) => `<span class="emo">${m}</span>`);
 export const md = (s = '') =>
   esc(s)
     .replace(/\*\*(.+?)\*\*/g, '<b class="b">$1</b>')
@@ -48,7 +50,7 @@ function body(s) {
   if (s.ui) out.push(`<div class="mt">${ui(s.ui)}</div>`);
   if (s.nota) out.push(`<p class="note">${esc(s.nota)}</p>`);
   if (s.badge) out.push(`<span class="ok">${md(s.badge)}</span>`);
-  if (s.alerta) out.push(`<div class="warn"><span class="ic">⚠️</span><span>${md(s.alerta)}</span></div>`);
+  if (s.alerta) out.push(`<div class="warn"><span class="ic emo">⚠️</span><span>${md(s.alerta)}</span></div>`);
   return out.join('\n');
 }
 
@@ -59,7 +61,7 @@ function slide(s, i, total, meta, fondoUrl) {
   const last = n === total;
   const foot = `<div class="foot"><span>${esc(last ? meta.urlFinal ?? meta.url : meta.url)}</span><div class="dots">${dots}</div><span class="${last ? '' : 'next'}">${esc(last ? meta.autor : s.desliza ?? 'Desliza →')}</span></div>`;
   const top = `<div class="top"><img src="assets/logo-blanco.png" alt=""><span class="pill">${esc(s.pill ?? '')}</span></div>`;
-  const bg = fondoUrl ? `<div class="bg${s.fondoOscuro ? ' bg--fuerte' : ''}" style="background-image:url('${fondoUrl}');background-position:${esc(s.fondoPosicion ?? 'center')}"></div>` : '';
+  const bg = fondoUrl ? `<div class="bg${s.fondoOscuro ? ' bg--fuerte' : ''}" style="background-image:url('${fondoUrl}');background-position:${escAttr(s.fondoPosicion ?? 'center')}"></div>` : '';
   const cls = `slide${alt ? ' slide--alt' : ''}${fondoUrl ? ' has-bg' : ''}`;
   let inner;
   switch (s.layout) {
@@ -69,12 +71,12 @@ function slide(s, i, total, meta, fondoUrl) {
         ${s.eyebrow ? `<div class="eyebrow">${md(s.eyebrow)}</div>` : ''}
         <h1 style="font-size:${s.tamanoTitulo ?? 132}px">${md(s.titulo)}</h1>
         ${s.texto ? `<p class="lead" style="margin-top:44px">${md(s.texto)}</p>` : ''}
-        ${d ? `<div class="connect"><div class="node node--a">${esc(d.de)}</div><div class="wire" data-label="${esc(d.etiqueta ?? '')}"></div><div class="node node--b">${esc(d.a)}</div></div>` : ''}
+        ${d ? `<div class="connect"><div class="node node--a">${esc(d.de)}</div><div class="wire" data-label="${escAttr(d.etiqueta ?? '')}"></div><div class="node node--b">${esc(d.a)}</div></div>` : ''}
       </div>`;
       break;
     }
     case 'frase':
-      inner = `<div class="body" style="margin-top:150px"><p class="display" style="font-size:${s.tamanoTitulo ?? 104}px">${md(s.titulo)}</p>${s.alerta ? `<div class="warn"><span class="ic">⚠️</span><span>${md(s.alerta)}</span></div>` : ''}</div>`;
+      inner = `<div class="body" style="margin-top:150px"><p class="display" style="font-size:${s.tamanoTitulo ?? 104}px">${md(s.titulo)}</p>${s.alerta ? `<div class="warn"><span class="ic emo">⚠️</span><span>${md(s.alerta)}</span></div>` : ''}</div>`;
       break;
     case 'cta':
       inner = `<div class="body" style="margin-top:150px"><p class="display" style="font-size:96px">${md(s.antes ?? 'Comenta')}</p><div><span class="ads">${esc(s.palabra)}</span></div><p class="display" style="font-size:66px;line-height:1.12">${md(s.despues ?? '')}</p></div>`;
@@ -93,6 +95,6 @@ export function renderCarrusel(data, resolveFondo = (f) => f) {
   const meta = { url: 'soygermangonzalez.com', autor: 'Germán González', ...data.meta };
   const total = data.laminas.length;
   const slides = data.laminas.map((s, i) => slide(s, i, total, meta, s.fondo ? resolveFondo(s.fondo) : '')).join('\n');
-  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>${esc(data.titulo ?? 'Carrusel')}</title>
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>${escAttr(data.titulo ?? 'Carrusel')}</title>
 <link rel="stylesheet" href="estilos.css"></head><body>${slides}</body></html>`;
 }
