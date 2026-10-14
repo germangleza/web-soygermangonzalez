@@ -1,6 +1,7 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import { SITE } from '../config/site.config';
+import { byNewest } from '../lib/posts';
 
 export async function GET(context) {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -9,7 +10,7 @@ export async function GET(context) {
     description: SITE.blog.description,
     site: context.site,
     items: posts
-      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+      .sort(byNewest)
       .map((post) => ({
         title: post.data.title,
         description: post.data.description,

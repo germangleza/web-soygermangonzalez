@@ -13,9 +13,10 @@ import NewsletterSignup from '../../components/forms/NewsletterSignup.astro';
 import { POST_CATEGORIES } from '../../content.config';
 import { LAB_CONCEPTS, PLANNED_POSTS, RESOURCE_COLLECTIONS, TRAINING } from '../../data/content';
 import { SHOW_DRAFTS } from '../../lib/drafts';
+import { byNewest } from '../../lib/posts';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft || SHOW_DRAFTS))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .sort(byNewest);
 const resources = (await getCollection('recursos', ({ data }) => data.published || SHOW_DRAFTS)).slice(0, 3);
 const events = (await getCollection('eventos', ({ data }) => (data.published || SHOW_DRAFTS) && data.status !== 'past'))
   .sort((a, b) => (a.data.date?.valueOf() ?? Infinity) - (b.data.date?.valueOf() ?? Infinity));

@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { SITE } from '../config/site.config';
 import { POST_CATEGORIES } from '../content.config';
+import { byNewest } from '../lib/posts';
 
 /**
  * llms.txt — resumen estructurado del sitio para asistentes de IA (GEO).
@@ -9,7 +10,7 @@ import { POST_CATEGORIES } from '../content.config';
  */
 export const GET: APIRoute = async () => {
   const posts = (await getCollection('blog', ({ data }) => !data.draft))
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    .sort(byNewest);
   const projects = (await getCollection('proyectos')).sort((a, b) => a.data.order - b.data.order);
   const u = (p: string) => `${SITE.url}${p}`;
 

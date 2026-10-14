@@ -1,0 +1,79 @@
+---
+title: "Cómo conectar Claude a Meta Ads en 3 pasos"
+description: "Meta ya tiene conector oficial para la IA. Conecta Claude a tu cuenta publicitaria y analiza, crea y ajusta campañas hablando. Guía paso a paso."
+pubDate: 2026-10-14
+reviewedDate: 2026-10-14
+category: "ia-herramientas"
+tags: ["meta-ads", "claude", "tutorial"]
+ctaType: "builder-drops"
+order: 1
+draft: false
+---
+import { Image } from 'astro:assets';
+import PromptCard from '../../components/ui/PromptCard.astro';
+import portada from '../../assets/blog/conectar-claude-meta-ads-1.jpg';
+import paso1 from '../../assets/blog/conectar-claude-meta-ads-3.jpg';
+
+Meta ya tiene conector oficial para la IA: analiza, crea y ajusta campañas hablando, sin pelearte con Ads Manager.
+
+<figure class="carousel-figure">
+  <Image src={portada} alt="Portada: Conecta Claude a Meta Ads. Analiza, crea y ajusta tus campañas hablando." widths={[360, 720]} sizes="(min-width: 680px) 360px, 80vw" />
+</figure>
+
+## Qué necesitas
+
+- Una cuenta de Claude.
+- Acceso de **administrador** a tu cuenta publicitaria de Meta.
+
+## Paso 1 · Conéctalo
+
+1. En Claude, ve a **Configuración → Conectores → “Agregar conector personalizado”**.
+2. Nombre: **Meta Ads** · URL: `mcp.facebook.com/ads`
+3. Da clic en **“Conectar”** e inicia sesión con el Facebook que administra tus anuncios.
+
+<figure class="carousel-figure">
+  <Image src={paso1} alt="Pasos para agregar el conector personalizado con la URL mcp.facebook.com/ads (maqueta ilustrativa)." widths={[360, 720]} sizes="(min-width: 680px) 360px, 80vw" />
+  <figcaption>Maqueta ilustrativa: los textos de la interfaz pueden variar.</figcaption>
+</figure>
+
+## Paso 2 · Actívalo
+
+En un chat nuevo: **“+” → Conectores → enciende Meta Ads**.
+
+Prueba con: *“Muéstrame mis cuentas publicitarias”*. Si te las lista, ya quedó 🔥
+
+## Paso 3 · Qué pedirle
+
+<PromptCard num={1} title="📊 Analiza">
+“¿Qué anuncio tiene el peor CPA esta semana y por qué?”
+</PromptCard>
+
+<PromptCard num={2} title="🚨 Detecta">
+“Detecta anomalías: CPM, frecuencia, conversiones”
+</PromptCard>
+
+<PromptCard num={3} title="⚡ Optimiza">
+“Pausa los anuncios con CPA mayor a $X”
+</PromptCard>
+
+<PromptCard num={4} title="🚀 Crea">
+“Arma una campaña de leads con 3 variantes de copy”
+</PromptCard>
+
+## El resultado
+
+Lo que te tomaba 1 hora en Ads Manager, ahora es una pregunta.
+
+> ⚠️ **Lo que crea Claude queda en pausa por default.** Revisa antes de activar.
+
+## Antes de empezar, ten en cuenta
+
+- **Claude actúa con tus permisos.** Puede ver y cambiar lo mismo que tu usuario en la cuenta publicitaria, así que pídele que te muestre los cambios antes de aplicarlos.
+- **Usa solo la URL oficial** (`mcp.facebook.com/ads`). Desconfía de conectores de terceros que se presenten como el oficial.
+- **Si no te aparece o marca error**, revisa que iniciaste sesión con el perfil que administra la cuenta publicitaria. Es una función reciente y puede que todavía no esté disponible en todas las cuentas.
+
+## Siguiente paso
+
+Ya conectado, sácale jugo con mis prompts: **[Pack: 15 prompts para manejar tus Meta Ads con Claude](/builder-lab/prompts-meta-ads-claude)**.
+
+— Germán González Aranda

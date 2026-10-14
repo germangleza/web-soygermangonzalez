@@ -46,6 +46,8 @@ const blog = defineCollection({
       tags: z.array(z.string()).default([]),
       resources: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
       ctaType: z.enum(['builder-drops', 'contacto', 'conferencias']).default('builder-drops'),
+      /** Desempate entre posts del mismo día: menor = aparece primero. */
+      order: z.number().default(100),
       draft: z.boolean().default(false),
       seo,
     }),
