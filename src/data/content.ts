@@ -63,27 +63,67 @@ export const TALKS = [
 
 export const TALK_FORMATS = ['Conferencia', 'Workshop práctico', 'Sesión ejecutiva', 'Experiencia personalizada'];
 
-/** §4 — Capacidades agrupadas (Qué hago). No son paquetes fijos. */
+/** Qué hago — Puntos de partida en detalle (situaciones típicas, no clientes). */
+export const ENTRY_PATHS = [
+  {
+    id: 'operacion',
+    interes: 'problema',
+    kicker: 'Negocio en marcha',
+    title: 'Quiero crecer con lo que ya tengo.',
+    signals: [
+      'Tienes clientes, pero dependes de recomendaciones y no de un sistema.',
+      'Inviertes en anuncios o redes y no sabes qué está funcionando.',
+      'Tu sitio web no genera contactos.',
+      'Tu equipo pierde tiempo en tareas que podrían automatizarse.',
+      'Quieres abrir una nueva línea, canal o alianza.',
+    ],
+    activates: ['Growth digital', 'IA y automatización', 'Comercial y expansión'],
+    cta: { label: 'Quiero hacer crecer mi negocio', href: '/contacto?interes=crecer' },
+  },
+  {
+    id: 'nuevos',
+    interes: 'oportunidad',
+    kicker: 'Negocio nuevo',
+    title: 'Quiero lanzar algo.',
+    signals: [
+      'Tienes una idea y quieres validarla antes de invertir de más.',
+      'No tienes claro para quién es ni cómo venderla.',
+      'Necesitas una marca, una oferta y un primer canal de venta.',
+      'Quieres salir al mercado rápido y medir antes de crecer.',
+    ],
+    activates: ['Business Building', 'Growth digital'],
+    cta: { label: 'Quiero lanzar una oportunidad', href: '/contacto?interes=lanzar' },
+  },
+];
+
+/** Qué hago — Capacidades en detalle con quién las ejecuta. No son paquetes fijos. */
 export const SERVICE_GROUPS = [
-  { title: 'Growth digital', text: 'Posicionamiento, campañas, contenido, sitios web, adquisición y conversión.' },
-  { title: 'IA y automatización', text: 'Agentes, WhatsApp, CRM, integraciones y procesos conectados a la operación.' },
-  { title: 'Business Building', text: 'Validación, modelo de negocio, oferta, go-to-market y lanzamiento.' },
-  { title: 'Comercial y expansión', text: 'Ventas, funnels, seguimiento, pricing, métricas, alianzas y nuevos canales.' },
-  { title: 'Experiencias', text: 'Conferencias, workshops y sesiones prácticas para equipos y organizaciones.' },
+  { title: 'Growth digital', text: 'Posicionamiento, campañas, contenido, sitios web, adquisición y conversión.', who: 'Maguey Estudio' },
+  { title: 'IA y automatización', text: 'Agentes, WhatsApp, CRM, integraciones y procesos conectados a la operación.', who: 'Life Agent' },
+  { title: 'Business Building', text: 'Validación, modelo de negocio, oferta, go-to-market y lanzamiento.', who: 'Germán González' },
+  { title: 'Comercial y expansión', text: 'Ventas, funnels, seguimiento, pricing, métricas, alianzas y nuevos canales.', who: 'Germán González + socios' },
+  { title: 'Experiencias', text: 'Conferencias, workshops y sesiones prácticas para equipos y organizaciones.', who: 'Germán González', href: '/builder-lab/conferencias' },
 ];
 
-/** §4 — Modelo comercial. */
+/** Qué hago — Modelo de trabajo. */
 export const COMMERCIAL_MODEL = [
-  { step: 'Opportunity Session', text: 'Entendemos el reto, el negocio y el resultado que necesita moverse.' },
-  { step: 'Opportunity Map', text: 'Priorizamos las oportunidades, cuando el alcance lo requiere.', optional: true },
-  { step: 'Build Proposal', text: 'Definimos alcance, entregables y forma de trabajo.' },
-  { step: 'Execution', text: 'Construimos, medimos y ajustamos.' },
+  { step: 'Opportunity Session', text: 'Conozco tu negocio: en qué estás, qué te preocupa y dónde estás atorado. Sin costo por lanzamiento.' },
+  { step: 'Opportunity Map', text: 'Identificamos y priorizamos las acciones que pueden ayudarte, cuando el alcance lo requiere.', optional: true },
+  { step: 'Build Proposal', text: 'Definimos el sprint: acciones, entregables y forma de trabajo.' },
+  { step: 'Sprint', text: 'Construimos, medimos y ajustamos en 2 a 4 semanas.' },
 ];
 
-/** Principio 5 — Capacidades y vehículos de ejecución. */
-export const VEHICLES = [
-  { name: 'Germán González', role: 'Estrategia y dirección' },
-  { name: 'Maguey', role: 'Growth digital, web y marketing' },
-  { name: 'Life Agent', role: 'IA y automatización' },
-  { name: 'Partners externos', role: 'Según la oportunidad' },
+/** Qué hago — Sectores donde más trabajo. */
+export const SECTORS = [
+  { title: 'Negocios B2B', text: 'Mi especialidad: empresas que venden a otras empresas y necesitan un sistema comercial que escale.', featured: true },
+  { title: 'Negocios familiares', text: 'Empresas con historia que quieren modernizarse, profesionalizar su operación y crecer.' },
+  { title: 'Clínicas y salud', text: 'Presencia digital, reputación y contacto con pacientes.', link: { label: 'Evalúa la presencia digital de tu clínica', href: '/diagnostico-clinicas' } },
+];
+
+/** Qué hago — Preguntas frecuentes (respuestas de Germán). Alimentan también el schema FAQPage. */
+export const SERVICE_FAQS = [
+  { question: '¿Cómo cobras?', answer: 'Trabajo por sprints. Cada sprint tiene acciones y entregables definidos desde el inicio, y se cobra por sprint.' },
+  { question: '¿Cuánto dura un proyecto?', answer: 'Normalmente de 2 a 4 semanas por sprint. Si hace falta, se encadenan sprints según lo que vayamos aprendiendo.' },
+  { question: '¿Trabajas con negocios fuera de tu ciudad?', answer: 'Sí. Trabajo con negocios en cualquier parte de México.' },
+  { question: '¿Qué pasa en la Opportunity Session? ¿Tiene costo?', answer: 'Es una conversación para conocer tu negocio: en qué estás, qué te preocupa y dónde estás atorado. A partir de ahí identificamos qué acciones podrían ayudarte. Por lanzamiento, no tiene costo.' },
 ];

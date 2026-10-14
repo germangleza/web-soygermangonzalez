@@ -3,82 +3,67 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/ui/PageHero.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import CTABanner from '../components/ui/CTABanner.astro';
-import ClinicDiagnosticCTA from '../components/sections/ClinicDiagnosticCTA.astro';
-import { Image } from 'astro:assets';
-import bridge from '../assets/photos/puente-oportunidad.png';
-import { SERVICE_GROUPS, COMMERCIAL_MODEL, VEHICLES } from '../data/content';
+import FAQSchema from '../components/schema/FAQSchema.astro';
+import { ENTRY_PATHS, SERVICE_GROUPS, COMMERCIAL_MODEL, SECTORS, SERVICE_FAQS } from '../data/content';
 ---
 <BaseLayout
-  fullTitle="Desarrollo y crecimiento de negocios | Germán González"
-  description="Te ayudo a lanzar tu negocio o hacer crecer el que ya tienes: growth digital, IA y automatización, nuevos negocios, sistemas comerciales y alianzas."
+  fullTitle="Qué hago: growth, IA y nuevos negocios por sprints | Germán González"
+  description="Estrategia y ejecución por sprints de 2 a 4 semanas: growth digital, IA y automatización, nuevos negocios y sistemas comerciales. Negocios en todo México."
 >
-  <PageHero eyebrow="Business Building" title="Te ayudo a lanzar tu negocio o hacer crecer el que ya tienes." breadcrumbs={[{ name: 'Qué hago', url: '/que-hago' }]}>
-    <p>Desde una necesidad concreta de marketing, ventas, web o inteligencia artificial hasta una nueva línea de negocio.</p>
-    <p class="promise">Combino estrategia, ejecución y las capacidades necesarias para convertir la oportunidad en algo real.</p>
-    <div class="actions"><a class="btn" href="/contacto">Hablemos de tu proyecto <span class="btn__icon" aria-hidden="true">↗</span></a></div>
+  <FAQSchema faqs={SERVICE_FAQS} />
+
+  <PageHero eyebrow="Qué hago" title="Estrategia y ejecución, según lo que tu negocio necesite." breadcrumbs={[{ name: 'Qué hago', url: '/que-hago' }]}>
+    <p>No vendo paquetes. Entiendo el reto, decido qué capacidades activar y lo construimos con el equipo correcto.</p>
+    <div class="actions"><a class="btn" href="/contacto">Cuéntame tu reto <span class="btn__icon" aria-hidden="true">↗</span></a></div>
   </PageHero>
 
   <section class="section" aria-labelledby="puntos-title">
     <div class="container">
-      <SectionHeading id="puntos-title" eyebrow="Business Building" title="Dos puntos de partida." />
-      <div class="grid grid-2">
-        <article class="card block" id="operacion" data-interes="problema">
-          <span class="card__kicker">Empresas en operación</span>
-          <h3>Tu negocio ya funciona. ¿Qué sigue?</h3>
-          <p>Tienes clientes, una marca, procesos y capacidades, pero sabes que existe espacio para crecer. Podemos trabajar en adquisición, conversión, automatización, sistemas comerciales, nuevas fuentes de ingresos o alianzas.</p>
-          <div class="card__footer"><a class="link-arrow" href="/contacto?interes=crecer">Quiero hacer crecer mi negocio <span aria-hidden="true">↗</span></a></div>
-        </article>
-        <article class="card card--dark block" id="nuevos" data-interes="oportunidad">
-          <span class="card__kicker">Nuevos negocios y oportunidades</span>
-          <h3>Tienes una idea. Construyamos una forma de probarla.</h3>
-          <p>Puede ser una nueva empresa, producto, servicio, canal o unidad de negocio. Te ayudo a aterrizar la oportunidad, definir para quién es, construir una oferta, validar interés y diseñar su salida al mercado.</p>
-          <div class="card__footer"><a class="link-arrow" style="color:var(--sky)" href="/contacto?interes=lanzar">Quiero lanzar una oportunidad <span aria-hidden="true">↗</span></a></div>
-        </article>
+      <SectionHeading id="puntos-title" eyebrow="Punto de partida" title="¿En qué punto estás?" />
+      <div class="paths">
+        {ENTRY_PATHS.map((p, i) => (
+          <article class:list={['card path', { 'card--dark': i === 1 }]} id={p.id} data-interes={p.interes}>
+            <div class="path__head">
+              <span class="card__kicker">{p.kicker}</span>
+              <h3>{p.title}</h3>
+            </div>
+            <div>
+              <p class="path__label">Te va a servir si…</p>
+              <ul class="path__signals" role="list">
+                {p.signals.map((s) => <li>{s}</li>)}
+              </ul>
+              <p class="path__label">Normalmente activamos</p>
+              <ul class="tags" role="list">{p.activates.map((a) => <li>{a}</li>)}</ul>
+              <a class="link-arrow path__cta" href={p.cta.href}>{p.cta.label} <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>
 
-  <ClinicDiagnosticCTA tone="alt" />
-
-  <section class="section" aria-labelledby="capacidades-title">
+  <section class="section section--alt" aria-labelledby="capacidades-title">
     <div class="container">
-      <SectionHeading id="capacidades-title" eyebrow="Capacidades" title="La oportunidad define qué activamos.">
-        <p class="lead">Estas son las capacidades que combino según cada proyecto. No son paquetes cerrados: el alcance se decide después de entender el reto.</p>
+      <SectionHeading id="capacidades-title" eyebrow="Capacidades" title="Qué incluye cada capacidad y quién la ejecuta.">
+        <p class="lead">No son paquetes cerrados: el alcance se decide después de entender el reto. Yo dirijo la estrategia; la ejecución la hacen equipos especializados.</p>
       </SectionHeading>
-      <ul class="grid grid-3 groups" role="list">
+      <ul class="caps" role="list">
         {SERVICE_GROUPS.map((g, i) => (
-          <li class="card">
-            <span class="card__kicker">{String(i + 1).padStart(2, '0')}</span>
-            <h3>{g.title}</h3>
+          <li class="caps__row">
+            <span class="caps__num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{g.href ? <a href={g.href}>{g.title} <span aria-hidden="true" class="text-sky">↗</span></a> : g.title}</h3>
             <p>{g.text}</p>
+            <span class="caps__who">{g.who}</span>
           </li>
         ))}
-        <li class="card groups__img media" aria-hidden="true">
-          <Image src={bridge} alt="" widths={[400, 650]} sizes="(min-width: 1024px) 380px, 50vw" loading="lazy" />
-        </li>
       </ul>
-    </div>
-  </section>
-
-  <section class="section section--alt" aria-labelledby="vehiculos-title">
-    <div class="container split">
-      <div>
-        <span class="eyebrow">Quién construye</span>
-        <h2 id="vehiculos-title">Estrategia, ejecución y aliados.</h2>
-        <p class="lead">Yo me encargo de la estrategia y la dirección. La ejecución se apoya en equipos especializados según lo que pida la oportunidad.</p>
-      </div>
-      <dl class="vehicles">
-        {VEHICLES.map((v) => (
-          <div class="vehicles__row"><dt>{v.name}</dt><dd>{v.role}</dd></div>
-        ))}
-      </dl>
     </div>
   </section>
 
   <section class="section section--dark dark" aria-labelledby="modelo-title">
     <div class="container">
-      <SectionHeading id="modelo-title" eyebrow="Modelo de trabajo" title="Cómo empieza un proyecto.">
-        <p class="lead">El alcance se decide después del diagnóstico.</p>
+      <SectionHeading id="modelo-title" eyebrow="Modelo de trabajo" title="Trabajo por sprints.">
+        <p class="lead">Cada sprint dura de 2 a 4 semanas y tiene acciones y entregables definidos desde el inicio.</p>
       </SectionHeading>
       <ol class="grid grid-4 model" role="list">
         {COMMERCIAL_MODEL.map((m, i) => (
@@ -92,10 +77,42 @@ import { SERVICE_GROUPS, COMMERCIAL_MODEL, VEHICLES } from '../data/content';
     </div>
   </section>
 
+  <section class="section" aria-labelledby="sectores-title">
+    <div class="container">
+      <SectionHeading id="sectores-title" eyebrow="Sectores" title="Donde más trabajo.">
+        <p class="lead">Negocios en cualquier parte de México.</p>
+      </SectionHeading>
+      <ul class="grid grid-3 sectors" role="list">
+        {SECTORS.map((s) => (
+          <li class:list={['card', { 'card--dark': s.featured }]}>
+            {s.featured && <span class="card__kicker">Especialidad</span>}
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+            {s.link && <div class="card__footer"><a class="link-arrow" href={s.link.href}>{s.link.label} <span aria-hidden="true">↗</span></a></div>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="faq-title">
+    <div class="container faq-wrap">
+      <SectionHeading id="faq-title" eyebrow="Preguntas frecuentes" title="Lo que normalmente me preguntan." />
+      <div class="faq">
+        {SERVICE_FAQS.map((f) => (
+          <details>
+            <summary>{f.question}</summary>
+            <p>{f.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <section class="section">
     <div class="container">
-      <CTABanner title="¿Qué quieres resolver?" ctaLabel="Cuéntame qué quieres resolver" ctaHref="/contacto">
-        <p>Una necesidad concreta o una oportunidad abierta. Empecemos por una conversación.</p>
+      <CTABanner title="¿Qué quieres resolver?" ctaLabel="Agenda tu Opportunity Session" ctaHref="/contacto">
+        <p>Una necesidad concreta o una oportunidad abierta. Empecemos por conocer tu negocio.</p>
       </CTABanner>
     </div>
   </section>
@@ -108,16 +125,45 @@ import { SERVICE_GROUPS, COMMERCIAL_MODEL, VEHICLES } from '../data/content';
 </script>
 
 <style>
-  .promise { color: #fff !important; font-weight: 600; }
-  .block { min-height: 18rem; scroll-margin-top: calc(var(--header-h) + 24px); }
-  .block h3 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
+  .paths { display: grid; gap: 1.25rem; }
+  .path { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 2rem 3rem; scroll-margin-top: calc(var(--header-h) + 24px); }
+  .path h3 { font-size: clamp(1.6rem, 1.25rem + 1.2vw, 2.25rem); margin: 0; }
+  .path__label { font-family: var(--font-display); font-weight: 700; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 .75rem; }
+  .card--dark .path__label { color: #fff !important; }
+  .path__signals { list-style: none; padding: 0; margin: 0 0 1.75rem; display: grid; gap: .6rem; }
+  .path__signals li { position: relative; padding-left: 1.6rem; color: var(--muted); }
+  .card--dark .path__signals li { color: var(--muted-on-dark); }
+  .path__signals li::before { content: '✓'; position: absolute; left: 0; color: var(--sky); font-weight: 700; }
+  .tags { list-style: none; padding: 0; margin: 0 0 1.75rem; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .tags li { font-size: .875rem; font-weight: 600; padding: .35rem .8rem; border-radius: 99px; border: 1px solid var(--line); }
+  .card--dark .tags li { border-color: var(--line-dark); color: #fff; }
+  .card--dark .path__cta { color: var(--sky); }
   .block--focus { outline: 3px solid var(--sky); outline-offset: 4px; }
-  .groups { list-style: none; padding: 0; }
-  .groups__img { padding: 0; min-height: 14rem; border: 0; }
-  .vehicles { margin: 0; border-top: 1px solid var(--line); }
-  .vehicles__row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 1rem; padding: 1.15rem 0; border-bottom: 1px solid var(--line); }
-  .vehicles dt { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; letter-spacing: -0.01em; }
-  .vehicles dd { margin: 0; color: var(--muted); }
-  .model { list-style: none; padding: 0; }
-  @media (max-width: 479px) { .vehicles__row { grid-template-columns: minmax(0, 1fr); gap: .25rem; } }
+
+  .caps { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+  .caps__row { display: grid; grid-template-columns: 3rem minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, .9fr); gap: 1.5rem; align-items: baseline; padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+  .caps__num { font-family: var(--font-display); font-weight: 700; color: var(--sky); }
+  .caps h3 { margin: 0; font-size: clamp(1.2rem, 1.05rem + .5vw, 1.45rem); }
+  .caps h3 a { color: inherit; text-decoration: none; }
+  .caps h3 a:hover { text-decoration: underline; }
+  .caps p { margin: 0; color: var(--muted); }
+  .caps__who { font-size: .875rem; font-weight: 600; justify-self: end; text-align: right; }
+
+  .model, .sectors { list-style: none; padding: 0; }
+
+  .faq-wrap { max-width: 56rem; }
+  .faq { border-top: 1px solid var(--line); }
+  .faq details { border-bottom: 1px solid var(--line); padding: 1.15rem 0; }
+  .faq summary { cursor: pointer; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; color: var(--sky); font-size: 1.4rem; line-height: 1; transition: transform .2s; }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq details p { margin: .75rem 0 0; color: var(--muted); max-width: 46rem; }
+
+  @media (max-width: 1023px) {
+    .path { grid-template-columns: minmax(0, 1fr); }
+    .caps__row { grid-template-columns: 2.5rem minmax(0, 1fr); gap: .35rem 1rem; }
+    .caps__row p, .caps__who { grid-column: 2; }
+    .caps__who { justify-self: start; text-align: left; }
+  }
 </style>
