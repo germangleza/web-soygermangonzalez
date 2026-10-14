@@ -156,3 +156,22 @@ Recurso de Builder Lab (también en `/builder-lab/diagnostico-clinicas`, que red
 **Pendiente de conectar (no existe aún en el proyecto):** CRM y plataforma de correo. La automatización que reciba el webhook debe (1) crear/actualizar el contacto, (2) enviar el reporte cuando `requested_report = true` y (3) notificar al equipo de Maguey cuando `requested_review = true`. Los eventos `meeting_booked`, `proposal_sent` y `customer_won` solo se registrarán cuando exista esa integración real.
 
 **Analítica:** `diagnostic_started`, `diagnostic_completed` (con puntuación, sin PII), `report_requested`, `review_requested` (solo tras respuesta `ok` del servidor).
+
+## 13. Checklist «¿La IA recomienda tu negocio?» (`/ia-recomienda-tu-negocio`)
+
+Lead magnet v2.0, recurso de Builder Lab (también `/builder-lab/ia-recomienda-tu-negocio`, que redirige). Reutiliza el endpoint `/api/lead`, los formularios, la validación de enlaces (`src/scripts/link-fields.ts`, compartido con el diagnóstico de clínicas) y la analítica.
+
+| Pieza | Archivo |
+|---|---|
+| Preguntas, bloques, tipos de negocio, calificación comercial y fuentes | `src/lib/checklist-ia/questions.ts` |
+| `digital_readiness_score`, regla de No aplica, top 3 y `commercial_fit_score` (puras) | `src/lib/checklist-ia/scoring.ts` |
+| Validación de servidor y `ChecklistLead` | `src/lib/leads.ts` (`checklist-ia-reporte`, `checklist-ia-revision`) |
+| UI (QuizStepper, QuestionCard, ScoreSummary, ReportForm, ReviewForm) | `src/components/checklist-ia/*`, `src/scripts/checklist-ia.ts` |
+| Pruebas | `tests/checklist-ia.test.ts`, `tests/e2e/checklist-ia.e2e.mjs` |
+
+- **Puntaje:** Sí 2 · Parcial 1 · No 0 · No sé 0 (pendiente de verificar). `score = round(puntos válidos / (2 × preguntas válidas) × 100)`. Solo Q3–Q4 admiten «No aplica» (negocio 100% en línea): se excluyen del denominador y Maps se muestra como «No aplica».
+- **Prioridades:** oportunidades confirmadas (No antes que Parcial) en orden de dependencia web → Maps → confianza/contenido → buscadores e IA → conversión/mejora; luego «Verifica…» para los «No sé»; si todo es Sí, acciones de mantenimiento.
+- **Dos puntajes separados:** `digital_readiness_score` (visible) y `commercial_fit_score` (interno, solo en revisiones; A ≥75, B 50–74, C <50; `qualified_lead` = quiere contacto y segmento A/B).
+- **Enrutamiento:** `lead_interest = health` si el negocio es de salud → CTA «Conocer Maguey Salud»; otros sectores → revisión de Maguey Studio u Opportunity Session.
+- **Destino:** `AI_CHECKLIST_WEBHOOK_URL` (o `LEAD_WEBHOOK_URL`). Privacidad obligatoria y marketing opcional, ambos sin premarcar; pedir el reporte no implica marketing.
+- **Eventos:** `checklist_view`, `checklist_start`, `checklist_complete`, `report_requested`, `review_requested` (solo con respuesta real del servidor). `qualified_lead`, `meeting_booked` y `customer_won` se registran en el CRM.

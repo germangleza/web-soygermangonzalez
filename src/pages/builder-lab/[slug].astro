@@ -4,7 +4,7 @@ import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 import { SHOW_DRAFTS } from '../../lib/drafts';
 
 export async function getStaticPaths() {
-  const RESERVED = ['recursos', 'conferencias', 'eventos', 'diagnostico-clinicas'];
+  const RESERVED = ['recursos', 'conferencias', 'eventos', 'diagnostico-clinicas', 'ia-recomienda-tu-negocio'];
   const posts = await getCollection('blog', ({ data }) => !data.draft || SHOW_DRAFTS);
   return posts
     .filter((p) => !RESERVED.includes(p.id))

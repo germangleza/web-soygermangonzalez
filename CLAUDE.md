@@ -30,14 +30,14 @@ category: "ia-herramientas"   # ia-herramientas | negocios-growth | build-in-pub
 tags: ["opcional"]
 ---
 ```
-- No nombrar posts `recursos`, `conferencias`, `eventos` ni `diagnostico-clinicas` (rutas reservadas).
+- No nombrar posts `recursos`, `conferencias`, `eventos`, `diagnostico-clinicas` ni `ia-recomienda-tu-negocio` (rutas reservadas).
 - Usar `updatedDate` al actualizar posts existentes (no cambiar `pubDate`).
 - `draft: true` para ocultar sin borrar.
 - El slug de la URL = nombre del archivo.
 
 ## Flujo de trabajo
 
-1. Antes de cualquier commit: `npm test` (lógica del diagnóstico) y `npm run build` — valida frontmatter y detecta errores.
+1. Antes de cualquier commit: `npm test` (lógica del diagnóstico y del checklist de IA) y `npm run build` — valida frontmatter y detecta errores.
 2. Si el build falla por frontmatter, el error dice exactamente qué campo corregir.
 3. El deploy es automático al hacer push a main (Vercel/Netlify/Cloudflare).
 

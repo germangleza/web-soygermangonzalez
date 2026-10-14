@@ -16,7 +16,11 @@ export type ConversionEvent =
   | 'diagnostic_started'
   | 'diagnostic_completed'
   | 'report_requested'
-  | 'review_requested';
+  | 'review_requested'
+  // Checklist «¿La IA recomienda tu negocio?» (qualified_lead, meeting_booked y customer_won se registran en el CRM)
+  | 'checklist_view'
+  | 'checklist_start'
+  | 'checklist_complete';
 
 declare global {
   interface Window {

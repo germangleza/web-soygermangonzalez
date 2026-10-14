@@ -1,0 +1,39 @@
+---
+/** QuestionCard: una pregunta con Sí / Parcial / No / No sé (y No aplica solo en Q3–Q4). */
+import { optionsFor, type Question } from '../../lib/checklist-ia/questions';
+interface Props { q: Question; n: number; }
+const { q, n } = Astro.props;
+const hintId = `${q.id}-hint`;
+---
+<fieldset class="qc" aria-describedby={hintId}>
+  <legend class="qc__q"><span class="qc__n">{n}.</span> {q.text}</legend>
+  <p class="qc__hint" id={hintId}>{q.hint}</p>
+  <div class:list={['qc__opts', { 'qc__opts--na': q.allowNA }]}>
+    {optionsFor(q).map((o) => (
+      <label class:list={['qc__opt', { 'qc__opt--unknown': o.unverified, 'qc__opt--na': o.id === 'na' }]}>
+        <input type="radio" name={q.id} value={o.id} />
+        <span>{o.label}</span>
+      </label>
+    ))}
+  </div>
+</fieldset>
+<style>
+  .qc { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .qc + :global(.qc) { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .qc__q { padding: 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.2rem, 1.05rem + .7vw, 1.55rem); line-height: 1.25; letter-spacing: -0.015em; color: var(--ink); }
+  .qc__n { color: var(--accent-text); }
+  .qc__hint { color: var(--muted); font-size: .9375rem; margin: .6rem 0 0; }
+  .qc__opts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; margin-top: 1rem; }
+  .qc__opt {
+    display: flex; align-items: center; gap: .6rem; min-height: 52px; padding: .6rem .8rem;
+    border: 1.5px solid #c3d3de; border-radius: 8px; cursor: pointer; font-weight: 700;
+    transition: border-color .15s ease, background-color .15s ease;
+  }
+  .qc__opt:hover { border-color: var(--navy); }
+  .qc__opt input { width: 20px; height: 20px; flex: none; margin: 0; accent-color: var(--navy); }
+  .qc__opt:has(input:checked) { border-color: var(--navy); background: #eef4f9; box-shadow: inset 0 0 0 1px var(--navy); }
+  .qc__opt:has(input:focus-visible) { outline: 3px solid var(--accent-text); outline-offset: 2px; }
+  .qc__opt--unknown { border-style: dashed; color: var(--muted); }
+  .qc__opt--na { grid-column: 1 / -1; font-weight: 600; color: var(--muted); }
+  @media (max-width: 559px) { .qc__opts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

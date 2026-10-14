@@ -11,6 +11,8 @@ const CONVERSIONS: Record<string, ConversionEvent> = {
   'builder-drops': 'builder_drops_signup_success',
   'diagnostico-reporte': 'report_requested',
   'diagnostico-revision': 'review_requested',
+  'checklist-ia-reporte': 'report_requested',
+  'checklist-ia-revision': 'review_requested',
 };
 
 type Field = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
@@ -136,7 +138,7 @@ function init(form: HTMLFormElement) {
         } else {
           setStatus(status, 'success', msg);
           const ev = CONVERSIONS[String(payload.formType)];
-          if (ev) track(ev, { source: location.pathname });
+          if (ev) track(ev, { source: location.pathname, form: String(payload.formType) });
         }
         form.reset();
         if (started) started.value = String(Date.now());

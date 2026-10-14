@@ -42,6 +42,13 @@ Nada de esta lista se inventó en el sitio: donde falta información, el element
 - [ ] Validar copy de apoyo: textos de las recomendaciones, «Una persona del equipo revisa tu ficha de Google, tu sitio y tus redes…» y la descripción de Maguey Salud.
 - [ ] Validar ponderaciones de `lead_score` (heurísticas en `src/lib/diagnostic/scoring.ts`).
 
+## Checklist «¿La IA recomienda tu negocio?»
+
+- [ ] **Destino de leads** → `AI_CHECKLIST_WEBHOOK_URL` (CRM) y automatización del correo con el resultado.
+- [ ] Validar textos de las 7 recomendaciones y de «Una persona del equipo revisa tu caso…».
+- [ ] Validar ponderaciones de `commercial_fit_score` (`src/lib/checklist-ia/scoring.ts`).
+- [ ] Revisar periódicamente las 3 fuentes oficiales (consultadas en octubre de 2026) y actualizar la fecha.
+
 ## Legal
 
 - [ ] **Aviso de privacidad**: es un borrador (LFPDPPP). Completar domicilio, correo ARCO, proveedores y analítica; revisión por abogado. Mientras tanto la página muestra un banner visible.

@@ -42,6 +42,8 @@ function webhookFor(type: string): string | undefined {
   if (type === 'builder-drops') return getSecret('NEWSLETTER_WEBHOOK_URL') || getSecret('LEAD_WEBHOOK_URL');
   // Diagnóstico de clínicas → CRM / automatización de Maguey Studio Salud (si se define), si no, el CRM general.
   if (type.startsWith('diagnostico-')) return getSecret('DIAGNOSTIC_WEBHOOK_URL') || getSecret('LEAD_WEBHOOK_URL');
+  // Checklist «¿La IA recomienda tu negocio?»
+  if (type.startsWith('checklist-ia-')) return getSecret('AI_CHECKLIST_WEBHOOK_URL') || getSecret('LEAD_WEBHOOK_URL');
   return getSecret('LEAD_WEBHOOK_URL');
 }
 
@@ -91,7 +93,9 @@ export const POST: APIRoute = async ({ request, clientAddress, url }) => {
     // Nunca registrar PII: solo tipo y métricas agregadas.
     const summary = 'digital_score' in lead
       ? { type: lead.type, digital_score: lead.digital_score, unknown_count: lead.unknown_count, lead_segment: lead.lead_segment }
-      : { type: lead.type };
+      : 'digital_readiness_score' in lead
+        ? { type: lead.type, digital_readiness_score: lead.digital_readiness_score, unverified_count: lead.unverified_count, commercial_segment: lead.commercial_segment, lead_interest: lead.lead_interest }
+        : { type: lead.type };
     console.info('[lead:dry-run]', JSON.stringify(summary));
     return json(200, { ok: true, dryRun: true });
   }

@@ -86,12 +86,20 @@ const EVENT_STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas
       <SectionHeading id="recursos-title" eyebrow="Recursos" title="Herramientas y recursos para construir.">
         <p class="lead">No necesitas empezar de cero cada vez. Aquí reuniré algunas herramientas, plantillas, prompts y frameworks que voy utilizando en diferentes proyectos.</p>
       </SectionHeading>
+      <div class="grid grid-2 tools">
+      <article class="card card--link card--dark dx-feature">
+        <span class="card__kicker">Checklist · Cualquier negocio</span>
+        <h3><a class="card__title-link" href="/ia-recomienda-tu-negocio">¿La IA recomienda tu negocio?</a></h3>
+        <p>10 verificaciones para saber si tu negocio tiene una presencia digital clara, confiable y preparada para ser descubierto en Google y en asistentes de IA.</p>
+        <div class="card__footer"><span class="link-arrow" style="color:var(--lime)" aria-hidden="true">Revisar mi negocio ↗</span></div>
+      </article>
       <article class="card card--link card--dark dx-feature">
         <span class="card__kicker">Herramienta · Clínicas</span>
         <h3><a class="card__title-link" href="/diagnostico-clinicas">Diagnóstico de Visibilidad Digital para Clínicas</a></h3>
         <p>15 preguntas para descubrir tus prioridades en Google Maps, sitio web, reseñas, información para buscadores e IA y contacto con pacientes. Resultado inmediato, sin registro.</p>
         <div class="card__footer"><span class="link-arrow" style="color:var(--lime)" aria-hidden="true">Evaluar mi clínica ↗</span></div>
       </article>
+      </div>
       {resources.length > 0 ? (
         <>
           <div class="grid grid-3">
@@ -180,7 +188,7 @@ const EVENT_STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas
   .cards > li > :global(*) { flex: 1; }
   .concept-icon { color: var(--accent-text); }
   .dx-feature { margin-bottom: 0; }
-  .dx-feature h3 { font-size: clamp(1.4rem, 1.2rem + .8vw, 1.9rem); max-width: 30ch; }
+  .dx-feature h3 { font-size: clamp(1.35rem, 1.15rem + .7vw, 1.75rem); max-width: 30ch; }
   .dx-feature p { max-width: 46rem; }
   .talk-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
   .talk-list li { border: 1px solid var(--line-dark); border-radius: 999px; padding: .4rem .9rem; font-size: .875rem; color: var(--muted-on-dark); }

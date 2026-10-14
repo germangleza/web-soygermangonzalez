@@ -24,6 +24,7 @@ export default defineConfig({
   redirects: {
     '/blog': '/builder-lab',
     '/builder-lab/diagnostico-clinicas': '/diagnostico-clinicas',
+    '/builder-lab/ia-recomienda-tu-negocio': '/ia-recomienda-tu-negocio',
   },
   image: { responsiveStyles: false },
   env: {
@@ -34,6 +35,8 @@ export default defineConfig({
       NEWSLETTER_WEBHOOK_URL: envField.string({ context: 'server', access: 'secret', optional: true }),
       // Webhook del Diagnóstico de clínicas (CRM/automatización de Maguey Salud). Si falta usa LEAD_WEBHOOK_URL.
       DIAGNOSTIC_WEBHOOK_URL: envField.string({ context: 'server', access: 'secret', optional: true }),
+      // Webhook del checklist «¿La IA recomienda tu negocio?». Si falta usa LEAD_WEBHOOK_URL.
+      AI_CHECKLIST_WEBHOOK_URL: envField.string({ context: 'server', access: 'secret', optional: true }),
       // Secreto opcional enviado como cabecera X-Webhook-Secret.
       LEAD_WEBHOOK_SECRET: envField.string({ context: 'server', access: 'secret', optional: true }),
       // 'true' = modo prueba: valida y registra en consola, no envía a ningún servicio.

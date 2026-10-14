@@ -7,6 +7,13 @@ import { z } from 'astro/zod';
 import { QUALIFICATION, SPECIALTIES, type Answers } from './diagnostic/questions';
 import { computeResult, isValidAnswers, leadScore, recommend } from './diagnostic/scoring';
 import { LINK_ERRORS, normalizeLink, normalizeWhatsapp, type LinkKind } from './diagnostic/urls';
+import { BUSINESS_TYPES, COMMERCIAL, type Answers as ChecklistAnswers } from './checklist-ia/questions';
+import {
+  computeResult as checklistResult,
+  isValidAnswers as isValidChecklist,
+  commercialFit,
+  topPriorities,
+} from './checklist-ia/scoring';
 
 export const CONTACT_TYPES = {
   crecer: 'Necesito crecer o mejorar mi negocio.',
@@ -219,12 +226,75 @@ export const diagnosticReviewSchema = z.object({
   ...meta,
 });
 
+/* ------------------------------------------------ Checklist «¿La IA recomienda tu negocio?» */
+
+const checklistAnswers = z
+  .string()
+  .max(1000)
+  .transform((v, ctx) => {
+    try {
+      const parsed: unknown = JSON.parse(v);
+      if (isValidChecklist(parsed) && checklistResult(parsed).complete) return parsed as ChecklistAnswers;
+    } catch { /* inválido */ }
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Completa el checklist antes de enviar.' });
+    return z.NEVER;
+  });
+
+const businessType = z.enum(keys(BUSINESS_TYPES), { errorMap: () => ({ message: 'Elige el tipo de negocio.' }) });
+const checklistLinks = {
+  city: opt(120),
+  website_url: link('website'),
+  google_business_url: link('google_business'),
+  instagram_url: link('instagram'),
+  facebook_url: link('facebook'),
+  linkedin_url: link('linkedin'),
+  tiktok_url: link('tiktok'),
+  other_url: link('website'),
+};
+const commercial = <K extends keyof typeof COMMERCIAL>(k: K, msg: string) =>
+  z.enum(keys(COMMERCIAL[k].options as Record<string, string>), { errorMap: () => ({ message: msg }) });
+
+/** «Enviar mi reporte»: solo email obligatorio. Privacidad y marketing son controles separados. */
+export const checklistReportSchema = z.object({
+  formType: z.literal('checklist-ia-reporte'),
+  answers: checklistAnswers,
+  email,
+  full_name: opt(100),
+  company: opt(150),
+  business_type: businessType,
+  ...checklistLinks,
+  marketing_consent: flag,
+  consentimiento: consent,
+  ...meta,
+});
+
+/** «Solicitar revisión de mi negocio»: calificación comercial breve (commercial_fit_score, interno). */
+export const checklistReviewSchema = z.object({
+  formType: z.literal('checklist-ia-revision'),
+  answers: checklistAnswers,
+  full_name: z.string({ required_error: 'Escribe tu nombre.' }).trim().min(2, 'Escribe tu nombre.').max(100),
+  email,
+  company: z.string({ required_error: 'Escribe el nombre comercial.' }).trim().min(2, 'Escribe el nombre comercial.').max(150),
+  business_type: businessType,
+  objective: commercial('objective', 'Elige tu principal objetivo.'),
+  role: commercial('role', 'Elige tu función.'),
+  start: commercial('start', 'Elige cuándo deseas comenzar.'),
+  budget: commercial('budget', 'Elige una opción.'),
+  wants_contact: z.enum(['si', 'no'], { errorMap: () => ({ message: 'Indica si quieres que te contactemos.' }) }),
+  ...checklistLinks,
+  marketing_consent: flag,
+  consentimiento: consent,
+  ...meta,
+});
+
 export const leadSchema = z.discriminatedUnion('formType', [
   contactSchema,
   conferenceSchema,
   newsletterSchema,
   diagnosticReportSchema,
   diagnosticReviewSchema,
+  checklistReportSchema,
+  checklistReviewSchema,
 ]);
 export type LeadInput = z.infer<typeof leadSchema>;
 
@@ -365,7 +435,116 @@ function toDiagnosticLead(
   return lead;
 }
 
-export function toLead(input: LeadInput): Lead | DiagnosticLead {
+/** Registro del checklist de IA. digital_readiness_score y commercial_fit_score nunca se mezclan. */
+export interface ChecklistLead {
+  type: 'checklist-ia-reporte' | 'checklist-ia-revision';
+  resource: 'ia-recomienda-tu-negocio';
+  /** health → Maguey Salud · general → Maguey Studio / Opportunity Session. */
+  lead_interest: 'health' | 'general';
+  dedupe_key: string;
+  source?: string;
+  medium?: string;
+  campaign?: string;
+  content?: string;
+  term?: string;
+  landing_page?: string;
+  referrer?: string;
+  full_name?: string;
+  email: string;
+  company?: string;
+  business_type: string;
+  city?: string;
+  website_url?: string;
+  google_business_url?: string;
+  instagram_url?: string;
+  facebook_url?: string;
+  linkedin_url?: string;
+  tiktok_url?: string;
+  other_url?: string;
+  answers: ChecklistAnswers;
+  digital_readiness_score: number;
+  digital_band: string;
+  scores_by_dimension: Record<string, number | 'n/a'>;
+  weakest_dimension?: string;
+  unverified_count: number;
+  unverified_questions: string[];
+  excluded_questions: string[];
+  top_priorities: { title: string; area: string; action: string; kind: string }[];
+  requested_report: boolean;
+  requested_review: boolean;
+  wants_contact?: boolean;
+  qualification?: { objective: string; role: string; start: string; budget: string };
+  commercial_fit_score?: number;
+  commercial_segment?: 'A' | 'B' | 'C';
+  qualified_lead?: boolean;
+  privacy_consent: true;
+  privacy_consent_at: string;
+  marketing_consent: boolean;
+  created_at: string;
+}
+
+function toChecklistLead(
+  input: z.infer<typeof checklistReportSchema> | z.infer<typeof checklistReviewSchema>,
+): ChecklistLead {
+  const now = new Date().toISOString();
+  const a = input.attribution;
+  const r = checklistResult(input.answers);
+  const review = input.formType === 'checklist-ia-revision';
+  const lead: ChecklistLead = {
+    type: input.formType,
+    resource: 'ia-recomienda-tu-negocio',
+    lead_interest: input.business_type === 'salud' ? 'health' : 'general',
+    dedupe_key: input.email,
+    source: a.utm_source,
+    medium: a.utm_medium,
+    campaign: a.utm_campaign,
+    content: a.utm_content,
+    term: a.utm_term,
+    landing_page: input.sourcePage ?? a.landingPage,
+    referrer: a.referrer,
+    full_name: input.full_name,
+    email: input.email,
+    company: input.company,
+    business_type: input.business_type,
+    city: input.city,
+    website_url: input.website_url,
+    google_business_url: input.google_business_url,
+    instagram_url: input.instagram_url,
+    facebook_url: input.facebook_url,
+    linkedin_url: input.linkedin_url,
+    tiktok_url: input.tiktok_url,
+    other_url: input.other_url,
+    answers: input.answers,
+    digital_readiness_score: r.score,
+    digital_band: r.band.label,
+    scores_by_dimension: Object.fromEntries(r.blocks.map((b) => [b.id, b.score ?? 'n/a'])),
+    weakest_dimension: r.weakest?.label,
+    unverified_count: r.unverifiedCount,
+    unverified_questions: r.unverifiedQuestions,
+    excluded_questions: r.excludedQuestions,
+    top_priorities: topPriorities(input.answers).map((p) => ({ title: p.title, area: p.area, action: p.action, kind: p.kind })),
+    requested_report: !review,
+    requested_review: review,
+    privacy_consent: true,
+    privacy_consent_at: now,
+    marketing_consent: input.marketing_consent,
+    created_at: now,
+  };
+  if (input.formType === 'checklist-ia-revision') {
+    const { objective, role, start, budget } = input;
+    const wantsContact = input.wants_contact === 'si';
+    const fit = commercialFit({ objective, role, start, budget, wantsContact });
+    lead.wants_contact = wantsContact;
+    lead.qualification = { objective, role, start, budget };
+    lead.commercial_fit_score = fit.score;
+    lead.commercial_segment = fit.segment;
+    lead.qualified_lead = wantsContact && fit.segment !== 'C';
+  }
+  return lead;
+}
+
+export function toLead(input: LeadInput): Lead | DiagnosticLead | ChecklistLead {
+  if (input.formType === 'checklist-ia-reporte' || input.formType === 'checklist-ia-revision') return toChecklistLead(input);
   if (input.formType === 'diagnostico-reporte' || input.formType === 'diagnostico-revision') return toDiagnosticLead(input);
   const now = new Date().toISOString();
   const { website: _hp, startedAt: _t, attribution: a, sourcePage, consentimiento: _c, formType, ...fields } = input;

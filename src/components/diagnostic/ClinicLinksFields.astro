@@ -4,17 +4,31 @@
  * Instagram y Facebook visibles; TikTok/LinkedIn tras "Agregar otra red". Se aceptan @usuario o URL.
  */
 import Field from '../forms/Field.astro';
-interface Props { form: string; whatsapp?: boolean; }
-const { form, whatsapp = false } = Astro.props;
+interface Props {
+  form: string;
+  whatsapp?: boolean;
+  legend?: string;
+  hint?: string;
+  /** Casilla «No tengo sitio web». */
+  noWebsite?: boolean;
+  /** Campo «Otro enlace». */
+  other?: boolean;
+  /** Valor inicial del sitio web (p. ej. el que dio en el contexto). */
+  websiteValue?: string;
+}
+const {
+  form, whatsapp = false, legend = 'Tu clínica en internet', noWebsite = true, other = false, websiteValue,
+  hint = 'Nos ayuda a revisar tu caso. Puedes pegar el enlace o escribir tu @usuario.',
+} = Astro.props;
 ---
 <fieldset class="field links">
-  <legend>Tu clínica en internet <span class="optional">(opcional)</span></legend>
-  <p class="field__hint">Nos ayuda a revisar tu caso. Puedes pegar el enlace o escribir tu @usuario.</p>
+  <legend>{legend} <span class="optional">(opcional)</span></legend>
+  <p class="field__hint">{hint}</p>
 
   <div class="links__web">
     <Field form={form} name="website_url" label="Sitio web" type="text" placeholder="miclinica.com" maxlength={300} autocomplete="url"
-      attrs={{ 'data-link-kind': 'website', inputmode: 'url', autocapitalize: 'off', spellcheck: 'false' }} />
-    <label class="check"><input type="checkbox" name="no_website" value="true" data-no-website /> <span>No tengo sitio web</span></label>
+      value={websiteValue} attrs={{ 'data-link-kind': 'website', inputmode: 'url', autocapitalize: 'off', spellcheck: 'false' }} />
+    {noWebsite && <label class="check"><input type="checkbox" name="no_website" value="true" data-no-website /> <span>No tengo sitio web</span></label>}
   </div>
 
   <Field form={form} name="google_business_url" label="Ficha de Google Maps" type="text" maxlength={300}
@@ -35,12 +49,16 @@ const { form, whatsapp = false } = Astro.props;
       <Field form={form} name="linkedin_url" label="LinkedIn" type="text" maxlength={300} placeholder="linkedin.com/company/…"
         attrs={{ 'data-link-kind': 'linkedin', inputmode: 'url', autocapitalize: 'off', spellcheck: 'false' }} />
     </div>
+    {other && (
+      <Field form={form} name="other_url" label="Otro enlace" type="text" maxlength={300} placeholder="Directorio, marketplace, YouTube…"
+        attrs={{ 'data-link-kind': 'website', inputmode: 'url', autocapitalize: 'off', spellcheck: 'false' }} />
+    )}
     {whatsapp && (
       <Field form={form} name="business_whatsapp" label="WhatsApp de la clínica" type="tel" maxlength={20} placeholder="+52 81 1234 5678" autocomplete="tel"
         attrs={{ 'data-link-kind': 'whatsapp', inputmode: 'tel' }} />
     )}
   </div>
-  <button type="button" class="links__add" data-add-links aria-expanded="false">+ Agregar otra red{whatsapp ? ' o WhatsApp' : ''}</button>
+  <button type="button" class="links__add" data-add-links aria-expanded="false">+ Agregar otra red{whatsapp ? ' o WhatsApp' : other ? ' u otro enlace' : ''}</button>
 </fieldset>
 <style>
   .links { display: grid; gap: 1rem; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem; margin: 0; background: var(--surface-alt); }
