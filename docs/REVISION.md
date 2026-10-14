@@ -11,7 +11,7 @@ Nada de esta lista se inventó en el sitio: donde falta información, el element
 - [ ] **Colores finales de marca** (se usan los provisionales del Blueprint).
 - [ ] **Favicon** provisional («G» + punto celeste) y **OG image** generada con el hero + logo.
 - [ ] **Autorización de imágenes del deck** (hero, método, puente) y de la **fotografía personal**.
-- [ ] **URL de agenda** para Opportunity Session (`SITE.bookingUrl`). Vacía = el formulario es el fallback.
+- [x] **URL de agenda** (`SITE.bookingUrl`): Google Calendar, visible en /contacto.
 
 ## Proyectos
 

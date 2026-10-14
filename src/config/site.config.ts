@@ -80,7 +80,7 @@ export const SITE = {
   },
 
   // === Agenda de Opportunity Session (vacío = el formulario de contacto es el fallback) ===
-  bookingUrl: '',
+  bookingUrl: 'https://calendar.app.google/8mMLAzjTQtG9xRRt7',
 
   // === Analytics (vacío = no se carga nada) ===
   analytics: {
