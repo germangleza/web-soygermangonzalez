@@ -62,8 +62,8 @@ import { ENTRY_PATHS, SERVICE_GROUPS, COMMERCIAL_MODEL, SECTORS, SERVICE_FAQS } 
 
   <section class="section section--dark dark" aria-labelledby="modelo-title">
     <div class="container">
-      <SectionHeading id="modelo-title" eyebrow="Modelo de trabajo" title="Trabajo por sprints.">
-        <p class="lead">Cada sprint dura de 2 a 4 semanas y tiene acciones y entregables definidos desde el inicio.</p>
+      <SectionHeading id="modelo-title" eyebrow="Modelo de trabajo" title="Empezamos con un sprint. Seguimos cada mes.">
+        <p class="lead">El primer sprint dura de 2 a 4 semanas y tiene acciones y entregables definidos desde el inicio. Cuando funciona, lo convertimos en un esquema mensual.</p>
       </SectionHeading>
       <ol class="grid grid-4 model" role="list">
         {COMMERCIAL_MODEL.map((m, i) => (
@@ -74,6 +74,13 @@ import { ENTRY_PATHS, SERVICE_GROUPS, COMMERCIAL_MODEL, SECTORS, SERVICE_FAQS } 
           </li>
         ))}
       </ol>
+      <div class="monthly">
+        <span class="monthly__badge">05 · Lo que sigue</span>
+        <div>
+          <h3>Continuidad mensual</h3>
+          <p>Después del primer sprint, muchos clientes pasan a un esquema mensual recurrente: cada mes definimos prioridades, ejecutamos y medimos. Así el crecimiento no depende de un proyecto aislado.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -150,6 +157,11 @@ import { ENTRY_PATHS, SERVICE_GROUPS, COMMERCIAL_MODEL, SECTORS, SERVICE_FAQS } 
   .caps__who { font-size: .875rem; font-weight: 600; justify-self: end; text-align: right; }
 
   .model, .sectors { list-style: none; padding: 0; }
+  .monthly { margin-top: 1.25rem; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1rem 2.5rem; align-items: start; padding: clamp(1.5rem, 1.2rem + 1vw, 2.25rem); border-radius: var(--radius); background: var(--sky); color: var(--navy); }
+  .monthly__badge { font-family: var(--font-display); font-weight: 700; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; padding-top: .45rem; }
+  .monthly h3 { margin: 0 0 .5rem; color: var(--navy); font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
+  .monthly p { margin: 0; color: var(--navy) !important; max-width: 48rem; }
+  @media (max-width: 679px) { .monthly { grid-template-columns: minmax(0, 1fr); } }
 
   .faq-wrap { max-width: 56rem; }
   .faq { border-top: 1px solid var(--line); }

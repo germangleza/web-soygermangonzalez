@@ -110,7 +110,7 @@ export const COMMERCIAL_MODEL = [
   { step: 'Opportunity Session', text: 'Conozco tu negocio: en qué estás, qué te preocupa y dónde estás atorado. Sin costo por lanzamiento.' },
   { step: 'Opportunity Map', text: 'Identificamos y priorizamos las acciones que pueden ayudarte, cuando el alcance lo requiere.', optional: true },
   { step: 'Build Proposal', text: 'Definimos el sprint: acciones, entregables y forma de trabajo.' },
-  { step: 'Sprint', text: 'Construimos, medimos y ajustamos en 2 a 4 semanas.' },
+  { step: 'Primer sprint', text: 'Construimos, medimos y ajustamos en 2 a 4 semanas.' },
 ];
 
 /** Qué hago — Sectores donde más trabajo. */
@@ -122,8 +122,9 @@ export const SECTORS = [
 
 /** Qué hago — Preguntas frecuentes (respuestas de Germán). Alimentan también el schema FAQPage. */
 export const SERVICE_FAQS = [
-  { question: '¿Cómo cobras?', answer: 'Trabajo por sprints. Cada sprint tiene acciones y entregables definidos desde el inicio, y se cobra por sprint.' },
+  { question: '¿Cómo cobras?', answer: 'Arrancamos con un sprint: acciones y entregables definidos desde el inicio; se cobra por sprint. Después, muchos clientes pasan a una iguala mensual recurrente para seguir ejecutando y midiendo cada mes.' },
   { question: '¿Cuánto dura un proyecto?', answer: 'Normalmente de 2 a 4 semanas por sprint. Si hace falta, se encadenan sprints según lo que vayamos aprendiendo.' },
+  { question: '¿Puedo trabajar contigo de forma continua?', answer: 'Sí, es el objetivo de muchos clientes. Después del primer sprint pasamos a un esquema mensual: cada mes definimos prioridades, ejecutamos y medimos resultados.' },
   { question: '¿Trabajas con negocios fuera de tu ciudad?', answer: 'Sí. Trabajo con negocios en cualquier parte de México.' },
   { question: '¿Qué pasa en la Opportunity Session? ¿Tiene costo?', answer: 'Es una conversación para conocer tu negocio: en qué estás, qué te preocupa y dónde estás atorado. A partir de ahí identificamos qué acciones podrían ayudarte. Por lanzamiento, no tiene costo.' },
 ];
