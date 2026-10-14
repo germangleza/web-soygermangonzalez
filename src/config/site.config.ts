@@ -9,8 +9,8 @@
 export const SITE = {
   // === Básicos ===
   name: 'Germán González',
-  // PENDIENTE: confirmar dominio final (provisional derivado del nombre del repositorio).
-  url: 'https://soygermangonzalez.com',
+  // Dominio canónico: www (en Vercel el dominio raíz redirige 308 a www).
+  url: 'https://www.soygermangonzalez.com',
   title: 'Germán González | Business Builder, Growth e IA',
   description:
     'Germán González, Business Builder. Identifico oportunidades y construyo la combinación de negocio, growth digital, tecnología y alianzas para aprovecharlas.',

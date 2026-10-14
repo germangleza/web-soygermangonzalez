@@ -53,6 +53,6 @@
 
 ### Notas técnicas
 
-- **Dominio final:** PENDIENTE (provisional `soygermangonzalez.com`).
+- **Dominio final:** `www.soygermangonzalez.com` (la raíz redirige a www).
 - **Google Search Console / Analytics:** PENDIENTE.
 - **Contenido existente a migrar:** ninguno conocido.

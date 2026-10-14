@@ -9,8 +9,8 @@ publish_mode: editorial_workflow   # borradores → revisión → publicar (abre
 locale: es
 media_folder: src/assets/uploads
 public_folder: ../../assets/uploads
-site_url: https://soygermangonzalez.com
-display_url: https://soygermangonzalez.com
+site_url: https://www.soygermangonzalez.com
+display_url: https://www.soygermangonzalez.com
 
 collections:
   - name: blog

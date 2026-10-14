@@ -4,7 +4,7 @@ Nada de esta lista se inventó en el sitio: donde falta información, el element
 
 ## Datos y decisiones de Germán
 
-- [ ] **Dominio final.** Provisional: `soygermangonzalez.com` (derivado del nombre del repo) en `site.config.ts` y `public/admin/config.yml`.
+- [x] **Dominio final:** `www.soygermangonzalez.com` (canónico; la raíz redirige a www en Vercel). DNS en GoDaddy: `A @ 216.198.79.1` y `CNAME www → e9615b126d3d5b1a.vercel-dns-017.com`.
 - [ ] **Correo público de contacto** (`SITE.business.email`). Vacío = no se muestra.
 - [ ] **Redes sociales** (`SITE.socials`). Vacías = no se muestran.
 - [ ] **Licencia de Nimbus Sans** (Adobe Fonts u otra). Mientras tanto: Helvetica/Arial.
