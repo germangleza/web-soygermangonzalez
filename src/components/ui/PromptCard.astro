@@ -1,0 +1,42 @@
+---
+/** PromptCard: prompt listo para copiar (MDX en publicaciones de Builder Lab). */
+interface Props { num: number; title: string; when?: string; }
+const { num, title, when } = Astro.props;
+---
+<figure class="prompt">
+  <figcaption class="prompt__head">
+    <span class="prompt__num">{String(num).padStart(2, '0')}</span>
+    <span class="prompt__title">{title}</span>
+  </figcaption>
+  {when && <p class="prompt__when"><strong>Cuándo usarlo:</strong> {when}</p>}
+  <blockquote class="prompt__text" data-prompt><slot /></blockquote>
+  <button type="button" class="prompt__copy" data-copy-prompt>Copiar prompt</button>
+</figure>
+<script>
+  document.addEventListener('click', async (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-copy-prompt]');
+    if (!btn) return;
+    const text = btn.parentElement?.querySelector('[data-prompt]')?.textContent?.trim().replace(/^[“"]|[”"]$/g, '') ?? '';
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.textContent = '¡Copiado!';
+    } catch {
+      btn.textContent = 'Selecciona y copia el texto';
+    }
+    setTimeout(() => (btn.textContent = 'Copiar prompt'), 2000);
+  });
+</script>
+<style>
+  .prompt { margin: 1.25rem 0; padding: 1.25rem 1.25rem 1rem; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+  .prompt__head { display: flex; align-items: baseline; gap: .75rem; margin-bottom: .5rem; }
+  .prompt__num { font-family: var(--font-display); font-weight: 700; color: var(--accent-text); }
+  .prompt__title { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; letter-spacing: -0.01em; }
+  .prompt__when { font-size: .9375rem; color: var(--muted); margin-bottom: .75rem; }
+  .prompt .prompt__text { margin: 0 0 .9rem; font-size: 1rem; line-height: 1.65; }
+  .prompt .prompt__text :global(p) { margin: 0; }
+  .prompt__copy {
+    min-height: 40px; padding: .45rem .9rem; border-radius: 6px; cursor: pointer;
+    background: transparent; border: 1.5px solid var(--navy); color: var(--navy); font-weight: 800; font-size: .8125rem;
+  }
+  .prompt__copy:hover { background: var(--navy); color: #fff; }
+</style>

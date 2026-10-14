@@ -1,0 +1,92 @@
+---
+title: "Pack: 15 prompts para manejar tus Meta Ads con Claude"
+description: "Analiza, optimiza y lanza campañas hablando, sin pelearte con Ads Manager. 15 prompts listos para copiar si ya conectaste Claude a Meta Ads."
+pubDate: 2026-10-14
+category: "ia-herramientas"
+tags: ["meta-ads", "claude", "prompts"]
+ctaType: "builder-drops"
+draft: false
+---
+import PromptCard from '../../components/ui/PromptCard.astro';
+
+Si ya conectaste Claude a Meta Ads con el conector oficial, estos son los prompts que uso para sacarle jugo. Cópialos, cambia lo que está entre [corchetes] y listo.
+
+## 📊 Diagnóstico (empieza aquí)
+
+<PromptCard num={1} title="Radiografía de la cuenta" when="la primera vez o cada lunes.">
+“Revisa mi cuenta [NOMBRE] de los últimos 30 días. Dame gasto, resultados, CPA, CTR y frecuencia por campaña, y dime en 5 bullets qué está funcionando y qué no.”
+</PromptCard>
+
+<PromptCard num={2} title="Comparativo de periodos" when="cuando sientes que algo cambió.">
+“Compara los últimos 7 días contra los 7 anteriores. ¿Qué métricas cambiaron más de 15% y cuál es la causa más probable?”
+</PromptCard>
+
+<PromptCard num={3} title="Detector de anomalías" when="cuando suben costos sin razón aparente.">
+“Busca anomalías en mis campañas activas: picos de CPM, frecuencia arriba de 3, caídas de conversión o CTR. Ordénalas por impacto en el presupuesto.”
+</PromptCard>
+
+<PromptCard num={4} title="Ranking de anuncios" when="para decidir qué escalar y qué apagar.">
+“Haz un top 5 y un bottom 5 de anuncios por CPA de los últimos 14 días, con gasto mínimo de $[X]. Explica qué tienen en común los mejores.”
+</PromptCard>
+
+<PromptCard num={5} title="Benchmark" when="para saber si tus números son buenos o no.">
+“Compara mi CPM, CTR y CPA contra los benchmarks de mi industria [INDUSTRIA]. ¿Dónde estoy por debajo del promedio?”
+</PromptCard>
+
+## ⚡ Optimización
+
+<PromptCard num={6} title="Limpieza de presupuesto">
+“Lista los anuncios con CPA mayor a $[X] y gasto mayor a $[Y] en los últimos 7 días. Muéstrame la lista antes de pausar y espera mi confirmación.”
+</PromptCard>
+
+<PromptCard num={7} title="Escalar ganadores">
+“Identifica el conjunto con mejor ROAS/CPA estable de los últimos 7 días y propón subirle [20]% el presupuesto. Dime el riesgo antes de aplicarlo.”
+</PromptCard>
+
+<PromptCard num={8} title="Fatiga creativa">
+“¿Qué anuncios muestran fatiga (frecuencia alta y CTR bajando 3+ días seguidos)? Sugiere qué tipo de creativo nuevo probar para cada uno.”
+</PromptCard>
+
+<PromptCard num={9} title="Distribución de presupuesto">
+“Si tengo $[MONTO] al mes, ¿cómo redistribuirías el presupuesto entre mis campañas actuales según su rendimiento? Dame la tabla antes y después.”
+</PromptCard>
+
+<PromptCard num={10} title="Salud del pixel">
+“Revisa la calidad de mi pixel/dataset: eventos activos, errores y calidad de coincidencia. Dime qué arreglar primero y por qué afecta mis resultados.”
+</PromptCard>
+
+## 🚀 Creación
+
+<PromptCard num={11} title="Campaña desde cero">
+“Arma una campaña de [leads/ventas/mensajes] para [PRODUCTO/SERVICIO] dirigida a [PÚBLICO] en [CIUDAD], con presupuesto de $[X] diarios. Déjala en pausa para que yo la revise.”
+</PromptCard>
+
+<PromptCard num={12} title="Variantes de copy">
+“Escribe 3 variantes de copy para este anuncio: [PEGA EL COPY]. Una enfocada en dolor, una en resultado y una en prueba social. Máximo 125 caracteres en el texto principal.”
+</PromptCard>
+
+<PromptCard num={13} title="Test A/B">
+“Configura un test A/B entre [CREATIVO A] y [CREATIVO B] con el mismo público y presupuesto. Dime cuántos días y cuánto gasto necesito para un resultado confiable.”
+</PromptCard>
+
+<PromptCard num={14} title="Públicos personalizados">
+“Crea un público personalizado con quienes interactuaron con mi Instagram en los últimos [90] días y propón un lookalike para escalar.”
+</PromptCard>
+
+## 📈 Reporte
+
+<PromptCard num={15} title="Reporte semanal listo para enviar">
+“Hazme un reporte de esta semana para [CLIENTE/MI EQUIPO]: resumen ejecutivo en 3 líneas, métricas clave contra la semana pasada, top 3 anuncios, qué hicimos y qué sigue. Tono claro, sin tecnicismos.”
+</PromptCard>
+
+## ⚠️ 3 reglas para no quemar dinero
+
+1. Pídele siempre que te muestre los cambios antes de aplicarlos.
+2. Lo que crea Claude queda en pausa. Revísalo antes de activar.
+3. La IA analiza rápido, pero la decisión final es tuya.
+
+## ¿Quieres que lo revisemos juntos?
+
+Hago un diagnóstico gratuito de tu cuenta: te digo dónde estás perdiendo dinero y qué automatizar primero. **[Agenda aquí](https://calendar.app.google/8mMLAzjTQtG9xRRt7)**.
+
+— Germán González Aranda
