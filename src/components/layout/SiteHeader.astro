@@ -87,7 +87,12 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path === href 
     -webkit-backdrop-filter: saturate(140%) blur(10px);
     border-bottom: 1px solid var(--line-dark);
     color: #fff;
+    view-transition-name: site-header;
+    transition: background-color .3s ease, box-shadow .3s ease;
   }
+  .site-header.is-scrolled { background: rgba(7, 25, 43, 0.985); box-shadow: 0 10px 30px -18px rgba(0, 0, 0, .55); }
+  .site-header__inner { transition: height .3s ease; }
+  .site-header.is-scrolled .site-header__inner { height: 64px; }
   .site-header__inner { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
   .site-header__brand { display: inline-flex; align-items: center; min-height: 44px; flex: none; }
   .site-header__brand img { width: 112px; height: auto; }

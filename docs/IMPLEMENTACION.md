@@ -118,3 +118,15 @@ Copia `.env.example` a `.env` para desarrollo local.
 - Sin overflow horizontal a 360, 390, 768, 1024 y 1440 px.
 - Navegación por teclado, *skip link*, `aria-current`, menú móvil con `aria-expanded` y cierre con Esc, foco visible, `prefers-reduced-motion`.
 - Imágenes WebP responsivas con dimensiones reservadas; hero con `fetchpriority="high"`; resto `lazy`.
+
+## 11. Motion (animaciones)
+
+Librería [Motion](https://motion.dev) v12 (API vanilla, sin React) en `src/scripts/motion.ts`, cargada en todas las páginas desde `BaseLayout`:
+
+- **Aparición al hacer scroll** de encabezados, tarjetas, pasos del método, paneles y contenido de artículos; las rejillas aparecen en cascada.
+- **Hero**: entrada del texto en CSS (no retrasa el LCP), imagen con asentamiento lento y parallax ligado al scroll.
+- **Anillos de Builder Lab** con deriva al hacer scroll; **header** que se compacta y gana sombra al bajar.
+- **Barra de progreso de lectura** en publicaciones; respuesta táctil en botones; cascada al usar el filtro de Builder Lab.
+- **Transiciones entre páginas** con View Transitions (CSS, navegadores compatibles).
+
+Reglas: solo `transform`/`opacity`; solo se ocultan elementos fuera de pantalla (sin parpadeos ni CLS); sin JS todo se ve; con `prefers-reduced-motion` no se ejecuta ninguna animación. Para excluir un bloque, quítalo de los selectores `GROUPS`/`SINGLES` del script.

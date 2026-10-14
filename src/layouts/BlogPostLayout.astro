@@ -61,6 +61,7 @@ const embed = videoUrl ? embedUrl(videoUrl) : undefined;
   )}
   {draft && <DraftBanner label="Ejemplo / borrador · no se publica" />}
 
+  <div class="read-progress" data-read-progress aria-hidden="true"></div>
   <article>
     <header class="post-hero dark">
       <div class="container">
@@ -130,6 +131,7 @@ const embed = videoUrl ? embedUrl(videoUrl) : undefined;
   </section>
 </BaseLayout>
 <style>
+  .read-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60; background: var(--lime); transform: scaleX(0); transform-origin: 0 50%; }
   .post-hero { background: var(--navy-3); padding: clamp(3rem, 2rem + 4vw, 5.5rem) 0; }
   .post-hero h1 { font-size: clamp(2.1rem, 1.5rem + 2.6vw, 3.6rem); max-width: 24ch; }
   .post-hero__desc { font-size: var(--fs-lead); max-width: 44rem; margin-top: 1.25rem; }

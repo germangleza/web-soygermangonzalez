@@ -273,3 +273,29 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
+
+/* --------------------------------------------------------------- Motion
+   Entradas del hero en CSS (corren en el primer pintado, sin esperar JS y sin retrasar el LCP).
+   Las animaciones de scroll y micro-interacciones viven en src/scripts/motion.ts (Motion). */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes gg-rise {
+    from { opacity: 0.01; transform: translateY(22px); }
+    to { opacity: 1; transform: none; }
+  }
+  .hero__copy > *,
+  .page-hero__inner > *,
+  .post-hero .container > * {
+    animation: gg-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .hero__copy > :nth-child(2), .page-hero__inner > :nth-child(2), .post-hero .container > :nth-child(2) { animation-delay: .08s; }
+  .hero__copy > :nth-child(3), .page-hero__inner > :nth-child(3), .post-hero .container > :nth-child(3) { animation-delay: .16s; }
+  .hero__copy > :nth-child(4), .page-hero__inner > :nth-child(4), .post-hero .container > :nth-child(4) { animation-delay: .24s; }
+  .hero__copy > :nth-child(n+5), .page-hero__inner > :nth-child(n+5), .post-hero .container > :nth-child(n+5) { animation-delay: .32s; }
+
+  /* Transiciones entre páginas (View Transitions entre documentos; navegadores sin soporte las ignoran). */
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation: gg-vt-out .22s ease both; }
+  ::view-transition-new(root) { animation: gg-vt-in .38s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  @keyframes gg-vt-out { to { opacity: 0; } }
+  @keyframes gg-vt-in { from { opacity: 0; transform: translateY(10px); } }
+}
