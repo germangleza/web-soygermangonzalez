@@ -1,12 +1,12 @@
 ---
-/** Home — Con quién lo construyes: Germán (estrategia) + empresas de ejecución. */
+/** Home — Qué construimos y con quién (capacidades consolidadas con el equipo): Germán (estrategia) + empresas de ejecución. */
 import SectionHeading from '../ui/SectionHeading.astro';
 import { HOME_TEAM } from '../../data/content';
 ---
 <section class="section" id="equipo" aria-labelledby="equipo-title">
   <div class="container">
-    <SectionHeading id="equipo-title" eyebrow="Con quién lo construyes" title="Un solo punto de contacto, el equipo correcto detrás.">
-      <p class="lead">Yo dirijo la estrategia. La ejecución la hacen mis empresas, cada una especializada en lo suyo.</p>
+    <SectionHeading id="equipo-title" eyebrow="Qué construimos y con quién" title="Un solo punto de contacto, el equipo correcto detrás.">
+      <p class="lead">No todos los proyectos necesitan las mismas capacidades. Yo dirijo la estrategia y activo lo que pide la oportunidad con mis empresas.</p>
     </SectionHeading>
     <ul class="grid grid-3 team" role="list">
       {HOME_TEAM.map((t, i) => (
@@ -14,15 +14,24 @@ import { HOME_TEAM } from '../../data/content';
           <span class="card__kicker">{t.area}</span>
           <h3>{t.name}</h3>
           <p>{t.text}</p>
+          <ul class="team__caps" role="list">{t.caps.map((c) => <li>{c}</li>)}</ul>
         </li>
       ))}
     </ul>
-    <p class="team__note"><span aria-hidden="true">+</span> Cuando el proyecto lo pide, también sumo socios comerciales y aliados estratégicos.</p>
+    <div class="team__foot">
+      <p class="team__note"><span aria-hidden="true">+</span> <strong>Alianzas y nuevos canales:</strong> cuando el proyecto lo pide, sumo socios comerciales y aliados estratégicos.</p>
+      <a class="btn btn--dark" href="/que-hago">Conoce cómo puedo ayudarte <span class="btn__icon" aria-hidden="true">↗</span></a>
+    </div>
   </div>
 </section>
 <style>
   .team { list-style: none; padding: 0; }
   .team h3 { font-size: clamp(1.35rem, 1.15rem + .7vw, 1.75rem); }
-  .team__note { margin: 1.5rem 0 0; color: var(--muted); font-size: .95rem; }
+  .team li.card { display: flex; flex-direction: column; }
+  .team__caps { list-style: none; padding: 0; margin: auto 0 0; padding-top: 1.25rem; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .team__caps li { font-size: .85rem; font-weight: 700; padding: .35rem .8rem; border-radius: 999px; border: 1px solid var(--line); color: var(--navy); }
+  .team .card--dark .team__caps li { border-color: var(--line-dark); color: #fff; }
+  .team__foot { margin-top: 1.75rem; display: flex; flex-wrap: wrap; gap: 1.25rem 2rem; align-items: center; justify-content: space-between; }
+  .team__note { margin: 0; color: var(--muted); font-size: .95rem; }
   .team__note span { color: var(--sky); font-weight: 700; margin-right: .35rem; }
 </style>
