@@ -15,27 +15,21 @@ import bridge from '../../assets/photos/puente-oportunidad.png';
         <Image src={bridge} alt="Maqueta de un puente que une dos lados de una grieta, rodeado de bocetos y piezas" widths={[360, 650]} sizes="(min-width: 1024px) 340px, 0px" loading="lazy" />
       </div>
     </div>
-    <ol class="grid grid-3 cap-list" role="list">
+    <ul class="cap-tags" role="list">
       {CAPABILITIES.map((c, i) => (
-        <li class="card">
-          <span class="card__kicker">{String(i + 1).padStart(2, '0')}</span>
-          <h3>{c.title}</h3>
-          <p>{c.text}</p>
-        </li>
+        <li><span class="cap-tags__num">{String(i + 1).padStart(2, '0')}</span>{c.title}</li>
       ))}
-      <li class="card card--dark card--link cap-cta">
-        <span class="card__kicker">Siguiente paso</span>
-        <h3><a class="card__title-link" href="/que-hago">Conoce cómo puedo ayudarte <span aria-hidden="true" class="text-sky">↗</span></a></h3>
-      </li>
-    </ol>
+    </ul>
+    <a class="btn btn--dark cap-cta" href="/que-hago">Conoce cómo puedo ayudarte <span class="btn__icon" aria-hidden="true">↗</span></a>
   </div>
 </section>
 <style>
   .cap-head { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 3rem; align-items: end; margin-bottom: clamp(2rem, 1.5rem + 2vw, 3rem); }
   .cap-head :global(.section-heading) { margin-bottom: 0; }
   .cap-media { aspect-ratio: 4 / 3; }
-  .cap-list { list-style: none; padding: 0; }
-  .cap-cta { justify-content: space-between; }
-  .cap-cta h3 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); margin-top: auto; }
+  .cap-tags { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .75rem; }
+  .cap-tags li { display: inline-flex; align-items: baseline; gap: .6rem; padding: .85rem 1.35rem; border: 1px solid var(--line); border-radius: 999px; background: #fff; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.05rem, .95rem + .45vw, 1.35rem); letter-spacing: -0.01em; color: var(--navy); }
+  .cap-tags__num { font-size: .8em; color: var(--sky-700, #2f6fa3); }
+  .cap-cta { margin-top: 2rem; }
   @media (max-width: 1023px) { .cap-head { grid-template-columns: minmax(0, 1fr); } .cap-media { display: none; } }
 </style>
