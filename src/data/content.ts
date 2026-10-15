@@ -26,9 +26,9 @@ export const METHOD = [
 
 /** Home — Con quién lo construyes (estrategia + empresas de ejecución). */
 export const HOME_TEAM = [
-  { name: 'Germán González', area: 'Estrategia y dirección', text: 'Lo ves conmigo: entendemos el reto, priorizamos y definimos qué construir.', caps: ['Nuevos negocios y productos', 'Sistemas comerciales'] },
-  { name: 'Maguey Estudio', area: 'Marketing y growth', text: 'Campañas, contenido, sitios web y posicionamiento.', caps: ['Crecimiento digital'] },
-  { name: 'Life Agent', area: 'IA y automatización', text: 'Agentes, WhatsApp, CRM e integraciones.', caps: ['IA y automatización'] },
+  { name: 'Germán González', area: 'Estrategia y dirección', items: ['Diagnóstico y priorización de oportunidades', 'Nuevos negocios y productos: validación, oferta y lanzamiento', 'Sistemas comerciales: ventas, funnels, pricing y seguimiento'] },
+  { name: 'Maguey Estudio', area: 'Marketing y growth', items: ['Posicionamiento y contenido', 'Campañas y adquisición de clientes', 'Sitios web que convierten'] },
+  { name: 'Life Agent', area: 'IA y automatización', items: ['Agentes de IA y atención por WhatsApp', 'Integración con CRM', 'Automatización de procesos de la operación'] },
 ];
 
 /** BL02 — Conceptos internos de Builder Lab. */

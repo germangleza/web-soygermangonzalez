@@ -13,8 +13,7 @@ import { HOME_TEAM } from '../../data/content';
         <li class:list={['card', { 'card--dark': i === 0 }]}>
           <span class="card__kicker">{t.area}</span>
           <h3>{t.name}</h3>
-          <p>{t.text}</p>
-          <ul class="team__caps" role="list">{t.caps.map((c) => <li>{c}</li>)}</ul>
+          <ul class="team__items" role="list">{t.items.map((c) => <li>{c}</li>)}</ul>
         </li>
       ))}
     </ul>
@@ -28,9 +27,10 @@ import { HOME_TEAM } from '../../data/content';
   .team { list-style: none; padding: 0; }
   .team h3 { font-size: clamp(1.35rem, 1.15rem + .7vw, 1.75rem); }
   .team li.card { display: flex; flex-direction: column; }
-  .team__caps { list-style: none; padding: 0; margin: auto 0 0; padding-top: 1.25rem; display: flex; flex-wrap: wrap; gap: .5rem; }
-  .team__caps li { font-size: .85rem; font-weight: 700; padding: .35rem .8rem; border-radius: 999px; border: 1px solid var(--line); color: var(--navy); }
-  .team .card--dark .team__caps li { border-color: var(--line-dark); color: #fff; }
+  .team__items { list-style: none; padding: 0; margin: .5rem 0 0; display: grid; gap: .6rem; }
+  .team__items li { position: relative; padding-left: 1.4rem; color: var(--muted); line-height: 1.45; }
+  .team__items li::before { content: ''; position: absolute; left: 0; top: .6em; width: .45rem; height: .45rem; border-radius: 50%; background: var(--sky); }
+  .team .card--dark .team__items li { color: var(--muted-on-dark); }
   .team__foot { margin-top: 1.75rem; display: flex; flex-wrap: wrap; gap: 1.25rem 2rem; align-items: center; justify-content: space-between; }
   .team__note { margin: 0; color: var(--muted); font-size: .95rem; }
   .team__note span { color: var(--sky); font-weight: 700; margin-right: .35rem; }
