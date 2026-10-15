@@ -18,10 +18,10 @@ export const CAPABILITIES = [
 
 /** H04 — Método Opportunity Building (no fusionar con Build → Launch → Growth). */
 export const METHOD = [
-  { num: '01', key: 'DETECT', text: 'Identifico dónde existe una oportunidad.', image: detect, alt: 'Lupa sobre una roca: detectar la oportunidad' },
-  { num: '02', key: 'DESIGN', text: 'Diseño cómo capturarla.', image: design, alt: 'Plano arquitectónico de una casa: diseñar cómo capturarla' },
-  { num: '03', key: 'ACTIVATE', text: 'Activo personas, tecnología y capacidades.', image: activate, alt: 'Bloques de distintos materiales ensamblándose: activar capacidades' },
-  { num: '04', key: 'BUILD', text: 'Construimos, medimos y ajustamos.', image: build, alt: 'Casa terminada e iluminada: construir' },
+  { num: '01', key: 'DETECTAR', text: 'Identifico dónde existe una oportunidad.', image: detect, alt: 'Lupa sobre una roca: detectar la oportunidad' },
+  { num: '02', key: 'DISEÑAR', text: 'Diseño cómo capturarla.', image: design, alt: 'Plano arquitectónico de una casa: diseñar cómo capturarla' },
+  { num: '03', key: 'ACTIVAR', text: 'Activo personas, tecnología y capacidades.', image: activate, alt: 'Bloques de distintos materiales ensamblándose: activar capacidades' },
+  { num: '04', key: 'CONSTRUIR', text: 'Construimos, medimos y ajustamos.', image: build, alt: 'Casa terminada e iluminada: construir' },
 ];
 
 /** Home — Con quién lo construyes (estrategia + empresas de ejecución). */
