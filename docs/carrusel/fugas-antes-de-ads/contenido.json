@@ -1,0 +1,144 @@
+{
+  "titulo": "3 fugas que corregir antes de invertir más en Ads",
+  "meta": {
+    "url": "soygermangonzalez.com",
+    "urlFinal": "soygermangonzalez.com/builder-lab",
+    "autor": "Germán González"
+  },
+  "laminas": [
+    {
+      "layout": "portada",
+      "pill": "Checklist · 3 fugas",
+      "eyebrow": "Builder Lab · Negocios y growth",
+      "titulo": "3 fugas que corregir antes de invertir más en *Ads*",
+      "tamanoTitulo": 108,
+      "texto": "Revisa dónde pierdes oportunidades.",
+      "diagrama": {
+        "de": "Clic",
+        "a": "Venta",
+        "etiqueta": "3 fugas"
+      }
+    },
+    {
+      "layout": "contenido",
+      "pill": "Contexto",
+      "titulo": "¿Llegan consultas, pero las ventas no crecen?",
+      "texto": [
+        "Antes de aumentar el presupuesto, revisa **qué pasa después del clic.**"
+      ],
+      "cierre": "Desliza para revisar las tres fugas.",
+      "desliza": "Desliza 👉",
+      "items": [
+        {
+          "icono": "🧩",
+          "etiqueta": "Fuga 1",
+          "texto": "Una oferta confusa"
+        },
+        {
+          "icono": "⏳",
+          "etiqueta": "Fuga 2",
+          "texto": "Una respuesta tardía"
+        },
+        {
+          "icono": "📄",
+          "etiqueta": "Fuga 3",
+          "texto": "Una cotización olvidada"
+        }
+      ],
+      "textoFinal": "Cualquiera de las tres puede **frenar la venta.**"
+    },
+    {
+      "layout": "contenido",
+      "pill": "Fuga 1 de 3",
+      "eyebrow": "1/3 · Oferta poco clara",
+      "titulo": "¿Queda claro por qué comprarte?",
+      "texto": "Revisa tu anuncio y tu página:",
+      "lista": [
+        "¿Para quién es?",
+        "¿Qué resuelves?",
+        "¿Cuál es el siguiente paso?"
+      ],
+      "cierre": "Si eso está claro, revisa qué pasa cuando te escriben."
+    },
+    {
+      "layout": "contenido",
+      "pill": "Fuga 2 de 3",
+      "eyebrow": "2/3 · Respuesta tardía",
+      "titulo": "¿Te escriben hoy y respondes mañana?",
+      "tamanoTitulo": 66,
+      "texto": "Revisa tus últimas 20 consultas: **¿cuánto tardaste en dar una respuesta útil?**",
+      "ui": [
+        {
+          "tipo": "usuario",
+          "texto": "Hola, ¿cuánto cuesta y tienen disponibilidad esta semana? · 11:48 p.m."
+        },
+        {
+          "tipo": "ia",
+          "texto": "¡Hola! Te comparto precios y horarios disponibles. ¿Me dices tu nombre para apartarte un lugar?"
+        }
+      ],
+      "nota": "Maqueta ilustrativa",
+      "textoFinal": "Un **agente de IA** puede atender preguntas y recopilar datos fuera de horario.",
+      "cierre": "Pero responder no basta…"
+    },
+    {
+      "layout": "contenido",
+      "pill": "Fuga 3 de 3",
+      "eyebrow": "3/3 · Seguimiento olvidado",
+      "titulo": "¿Mandaste la cotización y ahí quedó?",
+      "tamanoTitulo": 66,
+      "texto": "Cada oportunidad necesita **responsable, estado y próxima acción.**",
+      "ui": [
+        {
+          "tipo": "ia",
+          "texto": "",
+          "tabla": {
+            "columnas": [
+              "Cliente",
+              "Responsable",
+              "Próxima acción"
+            ],
+            "filas": [
+              [
+                "Cliente A",
+                "Ana",
+                "Jueves · llamar"
+              ],
+              [
+                "Cliente B",
+                "!Sin asignar",
+                "!Sin fecha"
+              ]
+            ]
+          }
+        }
+      ],
+      "nota": "Maqueta ilustrativa · datos de ejemplo",
+      "textoFinal": "Revisa cuántas conversaciones siguen abiertas **sin fecha de seguimiento.**",
+      "cierre": "Ahí tienes una fuga que revisar antes de comprar más tráfico."
+    },
+    {
+      "layout": "contenido",
+      "pill": "Resumen",
+      "titulo": "Antes de invertir más, revisa estas tres cosas",
+      "tamanoTitulo": 76,
+      "lista": [
+        "¿Entienden tu oferta?",
+        "¿Reciben respuesta a tiempo?",
+        "¿Hay seguimiento hasta la decisión?"
+      ],
+      "textoFinal": [
+        "Corrige primero **la fuga que puedas comprobar.**"
+      ],
+      "cierre": "Automatizar ayuda cuando existe un proceso claro detrás."
+    },
+    {
+      "layout": "cta",
+      "pill": "Gratis",
+      "previo": "Encuentra la fuga en tu negocio",
+      "antes": "Comenta",
+      "palabra": "FUGAS",
+      "despues": "y te envío la *checklist de 10 puntos* para revisar tu proceso comercial 👇"
+    }
+  ]
+}

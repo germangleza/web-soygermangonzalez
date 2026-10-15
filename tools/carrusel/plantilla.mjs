@@ -25,7 +25,8 @@ function ui(blocks = []) {
         const tabla = b.tabla
           ? `<table class="m"><thead><tr>${b.tabla.columnas.map((c) => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${b.tabla.filas
               .map((f) => `<tr>${f.map((c) => {
-                const t = String(c); const cls = t.endsWith('↓') ? 'up' : t.endsWith('↑') ? 'down' : '';
+                let t = String(c); const alerta = t.startsWith('!'); if (alerta) t = t.slice(1);
+                const cls = t.endsWith('↓') ? 'up' : alerta || t.endsWith('↑') ? 'down' : '';
                 return `<td class="${cls}">${esc(t)}</td>`;
               }).join('')}</tr>`).join('')}</tbody></table>`
           : '';
@@ -44,11 +45,15 @@ function body(s) {
   const out = [];
   if (s.eyebrow) out.push(`<div class="eyebrow">${md(s.eyebrow)}</div>`);
   if (s.titulo) out.push(`<h2 style="font-size:${s.tamanoTitulo ?? 82}px">${md(s.titulo)}</h2>`);
-  if (s.texto) out.push(`<p class="lead">${md(s.texto)}</p>`);
+  const parrafos = (v) => (Array.isArray(v) ? v : [v]).map((t) => `<p class="lead">${md(t)}</p>`).join('');
+  if (s.texto) out.push(`<div class="paras">${parrafos(s.texto)}</div>`);
+  if (s.lista) out.push(`<div class="checks">${s.lista.map((t) => `<div class="check"><span class="ck emo">✓</span><span>${md(t)}</span></div>`).join('')}</div>`);
   if (s.pasos) out.push(`<div class="steps">${s.pasos.map((p, i) => `<div class="step"><span class="num">${i + 1}</span><span>${md(p)}</span></div>`).join('')}</div>`);
   if (s.items) out.push(`<div class="prompts">${s.items.map((it) => `<div class="prompt"><span class="ic">${esc(it.icono ?? '•')}</span><div>${it.etiqueta ? `<small>${esc(it.etiqueta)}</small>` : ''}<span>${md(it.texto)}</span></div></div>`).join('')}</div>`);
   if (s.ui) out.push(`<div class="mt">${ui(s.ui)}</div>`);
   if (s.nota) out.push(`<p class="note">${esc(s.nota)}</p>`);
+  if (s.textoFinal) out.push(`<div class="paras mt">${parrafos(s.textoFinal)}</div>`);
+  if (s.cierre) out.push(`<p class="cierre">${md(s.cierre)}</p>`);
   if (s.badge) out.push(`<span class="ok">${md(s.badge)}</span>`);
   if (s.alerta) out.push(`<div class="warn"><span class="ic emo">⚠️</span><span>${md(s.alerta)}</span></div>`);
   return out.join('\n');
@@ -79,7 +84,7 @@ function slide(s, i, total, meta, fondoUrl) {
       inner = `<div class="body" style="margin-top:150px"><p class="display" style="font-size:${s.tamanoTitulo ?? 104}px">${md(s.titulo)}</p>${s.alerta ? `<div class="warn"><span class="ic emo">⚠️</span><span>${md(s.alerta)}</span></div>` : ''}</div>`;
       break;
     case 'cta':
-      inner = `<div class="body" style="margin-top:150px"><p class="display" style="font-size:96px">${md(s.antes ?? 'Comenta')}</p><div><span class="ads">${esc(s.palabra)}</span></div><p class="display" style="font-size:66px;line-height:1.12">${md(s.despues ?? '')}</p></div>`;
+      inner = `<div class="body" style="margin-top:${s.previo ? 90 : 150}px">${s.previo ? `<p class="display previo">${md(s.previo)}</p>` : ''}<p class="display" style="font-size:96px">${md(s.antes ?? 'Comenta')}</p><div><span class="ads">${esc(s.palabra)}</span></div><p class="display" style="font-size:66px;line-height:1.12">${md(s.despues ?? '')}</p></div>`;
       break;
     case 'contenido':
       inner = `<div class="body" style="margin-top:90px">${body(s)}</div>`;

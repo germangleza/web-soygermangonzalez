@@ -302,3 +302,13 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   @keyframes gg-vt-out { to { opacity: 0; } }
   @keyframes gg-vt-in { from { opacity: 0; transform: translateY(10px); } }
 }
+
+/* Checklist dentro de posts (listas de tareas GFM) */
+.prose .contains-task-list { list-style: none; padding-left: 0; }
+.prose .task-list-item { display: flex; gap: .75rem; align-items: flex-start; font-weight: 600; color: var(--navy); }
+.prose .task-list-item input[type="checkbox"] { flex: none; width: 1.25rem; height: 1.25rem; margin: .2rem 0 0; accent-color: var(--navy); cursor: pointer; }
+.prose .checklist-ads h2 { font-size: clamp(1.25rem, 1.1rem + .5vw, 1.5rem); margin-top: 2.25rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.prose .worksheet { margin: 1.5rem 0 2rem; padding: 1.25rem 1.5rem; border: 1px solid var(--line); border-radius: var(--radius); display: grid; gap: 1.1rem; }
+.prose .worksheet__row { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 1rem; align-items: end; font-weight: 700; color: var(--navy); }
+.prose .worksheet__row i { border-bottom: 1px solid var(--muted); height: 1.4rem; }
+@media (max-width: 479px) { .prose .worksheet__row { grid-template-columns: minmax(0, 1fr); gap: .35rem; } }
