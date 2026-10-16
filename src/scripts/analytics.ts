@@ -20,7 +20,10 @@ export type ConversionEvent =
   // Checklist «¿La IA recomienda tu negocio?» (qualified_lead, meeting_booked y customer_won se registran en el CRM)
   | 'checklist_view'
   | 'checklist_start'
-  | 'checklist_complete';
+  | 'checklist_complete'
+  // Recursos de Builder Lab (nunca se envía el texto copiado ni datos personales)
+  | 'resource_view'
+  | 'prompt_copied';
 
 declare global {
   interface Window {

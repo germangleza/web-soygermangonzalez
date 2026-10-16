@@ -24,6 +24,7 @@ const empty = resources.length === 0;
 
   {Object.entries(RESOURCE_COLLECTIONS).map(([key, c]) => {
     const items = resources.filter((r) => r.data.category === key);
+    if (!empty && items.length === 0) return null; // con recursos reales, no mostrar colecciones vacías
     return (
       <section class="section" aria-labelledby={`col-${key}`}>
         <div class="container">

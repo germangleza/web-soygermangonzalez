@@ -175,3 +175,13 @@ Lead magnet v2.0, recurso de Builder Lab (también `/builder-lab/ia-recomienda-t
 - **Enrutamiento:** `lead_interest = health` si el negocio es de salud → CTA «Conocer Maguey Salud»; otros sectores → revisión de Maguey Studio u Opportunity Session.
 - **Destino:** `AI_CHECKLIST_WEBHOOK_URL` (o `LEAD_WEBHOOK_URL`). Privacidad obligatoria y marketing opcional, ambos sin premarcar; pedir el reporte no implica marketing.
 - **Eventos:** `checklist_view`, `checklist_start`, `checklist_complete`, `report_requested`, `review_requested` (solo con respuesta real del servidor). `qualified_lead`, `meeting_booked` y `customer_won` se registran en el CRM.
+
+## 14. Recurso «3 prompts para vender beneficios, no características»
+
+- Ruta: `/builder-lab/recursos/3-prompts-valor` (sin registro; los 3 prompts siempre visibles).
+- Copy y prompts: `src/data/prompts-valor.ts` (única fuente: lo que se ve es lo que se copia).
+- Componente reutilizable: `src/components/ui/CopyPromptCard.astro` + `src/scripts/copy-text.ts` (Clipboard API → fallback `execCommand` → selección manual con mensaje visible; estado en `aria-live`).
+- Catálogo: `src/content/recursos/3-prompts-valor.md` (aparece en Builder Lab y en `/builder-lab/recursos`).
+- Analítica (solo si GA4/Plausible están configurados): `resource_view` y `prompt_copied` con `resource_id=3-prompts-valor` y `prompt_number`; nunca se envía el texto copiado.
+- Link para el DM del Reel (palabra VALOR): `https://www.soygermangonzalez.com/builder-lab/recursos/3-prompts-valor?utm_source=instagram&utm_medium=dm&utm_campaign=reel_meta_valor`
+- Prueba E2E: `tests/e2e/prompts-valor.e2e.mjs`.

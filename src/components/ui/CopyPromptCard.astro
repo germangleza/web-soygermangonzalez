@@ -1,0 +1,94 @@
+---
+/**
+ * CopyPromptCard: prompt con botón «Copiar prompt N».
+ * El texto que se muestra y el que se copia salen del mismo prop `prompt` (sin duplicar).
+ * Accesible: botón real, foco visible, estado anunciado en una región aria-live.
+ */
+interface Props {
+  number: number;
+  label?: string;
+  title: string;
+  description: string;
+  prompt: string;
+  resourceId: string;
+}
+const { number, label, title, description, prompt, resourceId } = Astro.props;
+const id = `prompt-${number}`;
+---
+<article class="cpc" aria-labelledby={`${id}-title`} data-cpc data-resource={resourceId} data-number={number}>
+  <header class="cpc__head">
+    <span class="cpc__num" aria-hidden="true">{String(number).padStart(2, '0')}</span>
+    <div>
+      {label && <span class="cpc__label">Prompt {number} · {label}</span>}
+      <h2 class="cpc__title" id={`${id}-title`}>{title}</h2>
+      <p class="cpc__desc">{description}</p>
+    </div>
+  </header>
+  <pre class="cpc__text" id={`${id}-text`} tabindex="0" aria-label={`Texto del prompt ${number}`} data-cpc-text>{prompt}</pre>
+  <div class="cpc__actions">
+    <button type="button" class="btn cpc__btn" data-cpc-copy aria-describedby={`${id}-status`}>
+      <span data-cpc-label>Copiar prompt {number}</span>
+    </button>
+    <p class="cpc__status" id={`${id}-status`} role="status" aria-live="polite" data-cpc-status></p>
+  </div>
+</article>
+
+<script>
+  import { copyText, selectContents } from '../../scripts/copy-text';
+  import { track } from '../../scripts/analytics';
+
+  document.querySelectorAll<HTMLElement>('[data-cpc]').forEach((card) => {
+    const btn = card.querySelector<HTMLButtonElement>('[data-cpc-copy]');
+    const label = card.querySelector<HTMLElement>('[data-cpc-label]');
+    const status = card.querySelector<HTMLElement>('[data-cpc-status]');
+    const textEl = card.querySelector<HTMLElement>('[data-cpc-text]');
+    if (!btn || !label || !status || !textEl) return;
+    const original = label.textContent ?? '';
+    let timer: number | undefined;
+
+    btn.addEventListener('click', async () => {
+      const ok = await copyText(textEl.textContent ?? '');
+      window.clearTimeout(timer);
+      card.classList.toggle('is-copied', ok);
+      card.classList.toggle('is-error', !ok);
+      if (ok) {
+        label.textContent = '¡Copiado!';
+        status.textContent = `Prompt ${card.dataset.number} copiado. Pégalo en ChatGPT.`;
+        track('prompt_copied', { resource_id: card.dataset.resource ?? '', prompt_number: card.dataset.number ?? '' });
+      } else {
+        selectContents(textEl);
+        status.textContent = 'No se pudo copiar automáticamente. El texto quedó seleccionado: cópialo manualmente.';
+      }
+      timer = window.setTimeout(() => {
+        label.textContent = original;
+        card.classList.remove('is-copied');
+        if (ok) status.textContent = '';
+      }, 2500);
+    });
+  });
+</script>
+
+<style>
+  .cpc { background: #fff; border: 1px solid var(--line); border-radius: calc(var(--radius) * 1.5); padding: clamp(1.25rem, 1rem + 1.2vw, 2rem); display: grid; gap: 1.25rem; min-width: 0; }
+  .cpc.is-copied { border-color: var(--accent-text); }
+  .cpc__head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1rem; align-items: start; }
+  .cpc__num { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem); line-height: 1; color: var(--accent-text); letter-spacing: -0.03em; }
+  .cpc__label { display: block; font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-text); margin-bottom: .35rem; }
+  .cpc__title { font-size: clamp(1.3rem, 1.1rem + .8vw, 1.75rem); margin: 0 0 .35rem; }
+  .cpc__desc { margin: 0; color: var(--muted); }
+  .cpc__text {
+    margin: 0; padding: 1.1rem 1.2rem; border-radius: var(--radius); background: #f3f6f9; border: 1px solid var(--line);
+    font-family: inherit; font-size: 1rem; line-height: 1.6; color: var(--navy);
+    white-space: pre-wrap; overflow-wrap: anywhere; user-select: text; -webkit-user-select: text;
+  }
+  .cpc__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; }
+  .cpc__btn { min-height: 48px; }
+  .cpc.is-copied .cpc__btn { --btn-bg: var(--lime, #c5ee66); --btn-border: var(--lime, #c5ee66); --btn-fg: var(--navy); }
+  .cpc__status { margin: 0; font-size: .9rem; font-weight: 600; color: var(--accent-text); }
+  .cpc__status:empty { display: none; }
+  .cpc.is-error .cpc__status { color: #b42318; }
+  @media (max-width: 479px) {
+    .cpc__btn { width: 100%; justify-content: center; }
+    .cpc__text { font-size: .95rem; padding: 1rem; }
+  }
+</style>

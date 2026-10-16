@@ -10,6 +10,8 @@ interface Props {
 }
 const { title, description, categoryLabel, href, updatedAt, slug } = Astro.props;
 const external = /^https?:\/\//.test(href);
+/** Ruta interna sin extensión de archivo = página del sitio (no descarga). */
+const page = !external && href.startsWith('/') && !/\.[a-z0-9]{2,5}$/i.test(href);
 import { formatDate } from '../../lib/format';
 ---
 <article class="card">
@@ -18,8 +20,8 @@ import { formatDate } from '../../lib/format';
   <p>{description}</p>
   <p class="small">Actualizado: <time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time></p>
   <div class="card__footer">
-    <a class="link-arrow" href={href} data-resource={slug} {...(external ? { target: '_blank', rel: 'noopener' } : { download: '' })}>
-      {external ? 'Consultar recurso' : 'Descargar recurso'} <span aria-hidden="true">↗</span>
+    <a class="link-arrow" href={href} data-resource={slug} {...(external ? { target: '_blank', rel: 'noopener' } : page ? {} : { download: '' })}>
+      {external ? 'Consultar recurso' : page ? 'Abrir recurso' : 'Descargar recurso'} <span aria-hidden="true">↗</span>
       {external && <span class="sr-only">(abre en otra pestaña)</span>}
     </a>
   </div>
@@ -28,6 +30,7 @@ import { formatDate } from '../../lib/format';
   import { track } from '../../scripts/analytics';
   document.querySelectorAll<HTMLAnchorElement>('a[data-resource]').forEach((a) => {
     if (a.getAttribute('href')?.startsWith('#')) return; // requiere registro: no es descarga
+    if (!a.hasAttribute('download') && !a.target) return; // página interna: se mide con resource_view
     a.addEventListener('click', () => track('resource_download', { resource: a.dataset.resource ?? '' }));
   });
 </script>
