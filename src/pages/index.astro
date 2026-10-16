@@ -20,8 +20,8 @@ import { SITE } from '../config/site.config';
   <ClinicDiagnosticCTA />
   <section class="section" aria-label="Siguiente paso">
     <div class="container">
-      <CTABanner eyebrow="Opportunity Session" title="¿Qué oportunidad estás viendo?" ctaLabel="Cuéntame tu reto" ctaHref="/contacto">
-        <p>Puede ser una necesidad de marketing, web o IA. Una oportunidad de crecimiento. O una idea que todavía no sabes cómo convertir en negocio. Empecemos por entenderla y decidir qué vale la pena construir.</p>
+      <CTABanner eyebrow="Opportunity Session" title="En una llamada sin costo identificamos qué conviene hacer primero." ctaLabel="Agenda tu Opportunity Session" ctaHref={SITE.bookingUrl || '/contacto'} secondary={{ label: 'Prefiero escribirte', href: '/contacto' }}>
+        <p>Cuéntame en qué está tu negocio, qué te preocupa y dónde estás atorado. De ahí salen las acciones que más pueden mover tus ventas.</p>
       </CTABanner>
     </div>
   </section>

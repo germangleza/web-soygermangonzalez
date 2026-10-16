@@ -2,6 +2,7 @@
 /** H01 — HeroSection de la home. Imagen arquitectónica provisional del deck. */
 import { Image } from 'astro:assets';
 import hero from '../../assets/photos/hero-escalera.png';
+import { SITE } from '../../config/site.config';
 ---
 <section class="hero dark" aria-labelledby="hero-title">
   <div class="hero__media" aria-hidden="true">
@@ -11,9 +12,9 @@ import hero from '../../assets/photos/hero-escalera.png';
     <div class="hero__copy">
       <span class="eyebrow">Germán González · Business Builder</span>
       <h1 id="hero-title">Te ayudo a hacer crecer tu negocio o a lanzar uno nuevo.</h1>
-      <p class="hero__lead">Detecto dónde está la oportunidad y armo lo necesario para aprovecharla: estrategia, marketing, inteligencia artificial y alianzas.</p>
+      <p class="hero__lead">Un solo responsable, un equipo detrás y entregables en semanas: estrategia, marketing e IA trabajando para tu negocio, sin que tengas que coordinar a nadie.</p>
       <div class="actions">
-        <a class="btn" href="/contacto">Cuéntame tu reto <span class="btn__icon" aria-hidden="true">↗</span></a>
+        <a class="btn" href={SITE.bookingUrl || '/contacto'} target="_blank" rel="noopener">Agenda una llamada sin costo <span class="btn__icon" aria-hidden="true">↗</span><span class="sr-only"> (abre en otra pestaña)</span></a>
         <a class="btn btn--outline" href="#metodo">Explora cómo trabajo <span class="btn__icon" aria-hidden="true">↓</span></a>
       </div>
     </div>
