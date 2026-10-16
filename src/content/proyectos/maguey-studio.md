@@ -6,6 +6,7 @@ order: 3
 featured: true
 hasCase: true
 published: false
+website: "https://www.magueystudio.mx"
 ---
 
 <!-- BORRADOR. Solo contiene información del Blueprint V3. Completar con datos verificables antes de publicar (published: true). -->

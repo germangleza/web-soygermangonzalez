@@ -6,6 +6,7 @@ order: 2
 featured: true
 hasCase: true
 published: false
+website: "https://lifeagent.mx"
 ---
 
 <!-- BORRADOR. Solo contiene información del Blueprint V3. Completar con datos verificables antes de publicar (published: true). -->

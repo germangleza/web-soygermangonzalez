@@ -50,6 +50,8 @@ function body(s) {
   if (s.lista) out.push(`<div class="checks">${s.lista.map((t) => `<div class="check"><span class="ck emo">✓</span><span>${md(t)}</span></div>`).join('')}</div>`);
   if (s.pasos) out.push(`<div class="steps">${s.pasos.map((p, i) => `<div class="step"><span class="num">${i + 1}</span><span>${md(p)}</span></div>`).join('')}</div>`);
   if (s.items) out.push(`<div class="prompts">${s.items.map((it) => `<div class="prompt"><span class="ic">${esc(it.icono ?? '•')}</span><div>${it.etiqueta ? `<small>${esc(it.etiqueta)}</small>` : ''}<span>${md(it.texto)}</span></div></div>`).join('')}</div>`);
+  if (s.comparar) out.push(`<div class="compare">${s.comparar.map((c) => `<div class="cmp">${c.etiqueta ? `<small>${esc(c.etiqueta)}</small>` : ''}<div class="cmp__row cmp__row--no"><span class="cmp__ic emo">✕</span><span><b class="cmp__k">No vendas:</b> ${md(c.no)}</span></div><div class="cmp__row cmp__row--si"><span class="cmp__ic emo">✓</span><span><b class="cmp__k">Comunica:</b> ${md(c.si)}</span></div></div>`).join('')}</div>`);
+  if (s.flujo) out.push(`<div class="flow">${s.flujo.map((f, i) => `${i ? '<span class="flow__arrow emo">↓</span>' : ''}<div class="flow__step"><span class="flow__num">${i + 1}</span><div><strong>${md(f.titulo)}</strong><span>${md(f.texto)}</span></div></div>`).join('')}</div>`);
   if (s.ui) out.push(`<div class="mt">${ui(s.ui)}</div>`);
   if (s.nota) out.push(`<p class="note">${esc(s.nota)}</p>`);
   if (s.textoFinal) out.push(`<div class="paras mt">${parrafos(s.textoFinal)}</div>`);

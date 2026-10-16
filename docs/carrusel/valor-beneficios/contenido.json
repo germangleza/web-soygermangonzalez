@@ -1,0 +1,98 @@
+{
+  "titulo": "A tu cliente no le importa tu producto",
+  "meta": {
+    "url": "soygermangonzalez.com",
+    "urlFinal": "soygermangonzalez.com/builder-lab",
+    "autor": "Germán González"
+  },
+  "laminas": [
+    {
+      "layout": "portada",
+      "pill": "Ventas · Propuesta de valor",
+      "eyebrow": "Builder Lab · Negocios y growth",
+      "titulo": "A tu cliente no le importa *tu producto.*",
+      "tamanoTitulo": 112,
+      "texto": "Le importa **lo que consigue con él.**",
+      "diagrama": {
+        "de": "Producto",
+        "a": "Resultado",
+        "etiqueta": "valor"
+      }
+    },
+    {
+      "layout": "contenido",
+      "pill": "El error",
+      "eyebrow": "El error más común",
+      "titulo": "Muchas empresas hablan de características, especificaciones y tecnología.",
+      "tamanoTitulo": 72,
+      "items": [
+        {
+          "icono": "⚙️",
+          "texto": "Características"
+        },
+        {
+          "icono": "📋",
+          "texto": "Especificaciones"
+        },
+        {
+          "icono": "💻",
+          "texto": "Tecnología"
+        }
+      ],
+      "cierre": "Pero olvidan responder: ¿y eso para qué me sirve?",
+      "desliza": "Desliza 👉"
+    },
+    {
+      "layout": "contenido",
+      "pill": "2 ejemplos",
+      "eyebrow": "Mira la diferencia",
+      "titulo": "Lo mismo, dicho para el cliente",
+      "tamanoTitulo": 76,
+      "comparar": [
+        {
+          "etiqueta": "Ejemplo 1",
+          "no": "“Batería de 48 horas”.",
+          "si": "**“Dos días sin preocuparte por cargarlo”.**"
+        },
+        {
+          "etiqueta": "Ejemplo 2 · Maleta de viaje",
+          "no": "“Maleta con ruedas de 360°”.",
+          "si": "**“Muévete por el aeropuerto sin cargar peso”.**"
+        }
+      ]
+    },
+    {
+      "layout": "contenido",
+      "pill": "La fórmula",
+      "titulo": "La *fórmula*",
+      "tamanoTitulo": 96,
+      "flujo": [
+        {
+          "titulo": "Característica",
+          "texto": "Qué tiene"
+        },
+        {
+          "titulo": "Beneficio",
+          "texto": "Qué permite"
+        },
+        {
+          "titulo": "Resultado",
+          "texto": "Por qué importa"
+        }
+      ]
+    },
+    {
+      "layout": "frase",
+      "pill": "Aplícalo",
+      "titulo": "Revisa tu último anuncio.\n¿Estás describiendo _lo que vendes_ o *lo que gana tu cliente?*",
+      "tamanoTitulo": 88
+    },
+    {
+      "layout": "cta",
+      "pill": "Gratis",
+      "antes": "Comenta",
+      "palabra": "VALOR",
+      "despues": "y te mando *3 prompts* para comunicar mejor lo que vendes 👇"
+    }
+  ]
+}
