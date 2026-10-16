@@ -178,10 +178,9 @@ Lead magnet v2.0, recurso de Builder Lab (también `/builder-lab/ia-recomienda-t
 
 ## 14. Recurso «3 prompts para vender beneficios, no características»
 
-- Ruta: `/builder-lab/recursos/3-prompts-valor` (sin registro; los 3 prompts siempre visibles).
+- Ruta: `/builder-lab/3-prompts-valor`, publicación MDX en «Lo que estoy explorando» (`src/content/blog/3-prompts-valor.mdx`, contenido en `src/components/ui/PromptsValor.astro`). La URL anterior `/builder-lab/recursos/3-prompts-valor` redirige aquí. Sin registro; CTA final «Agenda una llamada» (`ctaType: agenda` → `SITE.bookingUrl`).
 - Copy y prompts: `src/data/prompts-valor.ts` (única fuente: lo que se ve es lo que se copia).
 - Componente reutilizable: `src/components/ui/CopyPromptCard.astro` + `src/scripts/copy-text.ts` (Clipboard API → fallback `execCommand` → selección manual con mensaje visible; estado en `aria-live`).
-- Catálogo: `src/content/recursos/3-prompts-valor.md` (aparece en Builder Lab y en `/builder-lab/recursos`).
 - Analítica (solo si GA4/Plausible están configurados): `resource_view` y `prompt_copied` con `resource_id=3-prompts-valor` y `prompt_number`; nunca se envía el texto copiado.
-- Link para el DM del Reel (palabra VALOR): `https://www.soygermangonzalez.com/builder-lab/recursos/3-prompts-valor?utm_source=instagram&utm_medium=dm&utm_campaign=reel_meta_valor`
+- Link para el DM del Reel (palabra VALOR): `https://www.soygermangonzalez.com/builder-lab/3-prompts-valor?utm_source=instagram&utm_medium=dm&utm_campaign=reel_meta_valor`
 - Prueba E2E: `tests/e2e/prompts-valor.e2e.mjs`.

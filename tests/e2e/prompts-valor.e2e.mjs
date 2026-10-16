@@ -5,7 +5,7 @@ import { createRequire } from 'module';
 import { readFileSync } from 'fs';
 const { chromium } = createRequire(import.meta.url)(process.env.PW);
 const OUT = process.argv[2]; const BASE = process.env.BASE ?? 'http://localhost:4329';
-const URL_ = BASE + '/builder-lab/recursos/3-prompts-valor/';
+const URL_ = BASE + '/builder-lab/3-prompts-valor';
 
 // Fuente de verdad de los prompts: el mismo archivo de datos que usa la página.
 const src = readFileSync(new URL('../../src/data/prompts-valor.ts', import.meta.url), 'utf8');
@@ -52,10 +52,10 @@ check('datos: 3 prompts leídos de prompts-valor.ts', PROMPTS.length === 3);
   await p.waitForTimeout(2700);
   check('375: el botón vuelve a su texto', (await p.textContent('[data-cpc][data-number="1"] [data-cpc-copy]')).trim() === 'Copiar prompt 1');
   const links = await p.$$eval('main a[href]', (as) => as.map((a) => a.getAttribute('href')));
-  check('375: CTA Explorar más recursos → /builder-lab/recursos', links.includes('/builder-lab/recursos'));
-  check('375: CTA secundario → /contacto', links.includes('/contacto'));
-  for (const href of [...new Set(links.filter((h) => h.startsWith('/')))]) {
-    const r = await ctx.request.get(BASE + href.split('#')[0]);
+  const agenda = await p.$eval('a.btn[target=_blank]', (a) => ({ href: a.href, text: a.textContent }));
+  check('375: CTA final «Agenda una llamada» al link de agenda', agenda.text.includes('Agenda una llamada') && agenda.href.startsWith('https://calendar.app.google/'));
+  for (const href of [...new Set(links.filter((h) => h.startsWith('/') && !h.startsWith('/api')))]) {
+    const r = await ctx.request.get(BASE + (href.split('#')[0] || '/'));
     check(`375: enlace real ${href}`, r.status() === 200, String(r.status()));
   }
   await p.screenshot({ path: `${OUT}/375-full.png`, fullPage: true });
@@ -100,16 +100,15 @@ check('datos: 3 prompts leídos de prompts-valor.ts', PROMPTS.length === 3);
   await ctx.close();
 }
 
-// ---- D · Catálogo de Builder Lab
+// ---- D · Aparece en «Lo que estoy explorando» y la URL anterior redirige
 {
   const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
   const p = await ctx.newPage();
-  for (const path of ['/builder-lab/', '/builder-lab/recursos/']) {
-    await p.goto(BASE + path, { waitUntil: 'networkidle' });
-    const a = p.locator('a[href="/builder-lab/recursos/3-prompts-valor"]');
-    check(`${path}: tarjeta enlaza al recurso`, (await a.count()) > 0 && (await a.first().getAttribute('download')) === null);
-  }
-  check('/builder-lab/recursos/: indexable (ya tiene recurso real)', (await p.$$eval('meta[name=robots]', (m) => m.map((x) => x.content).join())).includes('noindex') === false);
+  await p.goto(BASE + '/builder-lab', { waitUntil: 'networkidle' });
+  check('/builder-lab: tarjeta en «Lo que estoy explorando»', (await p.locator('#explora a[href="/builder-lab/3-prompts-valor"]').count()) > 0);
+  // La redirección la sirve Vercel (no el servidor estático local): se valida en la config generada.
+  const cfg = JSON.parse(readFileSync(new URL('../../.vercel/output/config.json', import.meta.url), 'utf8'));
+  check('URL anterior redirige 301 al recurso', cfg.routes.some((r) => r.src === '^/builder-lab/recursos/3-prompts-valor$' && r.status === 301 && r.headers?.Location === '/builder-lab/3-prompts-valor'));
   await ctx.close();
 }
 

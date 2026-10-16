@@ -25,6 +25,8 @@ export default defineConfig({
     '/blog': '/builder-lab',
     '/builder-lab/diagnostico-clinicas': '/diagnostico-clinicas',
     '/builder-lab/ia-recomienda-tu-negocio': '/ia-recomienda-tu-negocio',
+    // El recurso se publicó primero en Recursos; ahora vive en «Lo que estoy explorando».
+    '/builder-lab/recursos/3-prompts-valor': '/builder-lab/3-prompts-valor',
   },
   image: { responsiveStyles: false },
   env: {

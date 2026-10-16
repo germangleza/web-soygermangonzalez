@@ -1,12 +1,12 @@
 /**
  * Recurso gratuito «3 prompts para vender beneficios, no características» (Builder Lab).
- * Ruta: /builder-lab/recursos/3-prompts-valor
+ * Ruta: /builder-lab/3-prompts-valor (publicación de «Lo que estoy explorando»)
  * Única fuente del copy: la vista y el botón de copiar leen el mismo texto (no duplicar).
  * Los prompts se copian TAL CUAL (con saltos de línea); no editar sin validar con Germán.
  */
 
 export const RESOURCE_ID = '3-prompts-valor';
-export const RESOURCE_PATH = `/builder-lab/recursos/${RESOURCE_ID}`;
+export const RESOURCE_PATH = `/builder-lab/${RESOURCE_ID}`;
 
 export const PAGE = {
   eyebrow: 'Recurso gratuito · Builder Lab',

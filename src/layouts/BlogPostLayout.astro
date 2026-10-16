@@ -26,7 +26,7 @@ interface Props {
   videoUrl?: string;
   tags?: string[];
   resources?: { label: string; url: string }[];
-  ctaType?: 'builder-drops' | 'contacto' | 'conferencias';
+  ctaType?: 'builder-drops' | 'contacto' | 'conferencias' | 'agenda';
   draft?: boolean;
   order?: number;
   seo?: { title?: string; description?: string };
@@ -123,6 +123,11 @@ const embed = videoUrl ? embedUrl(videoUrl) : undefined;
       {ctaType === 'contacto' && (
         <CTABanner title="¿Qué oportunidad estás viendo?" ctaLabel="Cuéntame tu reto" ctaHref="/contacto">
           <p>Empecemos por entenderla y decidir qué vale la pena construir.</p>
+        </CTABanner>
+      )}
+      {ctaType === 'agenda' && (
+        <CTABanner lime eyebrow="Trabajemos juntos" title="¿Quieres que lo trabajemos en conjunto?" ctaLabel="Agenda una llamada" ctaHref={SITE.bookingUrl || '/contacto'}>
+          <p>Revisamos tu producto o servicio y aterrizamos los beneficios y mensajes que más pueden mover tus ventas.</p>
         </CTABanner>
       )}
       {ctaType === 'conferencias' && (
