@@ -2,6 +2,7 @@
 /** H04 — MethodSteps: Opportunity Building (Detectar · Diseñar · Activar · Construir). */
 import { Image } from 'astro:assets';
 import SectionHeading from '../ui/SectionHeading.astro';
+import BookCallButton from '../ui/BookCallButton.astro';
 import { METHOD } from '../../data/content';
 ---
 <section class="section section--dark dark" id="metodo" aria-labelledby="metodo-title">
@@ -20,6 +21,7 @@ import { METHOD } from '../../data/content';
         </li>
       ))}
     </ol>
+    <div class="actions"><BookCallButton variant="btn--lime" /></div>
   </div>
 </section>
 <style>

@@ -1,6 +1,7 @@
 ---
 /** Home — Qué construimos y con quién (capacidades consolidadas con el equipo): Germán (estrategia) + empresas de ejecución. */
 import SectionHeading from '../ui/SectionHeading.astro';
+import BookCallButton from '../ui/BookCallButton.astro';
 import { HOME_TEAM } from '../../data/content';
 ---
 <section class="section" id="equipo" aria-labelledby="equipo-title">
@@ -21,7 +22,10 @@ import { HOME_TEAM } from '../../data/content';
     </ul>
     <div class="team__foot">
       <p class="team__note"><span aria-hidden="true">+</span> <strong>Alianzas y nuevos canales:</strong> cuando el proyecto lo pide, sumo socios comerciales y aliados estratégicos.</p>
-      <a class="btn btn--dark" href="/que-hago">Conoce cómo puedo ayudarte <span class="btn__icon" aria-hidden="true">↗</span></a>
+      <div class="actions">
+        <BookCallButton variant="btn--dark" />
+        <a class="btn btn--outline-dark" href="/que-hago">Conoce cómo puedo ayudarte <span class="btn__icon" aria-hidden="true">↗</span></a>
+      </div>
     </div>
   </div>
 </section>
@@ -37,6 +41,7 @@ import { HOME_TEAM } from '../../data/content';
   .team__items li::before { content: ''; position: absolute; left: 0; top: .6em; width: .45rem; height: .45rem; border-radius: 50%; background: var(--sky); }
   .team .card--dark .team__items li { color: var(--muted-on-dark); }
   .team__foot { margin-top: 1.75rem; display: flex; flex-wrap: wrap; gap: 1.25rem 2rem; align-items: center; justify-content: space-between; }
+  .team__foot .actions { margin-top: 0; }
   .team__note { margin: 0; color: var(--muted); font-size: .95rem; }
   .team__note span { color: var(--sky); font-weight: 700; margin-right: .35rem; }
 </style>

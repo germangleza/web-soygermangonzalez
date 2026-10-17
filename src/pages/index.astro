@@ -16,8 +16,6 @@ import { SITE } from '../config/site.config';
   <MethodSteps />
   <TeamBuilders />
   <AboutTeaser />
-  <BuilderLabTeaser />
-  <ClinicDiagnosticCTA />
   <section class="section" aria-label="Siguiente paso">
     <div class="container">
       <CTABanner eyebrow="Opportunity Session" title="En una llamada sin costo identificamos qué conviene hacer primero." ctaLabel="Agenda tu Opportunity Session" ctaHref={SITE.bookingUrl || '/contacto'} secondary={{ label: 'Prefiero escribirte', href: '/contacto' }}>
@@ -25,4 +23,6 @@ import { SITE } from '../config/site.config';
       </CTABanner>
     </div>
   </section>
+  <BuilderLabTeaser />
+  <ClinicDiagnosticCTA />
 </BaseLayout>
