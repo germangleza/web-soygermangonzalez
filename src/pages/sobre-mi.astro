@@ -6,10 +6,10 @@ import photo from '../assets/photos/german-gonzalez.png';
 ---
 <BaseLayout
   title="Sobre mí"
-  description="Soy Germán González, Business Builder. Mi carrera ha pasado por empresas familiares, startups, inteligencia artificial, marketing, fintech y nuevas líneas de negocio."
+  description="Soy Germán González, Business Builder. Lideré la expansión de Ópticas Jarmar y cofundé Maguey Studio, Crypto MX y Life Agent. Hoy ayudo a empresarios a construir su crecimiento."
 >
-  <PageHero eyebrow="Sobre mí" title="Me gusta encontrar oportunidades. Mucho más, construirlas." breadcrumbs={[{ name: 'Sobre mí', url: '/sobre-mi' }]}>
-    <p>Soy Germán González. Mi carrera ha pasado por empresas familiares, startups, inteligencia artificial, marketing, fintech y nuevas líneas de negocio.</p>
+  <PageHero eyebrow="Sobre mí" title="Construir es el hilo que conecta mi trayectoria." breadcrumbs={[{ name: 'Sobre mí', url: '/sobre-mi' }]}>
+    <p>Soy Germán González. Tengo formación en finanzas y experiencia construyendo negocios, estrategias de crecimiento y proyectos digitales.</p>
   </PageHero>
 
   <section class="section" aria-labelledby="historia-title">
@@ -21,9 +21,10 @@ import photo from '../assets/photos/german-gonzalez.png';
         <span class="eyebrow">Mi historia</span>
         <h2 id="historia-title" class="sr-only">Mi historia</h2>
         <div class="prose">
-          <p>Estudié Finanzas en el Tec de Monterrey y he desarrollado mi experiencia entre estrategia, producto, crecimiento, desarrollo de negocios y operación.</p>
-          <p>En Ópticas Jarmar he participado en la evolución de un negocio familiar con décadas de historia. En Life Agent trabajo con inteligencia artificial aplicada a problemas empresariales. Con Maguey construimos capacidades digitales para negocios que necesitan crecer.</p>
-          <p>También he explorado el mundo de crypto, pagos y nuevas tecnologías, una experiencia que ha influido en cómo veo las oportunidades que surgen con cada nueva ola de innovación.</p>
+          <p>Mi primer gran reto emprendedor fue liderar la expansión de Ópticas Jarmar de Chiapas a Tijuana: desde un local en obra negra hasta la apertura de una clínica y el desarrollo de estrategias para atraer pacientes.</p>
+          <p>Después cofundé Maguey Studio, Crypto MX y Life Agent. A través de estos proyectos he trabajado en lanzamiento de negocios, adquisición de clientes, contenido, comunidades, alianzas e inteligencia artificial aplicada a la atención y las ventas.</p>
+          <p>Hoy reúno esa experiencia para ayudar a empresarios a identificar oportunidades de crecimiento y construir lo necesario para aprovecharlas.</p>
+          <p>A veces empezamos por una campaña, una página web o una automatización. Otras, por una nueva línea de negocio. El punto de partida es entender qué necesita lograr la empresa y cómo llevarlo a la realidad.</p>
         </div>
       </div>
     </div>
@@ -60,8 +61,8 @@ import photo from '../assets/photos/german-gonzalez.png';
 <style>
   .story { align-items: start; }
   .story__photo { aspect-ratio: 4 / 5; }
-  .story__photo img { object-position: center 20%; }
-  .story .prose p:first-child { font-size: 1.2rem; color: var(--ink); }
+  .story__photo img { object-position: center 70%; transform: scale(1.12); transform-origin: 50% 80%; }
+  .story .prose p:nth-child(3) { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.15rem, 1rem + .5vw, 1.4rem); letter-spacing: -0.02em; line-height: 1.3; color: var(--ink); }
   .invite { min-height: 15rem; }
   .invite h3 { font-size: clamp(1.4rem, 1.2rem + .8vw, 1.8rem); }
   @media (max-width: 1023px) { .story__photo { max-width: 460px; aspect-ratio: 1; } }
