@@ -1,0 +1,88 @@
+{
+  "titulo": "¿ChatGPT recomienda tu negocio?",
+  "meta": {
+    "url": "soygermangonzalez.com",
+    "urlFinal": "soygermangonzalez.com/builder-lab",
+    "autor": "Germán González"
+  },
+  "laminas": [
+    {
+      "layout": "portada",
+      "pill": "IA · Visibilidad digital",
+      "eyebrow": "Builder Lab · IA y herramientas",
+      "titulo": "¿ChatGPT recomienda *tu negocio?*",
+      "tamanoTitulo": 120,
+      "texto": "Tus clientes ya pueden buscar negocios con IA. **¿El tuyo está preparado?**",
+      "diagrama": {
+        "de": "Pregunta",
+        "a": "Tu negocio",
+        "etiqueta": "IA"
+      }
+    },
+    {
+      "layout": "contenido",
+      "pill": "El cambio",
+      "eyebrow": "El cambio",
+      "titulo": "Cambió la forma de *buscar.*",
+      "tamanoTitulo": 88,
+      "items": [
+        {
+          "icono": "🔍",
+          "etiqueta": "Antes buscábamos en Google",
+          "texto": "“Dentistas en Tijuana”."
+        },
+        {
+          "icono": "💬",
+          "etiqueta": "Ahora también podemos preguntar",
+          "texto": "**“¿Qué dentista me recomiendas en Tijuana?”**"
+        }
+      ],
+      "desliza": "Desliza 👉",
+      "grande": true
+    },
+    {
+      "layout": "contenido",
+      "pill": "Las fuentes",
+      "eyebrow": "¿De dónde obtiene información?",
+      "titulo": "La IA puede apoyarse en distintas *fuentes públicas.*",
+      "tamanoTitulo": 76,
+      "items": [
+        {
+          "icono": "🌐",
+          "texto": "Tu página web."
+        },
+        {
+          "icono": "🗺️",
+          "texto": "Información de buscadores y directorios."
+        },
+        {
+          "icono": "⭐",
+          "texto": "Reseñas y menciones en otros sitios."
+        }
+      ],
+      "grande": true
+    },
+    {
+      "layout": "contenido",
+      "pill": "Qué hacer",
+      "eyebrow": "¿Qué puedes hacer?",
+      "titulo": "Empieza por *tres cosas.*",
+      "tamanoTitulo": 88,
+      "pasos": [
+        "Tener una **web clara y accesible.**",
+        "Mantener actualizada tu **ficha de Google Maps,** si aplica.",
+        "Construir una **reputación digital auténtica.**"
+      ],
+      "cierre": "No garantiza aparecer, pero fortalece tu presencia digital.",
+      "grande": true
+    },
+    {
+      "layout": "cta",
+      "pill": "Gratis",
+      "previo": "¿Tu negocio está *preparado?*",
+      "antes": "Comenta",
+      "palabra": "IA",
+      "despues": "y te mando un *checklist* con los puntos que deberías revisar para mejorar tu visibilidad digital 👇"
+    }
+  ]
+}

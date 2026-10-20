@@ -89,7 +89,7 @@ function slide(s, i, total, meta, fondoUrl) {
       inner = `<div class="body" style="margin-top:${s.previo ? 90 : 150}px">${s.previo ? `<p class="display previo">${md(s.previo)}</p>` : ''}<p class="display" style="font-size:96px">${md(s.antes ?? 'Comenta')}</p><div><span class="ads">${esc(s.palabra)}</span></div><p class="display" style="font-size:66px;line-height:1.12">${md(s.despues ?? '')}</p></div>`;
       break;
     case 'contenido':
-      inner = `<div class="body" style="margin-top:90px">${body(s)}</div>`;
+      inner = `<div class="body${s.grande ? ' body--lg' : ''}" style="margin-top:90px">${body(s)}</div>`;
       break;
     default:
       throw new Error(`Lámina ${n}: layout desconocido "${s.layout}" (usa portada | contenido | frase | cta)`);

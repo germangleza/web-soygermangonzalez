@@ -160,3 +160,13 @@ html.canva-bg .slide .cmp__row--no .cmp__ic { color: var(--coral) !important; }
 html.canva-bg .slide .cmp__row--si .cmp__ic { color: var(--navy) !important; }
 html.canva-bg .slide .flow__arrow { color: var(--lime) !important; }
 html.canva-bg .flow__num, html.canva-text .flow__num, html.canva-bg .flow__step strong, html.canva-text .flow__step strong { font-family: var(--canva-font); }
+
+/* Lámina con "grande": true → listas, pasos e items a tamaño de lectura en móvil */
+.body--lg .prompts { gap: 30px; margin-top: 20px; }
+.body--lg .prompt { grid-template-columns: 90px 1fr; padding: 38px 36px; }
+.body--lg .prompt .ic { font-size: 62px; }
+.body--lg .prompt small { font-size: 24px; margin-bottom: 10px; }
+.body--lg .prompt span { font-size: 42px; line-height: 1.25; }
+.body--lg .steps { gap: 36px; margin-top: 16px; }
+.body--lg .step { grid-template-columns: 80px 1fr; font-size: 44px; line-height: 1.28; }
+.body--lg .num { width: 80px; height: 80px; font-size: 40px; }
