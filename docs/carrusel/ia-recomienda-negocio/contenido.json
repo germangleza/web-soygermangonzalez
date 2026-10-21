@@ -22,26 +22,25 @@
     {
       "layout": "contenido",
       "pill": "El cambio",
-      "eyebrow": "El cambio",
       "grande": true,
-      "titulo": "Antes buscábamos. Ahora le *preguntamos a la IA.*",
-      "tamanoTitulo": 72,
+      "titulo": "Ya no buscamos.\n*Preguntamos.*",
+      "tamanoTitulo": 104,
       "items": [
         {
           "icono": "🔍",
-          "etiqueta": "Antes · En Google",
-          "texto": "“Dentistas en Tijuana”"
+          "etiqueta": "Antes",
+          "texto": "Dentistas en Tijuana"
         },
         {
           "icono": "💬",
-          "etiqueta": "Ahora · En ChatGPT",
-          "texto": "**“¿Qué dentista me recomiendas en Tijuana?”**\n*Y la IA te recomienda.*"
+          "etiqueta": "Ahora",
+          "texto": "**¿Qué dentista me recomiendas?**"
         }
       ],
       "dato": {
         "cifra": "+500%",
-        "texto": "creció el tráfico web generado por búsquedas con IA",
-        "fuente": "Fuente: Backlinko (vía Tec de Monterrey, 2026)"
+        "texto": "tráfico web desde búsquedas con IA",
+        "fuente": "Backlinko vía Tec de Monterrey, 2026"
       },
       "desliza": "Desliza 👉"
     },
