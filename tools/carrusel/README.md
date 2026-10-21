@@ -19,13 +19,23 @@ Requisito local (una sola vez): `npm i -D playwright && npx playwright install c
 | `portada` | Lámina 1 | `pill`, `eyebrow`, `titulo`, `texto`, `diagrama` {de, a, etiqueta}, `fondo`, `fondoPosicion`, `fondoOscuro` |
 | `contenido` | Explicar, pasos, listas, maquetas | `pill`, `eyebrow`, `titulo`, `tamanoTitulo`, `texto`, `pasos[]`, `items[]` {icono, etiqueta, texto}, `ui[]`, `nota`, `badge`, `alerta` |
 | `frase` | Payoff / idea grande | `pill`, `titulo`, `alerta` |
-| `cta` | Cierre | `pill`, `antes`, `palabra`, `despues` |
+| `cta` | Cierre | `pill`, `previo`, `antes`, `palabra`, `despues` |
+| `foto` | **Portada** y **penúltima** con foto a sangre | `fondo` (la foto), `fondoPosicion`, `titulo`, `tamanoTitulo`, `texto` (subtítulo abajo) **o** `etiquetas[{texto, color: azul\|lima}]`, `tituloOscuro` (foto clara), `sinDegradado` |
 
 `ui[]` (maqueta de chat o pantalla): `{tipo: "usuario"|"ia"|"titulo"|"campo"|"boton"|"toggle", texto, label, valor, resaltar, tabla: {columnas, filas}}`. Las maquetas son ilustrativas: márcalas con `nota`.
 
 **Marcado en textos:** `*verde lima*`, `_celeste_`, `**negritas**`, `` `código` ``, `\n` = salto de línea.
 
-## Imagen de fondo en la portada
+## Láminas con foto (portadas)
+
+Desde octubre 2026 la **portada** y la **penúltima** lámina usan foto de Germán a sangre (layout `foto`):
+- Título Poppins Black arriba: blanco, `_azul_` y `*lima*` para resaltar.
+- Abajo, un subtítulo blanco (`texto`) o etiquetas redondeadas azul y lima (`etiquetas`).
+- Pie: `@germangleza` a la izquierda y `Desliza ->` a la derecha. El usuario sale de `meta.usuario`.
+
+Por carrusel llegan 1 o 2 fotos: **foto 1 → portada**, **foto 2 → penúltima** (si solo hay una, se usa en ambas con otro encuadre). Ejemplo: `docs/carrusel/_plantilla-foto/`.
+
+## Imagen de fondo en la portada (estilo anterior)
 
 1. Copia la imagen (JPG/PNG, idealmente vertical ≥1080×1350) a la carpeta del carrusel.
 2. En la portada: `"fondo": "mi-foto.jpg"`. Opcional: `"fondoPosicion": "70% center"` para encuadrar y `"fondoOscuro": true` si la foto es muy clara.

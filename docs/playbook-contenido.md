@@ -1,7 +1,7 @@
 # Playbook de contenido — Germán González · Business Builder
 
 > Instrucciones para generar contenido de Instagram (carruseles + entregable del CTA + DMs) con la voz, el diseño y las reglas que ya usamos.
-> Pégalo en la carpeta del cliente `Germán González Business Builder/` de tu repositorio de contenido.
+> Vive en este repo (`web-soygermangonzalez`), junto con la plantilla que genera los carruseles (`tools/carrusel/`).
 > Última actualización: octubre 2026.
 
 ---
@@ -12,6 +12,7 @@ Cuando pidas contenido nuevo, da solo esto:
 
 ```
 Tema: <idea del carrusel>
+Fotos: <1 o 2 fotos de Germán → portada y penúltima>
 Texto por lámina (opcional): <si ya lo tienes>
 Palabra del CTA: <ej. IA, VALOR, ADS>
 Recurso a entregar (opcional): <si ya sabes cuál>
@@ -71,10 +72,10 @@ Y se entrega, en este orden:
 
 | # | Lámina | Qué lleva | Notas |
 |---|---|---|---|
-| 1 | **Portada** | Pregunta o afirmación que duela + subtítulo con la promesa | Título de 6 a 9 palabras con 1–2 palabras clave en verde lima. Diagrama opcional «A → etiqueta → B» (ej. *Producto → valor → Resultado*). |
+| 1 | **Portada con foto** | Pregunta o afirmación que duela + subtítulo con la promesa | **Foto 1 de Germán a sangre** (layout `foto`). Título de 6 a 9 palabras arriba, con 1–2 palabras clave en azul o lima. Abajo, un subtítulo blanco o dos etiquetas (azul y lima). |
 | 2 | **El problema / el cambio** | Contraste antes/ahora o el error común | Dos tarjetas (Antes / Ahora) o una lista corta. Si hay un dato fuerte, va aquí con su fuente. |
 | 3–5 | **Desarrollo** | Ejemplos, fórmula, pasos, fuentes | Una idea por lámina. Máximo 3 bullets o 3 pasos. |
-| N-1 | **Aplícalo** (opcional) | Frase grande que invita a revisar su propio caso | Ej. «Revisa tu último anuncio. ¿Describes lo que vendes o lo que gana tu cliente?» |
+| N-1 | **Aplícalo con foto** | Frase grande que invita a revisar su propio caso | **Foto 2 de Germán a sangre** (layout `foto`), solo con el título arriba. Ej. «Revisa tu último anuncio ¿Estás describiendo _lo que vendes_ o *lo que gana tu cliente?*» |
 | N | **CTA** | «Comenta **PALABRA** y te mando [recurso]» | Pregunta previa opcional («¿Tu negocio está preparado?»). La palabra va en una caja verde gigante. Termina con 👇. |
 
 ### Elementos fijos en todas las láminas
@@ -99,6 +100,28 @@ Y se entrega, en este orden:
 
 ---
 
+### Fotos por carrusel
+
+- Por cada carrusel nuevo, Germán pasa **1 o 2 fotos**. La **foto 1 va en la portada** y la **foto 2 en la penúltima lámina**. Si solo hay una, se usa en ambas con otro encuadre (`fondoPosicion`).
+- Se guardan en la carpeta del carrusel como `foto-1.jpg` y `foto-2.jpg`.
+- **Estilo de las láminas con foto** (distinto al resto):
+  - Título en **Poppins Black** (≈112 px en portada, ≈90 px en penúltima), blanco con sombra suave. Resaltes en azul `#5B9CF0` (`_texto_`) y lima `#C5EE66` (`*texto*`).
+  - Si la foto es clara, el título va en azul marino (`"tituloOscuro": true`).
+  - Abajo va un subtítulo en Poppins Regular (≈62 px), blanco, alineado a la izquierda, o bien **etiquetas** redondeadas: una azul con el contexto y una lima con la pregunta.
+  - Pie: `@germangleza` a la izquierda y `Desliza ->` a la derecha, en Poppins Regular blanco. No lleva logo, pill ni puntos.
+  - Se deja libre la zona de la cara: el título arriba y el subtítulo o las etiquetas abajo.
+
+```json
+{ "layout": "foto", "fondo": "foto-1.jpg", "fondoPosicion": "center 30%",
+  "titulo": "A tu cliente no le importa _tu producto_",
+  "texto": "Le importa lo que consigue con él" }
+{ "layout": "foto", "fondo": "foto-1.jpg", "titulo": "¿ChatGPT recomienda tu negocio?",
+  "etiquetas": [ { "texto": "Tus clientes ya le preguntan a la IA a quién comprar", "color": "azul" },
+                 { "texto": "¿Tu negocio está preparado?", "color": "lima" } ] }
+{ "layout": "foto", "fondo": "foto-2.jpg", "tamanoTitulo": 92,
+  "titulo": "Revisa tu último anuncio\n¿Estás describiendo\n_lo que vendes_ o *lo que gana tu cliente?*" }
+```
+
 ## 5. Sistema de diseño
 
 | Elemento | Valor |
@@ -109,7 +132,7 @@ Y se entrega, en este orden:
 | Texto | Blanco `#FFFFFF` para títulos y énfasis. Gris azulado `#C3D4E2` para texto secundario. |
 | Alerta | Coral `#FF907E`. |
 | Bordes / tarjetas | Borde `#284050` de 2 px; fondo de tarjeta blanco al 5 %; radio de 24 px. |
-| Títulos | **Inter ExtraBold (800)**, interletrado −0.035em, interlineado 1.02. Portada 108–132 px; láminas 72–96 px. |
+| Títulos | Láminas con foto: **Poppins Black (900)**. Resto: **Inter ExtraBold (800)**, interletrado −0.035em, interlineado 1.02. Portada 108–132 px; láminas 72–96 px. |
 | Texto | **Manrope** 500–800. Lead 40 px; tarjetas 31–42 px; pasos 34–44 px. |
 | Márgenes | 88 px a los lados; logo a 56 px del borde superior; pie a 60 px del borde inferior. |
 | Emojis | Solo como iconos de tarjeta (🔍 💬 🌐 🗺️ ⭐ ⚙️ 📋 💻), uno por elemento. Uno al final del CTA (👇) y en «Desliza 👉». |
@@ -126,7 +149,7 @@ Y se entrega, en este orden:
 
 ---
 
-## 6. Generar con la plantilla (repo `web-soygermangonzalez`)
+## 6. Generar con la plantilla
 
 1. Crea `docs/carrusel/<slug>/contenido.json`.
 2. Corre `npm run carrusel -- <slug>`.
@@ -143,6 +166,7 @@ Y se entrega, en este orden:
   - Dato destacado: `dato{cifra,texto,fuente}`.
 - **`frase`:** `pill`, `titulo`, `tamanoTitulo`, `alerta`.
 - **`cta`:** `pill`, `previo`, `antes` («Comenta»), `palabra`, `despues`.
+- **`foto`:** `fondo`, `fondoPosicion`, `titulo`, `tamanoTitulo`, `texto` o `etiquetas[{texto,color}]`, `tituloOscuro`, `sinDegradado`, `desliza`. El usuario del pie sale de `meta.usuario` (`@germangleza`).
 
 ### Ejemplo (carrusel «¿ChatGPT recomienda tu negocio?»)
 
@@ -249,6 +273,7 @@ Elige uno y justifícalo en una línea:
 - [ ] El recurso entrega más de lo prometido y termina con la invitación a la llamada.
 - [ ] Los links funcionan: recurso, agenda y sitio.
 - [ ] En Canva, espacios, alineación y pie quedaron corregidos en todas las láminas.
+- [ ] La portada usa la foto 1 y la penúltima la foto 2; ningún texto tapa la cara.
 - [ ] Los PNG están exportados a 1080 × 1350.
 
 ## 9. Datos de contacto y links

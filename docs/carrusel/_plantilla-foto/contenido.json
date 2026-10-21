@@ -1,0 +1,43 @@
+{
+  "titulo": "Plantilla · láminas con foto",
+  "meta": { "url": "soygermangonzalez.com", "urlFinal": "soygermangonzalez.com/builder-lab", "autor": "Germán González", "usuario": "@germangleza" },
+  "laminas": [
+    {
+      "layout": "foto",
+      "fondo": "foto-1.png",
+      "fondoPosicion": "center 30%",
+      "titulo": "A tu cliente no le importa _tu producto_",
+      "texto": "Le importa lo que consigue con él"
+    },
+    {
+      "layout": "foto",
+      "fondo": "foto-1.png",
+      "fondoPosicion": "center 30%",
+      "titulo": "¿ChatGPT recomienda tu negocio?",
+      "etiquetas": [
+        { "texto": "Tus clientes ya le preguntan a la IA a quién comprar", "color": "azul" },
+        { "texto": "¿Tu negocio está preparado?", "color": "lima" }
+      ]
+    },
+    {
+      "layout": "contenido",
+      "pill": "Ejemplo",
+      "eyebrow": "Lámina normal",
+      "titulo": "El resto del carrusel *no cambia.*"
+    },
+    {
+      "layout": "foto",
+      "fondo": "foto-1.png",
+      "fondoPosicion": "center 30%",
+      "tamanoTitulo": 92,
+      "titulo": "Revisa tu último anuncio\n¿Estás describiendo\n_lo que vendes_ o *lo que gana tu cliente?*"
+    },
+    {
+      "layout": "cta",
+      "pill": "Gratis",
+      "antes": "Comenta",
+      "palabra": "VALOR",
+      "despues": "y te mando *3 prompts* 👇"
+    }
+  ]
+}

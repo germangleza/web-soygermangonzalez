@@ -71,6 +71,7 @@ function slide(s, i, total, meta, fondoUrl) {
   const top = `<div class="top"><img src="assets/logo-blanco.png" alt=""><span class="pill">${esc(s.pill ?? '')}</span></div>`;
   const bg = fondoUrl ? `<div class="bg${s.fondoOscuro ? ' bg--fuerte' : ''}" style="background-image:url('${fondoUrl}');background-position:${escAttr(s.fondoPosicion ?? 'center')}"></div>` : '';
   const cls = `slide${alt ? ' slide--alt' : ''}${fondoUrl ? ' has-bg' : ''}`;
+  if (s.layout === 'foto') return slideFoto(s, n, last, meta, fondoUrl);
   let inner;
   switch (s.layout) {
     case 'portada': {
@@ -96,6 +97,25 @@ function slide(s, i, total, meta, fondoUrl) {
       throw new Error(`Lámina ${n}: layout desconocido "${s.layout}" (usa portada | contenido | frase | cta)`);
   }
   return `<section class="${cls}" id="s${n}">${bg}${top}${inner}${foot}</section>`;
+}
+
+/**
+ * Lámina con foto a sangre (portada y penúltima). Estilo de las portadas de Germán:
+ * título Poppins Black arriba, subtítulo o etiquetas abajo, pie «@usuario · Desliza ->».
+ */
+function slideFoto(s, n, last, meta, fondoUrl) {
+  if (!fondoUrl) throw new Error(`Lámina ${n}: el layout "foto" necesita "fondo" (la foto)`);
+  const etiquetas = (s.etiquetas ?? []).map((e) => `<span class="fx-tag fx-tag--${e.color === 'lima' ? 'lima' : 'azul'}">${md(e.texto)}</span>`).join('');
+  const abajo = s.texto || etiquetas
+    ? `<div class="fx-bottom">${s.texto ? `<p class="fx-sub">${md(s.texto)}</p>` : ''}${etiquetas ? `<div class="fx-tags">${etiquetas}</div>` : ''}</div>`
+    : '';
+  const cls = `slide slide--foto${s.tituloOscuro ? ' fx-oscuro' : ''}${s.sinDegradado ? ' fx-limpio' : ''}`;
+  return `<section class="${cls}" id="s${n}">
+    <div class="fx-photo" style="background-image:url('${fondoUrl}');background-position:${escAttr(s.fondoPosicion ?? 'center')}"></div>
+    <h1 class="fx-title" style="font-size:${s.tamanoTitulo ?? 112}px">${md(s.titulo ?? '')}</h1>
+    ${abajo}
+    <div class="fx-foot"><span>${esc(meta.usuario ?? '@germangleza')}</span><span>${last ? '' : esc(s.desliza ?? 'Desliza ->')}</span></div>
+  </section>`;
 }
 
 /** @param {object} data contenido.json · @param {(file: string) => string} resolveFondo ruta → URL */
