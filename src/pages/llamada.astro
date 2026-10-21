@@ -8,6 +8,7 @@ import photo from '../assets/photos/german-gonzalez.png';
 import { SITE } from '../config/site.config';
 import { CALL_FOR, CALL_NOT_FOR, CALL_STEPS, CALL_PREP, CALL_FAQS } from '../data/llamada';
 
+const embed = SITE.bookingEmbedUrl;
 const booking = SITE.bookingUrl || '/contacto';
 const external = Boolean(SITE.bookingUrl);
 const ext = external ? { target: '_blank', rel: 'noopener' } : {};
@@ -25,7 +26,7 @@ const ext = external ? { target: '_blank', rel: 'noopener' } : {};
         <h1 id="call-title">Una llamada para identificar qué conviene hacer primero en tu negocio.</h1>
         <p class="call-hero__lead">Me cuentas en qué está tu negocio y dónde estás atorado. Juntos detectamos las acciones que más pueden mover tus ventas.</p>
         <div class="actions">
-          <a class="btn btn--lime" href={booking} {...ext} data-book="hero">Elegir horario <span class="btn__icon" aria-hidden="true">↗</span>{external && <span class="sr-only"> (abre mi calendario en otra pestaña)</span>}</a>
+          <a class="btn btn--lime" href="#agenda" data-book="hero">Elegir horario <span class="btn__icon" aria-hidden="true">↓</span></a>
           <a class="btn btn--outline" href="#como-es">Cómo es la llamada <span class="btn__icon" aria-hidden="true">↓</span></a>
         </div>
         <ul class="call-hero__facts" role="list">
@@ -40,7 +41,33 @@ const ext = external ? { target: '_blank', rel: 'noopener' } : {};
     </div>
   </section>
 
-  <section class="section" aria-labelledby="para-quien-title">
+  <section class="section agenda-section" id="agenda" aria-labelledby="agenda-title">
+    <div class="container">
+      <div class="agenda">
+        <div class="agenda__head">
+          <span class="eyebrow">Agenda</span>
+          <h2 id="agenda-title">Elige el día y la hora.</h2>
+          <p>Al confirmar te llega la invitación a tu correo.</p>
+        </div>
+        {embed ? (
+          <div class="agenda__frame">
+            <iframe src={embed} title="Calendario para agendar una llamada con Germán González" loading="lazy"></iframe>
+          </div>
+        ) : (
+          <div class="agenda__card">
+            <ol class="agenda__steps" role="list">
+              <li><span>1</span>Abre mi calendario.</li>
+              <li><span>2</span>Elige el día y la hora que te queden.</li>
+              <li><span>3</span>Deja tu nombre y correo, y listo.</li>
+            </ol>
+            <a class="btn btn--lime agenda__btn" href={booking} {...ext} data-book="agenda">Ver horarios disponibles <span class="btn__icon" aria-hidden="true">↗</span>{external && <span class="sr-only"> (abre mi calendario en otra pestaña)</span>}</a>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="para-quien-title">
     <div class="container">
       <SectionHeading id="para-quien-title" eyebrow="Para quién es" title="Esta llamada te sirve si…" />
       <div class="grid grid-2 fit">
@@ -145,6 +172,19 @@ const ext = external ? { target: '_blank', rel: 'noopener' } : {};
   .call-hero__facts li::before { content: '✓'; position: absolute; left: 0; color: var(--lime); font-weight: 800; }
   .call-hero__photo { aspect-ratio: 4 / 5; max-width: 420px; justify-self: end; width: 100%; }
   .call-hero__photo :global(img) { object-position: center 70%; transform: scale(1.12); transform-origin: 50% 80%; }
+
+  .agenda-section { padding-top: 0; background: linear-gradient(180deg, var(--navy) 0 7rem, transparent 7rem); }
+  .agenda { position: relative; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: 0 24px 60px -24px rgba(7,25,43,.35); padding: clamp(1.5rem, 1rem + 2vw, 2.75rem); display: grid; gap: 1.5rem; }
+  .agenda__head h2 { margin: .25rem 0 .35rem; font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.25rem); }
+  .agenda__head p { margin: 0; color: var(--muted); }
+  .agenda__frame { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: #fff; }
+  .agenda__frame iframe { display: block; width: 100%; height: 720px; border: 0; }
+  .agenda__card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem 3rem; align-items: center; background: #f3f6f9; border-radius: var(--radius); padding: clamp(1.25rem, 1rem + 1.5vw, 2rem); }
+  .agenda__steps { list-style: none; padding: 0; margin: 0; display: grid; gap: .85rem; }
+  .agenda__steps li { display: flex; gap: .85rem; align-items: center; font-weight: 600; }
+  .agenda__steps span { flex: none; width: 2rem; height: 2rem; border-radius: 50%; background: var(--navy); color: #fff; display: grid; place-items: center; font-family: var(--font-display); font-weight: 800; font-size: .9rem; }
+  .agenda__btn { min-height: 56px; font-size: 1.05rem; }
+  @media (max-width: 679px) { .agenda__card { grid-template-columns: minmax(0, 1fr); } .agenda__btn { width: 100%; justify-content: center; } .agenda__frame iframe { height: 820px; } }
 
   .fit__list { list-style: none; padding: 0; margin: .75rem 0 0; display: grid; gap: .85rem; }
   .fit__list li { position: relative; padding-left: 1.75rem; line-height: 1.5; }

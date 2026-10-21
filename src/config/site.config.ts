@@ -81,6 +81,10 @@ export const SITE = {
 
   // === Agenda de Opportunity Session (vacío = el formulario de contacto es el fallback) ===
   bookingUrl: 'https://calendar.app.google/8mMLAzjTQtG9xRRt7',
+  // URL para incrustar la agenda en /llamada. Google Calendar → tu página de reservas → Compartir →
+  // «Insertar en sitio web» (En línea): copia el src del <iframe>, termina en ?gv=true.
+  // Vacío = /llamada muestra una tarjeta con botón que abre bookingUrl.
+  bookingEmbedUrl: '',
 
   // === Analytics (vacío = no se carga nada) ===
   analytics: {
