@@ -56,6 +56,7 @@ function body(s) {
   if (s.nota) out.push(`<p class="note">${esc(s.nota)}</p>`);
   if (s.textoFinal) out.push(`<div class="paras mt">${parrafos(s.textoFinal)}</div>`);
   if (s.cierre) out.push(`<p class="cierre">${md(s.cierre)}</p>`);
+  if (s.dato) out.push(`<div class="dato"><span class="dato__cifra">${esc(s.dato.cifra)}</span><div><span class="dato__texto">${md(s.dato.texto)}</span>${s.dato.fuente ? `<small class="dato__fuente">${esc(s.dato.fuente)}</small>` : ''}</div></div>`);
   if (s.badge) out.push(`<span class="ok">${md(s.badge)}</span>`);
   if (s.alerta) out.push(`<div class="warn"><span class="ic emo">⚠️</span><span>${md(s.alerta)}</span></div>`);
   return out.join('\n');

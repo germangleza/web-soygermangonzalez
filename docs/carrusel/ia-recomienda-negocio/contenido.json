@@ -23,22 +23,27 @@
       "layout": "contenido",
       "pill": "El cambio",
       "eyebrow": "El cambio",
-      "titulo": "Cambió la forma de *buscar.*",
-      "tamanoTitulo": 88,
+      "grande": true,
+      "titulo": "Antes buscábamos. Ahora le *preguntamos a la IA.*",
+      "tamanoTitulo": 72,
       "items": [
         {
           "icono": "🔍",
-          "etiqueta": "Antes buscábamos en Google",
-          "texto": "“Dentistas en Tijuana”."
+          "etiqueta": "Antes · En Google",
+          "texto": "“Dentistas en Tijuana”"
         },
         {
           "icono": "💬",
-          "etiqueta": "Ahora también podemos preguntar",
-          "texto": "**“¿Qué dentista me recomiendas en Tijuana?”**"
+          "etiqueta": "Ahora · En ChatGPT",
+          "texto": "**“¿Qué dentista me recomiendas en Tijuana?”**\n*Y la IA te recomienda.*"
         }
       ],
-      "desliza": "Desliza 👉",
-      "grande": true
+      "dato": {
+        "cifra": "+500%",
+        "texto": "creció el tráfico web generado por búsquedas con IA",
+        "fuente": "Fuente: Backlinko (vía Tec de Monterrey, 2026)"
+      },
+      "desliza": "Desliza 👉"
     },
     {
       "layout": "contenido",
@@ -69,8 +74,8 @@
       "titulo": "Empieza por *tres cosas.*",
       "tamanoTitulo": 88,
       "pasos": [
-        "Tener una **web clara y accesible.**",
-        "Mantener actualizada tu **ficha de Google Maps,** si aplica.",
+        "Tener una **página web clara y bien estructurada.**",
+        "Mantener actualizada tu **ficha de Google Maps** y con **reseñas** de tus clientes.",
         "Construir una **reputación digital auténtica.**"
       ],
       "cierre": "No garantiza aparecer, pero fortalece tu presencia digital.",

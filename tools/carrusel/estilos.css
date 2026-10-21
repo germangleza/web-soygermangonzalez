@@ -170,3 +170,11 @@ html.canva-bg .flow__num, html.canva-text .flow__num, html.canva-bg .flow__step 
 .body--lg .steps { gap: 36px; margin-top: 16px; }
 .body--lg .step { grid-template-columns: 80px 1fr; font-size: 44px; line-height: 1.28; }
 .body--lg .num { width: 80px; height: 80px; font-size: 40px; }
+
+/* Dato destacado con fuente: { "dato": { "cifra": "+500%", "texto": "…", "fuente": "Fuente: …" } } */
+.dato { margin-top: auto; display: grid; grid-template-columns: auto 1fr; gap: 30px; align-items: center; background: var(--lime); color: var(--navy); border-radius: 28px; padding: 30px 36px; }
+.dato__cifra { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 104px; line-height: 1; letter-spacing: -0.04em; }
+.dato__texto { display: block; font-size: 34px; line-height: 1.22; font-weight: 800; }
+.dato__fuente { display: block; margin-top: 10px; font-size: 20px; font-weight: 700; opacity: .75; }
+html.canva-bg .dato__cifra, html.canva-text .dato__cifra { font-family: var(--canva-font); }
+.prompts + .dato { box-shadow: none; } .body--lg .prompts:has(+ .dato) { margin-bottom: 28px; }
