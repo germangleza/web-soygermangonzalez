@@ -23,7 +23,9 @@ export type ConversionEvent =
   | 'checklist_complete'
   // Recursos de Builder Lab (nunca se envía el texto copiado ni datos personales)
   | 'resource_view'
-  | 'prompt_copied';
+  | 'prompt_copied'
+  // Landing /llamada: clic hacia el calendario (la cita confirmada se mide en el calendario/CRM)
+  | 'booking_click';
 
 declare global {
   interface Window {

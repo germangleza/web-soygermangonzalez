@@ -1,10 +1,9 @@
 ---
-/** Botón «Agenda una llamada» al link de agenda (abre en otra pestaña). Se usa al cierre de las secciones de la home. */
-import { SITE } from '../../config/site.config';
+/** Botón «Agenda una llamada» → landing /llamada (ahí está el calendario). Se usa al cierre de las secciones de la home. */
+import { CALL_PATH } from '../../data/llamada';
 interface Props { variant?: string; label?: string; }
 const { variant = '', label = 'Agenda una llamada sin costo' } = Astro.props;
-const external = Boolean(SITE.bookingUrl);
 ---
-<a class:list={['btn', variant]} href={SITE.bookingUrl || '/contacto'} {...(external ? { target: '_blank', rel: 'noopener' } : {})}>
-  {label} <span class="btn__icon" aria-hidden="true">↗</span>{external && <span class="sr-only"> (abre en otra pestaña)</span>}
+<a class:list={['btn', variant]} href={CALL_PATH}>
+  {label} <span class="btn__icon" aria-hidden="true">↗</span>
 </a>

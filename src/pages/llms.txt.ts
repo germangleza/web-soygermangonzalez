@@ -30,6 +30,7 @@ Germán González es Business Builder: identifica oportunidades de crecimiento y
 - [¿La IA recomienda tu negocio?](${u('/ia-recomienda-tu-negocio')}): checklist gratuito de 10 verificaciones sobre preparación digital (web, Google Maps, reputación, buscadores e IA, conversión). Se basa en las respuestas del usuario; no audita sitios ni predice recomendaciones de IA.
 - [Conferencias y workshops](${u('/builder-lab/conferencias')}): IA, innovación y oportunidades de negocio para empresas, universidades y eventos.
 - [Sobre mí](${u('/sobre-mi')}): trayectoria.
+- [Agenda una llamada](${u('/llamada')}): Opportunity Session sin costo para identificar qué conviene hacer primero.
 - [Contacto](${u('/contacto')}): solicitudes comerciales, conferencias y colaboraciones.
 ${posts.length ? `
 ## Builder Lab — publicaciones
