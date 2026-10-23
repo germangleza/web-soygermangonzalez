@@ -78,6 +78,8 @@ if (quiz && quizSection && resultSection) {
 
     // Respuestas para los formularios (defaultValue sobrevive a form.reset()).
     $$<HTMLInputElement>('[data-dx-answers]').forEach((i) => { i.value = json; i.defaultValue = json; });
+    const resumen = `${r.digitalScore}/100 · ${r.band.label} · oportunidad: ${r.weakest.label}`;
+    $$<HTMLInputElement>('[data-agenda-result]').forEach((i) => { i.value = resumen; i.defaultValue = resumen; });
 
     $('[data-dx-score]')!.textContent = String(r.digitalScore);
     $<HTMLElement>('.result__score')!.style.setProperty('--p', String(r.digitalScore));
@@ -188,8 +190,6 @@ if (quiz && quizSection && resultSection) {
     quizSection.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth' });
     show(0);
   });
-
-  $('[data-dx-print]')?.addEventListener('click', () => window.print());
 
   // "No tengo sitio web" puede cambiar la prioridad 1: recalcula sin mover el scroll.
   $$<HTMLInputElement>('[data-no-website]').forEach((c) =>

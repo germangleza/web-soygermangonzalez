@@ -85,6 +85,9 @@ export const SITE = {
   // «Insertar en sitio web» (En línea): copia el src del <iframe>, termina en ?gv=true.
   // Vacío = /llamada muestra una tarjeta con botón que abre bookingUrl.
   bookingEmbedUrl: '',
+  // Formspree para el formulario corto antes de agendar (diagnóstico y checklist). Ej. 'https://formspree.io/f/abcdwxyz'.
+  // Vacío = no se envían los datos, pero el botón abre el calendario igual.
+  formspreeEndpoint: '',
 
   // === Analytics (vacío = no se carga nada) ===
   analytics: {

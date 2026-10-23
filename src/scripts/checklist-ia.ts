@@ -94,7 +94,6 @@ if (quiz && quizSection && resultSection && formsSection) {
     const a = answers();
     const r = computeResult(a);
     const pri = topPriorities(a);
-    const health = bizSel.value === 'salud';
     syncForms(JSON.stringify(a));
 
     $('[data-ck-score]')!.textContent = String(r.score);
@@ -147,9 +146,11 @@ if (quiz && quizSection && resultSection && formsSection) {
       return li;
     }));
 
-    $('[data-ck-health]')!.hidden = !health;
-    $('[data-ck-maguey-salud]')!.hidden = !health;
-    const session = $('[data-ck-session]'); if (session) session.hidden = health;
+    // Formulario de agenda: resumen del resultado y tipo de negocio ya elegido en el checklist.
+    const resumen = `${r.score}/100 · ${r.band.label}${r.weakest ? ` · oportunidad: ${r.weakest.label}` : ''}`;
+    $$<HTMLInputElement>('[data-agenda-result]').forEach((i) => { i.value = resumen; i.defaultValue = resumen; });
+    const tipo = $<HTMLSelectElement>('#agenda-negocio-tipo');
+    if (tipo && !tipo.value && bizSel.value) tipo.value = bizSel.value;
 
     quizSection!.hidden = true;
     resultSection!.hidden = false;
@@ -197,7 +198,6 @@ if (quiz && quizSection && resultSection && formsSection) {
     quizSection.hidden = false;
     show(0);
   });
-  $('[data-ck-print]')?.addEventListener('click', () => window.print());
 
   // Restaurar avance de la sesión
   try {

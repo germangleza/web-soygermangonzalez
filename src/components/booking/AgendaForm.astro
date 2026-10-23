@@ -1,0 +1,58 @@
+---
+/**
+ * AgendaForm: 5 datos y «Siguiente: elegir horario».
+ * Envía a Formspree (si SITE.formspreeEndpoint está configurado) y SIEMPRE abre el calendario,
+ * aunque el envío falle: la cita es lo importante.
+ */
+import Field from '../forms/Field.astro';
+import { SITE } from '../../config/site.config';
+import { AGENDA_FORM, type AgendaKind } from '../../data/agenda-form';
+interface Props { kind: AgendaKind; source: string; }
+const { kind, source } = Astro.props;
+const c = AGENDA_FORM[kind];
+const f = `agenda-${kind}`;
+---
+<form class="form agenda-form" id={`form-${f}`} novalidate data-agenda-form
+  data-endpoint={SITE.formspreeEndpoint} data-booking={SITE.bookingUrl || '/llamada'} data-source={source} data-kind={kind}>
+  <Field form={f} name="whatsapp" label="WhatsApp" type="tel" required autocomplete="tel" maxlength={20} placeholder="Ej. 664 123 4567"
+    attrs={{ inputmode: 'tel', pattern: '[0-9+()\\-\\s]{10,20}' }} />
+  <Field form={f} name="negocio" label={c.nameLabel} required autocomplete="organization" minlength={2} maxlength={150} />
+  <div class="form-row">
+    <Field form={f} name="tipo" label={c.typeLabel} as="select" required options={c.types} />
+    <Field form={f} name="rol" label={c.roleLabel} as="select" required options={c.roles} />
+  </div>
+  <fieldset class="agenda-form__focus" aria-describedby={`${f}-enfoque-error`}>
+    <legend>¿Qué te gustaría revisar primero?</legend>
+    <div class="agenda-form__chips">
+      {Object.entries(c.focus).map(([v, l], i) => (
+        <label class="agenda-form__chip"><input type="radio" name="enfoque" value={v} required={i === 0} /> <span>{l}</span></label>
+      ))}
+    </div>
+    <span class="field__error" id={`${f}-enfoque-error`} data-agenda-focus-error></span>
+  </fieldset>
+  <input type="hidden" name="resultado" data-agenda-result value="" />
+  <div class="agenda-form__hp" aria-hidden="true"><label>No llenar <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label></div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn--dark agenda-form__btn" data-agenda-submit>Siguiente: elegir horario <span class="btn__icon" aria-hidden="true">→</span></button>
+  </div>
+  <p class="small agenda-form__note">Al continuar se abre mi calendario para que elijas día y hora.</p>
+  <div class="form-status" data-agenda-status role="status" aria-live="polite"></div>
+</form>
+
+<script>
+  import '../../scripts/agenda-form';
+</script>
+
+<style>
+  .agenda-form__focus { border: 0; padding: 0; margin: 0; min-width: 0; }
+  .agenda-form__focus legend { font-weight: 700; margin-bottom: .6rem; padding: 0; }
+  .agenda-form__chips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+  .agenda-form__chip { display: flex; align-items: center; gap: .6rem; border: 1.5px solid var(--line); border-radius: var(--radius); padding: .85rem 1rem; cursor: pointer; font-weight: 600; background: #fff; }
+  .agenda-form__chip:has(input:checked) { border-color: var(--navy); background: #eef4f9; box-shadow: inset 0 0 0 1px var(--navy); }
+  .agenda-form__chip:has(input:focus-visible) { outline: 3px solid var(--sky); outline-offset: 2px; }
+  .agenda-form__chip input { accent-color: var(--navy); width: 1.1rem; height: 1.1rem; }
+  .agenda-form__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .agenda-form__btn { min-height: 52px; }
+  .agenda-form__note { margin: .25rem 0 0; color: var(--muted); }
+  @media (max-width: 479px) { .agenda-form__chips { grid-template-columns: minmax(0, 1fr); } .agenda-form__btn { width: 100%; justify-content: center; } }
+</style>

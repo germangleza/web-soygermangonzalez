@@ -52,8 +52,8 @@ check('datos: 3 prompts leídos de prompts-valor.ts', PROMPTS.length === 3);
   await p.waitForTimeout(2700);
   check('375: el botón vuelve a su texto', (await p.textContent('[data-cpc][data-number="1"] [data-cpc-copy]')).trim() === 'Copiar prompt 1');
   const links = await p.$$eval('main a[href]', (as) => as.map((a) => a.getAttribute('href')));
-  const agenda = await p.$eval('a.btn[target=_blank]', (a) => ({ href: a.href, text: a.textContent }));
-  check('375: CTA final «Agenda una llamada» al link de agenda', agenda.text.includes('Agenda una llamada') && agenda.href.startsWith('https://calendar.app.google/'));
+  const agenda = await p.$eval('.cta-banner a.btn', (a) => ({ href: a.getAttribute('href'), text: a.textContent }));
+  check('375: CTA final «Agenda una llamada» a la landing /llamada', agenda.text.includes('Agenda una llamada') && agenda.href === '/llamada');
   for (const href of [...new Set(links.filter((h) => h.startsWith('/') && !h.startsWith('/api')))]) {
     const r = await ctx.request.get(BASE + (href.split('#')[0] || '/'));
     check(`375: enlace real ${href}`, r.status() === 200, String(r.status()));

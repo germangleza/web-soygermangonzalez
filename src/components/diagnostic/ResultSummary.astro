@@ -4,9 +4,6 @@
  * El contenido lo llena src/scripts/diagnostic.ts con las funciones puras de scoring.
  */
 import { BANDS } from '../../lib/diagnostic/scoring';
-import { SITE } from '../../config/site.config';
-interface Props { magueyUrl: string; }
-const { magueyUrl } = Astro.props;
 ---
 <div class="result" data-dx-result>
   <div class="result__head">
@@ -44,20 +41,14 @@ const { magueyUrl } = Astro.props;
     <ol class="grid grid-3 recs__list" data-dx-recs role="list"></ol>
   </section>
 
-  <div class="result__tools">
-    <button type="button" class="btn btn--outline-dark" data-dx-print>Imprimir o guardar en PDF</button>
-    <button type="button" class="link-arrow result__restart" data-dx-restart>Reiniciar el diagnóstico</button>
-  </div>
-
   <section class="help dark" aria-labelledby="dx-help-title">
-    <span class="eyebrow eyebrow--lime">¿Quieres ayuda para implementarlas?</span>
-    <h3 id="dx-help-title">Maguey Studio Salud puede ejecutar estas mejoras contigo.</h3>
-    <p>Este diagnóstico es un recurso de {SITE.name}. Si quieres ayuda para llevarlo a la práctica, el equipo de Maguey Studio Salud —con el que construimos capacidades digitales para clínicas— puede revisar tu caso.</p>
-    <div class="actions">
-      <a class="btn btn--lime" href="#solicitar-revision">Quiero que revisen mi clínica <span class="btn__icon" aria-hidden="true">↓</span></a>
-      <a class="btn btn--outline" href={magueyUrl} target="_blank" rel="noopener" data-dx-maguey>Conoce Maguey Salud <span class="btn__icon" aria-hidden="true">↗</span><span class="sr-only"> (abre en otra pestaña)</span></a>
-    </div>
+    <span class="eyebrow eyebrow--lime">Siguiente paso</span>
+    <h3 id="dx-help-title">¿Quieres que lo implementemos en tu clínica?</h3>
+    <p>Revisamos tu resultado contigo en una llamada sin costo y te decimos por dónde empezar.</p>
+    <a class="btn btn--lime help__btn" href="#agendar" data-dx-book>Agendar una llamada <span class="btn__icon" aria-hidden="true">↓</span></a>
   </section>
+
+  <button type="button" class="link-arrow result__restart" data-dx-restart>Reiniciar el diagnóstico</button>
 </div>
 
 <style>
@@ -99,15 +90,16 @@ const { magueyUrl } = Astro.props;
   .recs__list :global(.rec dd) { margin: 0; color: var(--muted); font-size: .9375rem; }
   .recs__list :global(.rec__top) { display: flex; justify-content: space-between; gap: .5rem; align-items: center; flex-wrap: wrap; }
   .recs__list :global(.rec__verify) { font-size: .6875rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: .25rem .5rem; border-radius: 4px; background: #fff3d6; color: #6b4a00; }
-  .result__tools { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center; margin-top: 2rem; }
-  .result__restart { background: none; border: 0; cursor: pointer; padding: 0; }
+  .result__restart { display: inline-flex; margin-top: 1.25rem; background: none; border: 0; cursor: pointer; padding: 0; font-size: .9rem; color: var(--muted); }
   .help { margin-top: 2.5rem; background: var(--navy-2); border-radius: var(--radius-lg); padding: clamp(1.75rem, 1.25rem + 3vw, 3.5rem); }
-  .help h3 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.2rem); max-width: 26ch; }
-  .help p { max-width: 44rem; }
+  .help h3 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.2rem); max-width: 26ch; margin-bottom: .5rem; }
+  .help p { max-width: 40rem; margin-bottom: 1.5rem; }
+  .help__btn { min-height: 54px; }
+  @media (max-width: 479px) { .help__btn { width: 100%; justify-content: center; } }
   @media (max-width: 1023px) { .result__grid { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 479px) { .result__head { grid-template-columns: minmax(0, 1fr); justify-items: start; } }
   @media print {
-    :global(.site-header), :global(.site-footer), :global(.dx-hero), :global(.dx-quiz-section), :global(.dx-forms), .result__tools, .help { display: none !important; }
+    :global(.site-header), :global(.site-footer), :global(.dx-hero), :global(.dx-quiz-section), :global(.dx-forms), .help, .result__restart { display: none !important; }
     .result__score { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>

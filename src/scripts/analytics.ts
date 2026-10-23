@@ -25,7 +25,9 @@ export type ConversionEvent =
   | 'resource_view'
   | 'prompt_copied'
   // Landing /llamada: clic hacia el calendario (la cita confirmada se mide en el calendario/CRM)
-  | 'booking_click';
+  | 'booking_click'
+  // Formulario corto antes de agendar (diagnóstico / checklist)
+  | 'booking_form_submit';
 
 declare global {
   interface Window {

@@ -7,16 +7,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
 import QuizStepper from '../components/checklist-ia/QuizStepper.astro';
 import ScoreSummary from '../components/checklist-ia/ScoreSummary.astro';
-import ReportForm from '../components/checklist-ia/ReportForm.astro';
-import ReviewForm from '../components/checklist-ia/ReviewForm.astro';
+import AgendaForm from '../components/booking/AgendaForm.astro';
 import { BLOCKS, BLOCK_ORDER, SOURCES, SOURCES_CHECKED } from '../lib/checklist-ia/questions';
 
-const magueySaludUrl = `https://www.magueystudio.mx/salud?${new URLSearchParams({
-  utm_source: 'soygermangonzalez',
-  utm_medium: 'referral',
-  utm_campaign: 'ia-recomienda-tu-negocio',
-  utm_content: 'resultado',
-})}`;
 ---
 <BaseLayout
   fullTitle="¿La IA recomienda tu negocio? Checklist gratuito | Germán González"
@@ -40,22 +33,15 @@ const magueySaludUrl = `https://www.magueystudio.mx/salud?${new URLSearchParams(
   </section>
 
   <section class="section ck-result-section" id="resultado" data-ck-result-section data-no-reveal hidden aria-labelledby="ck-result-title">
-    <div class="container"><ScoreSummary magueySaludUrl={magueySaludUrl} /></div>
+    <div class="container"><ScoreSummary /></div>
   </section>
 
-  <section class="section section--alt ck-forms" data-ck-forms data-no-reveal hidden aria-label="Siguientes pasos">
-    <div class="container ck-forms__grid">
-      <div class="ck-card" id="enviar-reporte">
-        <span class="eyebrow">Opcional · Gratis</span>
-        <h2 id="ck-report-title">Envíame mi resultado y recomendaciones</h2>
-        <p>Te mandamos por correo tu puntaje, el desglose por dimensión y tus 3 prioridades. Solo el correo es obligatorio.</p>
-        <ReportForm />
-      </div>
-      <div class="ck-card ck-card--review" id="solicitar-revision">
-        <span class="eyebrow">Opcional · Revisión especializada</span>
-        <h2 id="ck-review-title">Solicitar revisión de mi negocio</h2>
-        <p>Una persona del equipo revisa tu caso con la información que compartas y te propone por dónde empezar.</p>
-        <ReviewForm />
+  <section class="section section--alt ck-forms" data-ck-forms data-no-reveal hidden aria-labelledby="ck-book-title">
+    <div class="container">
+      <div class="ck-card" id="agendar">
+        <span class="eyebrow">Agenda tu llamada · Sin costo</span>
+        <h2 id="ck-book-title">Cuéntanos de tu negocio y elige tu horario.</h2>
+        <AgendaForm kind="negocio" source="ia-recomienda-tu-negocio" />
       </div>
     </div>
   </section>
@@ -97,16 +83,14 @@ const magueySaludUrl = `https://www.magueystudio.mx/salud?${new URLSearchParams(
   .ck-hero__chips li { border: 1px solid var(--line-dark); border-radius: 999px; padding: .4rem .9rem; font-size: .875rem; font-weight: 700; color: #fff; }
   .ck-hero__note { max-width: 44rem; margin-top: 1.75rem; padding: .9rem 1.1rem; border: 1px solid var(--line-dark); border-radius: var(--radius); font-size: .9375rem; background: rgba(255,255,255,.04); }
   .ck-result-section { scroll-margin-top: calc(var(--header-h) + 8px); }
-  .ck-forms__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(1.25rem, 1rem + 2vw, 2.5rem); align-items: start; }
-  .ck-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(1.25rem, 1rem + 2vw, 2.5rem); scroll-margin-top: calc(var(--header-h) + 16px); }
+  .ck-card { max-width: 46rem; margin-inline: auto; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(1.25rem, 1rem + 2vw, 2.5rem); scroll-margin-top: calc(var(--header-h) + 16px); }
   .ck-card h2 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem); }
-  .ck-card > p { color: var(--muted); }
-  .ck-card--review { border-color: var(--navy); box-shadow: 0 0 0 1px var(--navy); }
+  .ck-card { border-color: var(--navy); box-shadow: 0 0 0 1px var(--navy); }
   .ck-method__grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(1.5rem, 1rem + 3vw, 3.5rem); align-items: start; }
   .ck-method__dims { list-style: none; padding: 0; display: grid; gap: .5rem; margin-top: 1.25rem; }
   .ck-method__dims li { display: flex; align-items: center; gap: .75rem; font-weight: 700; }
   .ck-method__dims span { display: inline-grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 6px; background: var(--lime); color: var(--navy); font-size: .9rem; }
   .ck-method__no, .ck-method__src { padding-left: 1.1rem; display: grid; gap: .4rem; color: var(--muted); }
   .ck-method__src a { color: var(--accent-text); }
-  @media (max-width: 1023px) { .ck-forms__grid, .ck-method__grid { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 1023px) { .ck-method__grid { grid-template-columns: minmax(0, 1fr); } }
 </style>

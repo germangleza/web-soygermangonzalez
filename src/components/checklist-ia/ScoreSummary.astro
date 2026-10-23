@@ -5,9 +5,6 @@
  */
 import { BANDS } from '../../lib/checklist-ia/scoring';
 import { SOURCES, SOURCES_CHECKED } from '../../lib/checklist-ia/questions';
-import { SITE } from '../../config/site.config';
-interface Props { magueySaludUrl: string; }
-const { magueySaludUrl } = Astro.props;
 ---
 <div class="ck-res">
   <div class="ck-res__head">
@@ -44,25 +41,14 @@ const { magueySaludUrl } = Astro.props;
     <ol class="grid grid-3 ck-pri__list" data-ck-priorities role="list"></ol>
   </section>
 
-  <div class="ck-res__tools">
-    <button type="button" class="btn btn--outline-dark" data-ck-print>Imprimir o guardar en PDF</button>
-    <button type="button" class="link-arrow ck-res__restart" data-ck-restart>Volver a empezar</button>
-    <a class="link-arrow" href="/builder-lab">Explorar más experimentos en Builder Lab <span aria-hidden="true">↗</span></a>
-  </div>
-
   <section class="ck-next dark" aria-labelledby="ck-next-title">
-    <span class="eyebrow eyebrow--lime">¿Quieres ayuda para mejorarlo?</span>
-    <h3 id="ck-next-title">Lleva estas prioridades a la práctica.</h3>
-    <p>Este checklist es un recurso de {SITE.name}. La implementación la puede hacer el equipo de Maguey Studio, con el que construimos capacidades digitales para negocios.</p>
-    <div class="ck-next__health" data-ck-health hidden>
-      <p><strong>Tu negocio es del sector salud:</strong> Maguey Salud se especializa en clínicas y consultorios.</p>
-    </div>
-    <div class="actions">
-      <a class="btn btn--lime" href="#solicitar-revision">Solicitar revisión de mi negocio <span class="btn__icon" aria-hidden="true">↓</span></a>
-      <a class="btn btn--outline" href={magueySaludUrl} target="_blank" rel="noopener" data-ck-maguey-salud hidden>Conocer Maguey Salud <span class="btn__icon" aria-hidden="true">↗</span><span class="sr-only"> (abre en otra pestaña)</span></a>
-      {SITE.bookingUrl && <a class="btn btn--outline" href={SITE.bookingUrl} target="_blank" rel="noopener" data-ck-session>Agendar una Opportunity Session <span class="btn__icon" aria-hidden="true">↗</span><span class="sr-only"> (abre en otra pestaña)</span></a>}
-    </div>
+    <span class="eyebrow eyebrow--lime">Siguiente paso</span>
+    <h3 id="ck-next-title">¿Quieres que lo implementemos en tu negocio?</h3>
+    <p>Revisamos tu resultado contigo en una llamada sin costo y te decimos por dónde empezar.</p>
+    <a class="btn btn--lime ck-next__btn" href="#agendar" data-ck-book>Agendar una llamada <span class="btn__icon" aria-hidden="true">↓</span></a>
   </section>
+
+  <button type="button" class="link-arrow ck-res__restart" data-ck-restart>Volver a empezar</button>
 
   <p class="small ck-res__sources">Criterios técnicos basados en fuentes oficiales, consultadas en {SOURCES_CHECKED}: {SOURCES.map((s, i) => <>{i > 0 && ' · '}<a href={s.url} target="_blank" rel="noopener">{s.label}</a></>)}.</p>
 </div>
@@ -108,17 +94,17 @@ const { magueySaludUrl } = Astro.props;
   .ck-pri__list :global(.tag--gap) { background: #ffe9e5; color: #8f2e1f; }
   .ck-pri__list :global(.tag--verify) { background: #fff3d6; color: #6b4a00; }
   .ck-pri__list :global(.tag--keep) { background: #eef9d6; color: #3d5a0b; }
-  .ck-res__tools { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center; margin-top: 2rem; }
-  .ck-res__restart { background: none; border: 0; cursor: pointer; padding: 0; }
+  .ck-res__restart { display: inline-flex; margin-top: 1.25rem; background: none; border: 0; cursor: pointer; padding: 0; font-size: .9rem; color: var(--muted); }
   .ck-next { margin-top: 2.5rem; background: var(--navy-2); border-radius: var(--radius-lg); padding: clamp(1.75rem, 1.25rem + 3vw, 3.5rem); }
-  .ck-next h3 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.2rem); }
-  .ck-next p { max-width: 44rem; }
-  .ck-next__health { border-left: 3px solid var(--lime); padding-left: 1rem; margin-top: 1rem; }
+  .ck-next h3 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.2rem); max-width: 26ch; margin-bottom: .5rem; }
+  .ck-next p { max-width: 40rem; margin-bottom: 1.5rem; }
+  .ck-next__btn { min-height: 54px; }
+  @media (max-width: 479px) { .ck-next__btn { width: 100%; justify-content: center; } }
   .ck-res__sources { margin-top: 1.5rem; }
   .ck-res__sources a { color: var(--accent-text); }
   @media (max-width: 1023px) { .ck-res__grid { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 479px) { .ck-res__head { grid-template-columns: minmax(0, 1fr); } }
   @media print {
-    :global(.site-header), :global(.site-footer), :global(.ck-hero), :global(.ck-quiz-section), :global(.ck-forms), :global(.ck-method), .ck-res__tools, .ck-next { display: none !important; }
+    :global(.site-header), :global(.site-footer), :global(.ck-hero), :global(.ck-quiz-section), :global(.ck-forms), :global(.ck-method), .ck-res__restart, .ck-next { display: none !important; }
   }
 </style>

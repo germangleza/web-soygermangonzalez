@@ -56,3 +56,8 @@ Nada de esta lista se inventó en el sitio: donde falta información, el element
 ## Repositorio
 
 - [ ] Agregar el topic `maguey-cliente` al repo en GitHub (Settings → About → Topics).
+
+## Funnel diagnóstico / checklist → llamada (octubre 2026)
+
+- [ ] **Formspree** → pegar el endpoint (`https://formspree.io/f/…`) en `formspreeEndpoint` de `src/config/site.config.ts`. Sin él, el formulario corto abre el calendario pero no guarda los datos.
+- [ ] (Recomendado) En Formspree: activar notificación por correo y, si se quiere, la integración con Google Sheets o el CRM.

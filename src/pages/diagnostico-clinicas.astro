@@ -7,18 +7,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
 import DiagnosticQuestionnaire from '../components/diagnostic/DiagnosticQuestionnaire.astro';
 import ResultSummary from '../components/diagnostic/ResultSummary.astro';
-import ReportRequestForm from '../components/diagnostic/ReportRequestForm.astro';
-import ReviewRequestForm from '../components/diagnostic/ReviewRequestForm.astro';
+import AgendaForm from '../components/booking/AgendaForm.astro';
 import { DIMENSIONS, DIMENSION_ORDER, QUESTIONS } from '../lib/diagnostic/questions';
 
-/** CTA a Maguey Salud con UTMs consistentes (spec §2, §10). */
-const MAGUEY_SALUD = 'https://www.magueystudio.mx/salud';
-const magueyUrl = `${MAGUEY_SALUD}?${new URLSearchParams({
-  utm_source: 'soygermangonzalez',
-  utm_medium: 'referral',
-  utm_campaign: 'diagnostico-clinicas',
-  utm_content: 'resultado',
-})}`;
 ---
 <BaseLayout
   fullTitle="Diagnóstico de visibilidad digital para clínicas | Germán González"
@@ -52,23 +43,16 @@ const magueyUrl = `${MAGUEY_SALUD}?${new URLSearchParams({
 
   <section class="section dx-result-section" id="resultado" data-dx-result-section data-no-reveal hidden aria-labelledby="dx-result-title" aria-live="polite">
     <div class="container">
-      <ResultSummary magueyUrl={magueyUrl} />
+      <ResultSummary />
     </div>
   </section>
 
-  <section class="section section--alt dx-forms" data-dx-forms data-no-reveal hidden aria-label="Siguientes pasos">
-    <div class="container dx-forms__grid">
-      <div class="dx-form-card" id="enviar-reporte">
-        <span class="eyebrow">Opción 1 · Gratis</span>
-        <h2 id="dx-report-title">Envíame mi reporte y recomendaciones</h2>
-        <p>Te mandamos por correo tu resultado, el desglose por área y tus tres prioridades. Solo necesitamos tu email.</p>
-        <ReportRequestForm />
-      </div>
-      <div class="dx-form-card dx-form-card--review" id="solicitar-revision">
-        <span class="eyebrow">Opción 2 · Con Maguey Studio Salud</span>
-        <h2 id="dx-review-title">Quiero que revisen mi clínica</h2>
-        <p>Una persona del equipo revisa tu ficha de Google, tu sitio y tus redes, y te propone por dónde empezar.</p>
-        <ReviewRequestForm />
+  <section class="section section--alt dx-forms" data-dx-forms data-no-reveal hidden aria-labelledby="dx-book-title">
+    <div class="container">
+      <div class="dx-form-card" id="agendar">
+        <span class="eyebrow">Agenda tu llamada · Sin costo</span>
+        <h2 id="dx-book-title">Cuéntanos de tu clínica y elige tu horario.</h2>
+        <AgendaForm kind="clinica" source="diagnostico-clinicas" />
       </div>
     </div>
   </section>
@@ -97,10 +81,7 @@ const magueyUrl = `${MAGUEY_SALUD}?${new URLSearchParams({
   .dx-hero__dims li { border: 1px solid var(--line-dark); border-radius: 999px; padding: .35rem .85rem; font-size: .8125rem; color: var(--muted-on-dark); }
   .dx-quiz-intro { text-align: center; margin-bottom: 1.25rem; }
   .dx-result-section { scroll-margin-top: calc(var(--header-h) + 8px); }
-  .dx-forms__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(1.25rem, 1rem + 2vw, 2.5rem); align-items: start; }
-  .dx-form-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(1.25rem, 1rem + 2vw, 2.5rem); scroll-margin-top: calc(var(--header-h) + 16px); }
+  .dx-form-card { max-width: 46rem; margin-inline: auto; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(1.25rem, 1rem + 2vw, 2.5rem); scroll-margin-top: calc(var(--header-h) + 16px); }
   .dx-form-card h2 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem); }
-  .dx-form-card > p { color: var(--muted); }
-  .dx-form-card--review { border-color: var(--navy); box-shadow: 0 0 0 1px var(--navy); }
-  @media (max-width: 1023px) { .dx-forms__grid { grid-template-columns: minmax(0, 1fr); } }
+  .dx-form-card { border-color: var(--navy); box-shadow: 0 0 0 1px var(--navy); }
 </style>
