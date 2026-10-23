@@ -87,7 +87,7 @@ export const SITE = {
   bookingEmbedUrl: '',
   // Formspree para el formulario corto antes de agendar (diagnóstico y checklist). Ej. 'https://formspree.io/f/abcdwxyz'.
   // Vacío = no se envían los datos, pero el botón abre el calendario igual.
-  formspreeEndpoint: '',
+  formspreeEndpoint: 'https://formspree.io/f/xvkkpjlp',
 
   // === Analytics (vacío = no se carga nada) ===
   analytics: {
