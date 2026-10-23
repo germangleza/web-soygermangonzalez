@@ -8,7 +8,7 @@ import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
 import DiagnosticQuestionnaire from '../components/diagnostic/DiagnosticQuestionnaire.astro';
 import ResultSummary from '../components/diagnostic/ResultSummary.astro';
 import AgendaForm from '../components/booking/AgendaForm.astro';
-import { DIMENSIONS, DIMENSION_ORDER, QUESTIONS } from '../lib/diagnostic/questions';
+import { QUESTIONS } from '../lib/diagnostic/questions';
 
 ---
 <BaseLayout
@@ -25,12 +25,6 @@ import { DIMENSIONS, DIMENSION_ORDER, QUESTIONS } from '../lib/diagnostic/questi
         <a class="btn btn--lime" href="#evaluacion" data-dx-start>Evaluar mi clínica <span class="btn__icon" aria-hidden="true">↓</span></a>
         <a class="btn btn--outline" href="#agendar" data-dx-book-direct>Prefiero agendar una llamada <span class="btn__icon" aria-hidden="true">↓</span></a>
       </div>
-      <p class="dx-hero__note" role="note">
-        <strong>Importante:</strong> evaluación orientativa basada en tus respuestas. No es una auditoría técnica ni garantiza resultados en Google, redes, anuncios o asistentes de IA.
-      </p>
-      <ul class="dx-hero__dims" role="list" aria-label="Áreas que evalúa">
-        {DIMENSION_ORDER.map((d) => <li>{DIMENSIONS[d].label}</li>)}
-      </ul>
     </div>
     <div class="page-hero__rings" aria-hidden="true"></div>
   </section>
@@ -68,10 +62,6 @@ import { DIMENSIONS, DIMENSION_ORDER, QUESTIONS } from '../lib/diagnostic/questi
   .dx-hero__inner { position: relative; z-index: 1; }
   .dx-hero h1 { font-size: var(--fs-h1-page); max-width: 21ch; }
   .dx-hero__lead { font-size: var(--fs-lead); max-width: 44rem; margin-top: 1.5rem; color: #dce8f1 !important; }
-  .dx-hero__note { max-width: 44rem; margin-top: 1.75rem; padding: .9rem 1.1rem; border: 1px solid var(--line-dark); border-radius: var(--radius); font-size: .9375rem; background: rgba(255,255,255,.04); }
-  .dx-hero__note strong { color: #fff; }
-  .dx-hero__dims { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
-  .dx-hero__dims li { border: 1px solid var(--line-dark); border-radius: 999px; padding: .35rem .85rem; font-size: .8125rem; color: var(--muted-on-dark); }
   .dx-quiz-intro { text-align: center; margin-bottom: 1.25rem; }
   .dx-result-section { scroll-margin-top: calc(var(--header-h) + 8px); }
   .dx-form-card { max-width: 46rem; margin-inline: auto; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(1.25rem, 1rem + 2vw, 2.5rem); scroll-margin-top: calc(var(--header-h) + 16px); }
