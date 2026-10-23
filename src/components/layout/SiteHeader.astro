@@ -1,8 +1,11 @@
 ---
-/** SiteHeader + MobileNav. Navegación principal con estado activo y menú móvil accesible. */
+/** SiteHeader + MobileNav. Navegación principal con estado activo y menú móvil accesible. `minimal`: solo el logo. */
 import { Image } from 'astro:assets';
 import logo from '../../assets/brand/logo-blanco.png';
 import { SITE } from '../../config/site.config';
+
+interface Props { minimal?: boolean; }
+const { minimal = false } = Astro.props;
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));
@@ -13,6 +16,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path === href 
       <Image src={logo} alt="" width={112} densities={[1, 2]} loading="eager" fetchpriority="high" />
     </a>
 
+    {!minimal && <>
     <nav class="site-nav" aria-label="Principal">
       <ul class="site-nav__list">
         {SITE.nav.map((item) => (
@@ -36,9 +40,10 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path === href 
       <span class="sr-only" data-menu-label>Abrir menú</span>
       <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
+    </>}
   </div>
 
-  <nav id="mobile-nav" class="mobile-nav" aria-label="Menú móvil" hidden data-mobile-nav>
+  {!minimal && <nav id="mobile-nav" class="mobile-nav" aria-label="Menú móvil" hidden data-mobile-nav>
     <div class="container">
       <ul class="mobile-nav__list">
         {SITE.nav.map((item) => (
@@ -50,7 +55,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path === href 
       </ul>
       <a href={SITE.navCta.href} class="btn btn--block">{SITE.navCta.label} <span class="btn__icon" aria-hidden="true">↗</span></a>
     </div>
-  </nav>
+  </nav>}
 </header>
 
 <script>

@@ -43,6 +43,8 @@ export const SITE = {
   business: {
     // PENDIENTE: correo público de contacto. Vacío = no se muestra en ningún lado.
     email: '',
+    // PENDIENTE: WhatsApp público en formato internacional sin signos, ej. '5216641234567' (se usa en /llamada2).
+    whatsapp: '',
   },
 
   // === Redes sociales (solo cuando se confirmen; vacío = no se muestran) ===

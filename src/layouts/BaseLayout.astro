@@ -19,8 +19,10 @@ interface Props {
   publishedTime?: string;
   modifiedTime?: string;
   author?: string;
+  /** Landing sin distracciones: header solo con logo y footer sin navegación. */
+  minimal?: boolean;
 }
-const props = Astro.props;
+const { minimal = false, ...props } = Astro.props;
 const ga = SITE.analytics.googleAnalyticsId;
 ---
 <!doctype html>
@@ -60,11 +62,11 @@ const ga = SITE.analytics.googleAnalyticsId;
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
-    <SiteHeader />
+    <SiteHeader minimal={minimal} />
     <main id="contenido" tabindex="-1">
       <slot />
     </main>
-    <SiteFooter />
+    <SiteFooter minimal={minimal} />
     <script>
       import { captureAttribution } from '../scripts/analytics';
       import '../scripts/motion';

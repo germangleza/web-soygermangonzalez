@@ -1,0 +1,233 @@
+---
+/**
+ * /llamada2: variante de la landing de agenda para compararla con /llamada (que no se toca).
+ * Sin menú, un solo texto de CTA, noindex mientras se prueba. Los clics se miden con variant=llamada2.
+ */
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import CTABanner from '../components/ui/CTABanner.astro';
+import FAQSchema from '../components/schema/FAQSchema.astro';
+import photo from '../assets/photos/german-gonzalez.png';
+import { SITE } from '../config/site.config';
+import {
+  CALL2_CTA, CALL2_WHATSAPP_TEXT, CALL2_PROOF, CALL2_AGENDA_STEPS, CALL2_FOR, CALL2_NOT_FOR, CALL2_STEPS, CALL2_FAQS,
+} from '../data/llamada2';
+
+const embed = SITE.bookingEmbedUrl;
+const booking = SITE.bookingUrl || '/contacto';
+const external = Boolean(SITE.bookingUrl);
+const ext = external ? { target: '_blank', rel: 'noopener' } : {};
+// Con calendario embebido el cierre baja a la agenda; si no, abre el calendario externo.
+const closeHref = embed ? '#agenda' : booking;
+// PENDIENTE: número de WhatsApp (SITE.business.whatsapp). Mientras falte queda el placeholder visible en el link.
+const whatsapp = `https://wa.me/${SITE.business.whatsapp || '[NÚMERO]'}?text=${CALL2_WHATSAPP_TEXT}`;
+---
+<BaseLayout
+  minimal
+  noindex
+  fullTitle="Opportunity Session · Germán González, Business Builder"
+  description="En 20 minutos te digo qué construiría primero en tu negocio: Ads, web, WhatsApp, IA o una nueva línea. Sesión sin costo para negocios en todo México."
+>
+  <FAQSchema faqs={CALL2_FAQS} />
+
+  <section class="call-hero dark" aria-labelledby="call-title">
+    <div class="container call-hero__inner">
+      <div class="call-hero__copy">
+        <span class="eyebrow eyebrow--lime">Opportunity Session · 20 minutos · Sin costo</span>
+        <h1 id="call-title">En 20 minutos te digo qué construiría primero en tu negocio.</h1>
+        <p class="call-hero__lead">Para dueños y directores de empresas que ya venden. Me cuentas tu reto —Ads, web, WhatsApp, IA o una nueva línea— y sales con las 2 o 3 cosas que yo construiría primero, trabajemos juntos o no.</p>
+        <div class="actions">
+          <a class="btn btn--lime" href="#agenda" data-book="hero">{CALL2_CTA} <span class="btn__icon" aria-hidden="true">↓</span></a>
+          <a class="btn btn--outline" href="#como-es">Cómo es la llamada <span class="btn__icon" aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <div class="call-hero__photo media">
+        <Image src={photo} alt="Germán González, Business Builder" widths={[360, 560, 800]} sizes="(min-width: 1024px) 420px, 70vw" loading="eager" />
+      </div>
+    </div>
+  </section>
+
+  <div class="proof dark" aria-label="Negocios que he construido o liderado">
+    <div class="container proof__inner">
+      <ul class="proof__list" role="list">{CALL2_PROOF.map((p) => <li>{p}</li>)}</ul>
+      {/* PENDIENTE (opcional): [dato real de Jarmar, si se autoriza]. Ej.: <p class="proof__fact">…</p> */}
+    </div>
+  </div>
+
+  <section class="section agenda-section" id="agenda" aria-labelledby="agenda-title">
+    <div class="container">
+      <div class="agenda">
+        <div class="agenda__head">
+          <span class="eyebrow">Agenda</span>
+          <h2 id="agenda-title">Elige el día y la hora.</h2>
+        </div>
+        <div class:list={['agenda__card', { 'agenda__card--embed': embed }]}>
+          <ol class="agenda__steps" role="list">
+            {CALL2_AGENDA_STEPS.map((s, i) => <li><span>{i + 1}</span>{s}</li>)}
+          </ol>
+          {!embed && (
+            <a class="btn btn--lime agenda__btn" href={booking} {...ext} data-book="agenda">{CALL2_CTA} <span class="btn__icon" aria-hidden="true">↗</span>{external && <span class="sr-only"> (abre mi calendario en otra pestaña)</span>}</a>
+          )}
+        </div>
+        {embed && (
+          <div class="agenda__frame">
+            <iframe src={embed} title="Calendario para agendar una llamada con Germán González" loading="lazy"></iframe>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="para-quien-title">
+    <div class="container">
+      <SectionHeading id="para-quien-title" eyebrow="Para quién es" title="Esta llamada te sirve si…" />
+      <div class="grid grid-2 fit">
+        <article class="card fit__yes">
+          <span class="card__kicker">Sí es para ti</span>
+          <ul class="fit__list" role="list">{CALL2_FOR.map((t) => <li>{t}</li>)}</ul>
+        </article>
+        <article class="card card--dark fit__no">
+          <span class="card__kicker">No es para ti si…</span>
+          <ul class="fit__list" role="list">{CALL2_NOT_FOR.map((t) => <li>{t}</li>)}</ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark dark" id="como-es" aria-labelledby="como-title">
+    <div class="container">
+      <SectionHeading id="como-title" eyebrow="Cómo es la llamada" title="Así es la llamada." />
+      <ol class="grid grid-3 steps" role="list">
+        {CALL2_STEPS.map((s, i) => (
+          <li class="card card--on-dark">
+            <span class="steps__num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+            {/* PENDIENTE (opcional, confirmar con Germán antes de publicar), solo en el paso 3:
+                «Si hay fit, en 48 horas te mando un Opportunity Map por escrito con la oportunidad que atacaría primero y cómo la construiría.» */}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="quien-title">
+    <div class="container who">
+      <div class="who__photo media">
+        <Image src={photo} alt="" widths={[300, 500]} sizes="(min-width: 680px) 220px, 160px" loading="lazy" />
+      </div>
+      <div>
+        <span class="eyebrow">Con quién hablas</span>
+        <h2 id="quien-title">Soy Germán González, Business Builder.</h2>
+        <p class="lead">Construyo oportunidades de crecimiento combinando negocio, growth digital, tecnología y alianzas.</p>
+        <p class="lead">Lideré la expansión de Ópticas Jarmar de Chiapas a Tijuana y cofundé Maguey Studio y Life Agent. Yo dirijo la estrategia; la ejecución la hacen <a href="https://www.magueystudio.mx" target="_blank" rel="noopener">Maguey Studio<span class="sr-only"> (abre en otra pestaña)</span></a> en marketing y growth, y <a href="https://lifeagent.mx" target="_blank" rel="noopener">Life Agent<span class="sr-only"> (abre en otra pestaña)</span></a> en IA y automatización.</p>
+        <a class="link-arrow" href="/sobre-mi">Conoce mi historia <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="faq-title">
+    <div class="container faq-wrap">
+      <SectionHeading id="faq-title" eyebrow="Preguntas frecuentes" title="Antes de agendar." />
+      <div class="faq">
+        {CALL2_FAQS.map((f) => (
+          <details>
+            <summary>{f.question}</summary>
+            <p>{f.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <CTABanner lime eyebrow="Opportunity Session" title="Agenda 20 minutos y te digo qué construiría primero en tu negocio." ctaLabel={CALL2_CTA} ctaHref={closeHref} secondary={{ label: 'Prefiero escribirte', href: whatsapp }}>
+        <p>Una conversación sin costo para encontrar dónde está la oportunidad.</p>
+      </CTABanner>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { getAttribution, track } from '../scripts/analytics';
+  // Mide los clics al CTA con variant=llamada2 (para separarlos de /llamada) y la pieza/palabra que trajo la visita.
+  // Google Calendar no acepta campos ocultos: los UTM viajan en el evento, no en la cita.
+  const { utm_source = '', utm_medium = '', utm_campaign = '', utm_content = '' } = getAttribution();
+  const utm = { utm_source, utm_medium, utm_campaign, utm_content };
+  const base = { variant: 'llamada2', page: location.pathname, ...utm };
+  document.querySelectorAll<HTMLAnchorElement>('a[data-book], a[href^="https://calendar"], .cta-banner a[href="#agenda"]').forEach((a) => {
+    a.addEventListener('click', () => track('booking_click', { ...base, location: a.dataset.book ?? 'cierre' }));
+  });
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="https://wa.me/"]').forEach((a) => {
+    a.addEventListener('click', () => track('whatsapp_click', { ...base, location: 'cierre' }));
+  });
+</script>
+
+<style>
+  .call-hero { background: var(--navy); padding: clamp(3.5rem, 2.5rem + 5vw, 6.5rem) 0; position: relative; overflow: hidden; }
+  .call-hero__inner { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, .8fr); gap: clamp(2rem, 1rem + 4vw, 4.5rem); align-items: center; }
+  .call-hero h1 { font-size: clamp(2.3rem, 1.6rem + 3vw, 4.1rem); max-width: 18ch; }
+  .call-hero__lead { font-size: var(--fs-lead); color: var(--muted-on-dark) !important; max-width: 38rem; margin-top: 1.5rem; }
+  .call-hero__photo { aspect-ratio: 4 / 5; max-width: 420px; justify-self: end; width: 100%; }
+  .call-hero__photo :global(img) { object-position: center 70%; transform: scale(1.12); transform-origin: 50% 80%; }
+
+  .agenda-section { padding-top: 0; background: linear-gradient(180deg, var(--navy) 0 7rem, transparent 7rem); }
+  .agenda { position: relative; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: 0 24px 60px -24px rgba(7,25,43,.35); padding: clamp(1.5rem, 1rem + 2vw, 2.75rem); display: grid; gap: 1.5rem; }
+  .agenda__head h2 { margin: .25rem 0 .35rem; font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.25rem); }
+  .agenda__head p { margin: 0; color: var(--muted); }
+  .agenda__frame { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: #fff; }
+  .agenda__frame iframe { display: block; width: 100%; height: 720px; border: 0; }
+  .agenda__card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem 3rem; align-items: center; background: #f3f6f9; border-radius: var(--radius); padding: clamp(1.25rem, 1rem + 1.5vw, 2rem); }
+  .agenda__steps { list-style: none; padding: 0; margin: 0; display: grid; gap: .85rem; }
+  .agenda__steps li { display: flex; gap: .85rem; align-items: center; font-weight: 600; }
+  .agenda__steps span { flex: none; width: 2rem; height: 2rem; border-radius: 50%; background: var(--navy); color: #fff; display: grid; place-items: center; font-family: var(--font-display); font-weight: 800; font-size: .9rem; }
+  .agenda__btn { min-height: 56px; font-size: 1.05rem; }
+  @media (max-width: 679px) { .agenda__card { grid-template-columns: minmax(0, 1fr); } .agenda__btn { width: 100%; justify-content: center; } .agenda__frame iframe { height: 820px; } }
+
+  .proof { background: var(--navy); border-top: 1px solid var(--line-dark); padding: 1.5rem 0 2.25rem; }
+  .proof__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .75rem 2rem; }
+  .proof__list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 2.5rem; }
+  .proof__list li { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; letter-spacing: -.01em; color: var(--muted-on-dark); }
+  .agenda__card--embed { grid-template-columns: minmax(0, 1fr); }
+  .agenda__card--embed .agenda__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 679px) { .agenda__card--embed .agenda__steps { grid-template-columns: minmax(0, 1fr); } }
+
+  .fit__list { list-style: none; padding: 0; margin: .75rem 0 0; display: grid; gap: .85rem; }
+  .fit__list li { position: relative; padding-left: 1.75rem; line-height: 1.5; }
+  .fit__yes .fit__list li { color: var(--muted); }
+  .fit__yes .fit__list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent-text); font-weight: 800; }
+  .fit__no .fit__list li { color: var(--muted-on-dark); }
+  .fit__no .fit__list li::before { content: '✕'; position: absolute; left: 0; color: #ff907e; font-weight: 800; }
+
+  .steps { list-style: none; padding: 0; }
+  .steps__num { display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.75rem; color: var(--lime); margin-bottom: .75rem; }
+  .steps h3 { font-size: clamp(1.25rem, 1.1rem + .5vw, 1.5rem); }
+
+
+  .who { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 2.5rem; align-items: center; max-width: 60rem; }
+  .who__photo { aspect-ratio: 1; border-radius: 50%; }
+  .who__photo :global(img) { object-position: center 30%; }
+  .who h2 { font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.25rem); }
+  .who .lead a { color: var(--accent-text); }
+
+  .faq-wrap { max-width: 56rem; }
+  .faq { border-top: 1px solid var(--line); }
+  .faq details { border-bottom: 1px solid var(--line); padding: 1.15rem 0; }
+  .faq summary { cursor: pointer; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; color: var(--sky); font-size: 1.4rem; line-height: 1; transition: transform .2s; }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq details p { margin: .75rem 0 0; color: var(--muted); max-width: 46rem; }
+
+  @media (max-width: 1023px) {
+    .call-hero__inner { grid-template-columns: minmax(0, 1fr); }
+    .call-hero__photo { justify-self: start; max-width: 320px; aspect-ratio: 1; }
+  }
+  @media (max-width: 679px) {
+    .call-hero__photo { display: none; }
+    .who { grid-template-columns: minmax(0, 1fr); }
+    .who__photo { width: 160px; }
+  }
+</style>

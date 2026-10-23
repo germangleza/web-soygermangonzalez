@@ -1,9 +1,11 @@
 ---
-/** SiteFooter: nombre, posicionamiento, navegación, redes (solo confirmadas), aviso de privacidad. */
+/** SiteFooter: nombre, posicionamiento, navegación, redes (solo confirmadas), aviso de privacidad. `minimal`: sin navegación (landings). */
 import { Image } from 'astro:assets';
 import logo from '../../assets/brand/logo-blanco.png';
 import { SITE, socialLinks } from '../../config/site.config';
 
+interface Props { minimal?: boolean; }
+const { minimal = false } = Astro.props;
 const socials = socialLinks();
 const year = new Date().getFullYear();
 ---
@@ -17,7 +19,7 @@ const year = new Date().getFullYear();
         <p>{SITE.role} · {SITE.tagline}</p>
       </div>
 
-      <nav aria-label="Pie de página" class="site-footer__nav">
+      {!minimal && <nav aria-label="Pie de página" class="site-footer__nav">
         <div>
           <p class="site-footer__title">Sitio</p>
           <ul>
@@ -44,7 +46,7 @@ const year = new Date().getFullYear();
             </ul>
           </div>
         )}
-      </nav>
+      </nav>}
     </div>
 
     <div class="site-footer__bottom">

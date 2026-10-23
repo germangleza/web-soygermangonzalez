@@ -5,7 +5,7 @@ import vercel from '@astrojs/vercel';
 import { SITE } from './src/config/site.config.ts';
 
 // Páginas que nunca deben ir al sitemap (noindex o utilitarias).
-const SITEMAP_EXCLUDE = ['/404', '/builder-lab/recursos'];
+const SITEMAP_EXCLUDE = ['/404', '/builder-lab/recursos', '/llamada2'];
 
 export default defineConfig({
   site: SITE.url,

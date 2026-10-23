@@ -26,6 +26,8 @@ export type ConversionEvent =
   | 'prompt_copied'
   // Landing /llamada: clic hacia el calendario (la cita confirmada se mide en el calendario/CRM)
   | 'booking_click'
+  // Landing /llamada2: clic a «Prefiero escribirte» (WhatsApp)
+  | 'whatsapp_click'
   // Formulario corto antes de agendar (diagnóstico / checklist)
   | 'booking_form_submit';
 
