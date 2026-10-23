@@ -20,12 +20,14 @@ export interface Question {
   text: string;
   hint?: string;
   options: Option[];
+  /** Se omite (y cuenta como su opción en 0) si otra pregunta tiene esa respuesta. Ej.: sin sitio web no se pregunta por el sitio. */
+  skipIf?: { question: `q${number}`; answer: string };
 }
 
 export const DIMENSIONS: Record<DimensionId, { label: string; short: string }> = {
   maps: { label: 'Google Maps', short: 'Google Maps' },
   web: { label: 'Sitio web', short: 'Sitio web' },
-  reviews: { label: 'Reseñas y reputación', short: 'Reseñas' },
+  reviews: { label: 'Reseñas, redes y reputación', short: 'Reputación' },
   ai: { label: 'Información pública para buscadores e IA', short: 'Información e IA' },
   contact: { label: 'Contacto y seguimiento', short: 'Contacto' },
 };
@@ -80,7 +82,7 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    id: 'q5', dimension: 'web',
+    id: 'q5', dimension: 'web', skipIf: { question: 'q4', answer: 'no' },
     text: '¿Tu sitio explica claramente especialidades, servicios, ubicación y profesionales?',
     options: [
       { id: 'si', label: 'Sí, todo está claro', points: 4 },
@@ -90,7 +92,7 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    id: 'q6', dimension: 'web',
+    id: 'q6', dimension: 'web', skipIf: { question: 'q4', answer: 'no' },
     text: '¿Funciona bien en celular y permite contactar fácilmente?',
     options: [
       { id: 'comprobado', label: 'Sí, lo hemos comprobado', points: 4 },
@@ -127,6 +129,17 @@ export const QUESTIONS: Question[] = [
       { id: 'frecuente', label: 'Sí, frecuentemente', points: 4 },
       { id: 'a-veces', label: 'A veces', points: 2 },
       { id: 'no', label: 'No', points: 0 },
+      NO_SE,
+    ],
+  },
+  {
+    id: 'q16', dimension: 'reviews',
+    text: '¿Tu clínica tiene redes sociales activas y crea contenido con una estrategia?',
+    hint: 'Por ejemplo: calendario de publicaciones, temas definidos, objetivos claros.',
+    options: [
+      { id: 'estrategia', label: 'Sí, publicamos con estrategia y constancia', points: 4 },
+      { id: 'sin-estrategia', label: 'Tenemos redes, pero publicamos sin estrategia', points: 2 },
+      { id: 'no', label: 'No tenemos redes o casi no publicamos', points: 0 },
       NO_SE,
     ],
   },
@@ -196,6 +209,20 @@ export const QUESTIONS: Question[] = [
 ];
 
 export type Answers = Partial<Record<Question['id'], string>>;
+
+/** true si la pregunta se omite por otra respuesta (p. ej. sin sitio web no se pregunta por el sitio). */
+export function isSkipped(q: Question, answers: Answers): boolean {
+  return Boolean(q.skipIf && answers[q.skipIf.question] === q.skipIf.answer);
+}
+
+/** Respuestas efectivas: las preguntas omitidas cuentan como su opción en 0 (no como "No sé"). */
+export function effectiveAnswers(answers: Answers): Answers {
+  const out: Answers = { ...answers };
+  for (const q of QUESTIONS) {
+    if (isSkipped(q, answers)) out[q.id] = q.options.find((o) => o.points === 0 && !o.unknown)!.id;
+  }
+  return out;
+}
 
 export const SPECIALTIES = {
   odontologia: 'Odontología',

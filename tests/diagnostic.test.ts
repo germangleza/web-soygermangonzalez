@@ -17,10 +17,10 @@ const withAnswers = (base: Answers, changes: Record<string, [0 | 2 | 4, boolean?
 });
 
 describe('preguntas', () => {
-  it('son 15, tres por dimensión, con opciones de 0/2/4 y un "No sé"', () => {
-    expect(QUESTIONS).toHaveLength(15);
+  it('son 16: tres por dimensión y cuatro en reputación (incluye redes), con opciones de 0/2/4 y un "No sé"', () => {
+    expect(QUESTIONS).toHaveLength(16);
     const perDim = QUESTIONS.reduce<Record<string, number>>((acc, q) => ({ ...acc, [q.dimension]: (acc[q.dimension] ?? 0) + 1 }), {});
-    expect(Object.values(perDim)).toEqual([3, 3, 3, 3, 3]);
+    expect(perDim).toEqual({ maps: 3, web: 3, reviews: 4, ai: 3, contact: 3 });
     for (const q of QUESTIONS) {
       expect(q.options.map((o) => o.points).sort()).toEqual(expect.arrayContaining([0, 2, 4]));
       expect(q.options.some((o) => o.unknown)).toBe(true);
@@ -32,7 +32,7 @@ describe('computeResult', () => {
   it('todo en 4 → 100 global y 100 por dimensión', () => {
     const r = computeResult(all(4));
     expect(r.digitalScore).toBe(100);
-    expect(r.points).toBe(60);
+    expect(r.points).toBe(64);
     expect(r.dimensions.every((d) => d.score === 100)).toBe(true);
     expect(r.band.label).toBe('Base digital sólida');
     expect(r.complete).toBe(true);
@@ -44,14 +44,14 @@ describe('computeResult', () => {
     expect(computeResult(all(2)).dimensions.every((d) => d.score === 50)).toBe(true);
   });
 
-  it('calcula dimensión = round(puntos/12*100) y global = round(puntos/60*100)', () => {
+  it('calcula dimensión = round(puntos/máx*100) y global = round(puntos/64*100)', () => {
     // Google Maps: 4+2+0 = 6/12 = 50 · Sitio web: 4+4+2 = 10/12 = 83.33 → 83
     const a = withAnswers(all(0), { q1: [4], q2: [2], q4: [4], q5: [4], q6: [2] });
     const r = computeResult(a);
     expect(r.dimensions.find((d) => d.id === 'maps')!.score).toBe(50);
     expect(r.dimensions.find((d) => d.id === 'web')!.score).toBe(83);
     expect(r.points).toBe(16);
-    expect(r.digitalScore).toBe(27); // 16/60 = 26.67
+    expect(r.digitalScore).toBe(25); // 16/64
   });
 
   it('"No sé" vale 0, se cuenta como pendiente y activa baja confianza desde 5', () => {
@@ -60,7 +60,7 @@ describe('computeResult', () => {
     expect(r4.unknownCount).toBe(4);
     expect(r4.unknownQuestions).toEqual(['q1', 'q4', 'q7', 'q14']);
     expect(r4.lowConfidence).toBe(false);
-    expect(r4.points).toBe(44);
+    expect(r4.points).toBe(48);
     const r5 = computeResult(withAnswers(four, { q11: [0, true] }));
     expect(r5.unknownCount).toBe(5);
     expect(r5.lowConfidence).toBe(true);
@@ -87,6 +87,27 @@ describe('computeResult', () => {
     expect(isValidAnswers({ q1: 'inventada' })).toBe(false);
     expect(isValidAnswers({ q99: 'completa' })).toBe(false);
     expect(isValidAnswers('x')).toBe(false);
+  });
+});
+
+describe('sin sitio web', () => {
+  const ids = (a: Answers) => recommend(a).map((r) => r.id);
+  it('q4 = «No tenemos sitio web» omite q5 y q6: cuentan 0, el resultado queda completo y no se marcan como «No sé»', () => {
+    const { q5: _a, q6: _b, ...rest } = withAnswers(all(4), { q4: [0] });
+    const r = computeResult(rest);
+    expect(r.complete).toBe(true);
+    expect(r.dimensions.find((d) => d.id === 'web')!.score).toBe(0);
+    expect(r.unknownQuestions).not.toContain('q5');
+  });
+  it('sin web la primera recomendación es tener sitio propio y no se recomienda mejorar un sitio que no existe', () => {
+    const { q5: _a, q6: _b, ...rest } = withAnswers(all(4), { q4: [0] });
+    const r = ids(rest);
+    expect(r[0]).toBe('sitio-propio');
+    expect(r).not.toContain('info-servicios');
+    expect(r).not.toContain('optimizar-web');
+  });
+  it('redes sin estrategia (q16 = 0) activa la recomendación de contenido', () => {
+    expect(ids(withAnswers(all(4), { q16: [0] }))).toContain('redes-contenido');
   });
 });
 

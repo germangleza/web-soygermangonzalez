@@ -20,7 +20,7 @@ async function run({ path, kind, w, h, answerQuiz, tipoEsperado }) {
   await answerQuiz(p);
   check(`${tag}: sin botón de imprimir/PDF`, (await p.locator('text=Imprimir o guardar en PDF').count()) === 0);
   check(`${tag}: sin formulario de reporte por correo`, (await p.locator('text=Envíame mi').count()) === 0);
-  const cta = p.locator('a[href="#agendar"]');
+  const cta = p.locator('[data-dx-book], [data-ck-book]');
   check(`${tag}: CTA «Agendar una llamada» visible tras el resultado`, (await cta.isVisible()) && (await cta.textContent()).includes('Agendar una llamada'));
   await cta.click(); await p.waitForTimeout(600);
   check(`${tag}: el CTA lleva al formulario`, await p.isVisible('#agendar [data-agenda-form]'));
@@ -72,7 +72,7 @@ async function run({ path, kind, w, h, answerQuiz, tipoEsperado }) {
 
 const clinicQuiz = async (p) => {
   await p.click('[data-dx-start]');
-  for (let i = 0; i < 15; i++) { await p.click('.quiz__step:not([hidden]) input[type=radio] >> nth=0'); await p.click('[data-dx-next]'); }
+  for (let i = 0; i < 16 && !(await p.isVisible('[data-dx-result-section]')); i++) { await p.click('.quiz__step:not([hidden]) input[type=radio] >> nth=0'); await p.click('[data-dx-next]'); }
   await p.waitForSelector('[data-dx-result-section]:not([hidden])');
   check('clinica: muestra resultado', (await p.textContent('[data-dx-headline]')).includes('/100'));
 };
@@ -84,6 +84,45 @@ const checklistQuiz = async (p) => {
   }
   await p.waitForSelector('[data-ck-result-section]:not([hidden])');
 };
+
+// Agendar directo desde el hero, sin hacer la evaluación
+for (const [path, kind] of [['/diagnostico-clinicas', 'clinica'], ['/ia-recomienda-tu-negocio', 'negocio']]) {
+  const ctx = await b.newContext({ viewport: { width: 375, height: 812 } }); const p = await ctx.newPage();
+  await ctx.route('https://calendar.app.google/**', (route) => route.fulfill({ status: 200, contentType: 'text/html', body: 'ok' }));
+  await p.goto(BASE + path, { waitUntil: 'networkidle' });
+  check(`${kind}: formulario de agenda visible desde el inicio`, await p.isVisible('#agendar [data-agenda-form]'));
+  await p.click('.actions a[href="#agendar"]'); await p.waitForTimeout(600);
+  const inView = await p.$eval('#agendar', (el) => { const r = el.getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; });
+  check(`${kind}: «Prefiero agendar una llamada» lleva al formulario`, inView);
+  await p.fill('[data-agenda-form] [name=whatsapp]', '6641234567'); await p.fill('[data-agenda-form] [name=negocio]', 'Directo');
+  await p.selectOption('[data-agenda-form] [name=tipo]', { index: 1 }); await p.selectOption('[data-agenda-form] [name=rol]', 'propietario');
+  await p.click('[data-agenda-form] input[name=enfoque][value=cero]');
+  await Promise.all([p.waitForURL('https://calendar.app.google/**'), p.click('[data-agenda-submit]')]);
+  check(`${kind}: agenda sin evaluación y abre el calendario`, p.url().startsWith('https://calendar.app.google/'));
+  if (kind === 'clinica') await p.screenshot({ path: `${OUT}/directo.png` });
+  await ctx.close();
+}
+
+// Sin sitio web: se omiten las preguntas del sitio
+{
+  const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
+  await p.goto(BASE + '/diagnostico-clinicas', { waitUntil: 'networkidle' });
+  await p.click('[data-dx-start]');
+  const seen = [];
+  for (let i = 0; i < 16 && !(await p.isVisible('[data-dx-result-section]')); i++) {
+    const name = await p.$eval('.quiz__step:not([hidden]) input[type=radio]', (x) => x.name); seen.push(name);
+    if (name === 'q4') { await p.click('.quiz__step:not([hidden]) input[value=no]'); }
+    else await p.click('.quiz__step:not([hidden]) input[type=radio] >> nth=0');
+    await p.click('[data-dx-next]');
+    if (name === 'q4') check('sin web: contador ajustado', (await p.textContent('[data-dx-count]')).startsWith('Pregunta 5 de 14'), await p.textContent('[data-dx-count]'));
+  }
+  check('sin web: no pregunta q5 ni q6', !seen.includes('q5') && !seen.includes('q6'), seen.join(','));
+  check('sin web: pregunta por redes sociales (q16)', seen.includes('q16'));
+  check('sin web: llega al resultado', await p.isVisible('[data-dx-result-section]'));
+  const recs = await p.$$eval('[data-dx-recs] h4', (h) => h.map((x) => x.textContent));
+  check('sin web: primera prioridad es tener sitio propio', recs[0]?.includes('sitio web propio'), recs.join(' | '));
+  await p.close();
+}
 
 for (const [w, h] of [[375, 812], [1440, 900]]) {
   await run({ path: '/diagnostico-clinicas', kind: 'clinica', w, h, answerQuiz: clinicQuiz });

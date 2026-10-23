@@ -4,7 +4,7 @@
  * se guardan en sessionStorage para no perder el avance al recargar.
  */
 import { animate, stagger } from 'motion';
-import { DIMENSIONS, QUESTIONS, type Answers } from '../lib/diagnostic/questions';
+import { DIMENSIONS, QUESTIONS, isSkipped, type Answers } from '../lib/diagnostic/questions';
 import { computeResult, recommend } from '../lib/diagnostic/scoring';
 import { track } from './analytics';
 import './link-fields';
@@ -44,17 +44,26 @@ if (quiz && quizSection && resultSection) {
     try { sessionStorage.setItem(STORE, JSON.stringify({ answers: answers(), step })); } catch { /* sin almacenamiento */ }
   };
 
+  // Preguntas activas: sin sitio web se omiten las del sitio (q5, q6).
+  const active = () => { const a = answers(); return QUESTIONS.map((q, i) => (isSkipped(q, a) ? -1 : i)).filter((i) => i >= 0); };
+  const nextIndex = (from: number) => active().find((i) => i > from) ?? -1;
+  const prevIndex = (from: number) => [...active()].reverse().find((i) => i < from) ?? 0;
+
   function show(i: number, focus = true) {
     step = Math.max(0, Math.min(steps.length - 1, i));
+    if (!active().includes(step)) step = nextIndex(step) >= 0 ? nextIndex(step) : prevIndex(step);
     steps.forEach((s, idx) => (s.hidden = idx !== step));
     const q = QUESTIONS[step];
-    count.textContent = `Pregunta ${step + 1} de ${steps.length} · ${DIMENSIONS[q.dimension].short}`;
-    bar.setAttribute('aria-valuenow', String(step + 1));
-    fill.style.width = `${((step + 1) / steps.length) * 100}%`;
-    back.disabled = step === 0;
-    next.textContent = step === steps.length - 1 ? 'Ver mi resultado' : 'Siguiente →';
+    const list = active();
+    const pos = list.indexOf(step) + 1;
+    count.textContent = `Pregunta ${pos} de ${list.length} · ${DIMENSIONS[q.dimension].short}`;
+    bar.setAttribute('aria-valuemax', String(list.length));
+    bar.setAttribute('aria-valuenow', String(pos));
+    fill.style.width = `${(pos / list.length) * 100}%`;
+    back.disabled = pos === 1;
+    next.textContent = nextIndex(step) < 0 ? 'Ver mi resultado' : 'Siguiente →';
     error.textContent = '';
-    live.textContent = `Pregunta ${step + 1} de ${steps.length}`;
+    live.textContent = `Pregunta ${pos} de ${list.length}`;
     if (focus) {
       $<HTMLElement>('legend', steps[step])?.focus({ preventScroll: true });
       if (!REDUCED) animate(steps[step], { opacity: [0, 1], x: [24, 0] }, { duration: 0.35, ease: [0.22, 1, 0.36, 1] });
@@ -167,13 +176,13 @@ if (quiz && quizSection && resultSection) {
       $<HTMLInputElement>(`input[name="${q.id}"]`, steps[step])?.focus();
       return;
     }
-    if (step < steps.length - 1) return show(step + 1);
+    if (nextIndex(step) >= 0) return show(nextIndex(step));
     const r = renderResult();
     track('diagnostic_completed', { score: String(r.digitalScore), band: r.band.id, unknown: String(r.unknownCount) });
     save();
   });
 
-  back.addEventListener('click', () => show(step - 1));
+  back.addEventListener('click', () => show(prevIndex(step)));
 
   $$('[data-dx-start]').forEach((b) =>
     b.addEventListener('click', () => {

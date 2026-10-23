@@ -154,7 +154,6 @@ if (quiz && quizSection && resultSection && formsSection) {
 
     quizSection!.hidden = true;
     resultSection!.hidden = false;
-    formsSection!.hidden = false;
     if (scroll) {
       resultSection!.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'start' });
       $<HTMLElement>('#ck-result-title')!.focus({ preventScroll: true });
@@ -194,7 +193,6 @@ if (quiz && quizSection && resultSection && formsSection) {
     quiz.reset();
     try { sessionStorage.removeItem(STORE); } catch { /* */ }
     resultSection.hidden = true;
-    formsSection.hidden = true;
     quizSection.hidden = false;
     show(0);
   });

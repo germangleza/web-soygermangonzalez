@@ -13,16 +13,17 @@ import { DIMENSIONS, DIMENSION_ORDER, QUESTIONS } from '../lib/diagnostic/questi
 ---
 <BaseLayout
   fullTitle="Diagnóstico de visibilidad digital para clínicas | Germán González"
-  description="Responde 15 preguntas y descubre tus prioridades en Google Maps, sitio web, reseñas, información para buscadores e IA y contacto con pacientes. Gratis, 3–4 minutos."
+  description="Responde hasta 16 preguntas y descubre tus prioridades en Google Maps, sitio web, reseñas y redes, información para buscadores e IA y contacto con pacientes. Gratis, 3–4 minutos."
 >
   <section class="dx-hero dark">
     <div class="container dx-hero__inner">
       <Breadcrumbs items={[{ name: 'Builder Lab', url: '/builder-lab' }, { name: 'Diagnóstico para clínicas', url: '/diagnostico-clinicas' }]} />
       <span class="eyebrow eyebrow--lime">Recurso gratuito · Germán González</span>
       <h1>¿Qué tan fácil es encontrar y elegir tu clínica en Google y en la IA?</h1>
-      <p class="dx-hero__lead">Responde 15 preguntas y descubre cuáles son tus prioridades en Google Maps, página web, reseñas, información pública para buscadores e IA, y contacto con pacientes. Toma aproximadamente 3–4 minutos.</p>
+      <p class="dx-hero__lead">Responde hasta 16 preguntas y descubre cuáles son tus prioridades en Google Maps, página web, reseñas y redes sociales, información pública para buscadores e IA, y contacto con pacientes. Toma aproximadamente 3–4 minutos.</p>
       <div class="actions">
         <a class="btn btn--lime" href="#evaluacion" data-dx-start>Evaluar mi clínica <span class="btn__icon" aria-hidden="true">↓</span></a>
+        <a class="btn btn--outline" href="#agendar" data-dx-book-direct>Prefiero agendar una llamada <span class="btn__icon" aria-hidden="true">↓</span></a>
       </div>
       <p class="dx-hero__note" role="note">
         <strong>Importante:</strong> evaluación orientativa basada en tus respuestas. No es una auditoría técnica ni garantiza aparecer o ser recomendado por Google, ChatGPT, Gemini u otros sistemas.
@@ -36,7 +37,7 @@ import { DIMENSIONS, DIMENSION_ORDER, QUESTIONS } from '../lib/diagnostic/questi
 
   <section class="section section--alt dx-quiz-section" id="evaluacion" data-dx-quiz-section aria-label="Evaluación">
     <div class="container">
-      <p class="dx-quiz-intro small">{QUESTIONS.length} preguntas · sin registro · tu resultado aparece al terminar</p>
+      <p class="dx-quiz-intro small">Hasta {QUESTIONS.length} preguntas · sin registro · tu resultado aparece al terminar</p>
       <DiagnosticQuestionnaire />
     </div>
   </section>
@@ -47,7 +48,7 @@ import { DIMENSIONS, DIMENSION_ORDER, QUESTIONS } from '../lib/diagnostic/questi
     </div>
   </section>
 
-  <section class="section section--alt dx-forms" data-dx-forms data-no-reveal hidden aria-labelledby="dx-book-title">
+  <section class="section section--alt dx-forms" data-dx-forms data-no-reveal aria-labelledby="dx-book-title">
     <div class="container">
       <div class="dx-form-card" id="agendar">
         <span class="eyebrow">Agenda tu llamada · Sin costo</span>
@@ -60,14 +61,6 @@ import { DIMENSIONS, DIMENSION_ORDER, QUESTIONS } from '../lib/diagnostic/questi
 
 <script>
   import '../scripts/diagnostic';
-  // Los formularios solo tienen sentido con un resultado: se muestran al terminar.
-  const forms = document.querySelector<HTMLElement>('[data-dx-forms]');
-  const result = document.querySelector<HTMLElement>('[data-dx-result-section]');
-  if (forms && result) {
-    const sync = () => (forms.hidden = result.hidden);
-    new MutationObserver(sync).observe(result, { attributes: true, attributeFilter: ['hidden'] });
-    sync();
-  }
 </script>
 
 <style>

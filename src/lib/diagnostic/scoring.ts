@@ -2,9 +2,9 @@
  * Funciones PURAS de puntuación y priorización (spec §5, §6, §8).
  * Se usan en el navegador (resultado inmediato) y en el servidor (que recalcula y no confía en el cliente).
  */
-import { DIMENSIONS, DIMENSION_ORDER, QUESTIONS, type Answers, type DimensionId, type Question } from './questions';
+import { DIMENSIONS, DIMENSION_ORDER, QUESTIONS, effectiveAnswers, isSkipped, type Answers, type DimensionId, type Question } from './questions';
 
-export const MAX_POINTS = QUESTIONS.length * 4; // 60
+export const MAX_POINTS = QUESTIONS.length * 4; // 64
 export const LOW_CONFIDENCE_UNKNOWNS = 5;
 
 export interface DimensionScore {
@@ -57,7 +57,8 @@ export function bandFor(score: number): Band {
   return BANDS.find((b) => score >= b.min && score <= b.max) ?? BANDS[0];
 }
 
-export function computeResult(answers: Answers): DiagnosticResult {
+export function computeResult(raw: Answers): DiagnosticResult {
+  const answers = effectiveAnswers(raw);
   let total = 0;
   const unknownQuestions: Question['id'][] = [];
   const dims = new Map<DimensionId, DimensionScore>(
@@ -137,6 +138,12 @@ const RULES: RecTemplate[] = [
     firstAction: 'Prepara un enlace directo a tus reseñas de Google y define en qué momento de la atención se comparte, sin ofrecer descuentos ni regalos a cambio.',
   },
   {
+    id: 'redes-contenido', triggers: ['q16'], area: area('reviews'),
+    title: 'Crea contenido con una estrategia, no solo publicaciones',
+    why: 'Las redes son donde muchos pacientes confirman si confían en tu clínica. Publicar sin objetivos ni constancia rara vez genera citas.',
+    firstAction: 'Define 3 temas que resuelvan dudas reales de tus pacientes y un calendario simple (por ejemplo, 2 publicaciones por semana) con un llamado a agendar.',
+  },
+  {
     id: 'info-servicios', triggers: ['q5'], area: area('web'),
     title: 'Explica con claridad tus servicios y especialistas',
     why: 'Los pacientes eligen cuando entienden qué atiendes, quién los atiende y dónde. Esa misma claridad ayuda a buscadores y asistentes a describir tu clínica correctamente.',
@@ -197,8 +204,12 @@ export interface RecommendationContext {
 }
 
 /** Tres recomendaciones basadas en las respuestas (spec §6). */
-export function recommend(answers: Answers, result: DiagnosticResult = computeResult(answers), ctx: RecommendationContext = {}, limit = 3): Recommendation[] {
-  const zero = (q: Question['id']) => pointsFor(q, answers[q]).points === 0;
+export function recommend(raw: Answers, result: DiagnosticResult = computeResult(raw), ctx: RecommendationContext = {}, limit = 3): Recommendation[] {
+  const answers = effectiveAnswers(raw);
+  const skipped = new Set(QUESTIONS.filter((q) => isSkipped(q, raw)).map((q) => q.id));
+  // Sin web: las mejoras del sitio no aplican; va primero «tener sitio propio».
+  if (raw.q4 === 'no') ctx = { ...ctx, noWebsite: true };
+  const zero = (q: Question['id']) => !skipped.has(q) && pointsFor(q, answers[q]).points === 0;
   const isUnknown = (q: Question['id']) => pointsFor(q, answers[q]).unknown;
 
   const picked: Recommendation[] = [];
@@ -219,7 +230,8 @@ export function recommend(answers: Answers, result: DiagnosticResult = computeRe
     const sorted = [...result.dimensions].sort(
       (a, b) => a.score - b.score || DIMENSION_ORDER.indexOf(a.id) - DIMENSION_ORDER.indexOf(b.id),
     );
-    for (const d of sorted) add(OPTIMIZE[d.id], false);
+    // Sin sitio web no tiene sentido «medir cómo usan tu sitio».
+    for (const d of sorted) if (!(ctx.noWebsite && d.id === 'web')) add(OPTIMIZE[d.id], false);
   }
   return picked;
 }
