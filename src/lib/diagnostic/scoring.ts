@@ -4,7 +4,7 @@
  */
 import { DIMENSIONS, DIMENSION_ORDER, QUESTIONS, effectiveAnswers, isSkipped, type Answers, type DimensionId, type Question } from './questions';
 
-export const MAX_POINTS = QUESTIONS.length * 4; // 64
+export const MAX_POINTS = QUESTIONS.length * 4;
 export const LOW_CONFIDENCE_UNKNOWNS = 5;
 
 export interface DimensionScore {
@@ -121,9 +121,9 @@ const RULES: RecTemplate[] = [
   },
   {
     id: 'perfil-empresa', triggers: ['q1'], area: area('maps'),
-    title: 'Verifica y administra tu Perfil de Empresa en Google',
+    title: 'Crea o recupera tu Perfil de Empresa en Google',
     why: 'Es lo primero que muchas personas ven al buscar una clínica cerca. Sin acceso, no puedes corregir datos, responder reseñas ni actualizar horarios.',
-    firstAction: 'Busca tu clínica en Google Maps y reclama o recupera el acceso a la ficha con una cuenta de la clínica.',
+    firstAction: 'Busca tu clínica en Google Maps: si no aparece, crea la ficha; si existe, reclama o recupera el acceso con una cuenta de la clínica.',
   },
   {
     id: 'info-local', triggers: ['q2'], area: area('maps'),
@@ -138,10 +138,16 @@ const RULES: RecTemplate[] = [
     firstAction: 'Prepara un enlace directo a tus reseñas de Google y define en qué momento de la atención se comparte, sin ofrecer descuentos ni regalos a cambio.',
   },
   {
-    id: 'redes-contenido', triggers: ['q16'], area: area('reviews'),
+    id: 'redes-contenido', triggers: ['q16'], area: area('social'),
     title: 'Crea contenido con una estrategia, no solo publicaciones',
     why: 'Las redes son donde muchos pacientes confirman si confían en tu clínica. Publicar sin objetivos ni constancia rara vez genera citas.',
     firstAction: 'Define 3 temas que resuelvan dudas reales de tus pacientes y un calendario simple (por ejemplo, 2 publicaciones por semana) con un llamado a agendar.',
+  },
+  {
+    id: 'anuncios', triggers: ['q17'], area: area('social'),
+    title: 'Usa anuncios con un objetivo claro y medible',
+    why: 'Los anuncios bien enfocados atraen pacientes de forma constante; sin medición, es difícil saber cuáles funcionan y cuáles solo gastan presupuesto.',
+    firstAction: 'Elige un servicio prioritario, define cuánto puedes invertir al mes y mide cuántos mensajes o citas llegan desde cada anuncio.',
   },
   {
     id: 'info-servicios', triggers: ['q5'], area: area('web'),
@@ -162,7 +168,7 @@ const RULES: RecTemplate[] = [
     firstAction: 'Haz 5 preguntas distintas (por ejemplo, "mejor clínica de [especialidad] en [ciudad]") en dos asistentes, anota qué fuentes citan y corrige la información equivocada en esas fuentes.',
   },
   {
-    id: 'contacto-seguimiento', triggers: ['q13', 'q14', 'q15'], area: area('contact'),
+    id: 'contacto-seguimiento', triggers: ['q14', 'q15'], area: area('contact'),
     title: 'Facilita el contacto y da seguimiento a cada consulta',
     why: 'Una consulta que tarda en responderse o no recibe seguimiento suele terminar en otra clínica, aunque te hayan encontrado primero.',
     firstAction: 'Define quién responde las consultas digitales, una meta de tiempo de respuesta y un recordatorio para dar seguimiento a quien no agendó.',
@@ -185,6 +191,11 @@ const OPTIMIZE: Record<DimensionId, Omit<RecTemplate, 'triggers'>> = {
     id: 'optimizar-resenas', area: area('reviews'), title: 'Usa tus reseñas para mejorar la atención',
     why: 'Las reseñas también muestran qué valoran tus pacientes y qué les molesta.',
     firstAction: 'Revisa una vez al mes los temas que se repiten en tus reseñas y comparte los hallazgos con tu equipo.',
+  },
+  social: {
+    id: 'optimizar-social', area: area('social'), title: 'Conecta tus redes y anuncios con tus citas',
+    why: 'Con redes y anuncios en marcha, el siguiente paso es saber qué contenido y qué campañas terminan en pacientes reales.',
+    firstAction: 'Registra cada mes cuántas citas llegan desde redes y anuncios, y repite lo que funciona.',
   },
   ai: {
     id: 'optimizar-ia', area: area('ai'), title: 'Revisa periódicamente tu información pública',
@@ -230,8 +241,8 @@ export function recommend(raw: Answers, result: DiagnosticResult = computeResult
     const sorted = [...result.dimensions].sort(
       (a, b) => a.score - b.score || DIMENSION_ORDER.indexOf(a.id) - DIMENSION_ORDER.indexOf(b.id),
     );
-    // Sin sitio web no tiene sentido «medir cómo usan tu sitio».
-    for (const d of sorted) if (!(ctx.noWebsite && d.id === 'web')) add(OPTIMIZE[d.id], false);
+    // Sin sitio web o sin ficha de Maps no tiene sentido «optimizar» lo que no existe.
+    for (const d of sorted) if (!(ctx.noWebsite && d.id === 'web') && !(raw.q1 === 'no-existe' && d.id === 'maps')) add(OPTIMIZE[d.id], false);
   }
   return picked;
 }

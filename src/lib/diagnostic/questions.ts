@@ -4,7 +4,7 @@
  * Cada opción vale 0, 2 o 4 puntos. `unknown: true` = "No sé" (cuenta 0 y se marca para verificar).
  */
 
-export type DimensionId = 'maps' | 'web' | 'reviews' | 'ai' | 'contact';
+export type DimensionId = 'maps' | 'web' | 'reviews' | 'social' | 'ai' | 'contact';
 export type Points = 0 | 2 | 4;
 
 export interface Option {
@@ -27,13 +27,14 @@ export interface Question {
 export const DIMENSIONS: Record<DimensionId, { label: string; short: string }> = {
   maps: { label: 'Google Maps', short: 'Google Maps' },
   web: { label: 'Sitio web', short: 'Sitio web' },
-  reviews: { label: 'Reseñas, redes y reputación', short: 'Reputación' },
+  reviews: { label: 'Reseñas y reputación', short: 'Reseñas' },
+  social: { label: 'Redes sociales y anuncios', short: 'Redes y anuncios' },
   ai: { label: 'Información pública para buscadores e IA', short: 'Información e IA' },
-  contact: { label: 'Contacto y seguimiento', short: 'Contacto' },
+  contact: { label: 'Atención y seguimiento', short: 'Atención' },
 };
 
 /** Orden de desempate: fundamentos primero. */
-export const DIMENSION_ORDER: DimensionId[] = ['maps', 'web', 'reviews', 'ai', 'contact'];
+export const DIMENSION_ORDER: DimensionId[] = ['maps', 'web', 'reviews', 'social', 'ai', 'contact'];
 
 const NO_SE: Option = { id: 'no-se', label: 'No sé', points: 0, unknown: true };
 
@@ -45,13 +46,14 @@ export const QUESTIONS: Question[] = [
     options: [
       { id: 'completa', label: 'Sí, completa y verificada', points: 4 },
       { id: 'incompleta', label: 'Existe, pero está incompleta', points: 2 },
-      { id: 'sin-acceso', label: 'No tengo acceso o no existe', points: 0 },
+      { id: 'sin-acceso', label: 'Existe, pero no tengo acceso', points: 0 },
+      { id: 'no-existe', label: 'No tenemos ficha en Google Maps', points: 0 },
       NO_SE,
     ],
   },
   {
-    id: 'q2', dimension: 'maps',
-    text: '¿La información de tu clínica en Google está completa y actualizada?',
+    id: 'q2', dimension: 'maps', skipIf: { question: 'q1', answer: 'no-existe' },
+    text: '¿La información de tu clínica en Google Maps está completa y actualizada?',
     hint: 'Horarios, teléfono, dirección, servicios, fotos.',
     options: [
       { id: 'completa', label: 'Sí, completa y actualizada', points: 4 },
@@ -61,7 +63,7 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    id: 'q3', dimension: 'maps',
+    id: 'q3', dimension: 'maps', skipIf: { question: 'q1', answer: 'no-existe' },
     text: '¿Has revisado cómo apareces al buscar tu especialidad en tu ciudad?',
     options: [
       { id: 'periodico', label: 'Sí, periódicamente', points: 4 },
@@ -133,13 +135,23 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    id: 'q16', dimension: 'reviews',
+    id: 'q16', dimension: 'social',
     text: '¿Tu clínica tiene redes sociales activas y crea contenido con una estrategia?',
     hint: 'Por ejemplo: calendario de publicaciones, temas definidos, objetivos claros.',
     options: [
       { id: 'estrategia', label: 'Sí, publicamos con estrategia y constancia', points: 4 },
       { id: 'sin-estrategia', label: 'Tenemos redes, pero publicamos sin estrategia', points: 2 },
       { id: 'no', label: 'No tenemos redes o casi no publicamos', points: 0 },
+      NO_SE,
+    ],
+  },
+  {
+    id: 'q17', dimension: 'social',
+    text: '¿Hacen anuncios pagados (Meta, Google u otros) para atraer pacientes?',
+    options: [
+      { id: 'medidos', label: 'Sí, y medimos cuántos pacientes llegan', points: 4 },
+      { id: 'sin-medir', label: 'Sí, pero sin medir resultados o solo a veces', points: 2 },
+      { id: 'no', label: 'No hacemos anuncios', points: 0 },
       NO_SE,
     ],
   },
@@ -156,7 +168,7 @@ export const QUESTIONS: Question[] = [
   },
   {
     id: 'q11', dimension: 'ai',
-    text: '¿Has comprobado qué información dan los asistentes de IA (como ChatGPT o Gemini) sobre tu clínica, contrastando fuentes?',
+    text: '¿Has comprobado qué información dan los asistentes de IA (como ChatGPT o Gemini) sobre tu clínica?',
     options: [
       { id: 'varias', label: 'Sí, con varias pruebas', points: 4 },
       { id: 'superficial', label: 'Una prueba superficial', points: 2 },
@@ -175,20 +187,10 @@ export const QUESTIONS: Question[] = [
       NO_SE,
     ],
   },
-  // — Contacto y seguimiento
-  {
-    id: 'q13', dimension: 'contact',
-    text: '¿Es fácil contactar a tu clínica desde Google o desde tu web?',
-    options: [
-      { id: 'facil', label: 'Sí, en pocos pasos', points: 4 },
-      { id: 'buscar', label: 'Hay que buscar un poco', points: 2 },
-      { id: 'dificil', label: 'Es difícil', points: 0 },
-      NO_SE,
-    ],
-  },
+  // — Atención y seguimiento
   {
     id: 'q14', dimension: 'contact',
-    text: '¿Cuánto tardan normalmente en responder consultas digitales en horario de atención?',
+    text: '¿Cuánto tardan normalmente en responder los mensajes que reciben?',
     options: [
       { id: 'menos-15', label: 'Menos de 15 minutos', points: 4 },
       { id: 'mismo-dia', label: 'El mismo día', points: 2 },

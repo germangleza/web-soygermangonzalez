@@ -124,6 +124,26 @@ for (const [path, kind] of [['/diagnostico-clinicas', 'clinica'], ['/ia-recomien
   await p.close();
 }
 
+// Sin ficha de Google Maps: se omiten las preguntas de Maps
+{
+  const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
+  await p.goto(BASE + '/diagnostico-clinicas', { waitUntil: 'networkidle' });
+  await p.evaluate(() => sessionStorage.clear()); await p.reload({ waitUntil: 'networkidle' });
+  await p.click('[data-dx-start]');
+  const seen = [];
+  for (let i = 0; i < 16 && !(await p.isVisible('[data-dx-result-section]')); i++) {
+    const name = await p.$eval('.quiz__step:not([hidden]) input[type=radio]', (x) => x.name); seen.push(name);
+    await p.click(name === 'q1' ? '.quiz__step:not([hidden]) input[value=no-existe]' : '.quiz__step:not([hidden]) input[type=radio] >> nth=0');
+    await p.click('[data-dx-next]');
+  }
+  check('sin Maps: no pregunta q2 ni q3', !seen.includes('q2') && !seen.includes('q3'), seen.join(','));
+  check('sin Maps: pregunta por anuncios (q17) y no por q13', seen.includes('q17') && !seen.includes('q13'));
+  const recs = await p.$$eval('[data-dx-recs] h4', (h) => h.map((x) => x.textContent));
+  check('sin Maps: primera prioridad es crear la ficha', recs[0]?.includes('Perfil de Empresa'), recs.join(' | '));
+  check('título de la landing orientado a presencia y estrategia', (await p.textContent('h1')).includes('presencia digital'));
+  await p.close();
+}
+
 for (const [w, h] of [[375, 812], [1440, 900]]) {
   await run({ path: '/diagnostico-clinicas', kind: 'clinica', w, h, answerQuiz: clinicQuiz });
   await run({ path: '/ia-recomienda-tu-negocio', kind: 'negocio', w, h, answerQuiz: checklistQuiz, tipoEsperado: 'retail' });

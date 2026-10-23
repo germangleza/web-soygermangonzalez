@@ -1,6 +1,6 @@
 ---
 /**
- * Diagnóstico de Visibilidad Digital para Clínicas (spec MVP 1.0).
+ * Diagnóstico de presencia y estrategia digital para clínicas (spec MVP 1.0).
  * Recurso de Builder Lab. También accesible en /builder-lab/diagnostico-clinicas (redirección).
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -12,21 +12,21 @@ import { DIMENSIONS, DIMENSION_ORDER, QUESTIONS } from '../lib/diagnostic/questi
 
 ---
 <BaseLayout
-  fullTitle="Diagnóstico de visibilidad digital para clínicas | Germán González"
-  description="Responde hasta 16 preguntas y descubre tus prioridades en Google Maps, sitio web, reseñas y redes, información para buscadores e IA y contacto con pacientes. Gratis, 3–4 minutos."
+  fullTitle="Diagnóstico de presencia y estrategia digital para clínicas | Germán González"
+  description="Diagnóstico gratuito de la presencia y estrategia digital de tu clínica: Google Maps, sitio web, reseñas, redes sociales y anuncios, información para IA y atención a pacientes. Descubre tus prioridades en 3–4 minutos."
 >
   <section class="dx-hero dark">
     <div class="container dx-hero__inner">
       <Breadcrumbs items={[{ name: 'Builder Lab', url: '/builder-lab' }, { name: 'Diagnóstico para clínicas', url: '/diagnostico-clinicas' }]} />
       <span class="eyebrow eyebrow--lime">Recurso gratuito · Germán González</span>
-      <h1>¿Qué tan fácil es encontrar y elegir tu clínica en Google y en la IA?</h1>
-      <p class="dx-hero__lead">Responde hasta 16 preguntas y descubre cuáles son tus prioridades en Google Maps, página web, reseñas y redes sociales, información pública para buscadores e IA, y contacto con pacientes. Toma aproximadamente 3–4 minutos.</p>
+      <h1>¿Qué tan sólida es la presencia digital de tu clínica?</h1>
+      <p class="dx-hero__lead">Evalúa la presencia y la estrategia digital de tu clínica, desde lo básico hasta lo que atrae pacientes: Google Maps, sitio web, reseñas, redes sociales y anuncios, información para la IA y atención a pacientes. Al final ves tus prioridades. Toma 3–4 minutos.</p>
       <div class="actions">
         <a class="btn btn--lime" href="#evaluacion" data-dx-start>Evaluar mi clínica <span class="btn__icon" aria-hidden="true">↓</span></a>
         <a class="btn btn--outline" href="#agendar" data-dx-book-direct>Prefiero agendar una llamada <span class="btn__icon" aria-hidden="true">↓</span></a>
       </div>
       <p class="dx-hero__note" role="note">
-        <strong>Importante:</strong> evaluación orientativa basada en tus respuestas. No es una auditoría técnica ni garantiza aparecer o ser recomendado por Google, ChatGPT, Gemini u otros sistemas.
+        <strong>Importante:</strong> evaluación orientativa basada en tus respuestas. No es una auditoría técnica ni garantiza resultados en Google, redes, anuncios o asistentes de IA.
       </p>
       <ul class="dx-hero__dims" role="list" aria-label="Áreas que evalúa">
         {DIMENSION_ORDER.map((d) => <li>{DIMENSIONS[d].label}</li>)}

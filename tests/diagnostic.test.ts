@@ -17,10 +17,10 @@ const withAnswers = (base: Answers, changes: Record<string, [0 | 2 | 4, boolean?
 });
 
 describe('preguntas', () => {
-  it('son 16: tres por dimensión y cuatro en reputación (incluye redes), con opciones de 0/2/4 y un "No sé"', () => {
+  it('son 16 en 6 áreas (redes y anuncios, y atención con 2), con opciones de 0/2/4 y un "No sé"', () => {
     expect(QUESTIONS).toHaveLength(16);
     const perDim = QUESTIONS.reduce<Record<string, number>>((acc, q) => ({ ...acc, [q.dimension]: (acc[q.dimension] ?? 0) + 1 }), {});
-    expect(perDim).toEqual({ maps: 3, web: 3, reviews: 4, ai: 3, contact: 3 });
+    expect(perDim).toEqual({ maps: 3, web: 3, reviews: 3, social: 2, ai: 3, contact: 2 });
     for (const q of QUESTIONS) {
       expect(q.options.map((o) => o.points).sort()).toEqual(expect.arrayContaining([0, 2, 4]));
       expect(q.options.some((o) => o.unknown)).toBe(true);
@@ -67,7 +67,7 @@ describe('computeResult', () => {
   });
 
   it('dimensión más débil = menor puntuación; empate se resuelve por orden de fundamentos', () => {
-    expect(computeResult(withAnswers(all(4), { q13: [0], q14: [0] })).weakest.id).toBe('contact');
+    expect(computeResult(withAnswers(all(4), { q14: [0], q15: [0] })).weakest.id).toBe('contact');
     expect(computeResult(all(2)).weakest.id).toBe('maps');
   });
 
@@ -87,6 +87,22 @@ describe('computeResult', () => {
     expect(isValidAnswers({ q1: 'inventada' })).toBe(false);
     expect(isValidAnswers({ q99: 'completa' })).toBe(false);
     expect(isValidAnswers('x')).toBe(false);
+  });
+});
+
+describe('sin ficha de Google Maps', () => {
+  it('q1 = «No tenemos ficha» omite q2 y q3, queda completo y prioriza crear la ficha', () => {
+    const { q2: _a, q3: _b, ...rest } = { ...all(4), q1: 'no-existe' };
+    const r = computeResult(rest);
+    expect(r.complete).toBe(true);
+    expect(r.dimensions.find((d) => d.id === 'maps')!.score).toBe(0);
+    const rec = recommend(rest).map((x) => x.id);
+    expect(rec[0]).toBe('perfil-empresa');
+    expect(rec).not.toContain('info-local');
+    expect(rec).not.toContain('optimizar-maps');
+  });
+  it('sin anuncios (q17 = 0) puede recomendar anuncios medibles', () => {
+    expect(recommend(withAnswers(all(4), { q17: [0] })).map((x) => x.id)).toContain('anuncios');
   });
 });
 
@@ -138,7 +154,7 @@ describe('recommend', () => {
   });
 
   it('sin déficits en 0 prioriza las dimensiones con menor puntuación', () => {
-    const a = withAnswers(all(4), { q13: [2], q14: [2], q7: [2] });
+    const a = withAnswers(all(4), { q14: [2], q15: [2], q7: [2] });
     expect(ids(a)).toEqual(['optimizar-contacto', 'optimizar-resenas', 'optimizar-maps']);
   });
 
