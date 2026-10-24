@@ -198,6 +198,6 @@ Lead magnet de IA y automatización (ejecución: Life Agent). Recurso de Builder
 
 - **Puntaje:** Sí 2 · Parcial 1 · No 0 · No sé 0 (pendiente de verificar); cada área pesa 25%. No calcula ventas perdidas en pesos (no hay tasas de pérdida verificables).
 - **Prioridades:** No antes que Parcial, en orden contestar → que no dependa de un celular → seguimiento → CRM → respuestas listas → cotización → recordatorios → medición; luego «Verifica…»; si todo es Sí, mantener.
-- **Agenda:** `AgendaForm kind="atencion"`: solo nombre del negocio, mensajes o consultas que llegan y qué resolver primero (el contacto lo deja al reservar). Mismo Formspree (`SITE.formspreeEndpoint`) con `origen = ventas-por-whatsapp`, `volumen_texto`, `enfoque_texto`, `resultado` y UTM.
+- **Agenda:** `AgendaForm kind="atencion"`: WhatsApp (para ligar el registro con la cita), nombre del negocio, mensajes o consultas que llegan y qué resolver primero. Mismo Formspree (`SITE.formspreeEndpoint`) con `origen = ventas-por-whatsapp`, `volumen_texto`, `enfoque_texto`, `resultado` y UTM.
 - **Eventos:** `checklist_view`, `checklist_start`, `checklist_complete` con `source = ventas-por-whatsapp`; `booking_form_submit` con `source` y `kind = atencion`.
 

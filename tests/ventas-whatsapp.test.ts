@@ -66,7 +66,7 @@ describe('prioridades', () => {
 });
 
 describe('formulario de agenda', () => {
-  it('solo nombre del negocio, volumen y qué resolver primero', () => {
+  it('nombre del negocio, volumen y qué resolver primero (WhatsApp va en el componente)', () => {
     const c = AGENDA_FORM.atencion;
     expect(Object.keys(c).sort()).toEqual(['focus', 'focusLabel', 'nameLabel', 'volumeLabel', 'volumes']);
     expect(Object.keys(c.focus)).toHaveLength(4);

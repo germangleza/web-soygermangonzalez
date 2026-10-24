@@ -25,7 +25,7 @@ export const AGENDA_FORM = {
     roles: { propietario: 'Dueño o socio', direccion: 'Dirección o gerencia', marketing: 'Marketing o ventas', otro: 'Otro' },
     focus: { cero: 'Estoy en cero', presencia: 'Presencia digital', clientes: 'Recibir más clientes', explorando: 'Solo estoy explorando' },
   },
-  // Checklist de ventas por WhatsApp: solo 3 datos (el contacto lo deja al reservar en el calendario).
+  // Checklist de ventas por WhatsApp: WhatsApp (para ligar con la cita) + 3 datos.
   atencion: {
     nameLabel: 'Nombre del negocio',
     volumeLabel: '¿Cuántos mensajes o consultas te llegan?',

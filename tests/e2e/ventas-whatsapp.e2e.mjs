@@ -47,21 +47,23 @@ for (const [w, h] of [[375, 812], [1440, 900]]) {
   // Formulario: solo 3 datos
   await p.click('[data-ck-book]'); await p.waitForTimeout(1500); // termina el scroll suave
   const labels = await p.$$eval('#agendar [data-agenda-form] label[for], #agendar [data-agenda-form] legend', (l) => l.map((x) => x.textContent.replace(/\s+/g, ' ').trim()));
-  check(`${tag}: nombre → mensajes → resolver primero`, labels.length === 3 && labels[0].startsWith('Nombre del negocio') && labels[1].includes('mensajes o consultas') && labels[2].includes('resolver primero'), labels.join(' | '));
-  check(`${tag}: sin WhatsApp, tipo ni rol`, (await p.$$('#agendar [name=whatsapp], #agendar [name=tipo], #agendar [name=rol]')).length === 0);
+  check(`${tag}: WhatsApp → nombre → mensajes → resolver primero`, labels.length === 4 && labels[0].startsWith('WhatsApp') && labels[1].startsWith('Nombre del negocio') && labels[2].includes('mensajes o consultas') && labels[3].includes('resolver primero'), labels.join(' | '));
+  check(`${tag}: sin tipo ni rol`, (await p.$$('#agendar [name=tipo], #agendar [name=rol]')).length === 0);
   check(`${tag}: volumen precargado del checklist`, (await p.inputValue('#agenda-atencion-volumen')) === '50-150');
   await p.$eval('[data-agenda-form]', (f, fs) => { f.dataset.endpoint = fs; }, FS);
   await p.click('[data-agenda-submit]');
   check(`${tag}: no avanza vacío`, sent.length === 0 && (await p.textContent('[data-agenda-focus-error]')).includes('Elige'));
+  check(`${tag}: pide WhatsApp`, (await p.$$eval('[data-agenda-form] [aria-invalid=true]', (e) => e.map((x) => x.name))).includes('whatsapp'));
+  await p.fill('[data-agenda-form] [name=whatsapp]', '664 123 4567');
   await p.fill('[data-agenda-form] [name=negocio]', 'Prueba S.A.');
   await p.click('[data-agenda-form] input[name=enfoque][value=seguimiento]'); // clic real: atrapa saltos de layout
   await p.screenshot({ path: `${OUT}/${tag}-form.png`, fullPage: false });
   await p.click('[data-agenda-submit]');
   await p.waitForFunction(() => location.hostname === 'calendar.app.google', null, { timeout: 8000 }).catch(() => {});
   const d = sent[0] ?? {};
-  check(`${tag}: Formspree con origen, 3 datos, resultado y UTM`, d.origen === 'ventas-por-whatsapp' && d.negocio === 'Prueba S.A.' && d.volumen === '50-150'
+  check(`${tag}: Formspree con origen, 4 datos, resultado y UTM`, d.origen === 'ventas-por-whatsapp' && d.negocio === 'Prueba S.A.' && d.volumen === '50-150'
     && d.volumen_texto === 'De 50 a 150 a la semana' && d.enfoque_texto === 'Dar seguimiento' && d.resultado?.startsWith('75/100') && d.utm_campaign === 'whatsapp'
-    && !('tipo_texto' in d) && !('rol_texto' in d) && !('whatsapp' in d), JSON.stringify(d));
+    && d.whatsapp === '664 123 4567' && !('tipo_texto' in d) && !('rol_texto' in d), JSON.stringify(d));
   check(`${tag}: abre el calendario`, p.url().startsWith('https://calendar.app.google/'));
   check(`${tag}: sin errores JS`, errs.length === 0, errs.join(' | '));
 
