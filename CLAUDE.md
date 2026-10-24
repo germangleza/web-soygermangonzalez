@@ -30,7 +30,7 @@ category: "ia-herramientas"   # ia-herramientas | negocios-growth | build-in-pub
 tags: ["opcional"]
 ---
 ```
-- No nombrar posts `recursos`, `conferencias`, `eventos`, `diagnostico-clinicas` ni `ia-recomienda-tu-negocio` (rutas reservadas).
+- No nombrar posts `recursos`, `conferencias`, `eventos`, `diagnostico-clinicas`, `ia-recomienda-tu-negocio` ni `ventas-por-whatsapp` (rutas reservadas).
 - Usar `updatedDate` al actualizar posts existentes (no cambiar `pubDate`).
 - `draft: true` para ocultar sin borrar.
 - El slug de la URL = nombre del archivo.

@@ -37,6 +37,12 @@ document.querySelectorAll<HTMLFormElement>('[data-agenda-form]').forEach((form) 
     if (t.name === 'enfoque') focusError.textContent = '';
     else if (t.getAttribute('aria-invalid') === 'true') validate();
   });
+  // Quitar el error mientras se escribe: si se quitara al salir del campo, el formulario cambia de alto
+  // justo cuando se hace clic en otra opción y ese clic se pierde.
+  form.addEventListener('input', (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.type !== 'radio' && t.getAttribute('aria-invalid') === 'true') validate();
+  });
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -54,11 +60,14 @@ document.querySelectorAll<HTMLFormElement>('[data-agenda-form]').forEach((form) 
       ...data,
       tipo_texto: label('tipo'),
       rol_texto: label('rol'),
+      volumen_texto: label('volumen'),
       enfoque_texto: form.querySelector<HTMLInputElement>('input[name="enfoque"]:checked')?.parentElement?.textContent?.trim() ?? '',
       origen: source,
       _subject: `Nueva llamada agendándose · ${data.negocio} (${source})`,
       ...getAttribution(),
     };
+    // Cada formulario tiene sus campos: no mandar textos vacíos de campos que no existen.
+    for (const k of ['tipo_texto', 'rol_texto', 'volumen_texto'] as const) if (!payload[k]) delete (payload as Partial<typeof payload>)[k];
 
     track('booking_form_submit', { source: source ?? '', kind: kind ?? '', enfoque: data.enfoque ?? '' });
     if (endpoint) {

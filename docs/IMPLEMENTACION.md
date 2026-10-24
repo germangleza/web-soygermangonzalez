@@ -184,3 +184,20 @@ Lead magnet v2.0, recurso de Builder Lab (también `/builder-lab/ia-recomienda-t
 - Analítica (solo si GA4/Plausible están configurados): `resource_view` y `prompt_copied` con `resource_id=3-prompts-valor` y `prompt_number`; nunca se envía el texto copiado.
 - Link para el DM del Reel (palabra VALOR): `https://www.soygermangonzalez.com/builder-lab/3-prompts-valor?utm_source=instagram&utm_medium=dm&utm_campaign=reel_meta_valor`
 - Prueba E2E: `tests/e2e/prompts-valor.e2e.mjs`.
+
+## 15. Checklist «¿Cuántas ventas se te escapan entre WhatsApp y el seguimiento?» (`/ventas-por-whatsapp`)
+
+Lead magnet de IA y automatización (ejecución: Life Agent). Recurso de Builder Lab (también `/builder-lab/ventas-por-whatsapp`, que redirige). Mismo flujo y componentes que el checklist de IA: checklist → resultado → formulario corto → calendario.
+
+| Pieza | Archivo |
+|---|---|
+| 12 preguntas en 4 áreas (Respuesta, Seguimiento, Registro y medición, Operación diaria), volúmenes y enfoques | `src/lib/ventas-whatsapp/questions.ts` |
+| Puntaje, rangos y top 3 (puras) | `src/lib/ventas-whatsapp/scoring.ts` |
+| UI | `QuizStepper`, `QuestionCard` y `ScoreSummary` de `src/components/checklist-ia/` (con props), `src/scripts/ventas-whatsapp.ts` |
+| Pruebas | `tests/ventas-whatsapp.test.ts` |
+
+- **Puntaje:** Sí 2 · Parcial 1 · No 0 · No sé 0 (pendiente de verificar); cada área pesa 25%. No calcula ventas perdidas en pesos (no hay tasas de pérdida verificables).
+- **Prioridades:** No antes que Parcial, en orden contestar → que no dependa de un celular → seguimiento → CRM → respuestas listas → cotización → recordatorios → medición; luego «Verifica…»; si todo es Sí, mantener.
+- **Agenda:** `AgendaForm kind="atencion"`: solo nombre del negocio, mensajes o consultas que llegan y qué resolver primero (el contacto lo deja al reservar). Mismo Formspree (`SITE.formspreeEndpoint`) con `origen = ventas-por-whatsapp`, `volumen_texto`, `enfoque_texto`, `resultado` y UTM.
+- **Eventos:** `checklist_view`, `checklist_start`, `checklist_complete` con `source = ventas-por-whatsapp`; `booking_form_submit` con `source` y `kind = atencion`.
+

@@ -1,0 +1,111 @@
+---
+/**
+ * Lead magnet «¿Cuántas ventas se te escapan entre WhatsApp y el seguimiento?» (IA y automatización → Life Agent).
+ * Recurso de Builder Lab (también en /builder-lab/ventas-por-whatsapp, que redirige).
+ * Mismo flujo que /ia-recomienda-tu-negocio: checklist → resultado → formulario corto (Formspree, origen=ventas-por-whatsapp) → calendario.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/ui/Breadcrumbs.astro';
+import Field from '../components/forms/Field.astro';
+import QuizStepper from '../components/checklist-ia/QuizStepper.astro';
+import ScoreSummary from '../components/checklist-ia/ScoreSummary.astro';
+import AgendaForm from '../components/booking/AgendaForm.astro';
+import { BLOCKS, BLOCK_ORDER, BUSINESS_TYPES, OPTIONS, QUESTIONS, VOLUMES } from '../lib/ventas-whatsapp/questions';
+import { BANDS } from '../lib/ventas-whatsapp/scoring';
+
+const blocks = BLOCK_ORDER.map((id) => ({ id, label: BLOCKS[id].label }));
+const lifeAgent = '<a href="https://lifeagent.mx" target="_blank" rel="noopener">Life Agent<span class="sr-only"> (abre en otra pestaña)</span></a>';
+---
+<BaseLayout
+  fullTitle="¿Cuántas ventas se te escapan por WhatsApp? Checklist gratuito | Germán González"
+  description="12 preguntas para revisar cómo respondes, das seguimiento, registras y cotizas por WhatsApp. Ve dónde se pierden tus consultas y qué automatizar primero. Gratis, 3 minutos."
+>
+  <section class="ck-hero dark">
+    <div class="container ck-hero__inner">
+      <Breadcrumbs items={[{ name: 'Builder Lab', url: '/builder-lab' }, { name: 'Ventas por WhatsApp', url: '/ventas-por-whatsapp' }]} />
+      <span class="eyebrow eyebrow--lime">Checklist gratuito · Germán González</span>
+      <h1>¿Cuántas ventas se te escapan entre WhatsApp y el seguimiento?</h1>
+      <p class="ck-hero__lead">Las consultas llegan, pero se pierden entre la respuesta, el seguimiento y la cotización. Con 12 preguntas ves en qué parte se te escapan y qué conviene automatizar primero.</p>
+      <div class="actions"><a class="btn btn--lime" href="#checklist" data-ck-start>Revisar mi negocio <span class="btn__icon" aria-hidden="true">↓</span></a><a class="btn btn--outline" href="#agendar" data-ck-book-direct>Prefiero agendar una llamada <span class="btn__icon" aria-hidden="true">↓</span></a></div>
+    </div>
+    <div class="page-hero__rings" aria-hidden="true"></div>
+  </section>
+
+  <section class="section section--alt ck-quiz-section" id="checklist" data-ck-quiz-section aria-label="Checklist">
+    <div class="container">
+      <QuizStepper blocks={blocks} questions={QUESTIONS} options={OPTIONS} contextTitle="Primero, cuéntame de tu negocio">
+        <Fragment slot="context">
+          <Field form="ck" name="business_type" label="Tipo de negocio" as="select" required options={BUSINESS_TYPES} />
+          <Field form="ck" name="volumen" label="¿Cuántos mensajes o consultas te llegan?" as="select" required options={VOLUMES}
+            hint="Por WhatsApp, redes o teléfono. Un aproximado está bien." />
+        </Fragment>
+      </QuizStepper>
+    </div>
+  </section>
+
+  <section class="section ck-result-section" id="resultado" data-ck-result-section data-no-reveal hidden aria-labelledby="ck-result-title">
+    <div class="container">
+      <ScoreSummary
+        scoreLabel="Atención y seguimiento"
+        basis="Este puntaje mide qué tan ordenado está el camino de una consulta hasta la venta; no calcula ventas perdidas ni revisa tu WhatsApp o tu CRM."
+        dimsTitle="Tus cuatro áreas"
+        bands={BANDS}
+        sources={[]}
+        nextTitle="¿Quieres que lo automaticemos en tu negocio?"
+        nextText={`Revisamos tu resultado en una llamada sin costo y te digo qué automatizaría primero. La implementación la hace ${lifeAgent}, mi equipo de IA y automatización.`}
+      />
+    </div>
+  </section>
+
+  <section class="section section--alt ck-forms" data-ck-forms data-no-reveal aria-labelledby="ck-book-title">
+    <div class="container">
+      <div class="ck-card" id="agendar">
+        <span class="eyebrow">Agenda tu llamada · Sin costo</span>
+        <h2 id="ck-book-title">Cuéntame de tu negocio y elige tu horario.</h2>
+        <AgendaForm kind="atencion" source="ventas-por-whatsapp" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section ck-method" aria-labelledby="ck-method-title">
+    <div class="container ck-method__grid">
+      <div>
+        <span class="eyebrow">Metodología</span>
+        <h2 id="ck-method-title">Cómo funciona este checklist</h2>
+        <p class="lead">Son {QUESTIONS.length} preguntas en {blocks.length} áreas, cada una con el mismo peso. Respondes Sí (2 puntos), Parcial (1), No (0) o No sé (0 provisional, marcado como pendiente de verificar). Las prioridades siguen el camino de una venta: primero contestar, luego dar seguimiento, registrar y agilizar.</p>
+        <ol class="ck-method__dims">{blocks.map((b, i) => <li><span>{String.fromCharCode(65 + i)}</span> {b.label}</li>)}</ol>
+      </div>
+      <div class="card">
+        <h3>Lo que no hace</h3>
+        <ul class="ck-method__no">
+          <li>No revisa tu WhatsApp, tu CRM ni tus conversaciones: se basa en tus respuestas.</li>
+          <li>No calcula cuánto dinero pierdes ni promete resultados.</li>
+          <li>No necesitas dejar tus datos para ver el resultado.</li>
+          <li>Los rangos son orientativos, no comparativos validados del mercado.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import '../scripts/ventas-whatsapp';
+</script>
+
+<style>
+  .ck-hero { position: relative; overflow: hidden; background: var(--navy-3); padding: clamp(3.25rem, 2.25rem + 4vw, 6rem) 0; }
+  .ck-hero__inner { position: relative; z-index: 1; }
+  .ck-hero h1 { font-size: var(--fs-h1-page); max-width: 20ch; }
+  .ck-hero__lead { font-size: var(--fs-lead); max-width: 44rem; margin-top: 1.5rem; color: #dce8f1 !important; }
+  .ck-result-section { scroll-margin-top: calc(var(--header-h) + 8px); }
+  .ck-result-section :global(.ck-next a:not(.btn)) { color: var(--lime); }
+  .ck-card { max-width: 46rem; margin-inline: auto; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(1.25rem, 1rem + 2vw, 2.5rem); scroll-margin-top: calc(var(--header-h) + 16px); }
+  .ck-card h2 { font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem); }
+  .ck-card { border-color: var(--navy); box-shadow: 0 0 0 1px var(--navy); }
+  .ck-method__grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(1.5rem, 1rem + 3vw, 3.5rem); align-items: start; }
+  .ck-method__dims { list-style: none; padding: 0; display: grid; gap: .5rem; margin-top: 1.25rem; }
+  .ck-method__dims li { display: flex; align-items: center; gap: .75rem; font-weight: 700; }
+  .ck-method__dims span { display: inline-grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 6px; background: var(--lime); color: var(--navy); font-size: .9rem; }
+  .ck-method__no { padding-left: 1.1rem; display: grid; gap: .4rem; color: var(--muted); }
+  @media (max-width: 1023px) { .ck-method__grid { grid-template-columns: minmax(0, 1fr); } }
+</style>

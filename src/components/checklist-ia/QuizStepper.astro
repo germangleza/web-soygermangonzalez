@@ -1,9 +1,28 @@
 ---
-/** QuizStepper: contexto mínimo + 5 bloques de 2 preguntas, con progreso y Atrás/Siguiente. */
+/**
+ * QuizStepper: contexto mínimo + bloques de preguntas, con progreso y Atrás/Siguiente.
+ * Por defecto arma el checklist de IA; otros checklists pasan sus bloques, preguntas, opciones y
+ * los campos de contexto en el slot «context».
+ */
 import Field from '../forms/Field.astro';
 import QuestionCard from './QuestionCard.astro';
-import { BLOCKS, BLOCK_ORDER, BUSINESS_TYPES, QUESTIONS } from '../../lib/checklist-ia/questions';
-const steps = 1 + BLOCK_ORDER.length;
+import * as IA from '../../lib/checklist-ia/questions';
+import type { Option } from '../../lib/checklist-ia/questions';
+
+type Q = { id: string; block: string; text: string; hint: string; allowNA?: boolean };
+interface Props {
+  blocks?: { id: string; label: string }[];
+  questions?: Q[];
+  options?: Option[];
+  contextTitle?: string;
+}
+const {
+  blocks = IA.BLOCK_ORDER.map((id) => ({ id, label: IA.BLOCKS[id].label })),
+  questions = IA.QUESTIONS,
+  options,
+  contextTitle = 'Primero, cuéntanos de tu negocio',
+} = Astro.props;
+const steps = 1 + blocks.length;
 ---
 <form class="stepper" id="ck-quiz" novalidate aria-labelledby="ck-quiz-title">
   <h2 id="ck-quiz-title" class="sr-only">Checklist</h2>
@@ -15,22 +34,24 @@ const steps = 1 + BLOCK_ORDER.length;
   </div>
 
   <section class="stepper__step" data-step="0" data-label="Tu negocio" aria-labelledby="ck-ctx-title">
-    <h3 id="ck-ctx-title" class="stepper__title" tabindex="-1">Primero, cuéntanos de tu negocio</h3>
+    <h3 id="ck-ctx-title" class="stepper__title" tabindex="-1">{contextTitle}</h3>
     <p class="stepper__sub">No necesitas dar tu correo para ver el resultado.</p>
     <div class="stepper__ctx">
-      <Field form="ck" name="business_type" label="Tipo de negocio" as="select" required options={BUSINESS_TYPES} />
+      <slot name="context">
+      <Field form="ck" name="business_type" label="Tipo de negocio" as="select" required options={IA.BUSINESS_TYPES} />
       <div class="form-row">
         <Field form="ck" name="city" label="Ciudad" autocomplete="address-level2" maxlength={120} placeholder="Ej. Monterrey" />
         <Field form="ck" name="website_url" label="Sitio web" maxlength={300} placeholder="minegocio.com"
           attrs={{ 'data-link-kind': 'website', inputmode: 'url', autocapitalize: 'off', spellcheck: 'false' }} />
       </div>
+      </slot>
     </div>
   </section>
 
-  {BLOCK_ORDER.map((b, i) => (
-    <section class="stepper__step" data-step={i + 1} data-label={BLOCKS[b].label} aria-labelledby={`ck-b-${b}`}>
-      <h3 id={`ck-b-${b}`} class="stepper__title" tabindex="-1"><span class="stepper__letter">{String.fromCharCode(65 + i)}</span> {BLOCKS[b].label}</h3>
-      {QUESTIONS.filter((q) => q.block === b).map((q) => <QuestionCard q={q} n={QUESTIONS.indexOf(q) + 1} />)}
+  {blocks.map((b, i) => (
+    <section class="stepper__step" data-step={i + 1} data-label={b.label} aria-labelledby={`ck-b-${b.id}`}>
+      <h3 id={`ck-b-${b.id}`} class="stepper__title" tabindex="-1"><span class="stepper__letter">{String.fromCharCode(65 + i)}</span> {b.label}</h3>
+      {questions.filter((q) => q.block === b.id).map((q) => <QuestionCard q={q} n={questions.indexOf(q) + 1} options={options} />)}
     </section>
   ))}
 

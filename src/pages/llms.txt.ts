@@ -28,6 +28,7 @@ Germán González es Business Builder: identifica oportunidades de crecimiento y
 - [Diagnóstico de presencia y estrategia digital para clínicas](${u('/diagnostico-clinicas')}): herramienta gratuita y orientativa (Google Maps, sitio web, reseñas, redes sociales y anuncios, información para IA, atención a pacientes). No es una auditoría técnica ni garantiza resultados.
 - [3 prompts para vender beneficios, no características](${u('/builder-lab/3-prompts-valor')}): recurso gratuito con 3 prompts de ChatGPT, en orden, para pasar de características a beneficios, propuesta de valor y mensajes comerciales.
 - [¿La IA recomienda tu negocio?](${u('/ia-recomienda-tu-negocio')}): checklist gratuito de 10 verificaciones sobre preparación digital (web, Google Maps, reputación, buscadores e IA, conversión). Se basa en las respuestas del usuario; no audita sitios ni predice recomendaciones de IA.
+- [¿Cuántas ventas se te escapan entre WhatsApp y el seguimiento?](${u('/ventas-por-whatsapp')}): checklist gratuito de 12 preguntas sobre respuesta, seguimiento, registro y operación de las consultas que llegan por WhatsApp; da las 3 prioridades de automatización. Se basa en las respuestas del usuario; no revisa conversaciones ni calcula ventas perdidas.
 - [Conferencias y workshops](${u('/builder-lab/conferencias')}): IA, innovación y oportunidades de negocio para empresas, universidades y eventos.
 - [Sobre mí](${u('/sobre-mi')}): trayectoria.
 - [Agenda una llamada](${u('/llamada')}): Opportunity Session sin costo para identificar qué conviene hacer primero.

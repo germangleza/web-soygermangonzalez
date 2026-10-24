@@ -1,6 +1,6 @@
 ---
 /**
- * AgendaForm: 5 datos y «Siguiente: elegir horario».
+ * AgendaForm: 5 datos (o 3 en el checklist de WhatsApp) y «Siguiente: elegir horario».
  * Envía a Formspree (si SITE.formspreeEndpoint está configurado) y SIEMPRE abre el calendario,
  * aunque el envío falle: la cita es lo importante.
  */
@@ -11,18 +11,28 @@ interface Props { kind: AgendaKind; source: string; }
 const { kind, source } = Astro.props;
 const c = AGENDA_FORM[kind];
 const f = `agenda-${kind}`;
+const short = 'volumes' in c;
 ---
 <form class="form agenda-form" id={`form-${f}`} novalidate data-agenda-form
   data-endpoint={SITE.formspreeEndpoint} data-booking={SITE.bookingUrl || '/llamada'} data-source={source} data-kind={kind}>
-  <Field form={f} name="whatsapp" label="WhatsApp" type="tel" required autocomplete="tel" maxlength={20} placeholder="Ej. 664 123 4567"
-    attrs={{ inputmode: 'tel', pattern: '[0-9+()\\-\\s]{10,20}' }} />
-  <Field form={f} name="negocio" label={c.nameLabel} required autocomplete="organization" minlength={2} maxlength={150} />
-  <div class="form-row">
-    <Field form={f} name="tipo" label={c.typeLabel} as="select" required options={c.types} />
-    <Field form={f} name="rol" label={c.roleLabel} as="select" required options={c.roles} />
-  </div>
+  {short ? (
+    <>
+      <Field form={f} name="negocio" label={c.nameLabel} required autocomplete="organization" minlength={2} maxlength={150} />
+      <Field form={f} name="volumen" label={c.volumeLabel} as="select" required options={c.volumes} />
+    </>
+  ) : (
+    <>
+      <Field form={f} name="whatsapp" label="WhatsApp" type="tel" required autocomplete="tel" maxlength={20} placeholder="Ej. 664 123 4567"
+        attrs={{ inputmode: 'tel', pattern: '[0-9+()\\-\\s]{10,20}' }} />
+      <Field form={f} name="negocio" label={c.nameLabel} required autocomplete="organization" minlength={2} maxlength={150} />
+      <div class="form-row">
+        <Field form={f} name="tipo" label={c.typeLabel} as="select" required options={c.types} />
+        <Field form={f} name="rol" label={c.roleLabel} as="select" required options={c.roles} />
+      </div>
+    </>
+  )}
   <fieldset class="agenda-form__focus" aria-describedby={`${f}-enfoque-error`}>
-    <legend>¿Qué te gustaría revisar primero?</legend>
+    <legend>{short ? c.focusLabel : '¿Qué te gustaría revisar primero?'}</legend>
     <div class="agenda-form__chips">
       {Object.entries(c.focus).map(([v, l], i) => (
         <label class="agenda-form__chip"><input type="radio" name="enfoque" value={v} required={i === 0} /> <span>{l}</span></label>

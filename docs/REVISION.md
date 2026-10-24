@@ -42,6 +42,11 @@ Nada de esta lista se inventó en el sitio: donde falta información, el element
 - [ ] Validar copy de apoyo: textos de las recomendaciones, «Una persona del equipo revisa tu ficha de Google, tu sitio y tus redes…» y la descripción de Maguey Salud.
 - [ ] Validar ponderaciones de `lead_score` (heurísticas en `src/lib/diagnostic/scoring.ts`).
 
+## Checklist «¿Cuántas ventas se te escapan entre WhatsApp y el seguimiento?»
+
+- [ ] Validar las 12 preguntas, los 4 rangos y los textos de las 8 recomendaciones (`src/lib/ventas-whatsapp/`).
+- [ ] Confirmar la mención de Life Agent en el resultado y en el aviso de privacidad (razón social).
+
 ## Checklist «¿La IA recomienda tu negocio?»
 
 - [ ] **Destino de leads** → `AI_CHECKLIST_WEBHOOK_URL` (CRM) y automatización del correo con el resultado.

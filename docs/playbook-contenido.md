@@ -247,7 +247,7 @@ Elige uno y justifícalo en una línea:
 - Debe dar **más valor del que prometió** el carrusel. Agrega al menos uno de estos: ejemplo resuelto, prompt extra, errores comunes, puntaje de autodiagnóstico o plantilla lista para usar.
 - Formato listo para pegar en Docs/Notion o maquetar en PDF: Markdown limpio, sin tablas anidadas.
 - Si el recurso vive en el sitio, va en Builder Lab (`/builder-lab/<slug>`).
-  - El slug no puede ser ninguna ruta reservada: `recursos`, `conferencias`, `eventos`, `diagnostico-clinicas`, `ia-recomienda-tu-negocio`.
+  - El slug no puede ser ninguna ruta reservada: `recursos`, `conferencias`, `eventos`, `diagnostico-clinicas`, `ia-recomienda-tu-negocio`, `ventas-por-whatsapp`.
   - Al final lleva el CTA «¿Quieres que lo trabajemos en conjunto? Agenda una llamada».
 
 ### 7.3 Secuencia de DMs (tipo ManyChat)

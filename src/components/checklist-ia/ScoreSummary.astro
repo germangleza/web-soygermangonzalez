@@ -1,19 +1,38 @@
 ---
 /**
- * ScoreSummary + DimensionBars + TopRecommendations. Lo llena src/scripts/checklist-ia.ts.
+ * ScoreSummary + DimensionBars + TopRecommendations. Lo llena el script de cada checklist.
  * Siempre muestra: «Basado en tus respuestas, no verificado automáticamente».
+ * Por defecto con los textos del checklist de IA; otros checklists pasan los suyos (sources: [] = sin fuentes).
  */
-import { BANDS } from '../../lib/checklist-ia/scoring';
-import { SOURCES, SOURCES_CHECKED } from '../../lib/checklist-ia/questions';
+import { BANDS as IA_BANDS } from '../../lib/checklist-ia/scoring';
+import { SOURCES as IA_SOURCES, SOURCES_CHECKED } from '../../lib/checklist-ia/questions';
+interface Props {
+  scoreLabel?: string;
+  basis?: string;
+  dimsTitle?: string;
+  bands?: { id: string; label: string; min: number; max: number }[];
+  sources?: { label: string; url: string }[];
+  nextTitle?: string;
+  nextText?: string;
+}
+const {
+  scoreLabel = 'Preparación digital',
+  basis = 'Este puntaje mide preparación digital; no es una probabilidad de recomendación ni una posición en ChatGPT, Gemini o Google.',
+  dimsTitle = 'Tus cinco dimensiones',
+  bands = IA_BANDS,
+  sources = IA_SOURCES,
+  nextTitle = '¿Quieres que lo implementemos en tu negocio?',
+  nextText = 'Revisamos tu resultado contigo en una llamada sin costo y te decimos por dónde empezar.',
+} = Astro.props;
 ---
 <div class="ck-res">
   <div class="ck-res__head">
     <div class="ck-res__ring" aria-hidden="true"><span data-ck-score>0</span><small>/100</small></div>
     <div>
       <span class="eyebrow">Tu resultado</span>
-      <h2 id="ck-result-title" tabindex="-1" data-ck-headline>Preparación digital: 0/100</h2>
+      <h2 id="ck-result-title" tabindex="-1" data-ck-headline>{scoreLabel}: 0/100</h2>
       <p class="ck-res__band"><strong>Rango orientativo:</strong> <span data-ck-band></span></p>
-      <p class="ck-res__basis"><strong>Basado en tus respuestas, no verificado automáticamente.</strong> Este puntaje mide preparación digital; no es una probabilidad de recomendación ni una posición en ChatGPT, Gemini o Google.</p>
+      <p class="ck-res__basis"><strong>Basado en tus respuestas, no verificado automáticamente.</strong> {basis}</p>
     </div>
   </div>
 
@@ -21,14 +40,14 @@ import { SOURCES, SOURCES_CHECKED } from '../../lib/checklist-ia/questions';
 
   <div class="ck-res__grid">
     <section class="card" aria-labelledby="ck-dims-title">
-      <h3 id="ck-dims-title">Tus cinco dimensiones</h3>
+      <h3 id="ck-dims-title">{dimsTitle}</h3>
       <ul class="ck-dims" data-ck-dims role="list"></ul>
       <p class="small" data-ck-weight style="margin:1rem 0 0"></p>
     </section>
     <section class="card" aria-labelledby="ck-scale-title">
       <h3 id="ck-scale-title">Cómo leer tu resultado</h3>
       <ul class="ck-scale" role="list">
-        {BANDS.map((b) => (
+        {bands.map((b) => (
           <li data-band={b.id}><span class="ck-scale__r">{b.min}–{b.max}</span> <span>{b.label}</span> <span class="ck-scale__you">← Tu rango</span></li>
         ))}
       </ul>
@@ -43,14 +62,14 @@ import { SOURCES, SOURCES_CHECKED } from '../../lib/checklist-ia/questions';
 
   <section class="ck-next dark" aria-labelledby="ck-next-title">
     <span class="eyebrow eyebrow--lime">Siguiente paso</span>
-    <h3 id="ck-next-title">¿Quieres que lo implementemos en tu negocio?</h3>
-    <p>Revisamos tu resultado contigo en una llamada sin costo y te decimos por dónde empezar.</p>
+    <h3 id="ck-next-title">{nextTitle}</h3>
+    <p set:html={nextText} />
     <a class="btn btn--lime ck-next__btn" href="#agendar" data-ck-book>Agendar una llamada <span class="btn__icon" aria-hidden="true">↓</span></a>
   </section>
 
   <button type="button" class="link-arrow ck-res__restart" data-ck-restart>Volver a empezar</button>
 
-  <p class="small ck-res__sources">Criterios técnicos basados en fuentes oficiales, consultadas en {SOURCES_CHECKED}: {SOURCES.map((s, i) => <>{i > 0 && ' · '}<a href={s.url} target="_blank" rel="noopener">{s.label}</a></>)}.</p>
+  {sources.length > 0 && <p class="small ck-res__sources">Criterios técnicos basados en fuentes oficiales, consultadas en {SOURCES_CHECKED}: {sources.map((s, i) => <>{i > 0 && ' · '}<a href={s.url} target="_blank" rel="noopener">{s.label}</a></>)}.</p>}
 </div>
 
 <style>

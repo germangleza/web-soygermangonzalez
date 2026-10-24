@@ -1,15 +1,16 @@
 ---
-/** QuestionCard: una pregunta con Sí / Parcial / No / No sé (y No aplica solo en Q3–Q4). */
-import { optionsFor, type Question } from '../../lib/checklist-ia/questions';
-interface Props { q: Question; n: number; }
+/** QuestionCard: una pregunta con Sí / Parcial / No / No sé (y No aplica solo en Q3–Q4). Otros checklists pasan sus opciones. */
+import { optionsFor, type Option } from '../../lib/checklist-ia/questions';
+interface Props { q: { id: string; text: string; hint: string; allowNA?: boolean }; n: number; options?: Option[]; }
 const { q, n } = Astro.props;
+const options = Astro.props.options ?? optionsFor(q as Parameters<typeof optionsFor>[0]);
 const hintId = `${q.id}-hint`;
 ---
 <fieldset class="qc" aria-describedby={hintId}>
   <legend class="qc__q"><span class="qc__n">{n}.</span> {q.text}</legend>
   <p class="qc__hint" id={hintId}>{q.hint}</p>
   <div class:list={['qc__opts', { 'qc__opts--na': q.allowNA }]}>
-    {optionsFor(q).map((o) => (
+    {options.map((o) => (
       <label class:list={['qc__opt', { 'qc__opt--unknown': o.unverified, 'qc__opt--na': o.id === 'na' }]}>
         <input type="radio" name={q.id} value={o.id} />
         <span>{o.label}</span>
