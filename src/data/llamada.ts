@@ -49,6 +49,6 @@ export const CALL_FAQS = [
   },
   {
     question: '¿Quién ejecuta el trabajo?',
-    answer: 'Yo dirijo la estrategia. La ejecución la hacen equipos especializados: Maguey Studio en marketing y growth, y Life Agent en IA y automatización.',
+    answer: 'Yo dirijo la estrategia. La ejecución la hacen equipos especializados: Maguey Studio en marketing y growth, y Life Agents AI en IA y automatización.',
   },
 ];

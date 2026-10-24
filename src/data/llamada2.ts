@@ -7,7 +7,7 @@ export const CALL2_PATH = '/llamada2';
 export const CALL2_CTA = 'Agendar mis 20 minutos';
 export const CALL2_WHATSAPP_TEXT = 'CRECER';
 
-export const CALL2_PROOF = ['Ópticas Jarmar', 'Maguey Studio', 'Life Agent'];
+export const CALL2_PROOF = ['Ópticas Jarmar', 'Maguey Studio', 'Life Agents AI'];
 
 export const CALL2_AGENDA_STEPS = [
   'Escoge un horario en el calendario.',
@@ -63,6 +63,6 @@ export const CALL2_FAQS = [
   },
   {
     question: '¿Quién ejecuta el trabajo?',
-    answer: 'Yo dirijo la estrategia. La ejecución la hacen equipos especializados: Maguey Studio en marketing y growth, y Life Agent en IA y automatización.',
+    answer: 'Yo dirijo la estrategia. La ejecución la hacen equipos especializados: Maguey Studio en marketing y growth, y Life Agents AI en IA y automatización.',
   },
 ];

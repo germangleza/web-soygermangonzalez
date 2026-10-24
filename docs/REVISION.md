@@ -15,7 +15,7 @@ Nada de esta lista se inventó en el sitio: donde falta información, el element
 
 ## Proyectos
 
-- [ ] Ópticas Jarmar, Life Agent, Maguey Studio: casos en **borrador** con solo información del Blueprint. Completar *Qué se construyó*, *rol exacto*, *estado*, *evidencia* (si existe) y *aprendizajes*; luego `published: true`.
+- [ ] Ópticas Jarmar, Life Agents AI, Maguey Studio: casos en **borrador** con solo información del Blueprint. Completar *Qué se construyó*, *rol exacto*, *estado*, *evidencia* (si existe) y *aprendizajes*; luego `published: true`.
 - [ ] Möbelcat, LN41.5 Travel, FlowFi: descripciones tomadas del **prototipo**, confirmar texto, estado y rol.
 - [ ] Imágenes/logos autorizados de proyectos (`approvedMedia`).
 
@@ -44,8 +44,9 @@ Nada de esta lista se inventó en el sitio: donde falta información, el element
 
 ## Checklist «¿Cuántas ventas se te escapan entre WhatsApp y el seguimiento?»
 
-- [ ] Validar las 12 preguntas, los 4 rangos y los textos de las 8 recomendaciones (`src/lib/ventas-whatsapp/`).
-- [ ] Confirmar la mención de Life Agent en el resultado y en el aviso de privacidad (razón social).
+- [x] Validar las 12 preguntas, los 4 rangos y los textos de las 8 recomendaciones (`src/lib/ventas-whatsapp/`). Aprobados por Germán.
+- [x] Mención de Life Agents AI en el resultado (nombre confirmado por Germán).
+- [ ] Razón social de Life Agents AI para el aviso de privacidad.
 
 ## Checklist «¿La IA recomienda tu negocio?»
 

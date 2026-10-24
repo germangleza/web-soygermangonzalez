@@ -32,8 +32,8 @@ Y se entrega, en este orden:
 
 - **Marca:** Germán González — Business Builder. Propuesta: *Construyo oportunidades de crecimiento.*
 - **Método:** Opportunity Building — Detectar · Diseñar · Activar · Construir.
-- **Equipo de ejecución:** Maguey Studio (marketing y growth: https://www.magueystudio.mx) y Life Agent (IA y automatización: https://lifeagent.mx).
-- **Trayectoria:** formación en finanzas; lideró la expansión de Ópticas Jarmar de Chiapas a Tijuana; cofundó Maguey Studio, Crypto MX y Life Agent.
+- **Equipo de ejecución:** Maguey Studio (marketing y growth: https://www.magueystudio.mx) y Life Agents AI (IA y automatización: https://lifeagent.mx).
+- **Trayectoria:** formación en finanzas; lideró la expansión de Ópticas Jarmar de Chiapas a Tijuana; cofundó Maguey Studio, Crypto MX y Life Agents AI.
 - **Audiencia:**
   - *Clientes:* dueños y decisores de negocios en México, sobre todo B2B de especialidad, empresas familiares y clínicas. Tienen una necesidad (Ads, web, CRM, IA, automatización) o una oportunidad abierta.
   - *Builder Lab:* emprendedores y empresarios curiosos que quieren probar y construir con nueva tecnología.
@@ -282,4 +282,4 @@ Elige uno y justifícalo en una línea:
 - **Builder Lab:** https://www.soygermangonzalez.com/builder-lab
 - **Agenda (llamada sin costo):** https://calendar.app.google/8mMLAzjTQtG9xRRt7
 - **Maguey Studio:** https://www.magueystudio.mx
-- **Life Agent:** https://lifeagent.mx
+- **Life Agents AI:** https://lifeagent.mx

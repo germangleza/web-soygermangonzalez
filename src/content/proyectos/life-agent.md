@@ -1,5 +1,5 @@
 ---
-name: "Life Agent"
+name: "Life Agents AI"
 industry: "IA · Producto"
 shortDescription: "Soluciones de IA conectadas a procesos reales de atención, ventas y operación."
 order: 2
@@ -21,6 +21,6 @@ Conectar la IA con procesos reales de atención, ventas y operación, en lugar d
 
 ## Mi participación
 
-En Life Agent trabajo con inteligencia artificial aplicada a problemas empresariales.
+En Life Agents AI trabajo con inteligencia artificial aplicada a problemas empresariales.
 
 <!-- PENDIENTE: Qué se decidió/construyó · Evidencia/Resultados (solo cuando existan) · Aprendizajes -->

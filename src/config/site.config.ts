@@ -43,8 +43,8 @@ export const SITE = {
   business: {
     // PENDIENTE: correo público de contacto. Vacío = no se muestra en ningún lado.
     email: '',
-    // PENDIENTE: WhatsApp público en formato internacional sin signos, ej. '5216641234567' (se usa en /llamada2).
-    whatsapp: '',
+    // WhatsApp público en formato internacional sin signos (botones «Prefiero escribirte»).
+    whatsapp: '525560663926',
   },
 
   // === Redes sociales (solo cuando se confirmen; vacío = no se muestran) ===
@@ -99,6 +99,12 @@ export const SITE = {
 } as const;
 
 export type SiteConfig = typeof SITE;
+
+/** Link directo a WhatsApp (wa.me), con mensaje precargado opcional. Vacío si no hay número. */
+export function whatsappUrl(text?: string): string {
+  if (!SITE.business.whatsapp) return '';
+  return `https://wa.me/${SITE.business.whatsapp}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
+}
 
 /** URLs sociales configuradas (para schema sameAs y footer). */
 export function socialLinks(): { label: string; url: string }[] {

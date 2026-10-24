@@ -187,7 +187,7 @@ Lead magnet v2.0, recurso de Builder Lab (también `/builder-lab/ia-recomienda-t
 
 ## 15. Checklist «¿Cuántas ventas se te escapan entre WhatsApp y el seguimiento?» (`/ventas-por-whatsapp`)
 
-Lead magnet de IA y automatización (ejecución: Life Agent). Recurso de Builder Lab (también `/builder-lab/ventas-por-whatsapp`, que redirige). Mismo flujo y componentes que el checklist de IA: checklist → resultado → formulario corto → calendario.
+Lead magnet de IA y automatización (ejecución: Life Agents AI). Recurso de Builder Lab (también `/builder-lab/ventas-por-whatsapp`, que redirige). Mismo flujo y componentes que el checklist de IA: checklist → resultado → formulario corto → calendario.
 
 | Pieza | Archivo |
 |---|---|

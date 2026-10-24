@@ -11,7 +11,7 @@
 - **Qué hace (una frase):** Identifica oportunidades de crecimiento y construye la combinación de negocio, growth digital, tecnología y alianzas necesaria para aprovecharlas.
 - **Servicios principales:**
   1. Crecimiento digital (posicionamiento, campañas, contenido, web, adquisición, conversión) — ejecución con Maguey.
-  2. IA y automatización (agentes, WhatsApp, CRM, integraciones) — ejecución con Life Agent.
+  2. IA y automatización (agentes, WhatsApp, CRM, integraciones) — ejecución con Life Agents AI.
   3. Nuevos negocios y productos; sistemas comerciales; alianzas y nuevos canales.
   4. Conferencias y workshops (Builder Lab).
 - **Modelo comercial:** Opportunity Session → Opportunity Map (cuando aplique) → Build Proposal → Execution.
@@ -29,7 +29,7 @@
 
 - **Propuesta de valor:** Construyo oportunidades de crecimiento.
 - **Categoría / palabra:** Business Builder · CONSTRUIR. Método: Opportunity Building (Detect → Design → Activate → Build).
-- **Pruebas / credenciales:** Finanzas, Tec de Monterrey; Ópticas Jarmar, Life Agent, Maguey. Sin métricas ni testimonios publicables por ahora.
+- **Pruebas / credenciales:** Finanzas, Tec de Monterrey; Ópticas Jarmar, Life Agents AI, Maguey. Sin métricas ni testimonios publicables por ahora.
 - **Qué NO somos:** agencia genérica, influencer de IA, asesor financiero. IA/Bitcoin/inversiones no son identidad principal.
 - **Llamado a la acción principal:** Cuéntame tu reto → /contacto.
 

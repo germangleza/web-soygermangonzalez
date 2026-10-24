@@ -1,7 +1,7 @@
 /**
  * Lead magnet «¿Cuántas ventas se te escapan entre WhatsApp y el seguimiento?» — preguntas y opciones.
  * 12 preguntas en 4 áreas de 3. Sí = 2 · Parcial = 1 · No = 0 · No sé = 0 (pendiente de verificar).
- * Se ejecuta con Life Agent (IA y automatización). No estima ventas perdidas en pesos: no inventar tasas.
+ * Se ejecuta con Life Agents AI (IA y automatización). No estima ventas perdidas en pesos: no inventar tasas.
  */
 import { BASE_OPTIONS, type Option } from '../checklist-ia/questions';
 

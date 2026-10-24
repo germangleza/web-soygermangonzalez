@@ -5,7 +5,7 @@ import SectionHeading from '../components/ui/SectionHeading.astro';
 import CTABanner from '../components/ui/CTABanner.astro';
 import FAQSchema from '../components/schema/FAQSchema.astro';
 import photo from '../assets/photos/german-gonzalez.png';
-import { SITE } from '../config/site.config';
+import { SITE, whatsappUrl } from '../config/site.config';
 import { CALL_FOR, CALL_NOT_FOR, CALL_STEPS, CALL_PREP, CALL_FAQS } from '../data/llamada';
 
 const embed = SITE.bookingEmbedUrl;
@@ -120,7 +120,7 @@ const ext = external ? { target: '_blank', rel: 'noopener' } : {};
       <div>
         <span class="eyebrow">Con quién hablas</span>
         <h2 id="quien-title">Hablas conmigo. Detrás trabaja el equipo completo.</h2>
-        <p class="lead">Soy Germán González. Lideré la expansión de Ópticas Jarmar de Chiapas a Tijuana y cofundé Maguey Studio, Crypto MX y Life Agent. Yo dirijo la estrategia; la ejecución la hacen <a href="https://www.magueystudio.mx" target="_blank" rel="noopener">Maguey Studio<span class="sr-only"> (abre en otra pestaña)</span></a> en marketing y <a href="https://lifeagent.mx" target="_blank" rel="noopener">Life Agent<span class="sr-only"> (abre en otra pestaña)</span></a> en IA y automatización.</p>
+        <p class="lead">Soy Germán González. Lideré la expansión de Ópticas Jarmar de Chiapas a Tijuana y cofundé Maguey Studio, Crypto MX y Life Agents AI. Yo dirijo la estrategia; la ejecución la hacen <a href="https://www.magueystudio.mx" target="_blank" rel="noopener">Maguey Studio<span class="sr-only"> (abre en otra pestaña)</span></a> en marketing y <a href="https://lifeagent.mx" target="_blank" rel="noopener">Life Agents AI<span class="sr-only"> (abre en otra pestaña)</span></a> en IA y automatización.</p>
         <a class="link-arrow" href="/sobre-mi">Conoce mi historia <span aria-hidden="true">↗</span></a>
       </div>
     </div>
@@ -142,7 +142,7 @@ const ext = external ? { target: '_blank', rel: 'noopener' } : {};
 
   <section class="section">
     <div class="container">
-      <CTABanner lime eyebrow="Opportunity Session" title="Elige el horario que mejor te quede." ctaLabel="Elegir horario" ctaHref={booking} secondary={{ label: 'Prefiero escribirte', href: '/contacto' }}>
+      <CTABanner lime eyebrow="Opportunity Session" title="Elige el horario que mejor te quede." ctaLabel="Elegir horario" ctaHref={booking} secondary={{ label: 'Prefiero escribirte', href: whatsappUrl() || '/contacto' }}>
         <p>Una conversación sin costo para saber qué conviene hacer primero en tu negocio.</p>
       </CTABanner>
     </div>

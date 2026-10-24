@@ -1,6 +1,6 @@
 ---
 /**
- * Lead magnet «¿Cuántas ventas se te escapan entre WhatsApp y el seguimiento?» (IA y automatización → Life Agent).
+ * Lead magnet «¿Cuántas ventas se te escapan entre WhatsApp y el seguimiento?» (IA y automatización → Life Agents AI).
  * Recurso de Builder Lab (también en /builder-lab/ventas-por-whatsapp, que redirige).
  * Mismo flujo que /ia-recomienda-tu-negocio: checklist → resultado → formulario corto (Formspree, origen=ventas-por-whatsapp) → calendario.
  */
@@ -14,7 +14,7 @@ import { BLOCKS, BLOCK_ORDER, BUSINESS_TYPES, OPTIONS, QUESTIONS, VOLUMES } from
 import { BANDS } from '../lib/ventas-whatsapp/scoring';
 
 const blocks = BLOCK_ORDER.map((id) => ({ id, label: BLOCKS[id].label }));
-const lifeAgent = '<a href="https://lifeagent.mx" target="_blank" rel="noopener">Life Agent<span class="sr-only"> (abre en otra pestaña)</span></a>';
+const lifeAgent = '<a href="https://lifeagent.mx" target="_blank" rel="noopener">Life Agents AI<span class="sr-only"> (abre en otra pestaña)</span></a>';
 ---
 <BaseLayout
   fullTitle="¿Cuántas ventas se te escapan por WhatsApp? Checklist gratuito | Germán González"

@@ -28,7 +28,7 @@ export const METHOD = [
 export const HOME_TEAM = [
   { name: 'Germán González', area: 'Estrategia y dirección', items: ['Diagnóstico y priorización de oportunidades', 'Nuevos negocios y productos: validación, oferta y lanzamiento', 'Sistemas comerciales: ventas, funnels, pricing y seguimiento'] },
   { name: 'Maguey Studio', url: 'https://www.magueystudio.mx', area: 'Marketing y growth', items: ['Posicionamiento y contenido', 'Campañas y adquisición de clientes', 'Sitios web que convierten'] },
-  { name: 'Life Agent', url: 'https://lifeagent.mx', area: 'IA y automatización', items: ['Agentes de IA y atención por WhatsApp', 'Integración con CRM', 'Automatización de procesos de la operación'] },
+  { name: 'Life Agents AI', url: 'https://lifeagent.mx', area: 'IA y automatización', items: ['Agentes de IA y atención por WhatsApp', 'Integración con CRM', 'Automatización de procesos de la operación'] },
 ];
 
 /** BL02 — Conceptos internos de Builder Lab. */
@@ -99,7 +99,7 @@ export const ENTRY_PATHS = [
 /** Qué hago — Capacidades en detalle con quién las ejecuta. No son paquetes fijos. */
 export const SERVICE_GROUPS = [
   { title: 'Growth digital', text: 'Posicionamiento, campañas, contenido, sitios web, adquisición y conversión.', who: 'Maguey Studio', whoUrl: 'https://www.magueystudio.mx' },
-  { title: 'IA y automatización', text: 'Agentes, WhatsApp, CRM, integraciones y procesos conectados a la operación.', who: 'Life Agent', whoUrl: 'https://lifeagent.mx' },
+  { title: 'IA y automatización', text: 'Agentes, WhatsApp, CRM, integraciones y procesos conectados a la operación.', who: 'Life Agents AI', whoUrl: 'https://lifeagent.mx' },
   { title: 'Business Building', text: 'Validación, modelo de negocio, oferta, go-to-market y lanzamiento.', who: 'Germán González' },
   { title: 'Comercial y expansión', text: 'Ventas, funnels, seguimiento, pricing, métricas, alianzas y nuevos canales.', who: 'Germán González + socios' },
   { title: 'Experiencias', text: 'Conferencias, workshops y sesiones prácticas para equipos y organizaciones.', who: 'Germán González', href: '/builder-lab/conferencias' },
