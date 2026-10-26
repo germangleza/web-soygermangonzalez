@@ -17,7 +17,7 @@ Requisito local (una sola vez): `npm i -D playwright && npx playwright install c
 | `layout` | Para qué | Campos |
 |---|---|---|
 | `portada` | Lámina 1 | `pill`, `eyebrow`, `titulo`, `texto`, `diagrama` {de, a, etiqueta}, `fondo`, `fondoPosicion`, `fondoOscuro` |
-| `contenido` | Explicar, pasos, listas, maquetas | `pill`, `eyebrow`, `titulo`, `tamanoTitulo`, `texto`, `pasos[]`, `items[]` {icono, etiqueta, texto}, `ui[]`, `nota`, `badge`, `alerta` |
+| `contenido` | Explicar, pasos, listas, maquetas | `pill`, `eyebrow`, `tamanoEyebrow`, `titulo`, `tamanoTitulo`, `texto`, `pasos[]`, `items[]` {icono, etiqueta, texto}, `ui[]`, `nota`, `badge`, `alerta`, `cierre`, `tamanoCierre`, `grande` (todo más grande), `centrar` (tarjetas centradas entre título y cierre) |
 | `frase` | Payoff / idea grande | `pill`, `titulo`, `alerta` |
 | `cta` | Cierre | `pill`, `previo`, `antes`, `palabra`, `despues` |
 | `foto` | **Portada** y **penúltima** con foto a sangre | `fondo` (la foto), `fondoPosicion`, `titulo`, `tamanoTitulo`, `texto` (subtítulo abajo) **o** `etiquetas[{texto, color: azul\|lima}]`, `tituloOscuro` (foto clara), `sinDegradado` |

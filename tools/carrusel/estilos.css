@@ -163,6 +163,12 @@ html.canva-bg .flow__num, html.canva-text .flow__num, html.canva-bg .flow__step 
 
 /* Lámina con "grande": true → listas, pasos e items a tamaño de lectura en móvil */
 .body--lg .prompts { gap: 30px; margin-top: 20px; }
+/* centrar: las tarjetas quedan centradas entre el título y el cierre, más grandes. */
+.body.body--centro .prompts { margin-block: auto; }
+.body.body--centro .prompt { padding: 46px 40px; }
+.body.body--centro .prompt .ic { font-size: 72px; }
+.body.body--centro .prompt span { font-size: 52px; line-height: 1.2; }
+.body.body--centro .cierre { margin-top: 0; padding-top: 0; }
 .body--lg .prompt { grid-template-columns: 90px 1fr; padding: 38px 36px; }
 .body--lg .prompt .ic { font-size: 62px; }
 .body--lg .prompt small { font-size: 24px; margin-bottom: 10px; }

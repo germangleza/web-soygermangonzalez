@@ -43,7 +43,7 @@ function ui(blocks = []) {
 
 function body(s) {
   const out = [];
-  if (s.eyebrow) out.push(`<div class="eyebrow">${md(s.eyebrow)}</div>`);
+  if (s.eyebrow) out.push(`<div class="eyebrow"${s.tamanoEyebrow ? ` style="font-size:${s.tamanoEyebrow}px"` : ''}>${md(s.eyebrow)}</div>`);
   if (s.titulo) out.push(`<h2 style="font-size:${s.tamanoTitulo ?? 82}px">${md(s.titulo)}</h2>`);
   const parrafos = (v) => (Array.isArray(v) ? v : [v]).map((t) => `<p class="lead">${md(t)}</p>`).join('');
   if (s.texto) out.push(`<div class="paras">${parrafos(s.texto)}</div>`);
@@ -55,7 +55,7 @@ function body(s) {
   if (s.ui) out.push(`<div class="mt">${ui(s.ui)}</div>`);
   if (s.nota) out.push(`<p class="note">${esc(s.nota)}</p>`);
   if (s.textoFinal) out.push(`<div class="paras mt">${parrafos(s.textoFinal)}</div>`);
-  if (s.cierre) out.push(`<p class="cierre">${md(s.cierre)}</p>`);
+  if (s.cierre) out.push(`<p class="cierre"${s.tamanoCierre ? ` style="font-size:${s.tamanoCierre}px"` : ''}>${md(s.cierre)}</p>`);
   if (s.dato) out.push(`<div class="dato"><span class="dato__cifra">${esc(s.dato.cifra)}</span><div><span class="dato__texto">${md(s.dato.texto)}</span>${s.dato.fuente ? `<small class="dato__fuente">${esc(s.dato.fuente)}</small>` : ''}</div></div>`);
   if (s.badge) out.push(`<span class="ok">${md(s.badge)}</span>`);
   if (s.alerta) out.push(`<div class="warn"><span class="ic emo">⚠️</span><span>${md(s.alerta)}</span></div>`);
@@ -91,7 +91,7 @@ function slide(s, i, total, meta, fondoUrl) {
       inner = `<div class="body" style="margin-top:${s.previo ? 90 : 150}px">${s.previo ? `<p class="display previo">${md(s.previo)}</p>` : ''}<p class="display" style="font-size:96px">${md(s.antes ?? 'Comenta')}</p><div><span class="ads">${esc(s.palabra)}</span></div><p class="display" style="font-size:66px;line-height:1.12">${md(s.despues ?? '')}</p></div>`;
       break;
     case 'contenido':
-      inner = `<div class="body${s.grande ? ' body--lg' : ''}" style="margin-top:90px">${body(s)}</div>`;
+      inner = `<div class="body${s.grande ? ' body--lg' : ''}${s.centrar ? ' body--centro' : ''}" style="margin-top:90px">${body(s)}</div>`;
       break;
     default:
       throw new Error(`Lámina ${n}: layout desconocido "${s.layout}" (usa portada | contenido | frase | cta)`);

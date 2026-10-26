@@ -11,8 +11,8 @@
       "layout": "foto",
       "fondo": "foto-1.jpg",
       "fondoPosicion": "center 60%",
-      "tamanoTitulo": 104,
-      "titulo": "5 fugas por donde tu negocio *pierde dinero*",
+      "tamanoTitulo": 100,
+      "titulo": "5 fugas por donde\n*pierdes dinero*",
       "etiquetas": [
         {
           "texto": "Ninguna se arregla con Ads",
@@ -39,8 +39,10 @@
           "texto": "Se van por **fugas**"
         }
       ],
-      "cierre": "Desliza para revisar las 5.",
-      "grande": true
+      "cierre": "Desliza para revisar las 5 👉",
+      "grande": true,
+      "centrar": true,
+      "tamanoCierre": 62
     },
     {
       "layout": "contenido",
@@ -60,7 +62,8 @@
           "texto": "Cotizaciones enviadas **sin seguimiento** al día siguiente"
         }
       ],
-      "grande": true
+      "grande": true,
+      "tamanoEyebrow": 40
     },
     {
       "layout": "contenido",
@@ -80,7 +83,8 @@
           "texto": "Empresas que comparten tus clientes, **sin alianza**"
         }
       ],
-      "grande": true
+      "grande": true,
+      "tamanoEyebrow": 40
     },
     {
       "layout": "contenido",
@@ -96,7 +100,8 @@
         }
       ],
       "grande": true,
-      "cierre": "Todas parten de **algo que ya tienes.**"
+      "cierre": "Todas parten de **algo que ya tienes.**",
+      "tamanoEyebrow": 40
     },
     {
       "layout": "foto",
