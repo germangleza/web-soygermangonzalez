@@ -1,0 +1,117 @@
+{
+  "titulo": "5 fugas por donde tu negocio pierde dinero",
+  "meta": {
+    "url": "soygermangonzalez.com",
+    "urlFinal": "soygermangonzalez.com/builder-lab",
+    "autor": "Germán González",
+    "usuario": "@germangleza"
+  },
+  "laminas": [
+    {
+      "layout": "foto",
+      "fondo": "foto-1.jpg",
+      "fondoPosicion": "center 60%",
+      "tamanoTitulo": 104,
+      "titulo": "5 fugas por donde tu negocio *pierde dinero*",
+      "etiquetas": [
+        {
+          "texto": "Ninguna se arregla con Ads",
+          "color": "azul"
+        },
+        {
+          "texto": "¿Cuántas tienes?",
+          "color": "lima"
+        }
+      ]
+    },
+    {
+      "layout": "contenido",
+      "pill": "El problema",
+      "titulo": "No te faltan *clientes.*",
+      "tamanoTitulo": 120,
+      "items": [
+        {
+          "icono": "💸",
+          "texto": "Pagas por **atraerlos**"
+        },
+        {
+          "icono": "🕳️",
+          "texto": "Se van por **fugas**"
+        }
+      ],
+      "cierre": "Desliza para revisar las 5.",
+      "grande": true
+    },
+    {
+      "layout": "contenido",
+      "pill": "Fugas 1 y 2",
+      "eyebrow": "Las que ya pagaste",
+      "titulo": "Clientes que ya tenías *y se fueron*",
+      "tamanoTitulo": 96,
+      "items": [
+        {
+          "icono": "🔁",
+          "etiqueta": "Fuga 1",
+          "texto": "Clientes que compraron una vez y **nadie recontactó**"
+        },
+        {
+          "icono": "📄",
+          "etiqueta": "Fuga 2",
+          "texto": "Cotizaciones enviadas **sin seguimiento** al día siguiente"
+        }
+      ],
+      "grande": true
+    },
+    {
+      "layout": "contenido",
+      "pill": "Fugas 3 y 4",
+      "eyebrow": "Las que no ves",
+      "titulo": "Ventas que *se lleva otro*",
+      "tamanoTitulo": 96,
+      "items": [
+        {
+          "icono": "🛒",
+          "etiqueta": "Fuga 3",
+          "texto": "Productos que tus clientes **le compran a otro**"
+        },
+        {
+          "icono": "🤝",
+          "etiqueta": "Fuga 4",
+          "texto": "Empresas que comparten tus clientes, **sin alianza**"
+        }
+      ],
+      "grande": true
+    },
+    {
+      "layout": "contenido",
+      "pill": "Fuga 5",
+      "eyebrow": "La que cuesta horas",
+      "titulo": "Tiempo que *no se vende*",
+      "tamanoTitulo": 96,
+      "items": [
+        {
+          "icono": "⏳",
+          "etiqueta": "Fuga 5",
+          "texto": "Procesos manuales que le quitan **tiempo de venta** al equipo"
+        }
+      ],
+      "grande": true,
+      "cierre": "Todas parten de **algo que ya tienes.**"
+    },
+    {
+      "layout": "foto",
+      "fondo": "foto-2.jpg",
+      "fondoPosicion": "center 60%",
+      "tamanoTitulo": 92,
+      "titulo": "¿Cuál de las 5 se repite *cada semana* en tu negocio?"
+    },
+    {
+      "layout": "cta",
+      "pill": "Gratis",
+      "previo": "¿Cuántas *encontraste?*",
+      "antes": "Comenta",
+      "palabra": "FUGAS",
+      "despues": "y te paso el *diagnóstico* para medir cada una 👇"
+    }
+  ]
+}
