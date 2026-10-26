@@ -90,7 +90,7 @@
       "layout": "contenido",
       "pill": "Fuga 5",
       "eyebrow": "La que cuesta horas",
-      "titulo": "Tiempo que *no se vende*",
+      "titulo": "Tu equipo ocupado, *pero no vendiendo*",
       "tamanoTitulo": 96,
       "items": [
         {
@@ -100,8 +100,10 @@
         }
       ],
       "grande": true,
-      "cierre": "Todas parten de **algo que ya tienes.**",
-      "tamanoEyebrow": 40
+      "cierre": "Todas parten de\n**algo que ya tienes.**",
+      "tamanoEyebrow": 40,
+      "centrar": true,
+      "tamanoCierre": 56
     },
     {
       "layout": "foto",
