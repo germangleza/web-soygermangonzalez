@@ -227,7 +227,6 @@ html.canva-bg .slide--foto *, html.canva-text .slide--foto * { font-family: 'Pop
 .fx-fuerte .fx-photo::after { background: linear-gradient(180deg, rgba(7,25,43,.9) 0%, rgba(7,25,43,.55) 30%, rgba(7,25,43,.05) 48%, rgba(7,25,43,.15) 62%, rgba(7,25,43,.92) 100%); }
 .fx-abajo.fx-fuerte .fx-photo::after { background: linear-gradient(180deg, rgba(7,25,43,0) 30%, rgba(7,25,43,.7) 58%, rgba(7,25,43,.96) 100%); }
 .fx-recorte { position: absolute; bottom: 0; z-index: -1; height: auto; filter: drop-shadow(0 10px 40px rgba(0,0,0,.45)); }
-.fx-con-recorte .fx-bottom { right: 46%; }
 /* sinMarco (meta): sin logo, etiqueta ni pie; el contenido usa ese espacio */
 .sin-marco .top, .sin-marco .foot, .sin-marco .fx-foot { display: none !important; }
 .slide.sin-marco:not(.slide--foto) { padding-bottom: 96px; }

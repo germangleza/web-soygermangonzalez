@@ -19,8 +19,7 @@
         "src": "german-recorte.png",
         "ancho": 620,
         "derecha": -70
-      },
-      "tamanoTexto": 56
+      }
     },
     {
       "layout": "foto",
@@ -35,27 +34,15 @@
       "degradadoFuerte": true
     },
     {
-      "layout": "contenido",
-      "pill": "Mi recorrido",
+      "layout": "foto",
+      "fondo": "camaras.jpg",
+      "fondoPosicion": "center 70%",
+      "degradadoFuerte": true,
       "eyebrow": "Aprender a hacerlo crecer",
-      "tamanoEyebrow": 36,
       "titulo": "Abrir fue *el comienzo.*",
-      "tamanoTitulo": 104,
-      "cierre": "Ahora lidero las estrategias digitales y la creación de nuevos proyectos.",
-      "tamanoCierre": 46,
-      "texto": "Después vino el reto de:",
-      "items": [
-        {
-          "icono": "📣",
-          "texto": "Atraer pacientes"
-        },
-        {
-          "icono": "📈",
-          "texto": "Construir crecimiento"
-        }
-      ],
-      "grande": true,
-      "vertical": true
+      "tamanoTitulo": 110,
+      "texto": "Después vino el reto de **atraer pacientes y construir crecimiento.** Ahora lidero las estrategias digitales y la creación de nuevos proyectos.",
+      "tamanoTexto": 42
     },
     {
       "layout": "contenido",
@@ -93,31 +80,26 @@
       "degradadoFuerte": true
     },
     {
-      "layout": "contenido",
-      "pill": "Mi recorrido",
-      "logo": {
-        "src": "logo-life-agent.webp",
-        "alto": 96
-      },
+      "layout": "foto",
+      "degradadoFuerte": true,
+      "eyebrow": "Life Agents AI",
       "titulo": "Cofundé una *empresa de IA.*",
-      "tamanoTitulo": 88,
-      "texto": "Hoy ayudamos a múltiples negocios con **agentes de IA en WhatsApp** que:",
-      "items": [
-        {
-          "icono": "💬",
-          "texto": "Atienden"
-        },
-        {
-          "icono": "⚡",
-          "texto": "Responden"
-        },
-        {
-          "icono": "🔁",
-          "texto": "Dan seguimiento"
-        }
-      ],
-      "grande": true,
-      "vertical": true
+      "tamanoTitulo": 104,
+      "texto": "Hoy ayudamos a múltiples negocios a **atender, responder y dar seguimiento** con agentes de IA en WhatsApp.",
+      "tamanoTexto": 44,
+      "fondo": "life-agent-a.jpg",
+      "fondoPosicion": "45% center"
+    },
+    {
+      "layout": "foto",
+      "degradadoFuerte": true,
+      "eyebrow": "Life Agents AI",
+      "titulo": "Cofundé una *empresa de IA.*",
+      "tamanoTitulo": 104,
+      "texto": "Hoy ayudamos a múltiples negocios a **atender, responder y dar seguimiento** con agentes de IA en WhatsApp.",
+      "tamanoTexto": 44,
+      "fondo": "life-agent-b.jpg",
+      "fondoPosicion": "40% center"
     },
     {
       "layout": "contenido",
