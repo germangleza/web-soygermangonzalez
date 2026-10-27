@@ -95,9 +95,9 @@
       "pill": "Mi recorrido",
       "eyebrow": "Mi mamá y mi pareja me dijeron:",
       "tamanoEyebrow": 34,
-      "titulo": "*“¿Por qué no haces para ti lo que haces para tus clientes?”*",
+      "titulo": "“¿Por qué no haces *para ti* lo que haces _para tus clientes_?”",
       "tamanoTitulo": 108,
-      "cierre": "Y aquí estoy.",
+      "cierre": "**Y aquí estoy.**",
       "tamanoCierre": 88,
       "vertical": true
     },
@@ -108,7 +108,10 @@
       "tamanoEyebrow": 36,
       "titulo": "Distintos proyectos.\n*Una misma forma de construir.*",
       "tamanoTitulo": 100,
-      "texto": "Construyo oportunidades de crecimiento y aquí comparto lo que **pruebo, aprendo y construyo**, para que también puedas aplicarlo a lo tuyo.",
+      "texto": [
+        "Encontrar **oportunidades de crecimiento** y construir lo necesario para aprovecharlas.",
+        "Aquí comparto lo que **pruebo, aprendo y construyo**, para que también puedas aplicarlo a lo tuyo."
+      ],
       "vertical": true
     }
   ]
