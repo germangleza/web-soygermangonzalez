@@ -72,7 +72,7 @@ function slide(s, i, total, meta, fondoUrl) {
   const foot = `<div class="foot"><span>${esc(last ? meta.urlFinal ?? meta.url : meta.url)}</span><div class="dots">${dots}</div><span class="${last ? '' : 'next'}">${esc(last ? meta.autor : s.desliza ?? 'Desliza →')}</span></div>`;
   const top = `<div class="top"><img src="assets/logo-blanco.png" alt=""><span class="pill">${esc(s.pill ?? '')}</span></div>`;
   const bg = fondoUrl ? `<div class="bg${s.fondoOscuro ? ' bg--fuerte' : ''}" style="background-image:url('${fondoUrl}');background-position:${escAttr(s.fondoPosicion ?? 'center')}"></div>` : '';
-  const cls = `slide${alt ? ' slide--alt' : ''}${fondoUrl ? ' has-bg' : ''}`;
+  const cls = `slide${alt ? ' slide--alt' : ''}${fondoUrl ? ' has-bg' : ''}${meta.sinMarco ? ' sin-marco' : ''}`;
   if (s.layout === 'foto') return slideFoto(s, n, last, meta, fondoUrl);
   let inner;
   switch (s.layout) {
@@ -108,14 +108,19 @@ function slide(s, i, total, meta, fondoUrl) {
 function slideFoto(s, n, last, meta, fondoUrl) {
   if (!fondoUrl) throw new Error(`Lámina ${n}: el layout "foto" necesita "fondo" (la foto)`);
   const etiquetas = (s.etiquetas ?? []).map((e) => `<span class="fx-tag fx-tag--${e.color === 'lima' ? 'lima' : 'azul'}">${md(e.texto)}</span>`).join('');
-  const abajo = s.texto || etiquetas
-    ? `<div class="fx-bottom">${s.texto ? `<p class="fx-sub">${md(s.texto)}</p>` : ''}${etiquetas ? `<div class="fx-tags">${etiquetas}</div>` : ''}</div>`
-    : '';
-  const cls = `slide slide--foto${s.tituloOscuro ? ' fx-oscuro' : ''}${s.sinDegradado ? ' fx-limpio' : ''}`;
+  const sub = s.texto ? `<p class="fx-sub"${s.tamanoTexto ? ` style="font-size:${s.tamanoTexto}px"` : ''}>${md(s.texto)}</p>` : '';
+  const eyebrow = s.eyebrow ? `<span class="fx-eyebrow">${md(s.eyebrow)}</span>` : '';
+  const titulo = `<h1 class="fx-title${s.tituloAbajo ? ' fx-title--abajo' : ''}" style="font-size:${s.tamanoTitulo ?? 112}px">${eyebrow}${md(s.titulo ?? '')}</h1>`;
+  // tituloAbajo: título y subtítulo juntos abajo (cuando arriba hay algo de la foto que debe verse).
+  const contenido = s.tituloAbajo
+    ? `<div class="fx-bottom fx-bottom--stack">${titulo}${sub}</div>`
+    : `${titulo}${sub || etiquetas ? `<div class="fx-bottom">${sub}${etiquetas ? `<div class="fx-tags">${etiquetas}</div>` : ''}</div>` : ''}`;
+  const recorte = s._recorte ? `<img class="fx-recorte" src="${escAttr(s._recorte)}" alt="" style="width:${s.recorte.ancho ?? 560}px;right:${s.recorte.derecha ?? -40}px">` : '';
+  const cls = `slide slide--foto${s.tituloOscuro ? ' fx-oscuro' : ''}${s.sinDegradado ? ' fx-limpio' : ''}${s.tituloAbajo ? ' fx-abajo' : ''}${s.degradadoFuerte ? ' fx-fuerte' : ''}${recorte ? ' fx-con-recorte' : ''}${meta.sinMarco ? ' sin-marco' : ''}`;
   return `<section class="${cls}" id="s${n}">
     <div class="fx-photo" style="background-image:url('${fondoUrl}');background-position:${escAttr(s.fondoPosicion ?? 'center')}"></div>
-    <h1 class="fx-title" style="font-size:${s.tamanoTitulo ?? 112}px">${md(s.titulo ?? '')}</h1>
-    ${abajo}
+    ${recorte}
+    ${contenido}
     <div class="fx-foot"><span>${esc(meta.usuario ?? '@germangleza')}</span><span>${last ? '' : esc(s.desliza ?? 'Desliza ->')}</span></div>
   </section>`;
 }
@@ -125,7 +130,7 @@ export function renderCarrusel(data, resolveFondo = (f) => f) {
   const meta = { url: 'soygermangonzalez.com', autor: 'Germán González', ...data.meta };
   const total = data.laminas.length;
   const slides = data.laminas
-    .map((s) => ({ ...s, _imagen: s.imagen ? resolveFondo(s.imagen.src) : '', _logo: s.logo ? resolveFondo(s.logo.src) : '' }))
+    .map((s) => ({ ...s, _imagen: s.imagen ? resolveFondo(s.imagen.src) : '', _logo: s.logo ? resolveFondo(s.logo.src) : '', _recorte: s.recorte ? resolveFondo(s.recorte.src) : '' }))
     .map((s, i) => slide(s, i, total, meta, s.fondo ? resolveFondo(s.fondo) : ''))
     .join('\n');
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>${escAttr(data.titulo ?? 'Carrusel')}</title>

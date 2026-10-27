@@ -4,7 +4,8 @@
     "url": "soygermangonzalez.com",
     "urlFinal": "soygermangonzalez.com/sobre-mi",
     "autor": "Germán González",
-    "usuario": "@germangleza"
+    "usuario": "@germangleza",
+    "sinMarco": true
   },
   "laminas": [
     {
@@ -13,20 +14,25 @@
       "fondoPosicion": "center",
       "tamanoTitulo": 100,
       "titulo": "De un local en obra negra a *construir negocios con IA*",
-      "texto": "Soy Germán González. Este es mi recorrido."
+      "texto": "Soy Germán González. Este es mi recorrido.",
+      "recorte": {
+        "src": "german-recorte.png",
+        "ancho": 620,
+        "derecha": -70
+      },
+      "tamanoTexto": 56
     },
     {
-      "layout": "contenido",
-      "pill": "Mi recorrido",
+      "layout": "foto",
+      "fondo": "jarmar.jpg",
+      "fondoPosicion": "center top",
+      "tituloAbajo": true,
       "eyebrow": "Mi primer gran reto",
-      "tamanoEyebrow": 36,
       "titulo": "Llevar el negocio familiar de *Chiapas a Tijuana.*",
-      "tamanoTitulo": 76,
-      "texto": "Desde un local vacío hasta **la apertura de una clínica.**",
-      "imagen": {
-        "src": "jarmar.jpg",
-        "posicion": "center 40%"
-      }
+      "tamanoTitulo": 84,
+      "texto": "Desde un local vacío hasta la apertura de una clínica.",
+      "tamanoTexto": 44,
+      "degradadoFuerte": true
     },
     {
       "layout": "contenido",
@@ -48,7 +54,8 @@
           "texto": "Construir crecimiento"
         }
       ],
-      "grande": true
+      "grande": true,
+      "vertical": true
     },
     {
       "layout": "contenido",
@@ -61,7 +68,6 @@
       "tamanoTitulo": 70,
       "cierre": "Trabajando con **decenas de clientes** en México y el extranjero.",
       "tamanoCierre": 52,
-      "centrar": true,
       "items": [
         {
           "icono": "🧭",
@@ -71,20 +77,20 @@
           "icono": "📱",
           "texto": "Marketing digital"
         }
-      ]
+      ],
+      "vertical": true,
+      "grande": true
     },
     {
-      "layout": "contenido",
-      "pill": "Mi recorrido",
+      "layout": "foto",
+      "fondo": "conferencia.jpg",
+      "fondoPosicion": "62% center",
       "eyebrow": "Crypto MX",
-      "tamanoEyebrow": 36,
       "titulo": "Cofundé *una comunidad.*",
-      "tamanoTitulo": 96,
-      "texto": "Creé contenido, colaboré con empresas, **di conferencias y organicé eventos y hackatones.**",
-      "imagen": {
-        "src": "conferencia.jpg",
-        "posicion": "60% center"
-      }
+      "tamanoTitulo": 104,
+      "texto": "Creé contenido, colaboré con empresas, di conferencias y organicé eventos y hackatones.",
+      "tamanoTexto": 46,
+      "degradadoFuerte": true
     },
     {
       "layout": "contenido",
@@ -110,7 +116,8 @@
           "texto": "Dan seguimiento"
         }
       ],
-      "grande": true
+      "grande": true,
+      "vertical": true
     },
     {
       "layout": "contenido",

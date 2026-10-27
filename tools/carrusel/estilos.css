@@ -219,4 +219,19 @@ html.canva-bg .dato__cifra, html.canva-text .dato__cifra { font-family: var(--ca
 .fx-foot { position: absolute; left: 30px; right: 40px; bottom: 44px; display: flex; justify-content: space-between; align-items: center; font-weight: 400; font-size: 44px; letter-spacing: -0.03em; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,.5); }
 /* Canva: mismo reparto fondo/texto; Canva tiene Poppins */
 html.canva-bg .slide--foto *, html.canva-text .slide--foto * { font-family: 'Poppins', sans-serif !important; text-shadow: none !important; }
+/* foto: eyebrow, título abajo y persona recortada (PNG sin fondo) abajo a la derecha */
+.fx-eyebrow { display: block; font-family: 'Inter', sans-serif; font-size: 34px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--lime); margin-bottom: 22px; }
+.fx-bottom--stack { align-items: flex-start; gap: 28px; }
+.fx-title--abajo { position: static; }
+.fx-abajo .fx-photo::after { background: linear-gradient(180deg, rgba(7,25,43,0) 40%, rgba(7,25,43,.55) 68%, rgba(7,25,43,.92) 100%); }
+.fx-fuerte .fx-photo::after { background: linear-gradient(180deg, rgba(7,25,43,.9) 0%, rgba(7,25,43,.55) 30%, rgba(7,25,43,.05) 48%, rgba(7,25,43,.15) 62%, rgba(7,25,43,.92) 100%); }
+.fx-abajo.fx-fuerte .fx-photo::after { background: linear-gradient(180deg, rgba(7,25,43,0) 30%, rgba(7,25,43,.7) 58%, rgba(7,25,43,.96) 100%); }
+.fx-recorte { position: absolute; bottom: 0; z-index: -1; height: auto; filter: drop-shadow(0 10px 40px rgba(0,0,0,.45)); }
+.fx-con-recorte .fx-bottom { right: 46%; }
+/* sinMarco (meta): sin logo, etiqueta ni pie; el contenido usa ese espacio */
+.sin-marco .top, .sin-marco .foot, .sin-marco .fx-foot { display: none !important; }
+.slide.sin-marco:not(.slide--foto) { padding-bottom: 96px; }
+.sin-marco .body { margin-top: 24px !important; }
+.sin-marco .fx-bottom { bottom: 96px; }
+
 html.canva-text .fx-photo { visibility: hidden !important; }
