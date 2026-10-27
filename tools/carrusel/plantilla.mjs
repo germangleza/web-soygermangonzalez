@@ -116,10 +116,12 @@ function slideFoto(s, n, last, meta, fondoUrl) {
     ? `<div class="fx-bottom fx-bottom--stack">${titulo}${sub}</div>`
     : `${titulo}${sub || etiquetas ? `<div class="fx-bottom">${sub}${etiquetas ? `<div class="fx-tags">${etiquetas}</div>` : ''}</div>` : ''}`;
   const recorte = s._recorte ? `<img class="fx-recorte" src="${escAttr(s._recorte)}" alt="" style="width:${s.recorte.ancho ?? 560}px;right:${s.recorte.derecha ?? -40}px">` : '';
-  const cls = `slide slide--foto${s.tituloOscuro ? ' fx-oscuro' : ''}${s.sinDegradado ? ' fx-limpio' : ''}${s.tituloAbajo ? ' fx-abajo' : ''}${s.degradadoFuerte ? ' fx-fuerte' : ''}${recorte ? ' fx-con-recorte' : ''}${meta.sinMarco ? ' sin-marco' : ''}`;
+  const logo = s._logo ? `<img class="fx-logo" src="${escAttr(s._logo)}" alt="" style="width:${s.logo.ancho ?? 420}px;left:${s.logo.x ?? 540}px;top:${s.logo.y ?? 900}px">` : '';
+  const cls = `slide slide--foto${s.conPie ? ' con-pie' : ''}${s.tituloOscuro ? ' fx-oscuro' : ''}${s.sinDegradado ? ' fx-limpio' : ''}${s.tituloAbajo ? ' fx-abajo' : ''}${s.degradadoFuerte ? ' fx-fuerte' : ''}${recorte ? ' fx-con-recorte' : ''}${meta.sinMarco ? ' sin-marco' : ''}`;
   return `<section class="${cls}" id="s${n}">
     <div class="fx-photo" style="background-image:url('${fondoUrl}');background-position:${escAttr(s.fondoPosicion ?? 'center')}"></div>
     ${recorte}
+    ${logo}
     ${contenido}
     <div class="fx-foot"><span>${esc(meta.usuario ?? '@germangleza')}</span><span>${last ? '' : esc(s.desliza ?? 'Desliza ->')}</span></div>
   </section>`;

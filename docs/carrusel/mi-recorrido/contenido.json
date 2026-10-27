@@ -17,9 +17,10 @@
       "texto": "Soy Germán González. Este es mi recorrido.",
       "recorte": {
         "src": "german-recorte.png",
-        "ancho": 620,
-        "derecha": -70
-      }
+        "ancho": 900,
+        "derecha": -190
+      },
+      "conPie": true
     },
     {
       "layout": "foto",
@@ -82,24 +83,19 @@
     {
       "layout": "foto",
       "degradadoFuerte": true,
-      "eyebrow": "Life Agents AI",
+      "eyebrow": "Life Agent",
       "titulo": "Cofundé una *empresa de IA.*",
       "tamanoTitulo": 104,
       "texto": "Hoy ayudamos a múltiples negocios a **atender, responder y dar seguimiento** con agentes de IA en WhatsApp.",
       "tamanoTexto": 44,
       "fondo": "life-agent-a.jpg",
-      "fondoPosicion": "45% center"
-    },
-    {
-      "layout": "foto",
-      "degradadoFuerte": true,
-      "eyebrow": "Life Agents AI",
-      "titulo": "Cofundé una *empresa de IA.*",
-      "tamanoTitulo": 104,
-      "texto": "Hoy ayudamos a múltiples negocios a **atender, responder y dar seguimiento** con agentes de IA en WhatsApp.",
-      "tamanoTexto": 44,
-      "fondo": "life-agent-b.jpg",
-      "fondoPosicion": "40% center"
+      "fondoPosicion": "45% center",
+      "logo": {
+        "src": "logo-life-agent.webp",
+        "ancho": 420,
+        "x": 745,
+        "y": 945
+      }
     },
     {
       "layout": "contenido",

@@ -226,9 +226,11 @@ html.canva-bg .slide--foto *, html.canva-text .slide--foto * { font-family: 'Pop
 .fx-abajo .fx-photo::after { background: linear-gradient(180deg, rgba(7,25,43,0) 40%, rgba(7,25,43,.55) 68%, rgba(7,25,43,.92) 100%); }
 .fx-fuerte .fx-photo::after { background: linear-gradient(180deg, rgba(7,25,43,.9) 0%, rgba(7,25,43,.55) 30%, rgba(7,25,43,.05) 48%, rgba(7,25,43,.15) 62%, rgba(7,25,43,.92) 100%); }
 .fx-abajo.fx-fuerte .fx-photo::after { background: linear-gradient(180deg, rgba(7,25,43,0) 30%, rgba(7,25,43,.7) 58%, rgba(7,25,43,.96) 100%); }
+.fx-logo { position: absolute; z-index: 0; height: auto; transform: translate(-50%, -50%); filter: drop-shadow(0 4px 18px rgba(0,0,0,.6)); }
 .fx-recorte { position: absolute; bottom: 0; z-index: -1; height: auto; filter: drop-shadow(0 10px 40px rgba(0,0,0,.45)); }
 /* sinMarco (meta): sin logo, etiqueta ni pie; el contenido usa ese espacio */
-.sin-marco .top, .sin-marco .foot, .sin-marco .fx-foot { display: none !important; }
+.sin-marco .top, .sin-marco .foot, .sin-marco:not(.con-pie) .fx-foot { display: none !important; }
+.sin-marco.con-pie .fx-bottom { bottom: 210px; }
 .slide.sin-marco:not(.slide--foto) { padding-bottom: 96px; }
 .sin-marco .body { margin-top: 24px !important; }
 .sin-marco .fx-bottom { bottom: 96px; }
