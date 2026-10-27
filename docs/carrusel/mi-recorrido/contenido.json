@@ -36,8 +36,8 @@
     },
     {
       "layout": "foto",
-      "fondo": "camaras.jpg",
-      "fondoPosicion": "center 70%",
+      "fondo": "camaras-2.jpg",
+      "fondoPosicion": "center",
       "degradadoFuerte": true,
       "eyebrow": "Aprender a hacerlo crecer",
       "titulo": "Abrir fue *el comienzo.*",
