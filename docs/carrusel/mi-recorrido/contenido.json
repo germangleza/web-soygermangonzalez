@@ -46,28 +46,21 @@
       "tamanoTexto": 42
     },
     {
-      "layout": "contenido",
-      "pill": "Mi recorrido",
+      "layout": "foto",
+      "fondo": "maguey.jpg",
+      "fondoPosicion": "center 40%",
+      "degradadoFuerte": true,
+      "eyebrow": "Maguey Studio",
+      "titulo": "Cofundé un estudio para ayudar a otros negocios a *lanzar y crecer*",
+      "tamanoTitulo": 76,
+      "texto": "Con **estrategia y marketing digital.** Trabajando con decenas de clientes en México y el extranjero.",
+      "tamanoTexto": 44,
       "logo": {
         "src": "logo-maguey.webp",
-        "alto": 150
-      },
-      "titulo": "Cofundé un estudio para ayudar a otros negocios a *lanzar y crecer*",
-      "tamanoTitulo": 70,
-      "cierre": "Trabajando con **decenas de clientes** en México y el extranjero.",
-      "tamanoCierre": 52,
-      "items": [
-        {
-          "icono": "🧭",
-          "texto": "Estrategia"
-        },
-        {
-          "icono": "📱",
-          "texto": "Marketing digital"
-        }
-      ],
-      "vertical": true,
-      "grande": true
+        "ancho": 420,
+        "x": 745,
+        "y": 945
+      }
     },
     {
       "layout": "foto",
