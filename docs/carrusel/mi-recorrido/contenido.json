@@ -108,10 +108,7 @@
       "tamanoEyebrow": 36,
       "titulo": "Distintos proyectos.\n*Una misma forma de construir.*",
       "tamanoTitulo": 100,
-      "texto": [
-        "Encontrar **oportunidades de crecimiento** y construir lo necesario para aprovecharlas.",
-        "Aquí comparto lo que **pruebo, aprendo y construyo**, para que también puedas aplicarlo a lo tuyo."
-      ],
+      "texto": "Encontrar **oportunidades de crecimiento** y construir lo necesario para aprovecharlas. Aquí comparto lo que **pruebo y aprendo.**",
       "vertical": true,
       "firma": {
         "alto": 120
