@@ -112,7 +112,10 @@
         "Encontrar **oportunidades de crecimiento** y construir lo necesario para aprovecharlas.",
         "Aquí comparto lo que **pruebo, aprendo y construyo**, para que también puedas aplicarlo a lo tuyo."
       ],
-      "vertical": true
+      "vertical": true,
+      "firma": {
+        "alto": 120
+      }
     }
   ]
 }

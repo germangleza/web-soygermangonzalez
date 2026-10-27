@@ -98,7 +98,9 @@ function slide(s, i, total, meta, fondoUrl) {
     default:
       throw new Error(`Lámina ${n}: layout desconocido "${s.layout}" (usa portada | contenido | frase | cta)`);
   }
-  return `<section class="${cls}" id="s${n}">${bg}${top}${inner}${foot}</section>`;
+  // firma: logo de Germán centrado abajo (cierres).
+  const firma = s.firma ? `<img class="firma" src="assets/logo-blanco.png" alt="" style="height:${s.firma.alto ?? 110}px">` : '';
+  return `<section class="${cls}" id="s${n}">${bg}${top}${inner}${firma}${foot}</section>`;
 }
 
 /**

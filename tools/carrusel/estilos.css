@@ -172,6 +172,8 @@ html.canva-bg .flow__num, html.canva-text .flow__num, html.canva-bg .flow__step 
 .body.body--vertical { justify-content: center; padding-bottom: 60px; }
 .body.body--vertical .cierre { margin-top: 56px; padding-top: 0; }
 
+.firma { position: absolute; left: 50%; bottom: 110px; transform: translateX(-50%); width: auto; }
+
 /* centrar: las tarjetas quedan centradas entre el título y el cierre, más grandes. */
 .body.body--centro .prompts { margin-block: auto; }
 .body.body--centro .prompt { padding: 46px 40px; }
