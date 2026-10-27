@@ -44,9 +44,11 @@ function ui(blocks = []) {
 function body(s) {
   const out = [];
   if (s.eyebrow) out.push(`<div class="eyebrow"${s.tamanoEyebrow ? ` style="font-size:${s.tamanoEyebrow}px"` : ''}>${md(s.eyebrow)}</div>`);
+  if (s._logo) out.push(`<img class="marca" src="${escAttr(s._logo)}" alt="" style="height:${s.logo.alto ?? 120}px">`);
   if (s.titulo) out.push(`<h2 style="font-size:${s.tamanoTitulo ?? 82}px">${md(s.titulo)}</h2>`);
   const parrafos = (v) => (Array.isArray(v) ? v : [v]).map((t) => `<p class="lead">${md(t)}</p>`).join('');
   if (s.texto) out.push(`<div class="paras">${parrafos(s.texto)}</div>`);
+  if (s._imagen) out.push(`<div class="foto-card" style="background-image:url('${s._imagen}');background-position:${escAttr(s.imagen.posicion ?? 'center')}"></div>`);
   if (s.lista) out.push(`<div class="checks">${s.lista.map((t) => `<div class="check"><span class="ck emo">✓</span><span>${md(t)}</span></div>`).join('')}</div>`);
   if (s.pasos) out.push(`<div class="steps">${s.pasos.map((p, i) => `<div class="step"><span class="num">${i + 1}</span><span>${md(p)}</span></div>`).join('')}</div>`);
   if (s.items) out.push(`<div class="prompts">${s.items.map((it) => `<div class="prompt"><span class="ic">${esc(it.icono ?? '•')}</span><div>${it.etiqueta ? `<small>${esc(it.etiqueta)}</small>` : ''}<span>${md(it.texto)}</span></div></div>`).join('')}</div>`);
@@ -91,7 +93,7 @@ function slide(s, i, total, meta, fondoUrl) {
       inner = `<div class="body" style="margin-top:${s.previo ? 90 : 150}px">${s.previo ? `<p class="display previo">${md(s.previo)}</p>` : ''}<p class="display" style="font-size:96px">${md(s.antes ?? 'Comenta')}</p><div><span class="ads">${esc(s.palabra)}</span></div><p class="display" style="font-size:66px;line-height:1.12">${md(s.despues ?? '')}</p></div>`;
       break;
     case 'contenido':
-      inner = `<div class="body${s.grande ? ' body--lg' : ''}${s.centrar ? ' body--centro' : ''}" style="margin-top:90px">${body(s)}</div>`;
+      inner = `<div class="body${s.grande ? ' body--lg' : ''}${s.centrar ? ' body--centro' : ''}${s.vertical ? ' body--vertical' : ''}" style="margin-top:90px">${body(s)}</div>`;
       break;
     default:
       throw new Error(`Lámina ${n}: layout desconocido "${s.layout}" (usa portada | contenido | frase | cta)`);
@@ -122,7 +124,10 @@ function slideFoto(s, n, last, meta, fondoUrl) {
 export function renderCarrusel(data, resolveFondo = (f) => f) {
   const meta = { url: 'soygermangonzalez.com', autor: 'Germán González', ...data.meta };
   const total = data.laminas.length;
-  const slides = data.laminas.map((s, i) => slide(s, i, total, meta, s.fondo ? resolveFondo(s.fondo) : '')).join('\n');
+  const slides = data.laminas
+    .map((s) => ({ ...s, _imagen: s.imagen ? resolveFondo(s.imagen.src) : '', _logo: s.logo ? resolveFondo(s.logo.src) : '' }))
+    .map((s, i) => slide(s, i, total, meta, s.fondo ? resolveFondo(s.fondo) : ''))
+    .join('\n');
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>${escAttr(data.titulo ?? 'Carrusel')}</title>
 <link rel="stylesheet" href="estilos.css"></head><body>${slides}</body></html>`;
 }

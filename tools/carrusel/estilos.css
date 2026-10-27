@@ -163,6 +163,15 @@ html.canva-bg .flow__num, html.canva-text .flow__num, html.canva-bg .flow__step 
 
 /* Lámina con "grande": true → listas, pasos e items a tamaño de lectura en móvil */
 .body--lg .prompts { gap: 30px; margin-top: 20px; }
+/* Logo de marca (arriba del título) y foto dentro de una lámina de contenido (llena el espacio libre). */
+.marca { width: auto; max-width: 100%; align-self: flex-start; margin-bottom: 44px; object-fit: contain; }
+.foto-card { flex: 1; min-height: 360px; margin-top: 44px; border-radius: 28px; border: 2px solid var(--line); background-size: cover; background-repeat: no-repeat; }
+.foto-card + .cierre { padding-top: 36px; }
+
+/* vertical: todo el bloque centrado en la lámina (frases cortas, cierres). */
+.body.body--vertical { justify-content: center; padding-bottom: 60px; }
+.body.body--vertical .cierre { margin-top: 56px; padding-top: 0; }
+
 /* centrar: las tarjetas quedan centradas entre el título y el cierre, más grandes. */
 .body.body--centro .prompts { margin-block: auto; }
 .body.body--centro .prompt { padding: 46px 40px; }

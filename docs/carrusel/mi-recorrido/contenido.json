@@ -1,0 +1,137 @@
+{
+  "titulo": "De un local en obra negra a construir negocios con IA",
+  "meta": {
+    "url": "soygermangonzalez.com",
+    "urlFinal": "soygermangonzalez.com/sobre-mi",
+    "autor": "Germán González",
+    "usuario": "@germangleza"
+  },
+  "laminas": [
+    {
+      "layout": "foto",
+      "fondo": "foto-1.jpg",
+      "fondoPosicion": "center",
+      "tamanoTitulo": 100,
+      "titulo": "De un local en obra negra a *construir negocios con IA*",
+      "texto": "Soy Germán González. Este es mi recorrido."
+    },
+    {
+      "layout": "contenido",
+      "pill": "Mi recorrido",
+      "eyebrow": "Mi primer gran reto",
+      "tamanoEyebrow": 36,
+      "titulo": "Llevar el negocio familiar de *Chiapas a Tijuana.*",
+      "tamanoTitulo": 76,
+      "texto": "Desde un local vacío hasta **la apertura de una clínica.**",
+      "imagen": {
+        "src": "jarmar.jpg",
+        "posicion": "center 40%"
+      }
+    },
+    {
+      "layout": "contenido",
+      "pill": "Mi recorrido",
+      "eyebrow": "Aprender a hacerlo crecer",
+      "tamanoEyebrow": 36,
+      "titulo": "Abrir fue *el comienzo.*",
+      "tamanoTitulo": 104,
+      "cierre": "Ahora lidero las estrategias digitales y la creación de nuevos proyectos.",
+      "tamanoCierre": 46,
+      "texto": "Después vino el reto de:",
+      "items": [
+        {
+          "icono": "📣",
+          "texto": "Atraer pacientes"
+        },
+        {
+          "icono": "📈",
+          "texto": "Construir crecimiento"
+        }
+      ],
+      "grande": true
+    },
+    {
+      "layout": "contenido",
+      "pill": "Mi recorrido",
+      "logo": {
+        "src": "logo-maguey.webp",
+        "alto": 150
+      },
+      "titulo": "Cofundé un estudio para ayudar a otros negocios a *lanzar y crecer*",
+      "tamanoTitulo": 70,
+      "cierre": "Trabajando con **decenas de clientes** en México y el extranjero.",
+      "tamanoCierre": 52,
+      "centrar": true,
+      "items": [
+        {
+          "icono": "🧭",
+          "texto": "Estrategia"
+        },
+        {
+          "icono": "📱",
+          "texto": "Marketing digital"
+        }
+      ]
+    },
+    {
+      "layout": "contenido",
+      "pill": "Mi recorrido",
+      "eyebrow": "Crypto MX",
+      "tamanoEyebrow": 36,
+      "titulo": "Cofundé *una comunidad.*",
+      "tamanoTitulo": 96,
+      "texto": "Creé contenido, colaboré con empresas, **di conferencias y organicé eventos y hackatones.**",
+      "imagen": {
+        "src": "conferencia.jpg",
+        "posicion": "60% center"
+      }
+    },
+    {
+      "layout": "contenido",
+      "pill": "Mi recorrido",
+      "logo": {
+        "src": "logo-life-agent.webp",
+        "alto": 96
+      },
+      "titulo": "Cofundé una *empresa de IA.*",
+      "tamanoTitulo": 88,
+      "texto": "Hoy ayudamos a múltiples negocios con **agentes de IA en WhatsApp** que:",
+      "items": [
+        {
+          "icono": "💬",
+          "texto": "Atienden"
+        },
+        {
+          "icono": "⚡",
+          "texto": "Responden"
+        },
+        {
+          "icono": "🔁",
+          "texto": "Dan seguimiento"
+        }
+      ],
+      "grande": true
+    },
+    {
+      "layout": "contenido",
+      "pill": "Mi recorrido",
+      "eyebrow": "Mi mamá y mi pareja me dijeron:",
+      "tamanoEyebrow": 34,
+      "titulo": "*“¿Por qué no haces para ti lo que haces para tus clientes?”*",
+      "tamanoTitulo": 108,
+      "cierre": "Y aquí estoy.",
+      "tamanoCierre": 88,
+      "vertical": true
+    },
+    {
+      "layout": "contenido",
+      "pill": "Hoy",
+      "eyebrow": "Lo que estoy construyendo ahora",
+      "tamanoEyebrow": 36,
+      "titulo": "Distintos proyectos.\n*Una misma forma de construir.*",
+      "tamanoTitulo": 100,
+      "texto": "Construyo oportunidades de crecimiento y aquí comparto lo que **pruebo, aprendo y construyo**, para que también puedas aplicarlo a lo tuyo.",
+      "vertical": true
+    }
+  ]
+}
