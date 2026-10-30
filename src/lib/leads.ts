@@ -439,7 +439,7 @@ function toDiagnosticLead(
 export interface ChecklistLead {
   type: 'checklist-ia-reporte' | 'checklist-ia-revision';
   resource: 'ia-recomienda-tu-negocio';
-  /** health → Maguey Salud · general → Maguey Studio / Opportunity Session. */
+  /** health → Maguey Salud · general → Maguey Studio / Sesión de oportunidades. */
   lead_interest: 'health' | 'general';
   dedupe_key: string;
   source?: string;

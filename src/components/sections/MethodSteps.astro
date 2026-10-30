@@ -1,5 +1,5 @@
 ---
-/** H04 — MethodSteps: Opportunity Building (Detectar · Diseñar · Activar · Construir). */
+/** H04 — MethodSteps: Mi método (Detectar · Diseñar · Construir · Crecer), con lo que pasa en cada paso. */
 import { Image } from 'astro:assets';
 import SectionHeading from '../ui/SectionHeading.astro';
 import BookCallButton from '../ui/BookCallButton.astro';
@@ -7,8 +7,8 @@ import { METHOD } from '../../data/content';
 ---
 <section class="section section--dark dark" id="metodo" aria-labelledby="metodo-title">
   <div class="container">
-    <SectionHeading id="metodo-title" eyebrow="Mi método" title="Opportunity Building">
-      <p class="lead">Las oportunidades no se aprovechan solas. Hay que detectarlas, diseñarlas y construirlas.</p>
+    <SectionHeading id="metodo-title" eyebrow="Mi método" title="Empezamos con un sprint. Seguimos cada mes.">
+      <p class="lead">Las oportunidades no se aprovechan solas: hay que detectarlas, diseñarlas y construirlas.</p>
     </SectionHeading>
     <ol class="grid grid-4 steps" role="list">
       {METHOD.map((s) => (
@@ -17,6 +17,7 @@ import { METHOD } from '../../data/content';
             <Image src={s.image} alt={s.alt} widths={[320, 560]} sizes="(min-width: 1024px) 280px, (min-width: 680px) 45vw, 100vw" loading="lazy" />
           </div>
           <span class="step__num">{s.num} <span class="step__key">{s.key}</span></span>
+          <span class="step__tag">{s.tag}</span>
           <p class="step__text">{s.text}</p>
         </li>
       ))}
@@ -32,9 +33,10 @@ import { METHOD } from '../../data/content';
   .step:hover .step__media img { transform: scale(1.04); }
   .step__num { display: block; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: var(--sky); letter-spacing: 0.02em; margin-bottom: .5rem; }
   .step__key { color: #fff; letter-spacing: .12em; }
-  .step__text { font-weight: 400; font-size: clamp(1.1rem, 1rem + .4vw, 1.3rem); line-height: 1.4; color: #fff !important; margin: 0; }
+  .step__tag { display: block; font-size: .8rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--lime); margin-bottom: .6rem; }
+  .step__text { font-weight: 400; font-size: clamp(1rem, .95rem + .25vw, 1.125rem); line-height: 1.5; color: #fff !important; margin: 0; }
   @media (max-width: 679px) {
     .step { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 0 1rem; align-items: start; }
-    .step__media { grid-row: span 2; margin: 0; }
+    .step__media { grid-row: span 3; margin: 0; }
   }
 </style>

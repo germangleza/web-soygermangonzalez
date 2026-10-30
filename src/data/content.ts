@@ -16,12 +16,12 @@ export const CAPABILITIES = [
   { title: 'Alianzas y nuevos canales', text: 'Partnerships, distribución y expansión.' },
 ];
 
-/** H04 — Método Opportunity Building (no fusionar con Build → Launch → Growth). */
+/** H04 — Mi método: método + modelo de trabajo en un solo flujo (sesión → plan → sprint → mensual). */
 export const METHOD = [
-  { num: '01', key: 'DETECTAR', text: 'Identifico dónde existe una oportunidad.', image: detect, alt: 'Lupa sobre una roca: detectar la oportunidad' },
-  { num: '02', key: 'DISEÑAR', text: 'Diseño cómo capturarla.', image: design, alt: 'Plano arquitectónico de una casa: diseñar cómo capturarla' },
-  { num: '03', key: 'ACTIVAR', text: 'Activo personas, tecnología y capacidades.', image: activate, alt: 'Bloques de distintos materiales ensamblándose: activar capacidades' },
-  { num: '04', key: 'CONSTRUIR', text: 'Construimos, medimos y ajustamos.', image: build, alt: 'Casa terminada e iluminada: construir' },
+  { num: '01', key: 'DETECTAR', tag: 'Sesión de oportunidades', text: 'Sin costo. Conozco tu negocio: en qué estás, qué te preocupa y dónde estás atorado.', image: detect, alt: 'Lupa sobre una roca: detectar la oportunidad' },
+  { num: '02', key: 'DISEÑAR', tag: 'Plan y propuesta', text: 'Priorizamos las acciones que más pueden mover tus ventas y definimos el sprint: entregables, tiempos y forma de trabajo.', image: design, alt: 'Plano arquitectónico de una casa: diseñar el plan' },
+  { num: '03', key: 'CONSTRUIR', tag: 'Sprint de 2 a 4 semanas', text: 'Activo al equipo correcto. Construimos, medimos y ajustamos.', image: activate, alt: 'Bloques de distintos materiales ensamblándose: construir' },
+  { num: '04', key: 'CRECER', tag: 'Cada mes', text: 'Definimos prioridades, ejecutamos y medimos, para que el crecimiento no dependa de un proyecto aislado.', image: build, alt: 'Casa terminada e iluminada: crecer' },
 ];
 
 /** Home — Con quién lo construyes (estrategia + empresas de ejecución). */
@@ -86,14 +86,6 @@ export const SERVICE_GROUPS = [
   { title: 'Experiencias', text: 'Conferencias, workshops y sesiones prácticas para equipos y organizaciones.', who: 'Germán González', href: '/builder-lab/conferencias' },
 ];
 
-/** Qué hago — Modelo de trabajo. */
-export const COMMERCIAL_MODEL = [
-  { step: 'Opportunity Session', text: 'Conozco tu negocio: en qué estás, qué te preocupa y dónde estás atorado. Sin costo por lanzamiento.' },
-  { step: 'Opportunity Map', text: 'Identificamos y priorizamos las acciones que pueden ayudarte, cuando el alcance lo requiere.', optional: true },
-  { step: 'Build Proposal', text: 'Definimos el sprint: acciones, entregables y forma de trabajo.' },
-  { step: 'Primer sprint', text: 'Construimos, medimos y ajustamos en 2 a 4 semanas.' },
-];
-
 /** Qué hago — Sectores donde más trabajo. */
 export const SECTORS = [
   { title: 'Negocios B2B', text: 'Mi especialidad: empresas que venden a otras empresas y necesitan un sistema comercial que escale.', featured: true },
@@ -107,7 +99,7 @@ export const SERVICE_FAQS = [
   { question: '¿Cuánto dura un proyecto?', answer: 'Normalmente de 2 a 4 semanas por sprint. Si hace falta, se encadenan sprints según lo que vayamos aprendiendo.' },
   { question: '¿Puedo trabajar contigo de forma continua?', answer: 'Sí, es el objetivo de muchos clientes. Después del primer sprint pasamos a un esquema mensual: cada mes definimos prioridades, ejecutamos y medimos resultados.' },
   { question: '¿Trabajas con negocios fuera de tu ciudad?', answer: 'Sí. Trabajo con negocios en cualquier parte de México.' },
-  { question: '¿Qué pasa en la Opportunity Session? ¿Tiene costo?', answer: 'Es una conversación para conocer tu negocio: en qué estás, qué te preocupa y dónde estás atorado. A partir de ahí identificamos qué acciones podrían ayudarte. Por lanzamiento, no tiene costo.' },
+  { question: '¿Qué pasa en la Sesión de oportunidades? ¿Tiene costo?', answer: 'Es una conversación para conocer tu negocio: en qué estás, qué te preocupa y dónde estás atorado. A partir de ahí identificamos qué acciones podrían ayudarte. Por lanzamiento, no tiene costo.' },
 ];
 
 

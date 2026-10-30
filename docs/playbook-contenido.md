@@ -31,7 +31,7 @@ Y se entrega, en este orden:
 ## 1. Quién habla y a quién
 
 - **Marca:** Germán González — Business Builder. Propuesta: *Construyo oportunidades de crecimiento.*
-- **Método:** Opportunity Building — Detectar · Diseñar · Activar · Construir.
+- **Método:** Detectar · Diseñar · Construir · Crecer.
 - **Equipo de ejecución:** Maguey Studio (marketing y growth: https://www.magueystudio.mx) y Life Agents AI (IA y automatización: https://lifeagent.mx).
 - **Trayectoria:** formación en finanzas; lideró la expansión de Ópticas Jarmar de Chiapas a Tijuana; cofundó Maguey Studio, Crypto MX y Life Agents AI.
 - **Audiencia:**
@@ -239,7 +239,7 @@ Elige uno y justifícalo en una línea:
   - **Guía:** pasos numerados, cada uno con *qué hacer*, *por qué* y *error común*.
   - **Checklist:** 10–20 puntos accionables con casillas `- [ ]`, agrupados por fase. Añade al final un mini puntaje («si marcaste menos de X…»).
   - **Blog:** 800–1,200 palabras, H2 escaneables, ejemplos concretos, keyword SEO en el título y en el primer párrafo.
-- **Cierre** con el siguiente paso: invitación a la **llamada sin costo** (Opportunity Session) → https://calendar.app.google/8mMLAzjTQtG9xRRt7, o «respóndeme este DM».
+- **Cierre** con el siguiente paso: invitación a la **llamada sin costo** (Sesión de oportunidades) → https://calendar.app.google/8mMLAzjTQtG9xRRt7, o «respóndeme este DM».
 - **Firma:** *Germán González · Business Builder — Builder Lab: Exploramos. Probamos. Construimos.*
 
 **Reglas:**

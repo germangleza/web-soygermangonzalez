@@ -18,7 +18,7 @@ export const GET: APIRoute = async () => {
 
 > ${SITE.description}
 
-Germán González es Business Builder: identifica oportunidades de crecimiento y construye la combinación de negocio, growth digital, tecnología y alianzas necesaria para aprovecharlas. Trabaja con empresas en operación que quieren crecer y con nuevas oportunidades de negocio. Método: Opportunity Building (Detect, Design, Activate, Build).
+Germán González es Business Builder: identifica oportunidades de crecimiento y construye la combinación de negocio, growth digital, tecnología y alianzas necesaria para aprovecharlas. Trabaja con empresas en operación que quieren crecer y con nuevas oportunidades de negocio. Método: Detectar, Diseñar, Construir y Crecer (Sesión de oportunidades sin costo → plan y propuesta → sprint de 2 a 4 semanas → continuidad mensual).
 
 ## Páginas principales
 - [Inicio](${u('/')}): posicionamiento y forma de trabajo.
@@ -31,7 +31,7 @@ Germán González es Business Builder: identifica oportunidades de crecimiento y
 - [¿Cuántas ventas se te escapan entre WhatsApp y el seguimiento?](${u('/ventas-por-whatsapp')}): checklist gratuito de 12 preguntas sobre respuesta, seguimiento, registro y operación de las consultas que llegan por WhatsApp; da las 3 prioridades de automatización. Se basa en las respuestas del usuario; no revisa conversaciones ni calcula ventas perdidas.
 - [Conferencias y workshops](${u('/builder-lab/conferencias')}): IA, innovación y oportunidades de negocio para empresas, universidades y eventos.
 - [Sobre mí](${u('/sobre-mi')}): trayectoria.
-- [Agenda una llamada](${u('/llamada')}): Opportunity Session sin costo para identificar qué conviene hacer primero.
+- [Agenda una llamada](${u('/llamada')}): Sesión de oportunidades sin costo para identificar qué conviene hacer primero.
 - [Contacto](${u('/contacto')}): solicitudes comerciales, conferencias y colaboraciones.
 ${posts.length ? `
 ## Builder Lab — publicaciones
