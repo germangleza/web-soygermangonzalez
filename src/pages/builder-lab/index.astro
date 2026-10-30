@@ -11,7 +11,7 @@ import CategoryFilter from '../../components/ui/CategoryFilter.astro';
 import CTABanner from '../../components/ui/CTABanner.astro';
 import NewsletterSignup from '../../components/forms/NewsletterSignup.astro';
 import { POST_CATEGORIES } from '../../content.config';
-import { LAB_CONCEPTS, LAUNCH_STAGES, RESOURCE_COLLECTIONS, TRAINING } from '../../data/content';
+import { LAUNCH_STAGES, RESOURCE_COLLECTIONS, TRAINING } from '../../data/content';
 import { SHOW_DRAFTS } from '../../lib/drafts';
 import { byNewest } from '../../lib/posts';
 
@@ -26,8 +26,9 @@ const EVENT_STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas
   fullTitle="Builder Lab | IA, tecnología, negocios y comunidad"
   description="Builder Lab by Germán González: herramientas, experimentos y aprendizajes para construir con IA y tecnología, y un proceso por etapas para lanzar un negocio nuevo."
 >
-  <PageHero variant="lab" eyebrow="Builder Lab · by Germán González" title={'Exploramos. Probamos. <span class="text-lime">Construimos.</span>'} breadcrumbs={[{ name: 'Builder Lab', url: '/builder-lab' }]}>
-    <p>Herramientas, experimentos y aprendizajes para construir con IA y tecnología. Y si vas a lanzar un negocio nuevo, te ayudo a construirlo por etapas.</p>
+  <PageHero variant="lab" eyebrow="Builder Lab · by Germán González" title={'De la idea a las <span class="text-lime">primeras ventas.</span>'} breadcrumbs={[{ name: 'Builder Lab', url: '/builder-lab' }]}>
+    <p>Te ayudo a construir y lanzar tu negocio por etapas. Y aquí comparto las herramientas, experimentos y aprendizajes que uso para hacerlo.</p>
+    <p class="lab-stages">Construir <span aria-hidden="true">→</span> Lanzar <span aria-hidden="true">→</span> Crecer</p>
     <div class="actions">
       <a class="btn btn--lime" href="#lanzar">Lanzar mi negocio <span class="btn__icon" aria-hidden="true">↓</span></a>
       <a class="btn btn--outline" href="#recursos">Ver herramientas <span class="btn__icon" aria-hidden="true">↓</span></a>
@@ -50,24 +51,7 @@ const EVENT_STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas
           </li>
         ))}
       </ol>
-      <p class="stages__case">Es el proceso que seguí con <strong>LN41.5 Travel</strong>: de definir el negocio a las campañas para hacerlo crecer.</p>
       <div class="actions"><a class="btn btn--lime" href="/llamada">Cuéntame tu idea <span class="btn__icon" aria-hidden="true">↗</span></a></div>
-    </div>
-  </section>
-
-  <!-- BL02 -->
-  <section class="section" aria-labelledby="conceptos-title">
-    <div class="container">
-      <h2 id="conceptos-title" class="sr-only">Explora, Aprende, Conecta</h2>
-      <ul class="grid grid-3 concepts" role="list">
-        {LAB_CONCEPTS.map((c, i) => (
-          <li class="card">
-            <span class="card__kicker">{String(i + 1).padStart(2, '0')}</span>
-            <h3><span class="concept-icon" aria-hidden="true">{c.icon}</span> {c.title}</h3>
-            <p>{c.text}</p>
-          </li>
-        ))}
-      </ul>
     </div>
   </section>
 
@@ -210,17 +194,16 @@ const EVENT_STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas
   </section>
 </BaseLayout>
 <style>
-  .concepts, .cards { list-style: none; padding: 0; }
+  .cards { list-style: none; padding: 0; }
   .cards > li { display: flex; }
   .cards > li > :global(*) { flex: 1; }
-  .concept-icon { color: var(--accent-text); }
+  .lab-stages { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.15rem, 1rem + .5vw, 1.4rem); color: #fff !important; }
+  .lab-stages span { color: var(--lime); margin: 0 .35rem; }
   .stages { list-style: none; padding: 0; }
   .stages__num { display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.75rem; color: var(--lime); margin-bottom: .75rem; }
   .stages h3 { font-size: clamp(1.4rem, 1.2rem + .6vw, 1.75rem); margin-bottom: .35rem; }
   .stages__time { display: inline-block; font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--sky); margin-bottom: .9rem; }
   .stages p strong { color: #fff; }
-  .stages__case { margin: 2rem 0 0; color: var(--muted-on-dark); max-width: 44rem; }
-  .stages__case strong { color: #fff; }
   .dx-feature { margin-bottom: 0; }
   .dx-feature h3 { font-size: clamp(1.35rem, 1.15rem + .7vw, 1.75rem); max-width: 30ch; }
   .dx-feature p { max-width: 46rem; }

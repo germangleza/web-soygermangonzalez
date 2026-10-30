@@ -22,13 +22,6 @@ export const HOME_TEAM = [
   { name: 'Life Agents AI', url: 'https://lifeagent.mx', area: 'IA y automatización', items: ['Agentes de IA en WhatsApp', 'Integración con CRM', 'Automatización de procesos'] },
 ];
 
-/** BL02 — Conceptos internos de Builder Lab. */
-export const LAB_CONCEPTS = [
-  { title: 'Explora', icon: '↗', text: 'Herramientas de IA, tecnología, crypto, fintech, oportunidades, tendencias y análisis de negocio.' },
-  { title: 'Aprende', icon: '✧', text: 'Workshops, laboratorios en vivo, cursos y recursos prácticos.' },
-  { title: 'Conecta', icon: '◎', text: 'Encuentros, colaboración y comunidad en formación.' },
-];
-
 /** BL04 — Colecciones de recursos. */
 export const RESOURCE_COLLECTIONS = {
   'ai-toolkit': { title: 'AI Toolkit', text: 'Herramientas de IA que uso y para qué sirven.' },
