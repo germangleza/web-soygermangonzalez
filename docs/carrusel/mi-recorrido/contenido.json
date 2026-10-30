@@ -12,8 +12,8 @@
       "layout": "foto",
       "fondo": "foto-1.jpg",
       "fondoPosicion": "center",
-      "tamanoTitulo": 100,
-      "titulo": "De un local en obra negra a *construir negocios con IA*",
+      "tamanoTitulo": 88,
+      "titulo": "De un local en obra negra a *construir crecimiento para negocios*",
       "texto": "Soy Germán González. Este es mi recorrido.",
       "recorte": {
         "src": "german-recorte.png",
@@ -39,10 +39,10 @@
       "fondo": "camaras-3.jpg",
       "fondoPosicion": "center",
       "degradadoFuerte": true,
-      "eyebrow": "Aprender a hacerlo crecer",
-      "titulo": "Abrir fue *el comienzo.*",
-      "tamanoTitulo": 110,
-      "texto": "Después vino el reto de **atraer pacientes y construir crecimiento.** Ahora lidero las estrategias digitales y la creación de nuevos proyectos.",
+      "eyebrow": "Abrir fue el comienzo",
+      "titulo": "El reto: pasar de 0 a *+80 pacientes al mes.*",
+      "tamanoTitulo": 96,
+      "texto": "Ahí entendí que crecer no es suerte. Es **detectar dónde está la oportunidad y construir lo que falta.**",
       "tamanoTexto": 42
     },
     {
@@ -77,8 +77,8 @@
       "layout": "foto",
       "degradadoFuerte": true,
       "eyebrow": "Life Agent",
-      "titulo": "Cofundé una *empresa de IA.*",
-      "tamanoTitulo": 104,
+      "titulo": "Cofundé una empresa de IA porque vi que muchos *perdían clientes en WhatsApp.*",
+      "tamanoTitulo": 78,
       "texto": "Hoy ayudamos a múltiples negocios a **responder, dar seguimiento y vender** con agentes de IA en WhatsApp.",
       "tamanoTexto": 44,
       "fondo": "life-agent-a.jpg",
@@ -108,11 +108,21 @@
       "tamanoEyebrow": 36,
       "titulo": "Distintos proyectos.\n*Una misma forma de construir.*",
       "tamanoTitulo": 100,
-      "texto": "Encontrar **oportunidades de crecimiento** y construir lo necesario para aprovecharlas. Aquí comparto lo que **pruebo y aprendo.**",
+      "texto": "Encontrar **oportunidades de crecimiento** y construir lo que falta para capturarlo.",
       "vertical": true,
       "firma": {
         "alto": 120
       }
+    },
+    {
+      "layout": "contenido",
+      "vertical": true,
+      "eyebrow": "Si tienes un negocio que ya vende",
+      "tamanoEyebrow": 36,
+      "titulo": "¿Dónde está *dejando dinero* tu negocio?",
+      "tamanoTitulo": 112,
+      "cierre": "**Comenta o mándame** *CRECER* **y lo revisamos en 20 minutos, sin costo 👇**",
+      "tamanoCierre": 52
     }
   ]
 }
