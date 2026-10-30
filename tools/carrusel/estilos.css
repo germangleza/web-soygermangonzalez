@@ -170,8 +170,10 @@ html.canva-bg .flow__num, html.canva-text .flow__num, html.canva-bg .flow__step 
 
 /* vertical: todo el bloque centrado en la lámina (frases cortas, cierres). */
 .body.body--vertical { justify-content: center; padding-bottom: 60px; }
-.body.body--vertical .cierre { margin-top: 56px; padding-top: 0; }
+.body.body--vertical .cierre { margin-top: 44px; padding-top: 0; }
+.body.body--vertical .paras { margin-top: 44px; }
 
+.ads--body { margin: 18px 0 8px; }
 .firma { position: absolute; left: 50%; bottom: 110px; transform: translateX(-50%); width: auto; }
 
 /* centrar: las tarjetas quedan centradas entre el título y el cierre, más grandes. */

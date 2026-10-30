@@ -46,8 +46,9 @@ function body(s) {
   if (s.eyebrow) out.push(`<div class="eyebrow"${s.tamanoEyebrow ? ` style="font-size:${s.tamanoEyebrow}px"` : ''}>${md(s.eyebrow)}</div>`);
   if (s._logo) out.push(`<img class="marca" src="${escAttr(s._logo)}" alt="" style="height:${s.logo.alto ?? 120}px">`);
   if (s.titulo) out.push(`<h2 style="font-size:${s.tamanoTitulo ?? 82}px">${md(s.titulo)}</h2>`);
-  const parrafos = (v) => (Array.isArray(v) ? v : [v]).map((t) => `<p class="lead">${md(t)}</p>`).join('');
+  const parrafos = (v) => (Array.isArray(v) ? v : [v]).map((t) => `<p class="lead"${s.tamanoTexto ? ` style="font-size:${s.tamanoTexto}px"` : ''}>${md(t)}</p>`).join('');
   if (s.texto) out.push(`<div class="paras">${parrafos(s.texto)}</div>`);
+  if (s.palabra) out.push(`<div><span class="ads ads--body"${s.tamanoPalabra ? ` style="font-size:${s.tamanoPalabra}px"` : ''}>${esc(s.palabra)}</span></div>`);
   if (s._imagen) out.push(`<div class="foto-card" style="background-image:url('${s._imagen}');background-position:${escAttr(s.imagen.posicion ?? 'center')}"></div>`);
   if (s.lista) out.push(`<div class="checks">${s.lista.map((t) => `<div class="check"><span class="ck emo">✓</span><span>${md(t)}</span></div>`).join('')}</div>`);
   if (s.pasos) out.push(`<div class="steps">${s.pasos.map((p, i) => `<div class="step"><span class="num">${i + 1}</span><span>${md(p)}</span></div>`).join('')}</div>`);

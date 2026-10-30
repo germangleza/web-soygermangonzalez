@@ -116,13 +116,17 @@
     },
     {
       "layout": "contenido",
-      "vertical": true,
       "eyebrow": "Si tienes un negocio que ya vende",
       "tamanoEyebrow": 36,
       "titulo": "¿Dónde está\n*dejando dinero?*",
-      "tamanoTitulo": 120,
-      "cierre": "**Comenta** *CRECER* **y lo revisamos en 20 minutos, sin costo 👇**",
-      "tamanoCierre": 52
+      "tamanoTitulo": 112,
+      "cierre": "**y lo revisamos en 20 minutos, sin costo 👇**",
+      "tamanoCierre": 58,
+      "vertical": true,
+      "texto": "**Comenta**",
+      "palabra": "CRECER",
+      "tamanoPalabra": 170,
+      "tamanoTexto": 58
     }
   ]
 }
