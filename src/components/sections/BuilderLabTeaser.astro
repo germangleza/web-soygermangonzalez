@@ -7,9 +7,9 @@ import { LAB_TOOLS } from '../../data/content';
     <div class="lab dark">
       <div class="lab__copy">
         <span class="eyebrow eyebrow--lime">Builder Lab</span>
-        <h2 id="lab-teaser-title">Exploramos. Probamos. <span class="text-lime">Construimos.</span></h2>
-        <p class="lead">La tecnología está cambiando lo que podemos crear, cómo trabajamos y la forma en que hacemos negocios. En Builder Lab comparto las herramientas que pruebo, lo que voy descubriendo y los aprendizajes de proyectos reales.</p>
-        <p>¿Estás empezando o quieres lanzar un negocio nuevo? Aquí encuentras herramientas gratuitas, experimentos y aprendizajes para construirlo.</p>
+        <h2 id="lab-teaser-title">¿Vas a lanzar algo nuevo? <span class="text-lime">Empieza aquí.</span></h2>
+        <p class="lead">En Builder Lab comparto lo que pruebo, aprendo y construyo, y acompaño a quienes van a lanzar un negocio nuevo, de la idea a las primeras ventas.</p>
+        <p class="lab__stages">Construir <span aria-hidden="true">→</span> Lanzar <span aria-hidden="true">→</span> Crecer</p>
         <a class="btn btn--lime" href="/builder-lab">Conoce Builder Lab <span class="btn__icon" aria-hidden="true">↗</span></a>
       </div>
       <div class="lab__tools-wrap">
@@ -37,6 +37,8 @@ import { LAB_TOOLS } from '../../data/content';
   }
   .lab__copy { max-width: 48rem; }
   .lab__copy .btn { margin-top: 1rem; }
+  .lab__stages { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.15rem, 1rem + .5vw, 1.4rem); color: #fff; }
+  .lab__stages span { color: var(--lime); margin: 0 .35rem; }
   .lab__tools-title { font-size: 1.1rem; letter-spacing: .02em; margin-bottom: 1rem; color: #fff; }
   .lab__tools { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
   .lab__tool { position: relative; display: flex; flex-direction: column; gap: .4rem; padding: 1.35rem 1.4rem; border: 1px solid rgba(255,255,255,.14); border-radius: var(--radius); background: rgba(255,255,255,.04); transition: border-color .15s ease, background-color .15s ease; }

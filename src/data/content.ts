@@ -136,3 +136,10 @@ export const LAB_TOOLS = [
   { kicker: 'Diagnóstico · Clínicas', title: 'Presencia digital de tu clínica', text: 'Google Maps, web, reseñas, redes, anuncios e IA. Resultado inmediato.', href: '/diagnostico-clinicas' },
   { kicker: 'Prompts · Ventas', title: '3 prompts para vender beneficios', text: 'De características a beneficios, propuesta de valor y mensajes comerciales.', href: '/builder-lab/3-prompts-valor' },
 ];
+
+/** Builder Lab — Lanzar un negocio nuevo por etapas (Construir y Lanzar: sprints; Crecer: mensual). */
+export const LAUNCH_STAGES = [
+  { title: 'Construir', time: 'Sprint de 2 a 4 semanas', lead: 'Definimos el negocio.', text: 'Modelo de negocio, posicionamiento, cliente ideal y estrategia de salida al mercado.' },
+  { title: 'Lanzar', time: 'Sprint de 2 a 4 semanas', lead: 'Lo sacamos al mercado.', text: 'Playbook comercial, página web, estrategia de redes y lo necesario para empezar a vender.' },
+  { title: 'Crecer', time: 'Mensual', lead: 'Lo hacemos crecer.', text: 'Campañas, contenido y optimización con base en lo que funciona.' },
+];

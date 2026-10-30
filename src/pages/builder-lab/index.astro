@@ -11,7 +11,7 @@ import CategoryFilter from '../../components/ui/CategoryFilter.astro';
 import CTABanner from '../../components/ui/CTABanner.astro';
 import NewsletterSignup from '../../components/forms/NewsletterSignup.astro';
 import { POST_CATEGORIES } from '../../content.config';
-import { LAB_CONCEPTS, RESOURCE_COLLECTIONS, TRAINING } from '../../data/content';
+import { LAB_CONCEPTS, LAUNCH_STAGES, RESOURCE_COLLECTIONS, TRAINING } from '../../data/content';
 import { SHOW_DRAFTS } from '../../lib/drafts';
 import { byNewest } from '../../lib/posts';
 
@@ -24,15 +24,36 @@ const EVENT_STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas
 ---
 <BaseLayout
   fullTitle="Builder Lab | IA, tecnología, negocios y comunidad"
-  description="Builder Lab by Germán González: exploramos inteligencia artificial, tecnología, negocios y nuevas oportunidades. Experimentos, aprendizajes y herramientas para construir."
+  description="Builder Lab by Germán González: herramientas, experimentos y aprendizajes para construir con IA y tecnología, y un proceso por etapas para lanzar un negocio nuevo."
 >
   <PageHero variant="lab" eyebrow="Builder Lab · by Germán González" title={'Exploramos. Probamos. <span class="text-lime">Construimos.</span>'} breadcrumbs={[{ name: 'Builder Lab', url: '/builder-lab' }]}>
-    <p>Un espacio para quienes no solo quieren enterarse de lo que viene, sino probarlo y construir con ello. Exploramos inteligencia artificial, tecnología, negocios y nuevas oportunidades. Compartimos experimentos, aprendizajes y herramientas para llevar ideas a la realidad.</p>
+    <p>Herramientas, experimentos y aprendizajes para construir con IA y tecnología. Y si vas a lanzar un negocio nuevo, te ayudo a construirlo por etapas.</p>
     <div class="actions">
-      <a class="btn btn--lime" href="#registro">Únete a Builder Lab <span class="btn__icon" aria-hidden="true">↗</span></a>
-      <a class="btn btn--outline" href="#explora">Ver lo que exploramos <span class="btn__icon" aria-hidden="true">↓</span></a>
+      <a class="btn btn--lime" href="#lanzar">Lanzar mi negocio <span class="btn__icon" aria-hidden="true">↓</span></a>
+      <a class="btn btn--outline" href="#recursos">Ver herramientas <span class="btn__icon" aria-hidden="true">↓</span></a>
     </div>
   </PageHero>
+
+  <!-- Lanzar un negocio nuevo -->
+  <section class="section section--dark dark" id="lanzar" aria-labelledby="lanzar-title">
+    <div class="container">
+      <SectionHeading id="lanzar-title" eyebrow="Lanzar un negocio nuevo" title="Tu negocio nuevo, construido por etapas.">
+        <p class="lead">Para quien tiene una idea, un producto o un negocio por lanzar y quiere hacerlo con método.</p>
+      </SectionHeading>
+      <ol class="grid grid-3 stages" role="list">
+        {LAUNCH_STAGES.map((s, i) => (
+          <li class="card card--on-dark">
+            <span class="stages__num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{s.title}</h3>
+            <span class="stages__time">{s.time}</span>
+            <p><strong>{s.lead}</strong> {s.text}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="stages__case">Es el proceso que seguí con <strong>LN41.5 Travel</strong>: de definir el negocio a las campañas para hacerlo crecer.</p>
+      <div class="actions"><a class="btn btn--lime" href="/llamada">Cuéntame tu idea <span class="btn__icon" aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
 
   <!-- BL02 -->
   <section class="section" aria-labelledby="conceptos-title">
@@ -193,6 +214,13 @@ const EVENT_STATUS = { proposed: 'Propuesto', scheduled: 'Inscripciones abiertas
   .cards > li { display: flex; }
   .cards > li > :global(*) { flex: 1; }
   .concept-icon { color: var(--accent-text); }
+  .stages { list-style: none; padding: 0; }
+  .stages__num { display: block; font-family: var(--font-display); font-weight: 800; font-size: 1.75rem; color: var(--lime); margin-bottom: .75rem; }
+  .stages h3 { font-size: clamp(1.4rem, 1.2rem + .6vw, 1.75rem); margin-bottom: .35rem; }
+  .stages__time { display: inline-block; font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--sky); margin-bottom: .9rem; }
+  .stages p strong { color: #fff; }
+  .stages__case { margin: 2rem 0 0; color: var(--muted-on-dark); max-width: 44rem; }
+  .stages__case strong { color: #fff; }
   .dx-feature { margin-bottom: 0; }
   .dx-feature h3 { font-size: clamp(1.35rem, 1.15rem + .7vw, 1.75rem); max-width: 30ch; }
   .dx-feature p { max-width: 46rem; }
