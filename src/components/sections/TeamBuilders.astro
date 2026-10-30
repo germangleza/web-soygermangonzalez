@@ -14,7 +14,7 @@ import { HOME_TEAM } from '../../data/content';
         <li class:list={['card', { 'card--dark': i === 0 }]}>
           <span class="card__kicker">{t.area}</span>
           <h3>{'url' in t && t.url ? (
-            <a class="team__link" href={t.url} target="_blank" rel="noopener">{t.name} <span aria-hidden="true">↗</span><span class="sr-only"> (abre en otra pestaña)</span></a>
+            <a class="team__link" href={t.url} target="_blank" rel="noopener">{t.name} <span aria-hidden="true">↗︎</span><span class="sr-only"> (abre en otra pestaña)</span></a>
           ) : t.name}</h3>
           <ul class="team__items" role="list">{t.items.map((c) => <li>{c}</li>)}</ul>
         </li>

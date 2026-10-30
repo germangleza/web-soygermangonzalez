@@ -21,7 +21,7 @@ import { formatDate } from '../../lib/format';
   <p class="small">Actualizado: <time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time></p>
   <div class="card__footer">
     <a class="link-arrow" href={href} data-resource={slug} {...(external ? { target: '_blank', rel: 'noopener' } : page ? {} : { download: '' })}>
-      {external ? 'Consultar recurso' : page ? 'Abrir recurso' : 'Descargar recurso'} <span aria-hidden="true">↗</span>
+      {external ? 'Consultar recurso' : page ? 'Abrir recurso' : 'Descargar recurso'} <span aria-hidden="true">↗︎</span>
       {external && <span class="sr-only">(abre en otra pestaña)</span>}
     </a>
   </div>

@@ -16,7 +16,7 @@ const external = /^https?:\/\//.test(ctaHref);
   <h2 set:html={title} />
   <div class="cta-banner__body"><slot /></div>
   <div class="actions">
-    <a class:list={['btn', { 'btn--lime': lime }]} href={ctaHref} {...(external ? { target: '_blank', rel: 'noopener' } : {})}>{ctaLabel} <span class="btn__icon" aria-hidden="true">↗</span>{external && <span class="sr-only"> (abre en otra pestaña)</span>}</a>
+    <a class:list={['btn', { 'btn--lime': lime }]} href={ctaHref} {...(external ? { target: '_blank', rel: 'noopener' } : {})}>{ctaLabel} <span class="btn__icon" aria-hidden="true">↗︎</span>{external && <span class="sr-only"> (abre en otra pestaña)</span>}</a>
     {secondary && (/^https?:\/\//.test(secondary.href)
       ? <a class="btn btn--outline" href={secondary.href} target="_blank" rel="noopener">{secondary.label}<span class="sr-only"> (abre en otra pestaña)</span></a>
       : <a class="btn btn--outline" href={secondary.href}>{secondary.label}</a>)}

@@ -12,7 +12,7 @@ import { SECTORS } from '../../data/content';
           <span class="card__kicker">{String(i + 1).padStart(2, '0')}</span>
           <h3>{s.title}</h3>
           <p>{s.text}</p>
-          {s.link && <div class="card__footer"><a class="link-arrow" href={s.link.href}>{s.link.label} <span aria-hidden="true">↗</span></a></div>}
+          {s.link && <div class="card__footer"><a class="link-arrow" href={s.link.href}>{s.link.label} <span aria-hidden="true">↗︎</span></a></div>}
         </li>
       ))}
     </ul>

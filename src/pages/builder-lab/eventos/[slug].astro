@@ -39,7 +39,7 @@ const dateLabel = d.date?.toLocaleString('es-MX', { dateStyle: 'full', timeStyle
           {d.price && <><dt>Inversión</dt><dd>{d.price}</dd></>}
         </dl>
         {d.signupUrl && d.status === 'scheduled' ? (
-          <a class="btn btn--dark btn--block" href={d.signupUrl} data-event-signup={event.id} target="_blank" rel="noopener">Registrarme <span class="btn__icon" aria-hidden="true">↗</span></a>
+          <a class="btn btn--dark btn--block" href={d.signupUrl} data-event-signup={event.id} target="_blank" rel="noopener">Registrarme <span class="btn__icon" aria-hidden="true">↗︎</span></a>
         ) : (
           <a class="btn btn--outline-dark btn--block" href="/builder-lab#registro">Recibir próximas fechas</a>
         )}

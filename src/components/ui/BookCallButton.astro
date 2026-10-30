@@ -5,5 +5,5 @@ interface Props { variant?: string; label?: string; }
 const { variant = '', label = 'Agenda una llamada sin costo' } = Astro.props;
 ---
 <a class:list={['btn', variant]} href={CALL_PATH}>
-  {label} <span class="btn__icon" aria-hidden="true">↗</span>
+  {label} <span class="btn__icon" aria-hidden="true">↗︎</span>
 </a>

@@ -90,7 +90,7 @@ const embed = videoUrl ? embedUrl(videoUrl) : undefined;
             <iframe src={embed} title={`Video: ${title}`} loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>
           </div>
         )}
-        {videoUrl && !embed && <p><a class="link-arrow" href={videoUrl} target="_blank" rel="noopener">Ver video <span aria-hidden="true">↗</span></a></p>}
+        {videoUrl && !embed && <p><a class="link-arrow" href={videoUrl} target="_blank" rel="noopener">Ver video <span aria-hidden="true">↗︎</span></a></p>}
 
         <div class="prose"><slot /></div>
 

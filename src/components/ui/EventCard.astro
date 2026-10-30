@@ -15,5 +15,5 @@ const { name, description, statusLabel, href, ctaLabel, ctaHref } = Astro.props;
   <StatusLabel tone="lime">{statusLabel}</StatusLabel>
   <h3 style="margin-top:1rem">{href ? <a class="card__title-link" href={href}>{name}</a> : name}</h3>
   <p>{description}</p>
-  {ctaLabel && ctaHref && !href && <div class="card__footer"><a class="link-arrow" href={ctaHref}>{ctaLabel} <span aria-hidden="true">↗</span></a></div>}
+  {ctaLabel && ctaHref && !href && <div class="card__footer"><a class="link-arrow" href={ctaHref}>{ctaLabel} <span aria-hidden="true">↗︎</span></a></div>}
 </article>

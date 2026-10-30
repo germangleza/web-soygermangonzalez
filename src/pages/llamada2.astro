@@ -66,7 +66,7 @@ const whatsapp = whatsappUrl(CALL2_WHATSAPP_TEXT) || '/contacto';
             {CALL2_AGENDA_STEPS.map((s, i) => <li><span>{i + 1}</span>{s}</li>)}
           </ol>
           {!embed && (
-            <a class="btn btn--lime agenda__btn" href={booking} {...ext} data-book="agenda">{CALL2_CTA} <span class="btn__icon" aria-hidden="true">↗</span>{external && <span class="sr-only"> (abre mi calendario en otra pestaña)</span>}</a>
+            <a class="btn btn--lime agenda__btn" href={booking} {...ext} data-book="agenda">{CALL2_CTA} <span class="btn__icon" aria-hidden="true">↗︎</span>{external && <span class="sr-only"> (abre mi calendario en otra pestaña)</span>}</a>
           )}
         </div>
         {embed && (
@@ -121,7 +121,7 @@ const whatsapp = whatsappUrl(CALL2_WHATSAPP_TEXT) || '/contacto';
         <h2 id="quien-title">Soy Germán González, Business Builder.</h2>
         <p class="lead">Construyo oportunidades de crecimiento combinando negocio, growth digital, tecnología y alianzas.</p>
         <p class="lead">Lideré la expansión de Ópticas Jarmar de Chiapas a Tijuana y cofundé Maguey Studio y Life Agents AI. Yo dirijo la estrategia; la ejecución la hacen <a href="https://www.magueystudio.mx" target="_blank" rel="noopener">Maguey Studio<span class="sr-only"> (abre en otra pestaña)</span></a> en marketing y growth, y <a href="https://lifeagent.mx" target="_blank" rel="noopener">Life Agents AI<span class="sr-only"> (abre en otra pestaña)</span></a> en IA y automatización.</p>
-        <a class="link-arrow" href="/sobre-mi">Conoce mi historia <span aria-hidden="true">↗</span></a>
+        <a class="link-arrow" href="/sobre-mi">Conoce mi historia <span aria-hidden="true">↗︎</span></a>
       </div>
     </div>
   </section>
