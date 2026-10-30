@@ -129,13 +129,6 @@ export const SERVICE_FAQS = [
   { question: '¿Qué pasa en la Opportunity Session? ¿Tiene costo?', answer: 'Es una conversación para conocer tu negocio: en qué estás, qué te preocupa y dónde estás atorado. A partir de ahí identificamos qué acciones podrían ayudarte. Por lanzamiento, no tiene costo.' },
 ];
 
-/** Herramientas gratuitas de Builder Lab (home y lugares donde se listan todas). */
-export const LAB_TOOLS = [
-  { kicker: 'Checklist · IA y automatización', title: '¿Cuántas ventas se te escapan por WhatsApp?', text: '12 preguntas para ver dónde se pierden tus consultas y qué automatizar primero.', href: '/ventas-por-whatsapp' },
-  { kicker: 'Checklist · Visibilidad', title: '¿La IA recomienda tu negocio?', text: '10 verificaciones de tu presencia en Google y en asistentes de IA.', href: '/ia-recomienda-tu-negocio' },
-  { kicker: 'Diagnóstico · Clínicas', title: 'Presencia digital de tu clínica', text: 'Google Maps, web, reseñas, redes, anuncios e IA. Resultado inmediato.', href: '/diagnostico-clinicas' },
-  { kicker: 'Prompts · Ventas', title: '3 prompts para vender beneficios', text: 'De características a beneficios, propuesta de valor y mensajes comerciales.', href: '/builder-lab/3-prompts-valor' },
-];
 
 /** Builder Lab — Lanzar un negocio nuevo por etapas (Construir y Lanzar: sprints; Crecer: mensual). */
 export const LAUNCH_STAGES = [
