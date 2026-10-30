@@ -1,25 +1,35 @@
 ---
-/** H02 — Punto de partida: negocio en marcha. Quien empieza desde cero va a Builder Lab. */
-import SectionHeading from '../ui/SectionHeading.astro';
-import BookCallButton from '../ui/BookCallButton.astro';
+/** H02 — Punto de partida: los problemas de un negocio en marcha. Quien empieza desde cero va a Builder Lab. */
+import { HOME_START as p } from '../../data/content';
 ---
 <section class="section" aria-labelledby="puertas-title">
   <div class="container">
-    <SectionHeading id="puertas-title" eyebrow="El punto de partida" title="Si tu negocio ya vende, empezamos por lo que más mueve tus ventas." />
-    <article class="card card--link path">
-      <span class="card__kicker">Negocio en marcha</span>
-      <h3><a class="card__title-link" href="/que-hago?interes=problema#operacion">Quiero hacer crecer lo que ya tengo</a></h3>
-      <p>Más clientes, mejores campañas, una web que convierta, responder y dar seguimiento por WhatsApp, automatizar procesos, implementar IA o abrir una nueva línea o canal.</p>
-      <div class="card__footer"><span class="link-arrow" aria-hidden="true">Hacer crecer mi negocio ↗</span></div>
+    <article class="card start">
+      <div class="start__head">
+        <span class="card__kicker">{p.kicker}</span>
+        <h2 id="puertas-title">{p.title}</h2>
+      </div>
+      <div>
+        <p class="start__label">Te va a servir si…</p>
+        <ul class="start__signals" role="list">{p.signals.map((s) => <li>{s}</li>)}</ul>
+        <p class="start__label">Normalmente activamos</p>
+        <ul class="start__tags" role="list">{p.activates.map((a) => <li>{a}</li>)}</ul>
+        <a class="link-arrow" href={p.cta.href}>{p.cta.label} <span aria-hidden="true">↗</span></a>
+      </div>
     </article>
-    <div class="actions"><BookCallButton variant="btn--dark" /></div>
     <p class="paths-lab">¿Estás empezando desde cero o tienes una idea por validar? <a href="/builder-lab#lanzar">En Builder Lab te ayudo a construirla <span aria-hidden="true">↗</span></a></p>
   </div>
 </section>
 <style>
-  .path { max-width: 52rem; min-height: 13rem; }
-  .path h3 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
-  .path + .actions { margin-top: 2rem; }
+  .start { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 2rem 3rem; }
+  .start h2 { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.6rem); margin: 0; }
+  .start__label { font-family: var(--font-display); font-weight: 700; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 .75rem; }
+  .start__signals { list-style: none; padding: 0; margin: 0 0 1.75rem; display: grid; gap: .6rem; }
+  .start__signals li { position: relative; padding-left: 1.6rem; color: var(--muted); }
+  .start__signals li::before { content: '✓'; position: absolute; left: 0; color: var(--sky); font-weight: 700; }
+  .start__tags { list-style: none; padding: 0; margin: 0 0 1.75rem; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .start__tags li { font-size: .875rem; font-weight: 600; padding: .35rem .8rem; border-radius: 99px; border: 1px solid var(--line); }
   .paths-lab { margin: 1.75rem 0 0; color: var(--muted); max-width: 44rem; }
   .paths-lab a { color: var(--accent-text); font-weight: 700; }
+  @media (max-width: 1023px) { .start { grid-template-columns: minmax(0, 1fr); } }
 </style>

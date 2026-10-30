@@ -4,7 +4,7 @@ import PageHero from '../components/ui/PageHero.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import CTABanner from '../components/ui/CTABanner.astro';
 import FAQSchema from '../components/schema/FAQSchema.astro';
-import { ENTRY_PATHS, SERVICE_GROUPS, COMMERCIAL_MODEL, SECTORS, SERVICE_FAQS } from '../data/content';
+import { SERVICE_GROUPS, COMMERCIAL_MODEL, SECTORS, SERVICE_FAQS } from '../data/content';
 ---
 <BaseLayout
   fullTitle="Qué hago: growth, IA y nuevos negocios por sprints | Germán González"
@@ -16,31 +16,6 @@ import { ENTRY_PATHS, SERVICE_GROUPS, COMMERCIAL_MODEL, SECTORS, SERVICE_FAQS } 
     <p>No vendo paquetes. Entiendo el reto, decido qué capacidades activar y lo construimos con el equipo correcto.</p>
     <div class="actions"><a class="btn" href="/contacto">Cuéntame tu reto <span class="btn__icon" aria-hidden="true">↗</span></a></div>
   </PageHero>
-
-  <section class="section" aria-labelledby="puntos-title">
-    <div class="container">
-      <SectionHeading id="puntos-title" eyebrow="Punto de partida" title="¿En qué punto estás?" />
-      <div class="paths">
-        {ENTRY_PATHS.map((p, i) => (
-          <article class:list={['card path', { 'card--dark': i === 1 }]} id={p.id} data-interes={p.interes}>
-            <div class="path__head">
-              <span class="card__kicker">{p.kicker}</span>
-              <h3>{p.title}</h3>
-            </div>
-            <div>
-              <p class="path__label">Te va a servir si…</p>
-              <ul class="path__signals" role="list">
-                {p.signals.map((s) => <li>{s}</li>)}
-              </ul>
-              <p class="path__label">Normalmente activamos</p>
-              <ul class="tags" role="list">{p.activates.map((a) => <li>{a}</li>)}</ul>
-              <a class="link-arrow path__cta" href={p.cta.href}>{p.cta.label} <span aria-hidden="true">↗</span></a>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
 
   <section class="section section--alt" aria-labelledby="capacidades-title">
     <div class="container">
@@ -125,28 +100,7 @@ import { ENTRY_PATHS, SERVICE_GROUPS, COMMERCIAL_MODEL, SECTORS, SERVICE_FAQS } 
   </section>
 </BaseLayout>
 
-<script>
-  // Preserva el contexto de la home (?interes=...) resaltando el bloque correspondiente.
-  const interes = new URLSearchParams(location.search).get('interes');
-  if (interes) document.querySelector(`[data-interes="${CSS.escape(interes)}"]`)?.classList.add('block--focus');
-</script>
-
 <style>
-  .paths { display: grid; gap: 1.25rem; }
-  .path { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 2rem 3rem; scroll-margin-top: calc(var(--header-h) + 24px); }
-  .path h3 { font-size: clamp(1.6rem, 1.25rem + 1.2vw, 2.25rem); margin: 0; }
-  .path__label { font-family: var(--font-display); font-weight: 700; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 .75rem; }
-  .card--dark .path__label { color: #fff !important; }
-  .path__signals { list-style: none; padding: 0; margin: 0 0 1.75rem; display: grid; gap: .6rem; }
-  .path__signals li { position: relative; padding-left: 1.6rem; color: var(--muted); }
-  .card--dark .path__signals li { color: var(--muted-on-dark); }
-  .path__signals li::before { content: '✓'; position: absolute; left: 0; color: var(--sky); font-weight: 700; }
-  .tags { list-style: none; padding: 0; margin: 0 0 1.75rem; display: flex; flex-wrap: wrap; gap: .5rem; }
-  .tags li { font-size: .875rem; font-weight: 600; padding: .35rem .8rem; border-radius: 99px; border: 1px solid var(--line); }
-  .card--dark .tags li { border-color: var(--line-dark); color: #fff; }
-  .card--dark .path__cta { color: var(--sky); }
-  .block--focus { outline: 3px solid var(--sky); outline-offset: 4px; }
-
   .caps { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
   .caps__row { display: grid; grid-template-columns: 3rem minmax(0, 1fr) minmax(0, 1.6fr) minmax(0, .9fr); gap: 1.5rem; align-items: baseline; padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
   .caps__num { font-family: var(--font-display); font-weight: 700; color: var(--sky); }
@@ -174,7 +128,6 @@ import { ENTRY_PATHS, SERVICE_GROUPS, COMMERCIAL_MODEL, SECTORS, SERVICE_FAQS } 
   .faq details p { margin: .75rem 0 0; color: var(--muted); max-width: 46rem; }
 
   @media (max-width: 1023px) {
-    .path { grid-template-columns: minmax(0, 1fr); }
     .caps__row { grid-template-columns: 2.5rem minmax(0, 1fr); gap: .35rem 1rem; }
     .caps__row p, .caps__who { grid-column: 2; }
     .caps__who { justify-self: start; text-align: left; }

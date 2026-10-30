@@ -63,38 +63,20 @@ export const TALKS = [
 
 export const TALK_FORMATS = ['Conferencia', 'Workshop práctico', 'Sesión ejecutiva', 'Experiencia personalizada'];
 
-/** Qué hago — Puntos de partida en detalle (situaciones típicas, no clientes). */
-export const ENTRY_PATHS = [
-  {
-    id: 'operacion',
-    interes: 'problema',
-    kicker: 'Negocio en marcha',
-    title: 'Quiero crecer con lo que ya tengo.',
-    signals: [
-      'Tienes clientes, pero dependes de recomendaciones y no de un sistema.',
-      'Inviertes en anuncios o redes y no sabes qué está funcionando.',
-      'Tu sitio web no genera contactos.',
-      'Tu equipo pierde tiempo en tareas que podrían automatizarse.',
-      'Quieres abrir una nueva línea, canal o alianza.',
-    ],
-    activates: ['Growth digital', 'IA y automatización', 'Comercial y expansión'],
-    cta: { label: 'Quiero hacer crecer mi negocio', href: '/contacto?interes=crecer' },
-  },
-  {
-    id: 'nuevos',
-    interes: 'oportunidad',
-    kicker: 'Negocio nuevo',
-    title: 'Quiero lanzar algo.',
-    signals: [
-      'Tienes una idea y quieres validarla antes de invertir de más.',
-      'No tienes claro para quién es ni cómo venderla.',
-      'Necesitas una marca, una oferta y un primer canal de venta.',
-      'Quieres salir al mercado rápido y medir antes de crecer.',
-    ],
-    activates: ['Business Building', 'Growth digital'],
-    cta: { label: 'Quiero lanzar una oportunidad', href: '/contacto?interes=lanzar' },
-  },
-];
+/** Home — Punto de partida: los problemas típicos de un negocio en marcha (situaciones, no clientes). */
+export const HOME_START = {
+  kicker: 'Negocio en marcha',
+  title: 'Quiero crecer con lo que ya tengo.',
+  signals: [
+    'Tienes clientes, pero dependes de recomendaciones y no de un sistema.',
+    'Inviertes en anuncios o redes y no sabes qué está funcionando.',
+    'Tu sitio web no genera contactos.',
+    'Tu equipo pierde tiempo en tareas que podrían automatizarse.',
+    'Quieres abrir una nueva línea, canal o alianza.',
+  ],
+  activates: ['Growth digital', 'IA y automatización', 'Comercial y expansión'],
+  cta: { label: 'Quiero hacer crecer mi negocio', href: '/llamada' },
+};
 
 /** Qué hago — Capacidades en detalle con quién las ejecuta. No son paquetes fijos. */
 export const SERVICE_GROUPS = [
