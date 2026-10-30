@@ -59,7 +59,6 @@ export const SITE = {
   // === Navegación principal ===
   nav: [
     { label: 'Inicio', href: '/' },
-    { label: 'Qué hago', href: '/que-hago' },
     { label: 'Proyectos', href: '/proyectos' },
     { label: 'Builder Lab', href: '/builder-lab' },
     { label: 'Sobre mí', href: '/sobre-mi' },

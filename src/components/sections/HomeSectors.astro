@@ -1,0 +1,26 @@
+---
+/** Home — Dónde más trabajo: clínicas, B2B, tecnología y negocios familiares. */
+import SectionHeading from '../ui/SectionHeading.astro';
+import { SECTORS } from '../../data/content';
+---
+<section class="section" aria-labelledby="sectores-title">
+  <div class="container">
+    <SectionHeading id="sectores-title" eyebrow="Dónde más trabajo" title="Negocios que ya venden, en cualquier parte de México." />
+    <ul class="grid grid-4 sectors" role="list">
+      {SECTORS.map((s, i) => (
+        <li class="card">
+          <span class="card__kicker">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+          {s.link && <div class="card__footer"><a class="link-arrow" href={s.link.href}>{s.link.label} <span aria-hidden="true">↗</span></a></div>}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+<style>
+  .sectors { list-style: none; padding: 0; }
+  .sectors li.card { display: flex; flex-direction: column; }
+  .sectors h3 { font-size: clamp(1.25rem, 1.1rem + .5vw, 1.5rem); }
+  .sectors p { color: var(--muted); }
+</style>

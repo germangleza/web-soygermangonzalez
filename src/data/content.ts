@@ -7,15 +7,6 @@ import design from '../assets/method/design.png';
 import activate from '../assets/method/activate.png';
 import build from '../assets/method/build.png';
 
-/** H03 — Capacidades (home). */
-export const CAPABILITIES = [
-  { title: 'Crecimiento digital', text: 'Posicionamiento, campañas, contenido, sitios web, adquisición y conversión.' },
-  { title: 'IA y automatización', text: 'Agentes, WhatsApp, CRM, integraciones y procesos conectados a la operación.' },
-  { title: 'Nuevos negocios y productos', text: 'Validación, modelo de negocio, oferta, go-to-market y lanzamiento.' },
-  { title: 'Sistemas comerciales', text: 'Ventas, funnels, seguimiento, pricing, métricas y experiencia comercial.' },
-  { title: 'Alianzas y nuevos canales', text: 'Partnerships, distribución y expansión.' },
-];
-
 /** H04 — Mi método: método + modelo de trabajo en un solo flujo (sesión → plan → sprint → mensual). */
 export const METHOD = [
   { num: '01', key: 'DETECTAR', tag: 'Sesión de oportunidades', text: 'Sin costo. Conozco tu negocio: en qué estás, qué te preocupa y dónde estás atorado.', image: detect, alt: 'Lupa sobre una roca: detectar la oportunidad' },
@@ -77,23 +68,14 @@ export const HOME_START = {
   cta: { label: 'Quiero hacer crecer mi negocio', href: '/llamada' },
 };
 
-/** Qué hago — Capacidades en detalle con quién las ejecuta. No son paquetes fijos. */
-export const SERVICE_GROUPS = [
-  { title: 'Growth digital', text: 'Posicionamiento, campañas, contenido, sitios web, adquisición y conversión.', who: 'Maguey Studio', whoUrl: 'https://www.magueystudio.mx' },
-  { title: 'IA y automatización', text: 'Agentes, WhatsApp, CRM, integraciones y procesos conectados a la operación.', who: 'Life Agents AI', whoUrl: 'https://lifeagent.mx' },
-  { title: 'Business Building', text: 'Validación, modelo de negocio, oferta, go-to-market y lanzamiento.', who: 'Germán González' },
-  { title: 'Comercial y expansión', text: 'Ventas, funnels, seguimiento, pricing, métricas, alianzas y nuevos canales.', who: 'Germán González + socios' },
-  { title: 'Experiencias', text: 'Conferencias, workshops y sesiones prácticas para equipos y organizaciones.', who: 'Germán González', href: '/builder-lab/conferencias' },
-];
-
-/** Qué hago — Sectores donde más trabajo. */
+/** Home — Dónde más trabajo (en este orden). */
 export const SECTORS = [
-  { title: 'Negocios B2B', text: 'Mi especialidad: empresas que venden a otras empresas y necesitan un sistema comercial que escale.', featured: true },
+  { title: 'Clínicas y salud', text: 'Más pacientes: presencia digital, reputación y atención por WhatsApp.', link: { label: 'Evalúa la presencia digital de tu clínica', href: '/diagnostico-clinicas' } },
+  { title: 'Negocios B2B', text: 'Empresas que venden a otras empresas y necesitan un sistema comercial que escale.' },
+  { title: 'Tecnología', text: 'Startups y empresas de software que necesitan posicionarse, conseguir clientes y ordenar su proceso comercial.' },
   { title: 'Negocios familiares', text: 'Empresas con historia que quieren modernizarse, profesionalizar su operación y crecer.' },
-  { title: 'Clínicas y salud', text: 'Presencia digital, reputación y contacto con pacientes.', link: { label: 'Evalúa la presencia digital de tu clínica', href: '/diagnostico-clinicas' } },
 ];
-
-/** Qué hago — Preguntas frecuentes (respuestas de Germán). Alimentan también el schema FAQPage. */
+/** Home — Preguntas frecuentes (respuestas de Germán). Alimentan también el schema FAQPage. */
 export const SERVICE_FAQS = [
   { question: '¿Cómo cobras?', answer: 'Arrancamos con un sprint: acciones y entregables definidos desde el inicio; se cobra por sprint. Después, muchos clientes pasan a una iguala mensual recurrente para seguir ejecutando y midiendo cada mes.' },
   { question: '¿Cuánto dura un proyecto?', answer: 'Normalmente de 2 a 4 semanas por sprint. Si hace falta, se encadenan sprints según lo que vayamos aprendiendo.' },

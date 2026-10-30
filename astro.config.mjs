@@ -23,6 +23,8 @@ export default defineConfig({
   build: { format: 'file' },
   redirects: {
     '/blog': '/builder-lab',
+    // «Qué hago» se consolidó en la home (problemas, equipo, método, sectores y preguntas frecuentes).
+    '/que-hago': '/',
     '/builder-lab/diagnostico-clinicas': '/diagnostico-clinicas',
     '/builder-lab/ia-recomienda-tu-negocio': '/ia-recomienda-tu-negocio',
     '/builder-lab/ventas-por-whatsapp': '/ventas-por-whatsapp',

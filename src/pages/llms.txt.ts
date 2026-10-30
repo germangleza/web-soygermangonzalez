@@ -22,7 +22,6 @@ Germán González es Business Builder: identifica oportunidades de crecimiento y
 
 ## Páginas principales
 - [Inicio](${u('/')}): posicionamiento y forma de trabajo.
-- [Qué hago](${u('/que-hago')}): growth digital, IA y automatización, Business Building, comercial y expansión, experiencias.
 - [Proyectos](${u('/proyectos')}): ${projects.map((p) => p.data.name).join(', ')}.
 - [Builder Lab](${u('/builder-lab')}): contenido, recursos, formación y comunidad sobre IA, tecnología y negocios, y un proceso por etapas para lanzar un negocio nuevo (Construir y Lanzar: sprints de 2 a 4 semanas; Crecer: mensual).
 - [Diagnóstico de presencia y estrategia digital para clínicas](${u('/diagnostico-clinicas')}): herramienta gratuita y orientativa (Google Maps, sitio web, reseñas, redes sociales y anuncios, información para IA, atención a pacientes). No es una auditoría técnica ni garantiza resultados.

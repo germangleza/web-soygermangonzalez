@@ -7,6 +7,7 @@ import TeamBuilders from '../components/sections/TeamBuilders.astro';
 import BuilderLabTeaser from '../components/sections/BuilderLabTeaser.astro';
 import HomeFAQ from '../components/sections/HomeFAQ.astro';
 import AboutTeaser from '../components/sections/AboutTeaser.astro';
+import HomeSectors from '../components/sections/HomeSectors.astro';
 import CTABanner from '../components/ui/CTABanner.astro';
 import { SITE, whatsappUrl } from '../config/site.config';
 ---
@@ -16,6 +17,7 @@ import { SITE, whatsappUrl } from '../config/site.config';
   <MethodSteps />
   <TeamBuilders />
   <AboutTeaser />
+  <HomeSectors />
   <section class="section" aria-label="Siguiente paso">
     <div class="container">
       <CTABanner eyebrow="Sesión de oportunidades" title="En una llamada sin costo identificamos qué conviene hacer primero." ctaLabel="Agenda tu Sesión de oportunidades" ctaHref="/llamada" secondary={{ label: 'Prefiero escribirte', href: whatsappUrl() || '/contacto' }}>

@@ -43,7 +43,7 @@ Business Building y Builder Lab comparten los mismos componentes y estilos; Buil
 | Ruta | Estado |
 |---|---|
 | `/` | ✅ H01–H09 completos |
-| `/que-hago` | ✅ |
+| `/que-hago` | Redirige a `/` (contenido consolidado en la home) |
 | `/proyectos` | ✅ 6 proyectos (tarjetas) |
 | `/proyectos/[slug]` | ✅ plantilla; los 3 casos actuales son **borradores** (solo visibles en dev/preview, `noindex`) |
 | `/builder-lab` | ✅ BL01–BL09 |
