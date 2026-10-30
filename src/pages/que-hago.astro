@@ -3,15 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/ui/PageHero.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import CTABanner from '../components/ui/CTABanner.astro';
-import FAQSchema from '../components/schema/FAQSchema.astro';
-import { SERVICE_GROUPS, COMMERCIAL_MODEL, SECTORS, SERVICE_FAQS } from '../data/content';
+import { SERVICE_GROUPS, COMMERCIAL_MODEL, SECTORS } from '../data/content';
 ---
 <BaseLayout
   fullTitle="Qué hago: growth, IA y nuevos negocios por sprints | Germán González"
   description="Estrategia y ejecución por sprints de 2 a 4 semanas: growth digital, IA y automatización, nuevos negocios y sistemas comerciales. Negocios en todo México."
 >
-  <FAQSchema faqs={SERVICE_FAQS} />
-
   <PageHero eyebrow="Qué hago" title="Estrategia y ejecución, según lo que tu negocio necesite." breadcrumbs={[{ name: 'Qué hago', url: '/que-hago' }]}>
     <p>No vendo paquetes. Entiendo el reto, decido qué capacidades activar y lo construimos con el equipo correcto.</p>
     <div class="actions"><a class="btn" href="/contacto">Cuéntame tu reto <span class="btn__icon" aria-hidden="true">↗</span></a></div>
@@ -77,19 +74,6 @@ import { SERVICE_GROUPS, COMMERCIAL_MODEL, SECTORS, SERVICE_FAQS } from '../data
     </div>
   </section>
 
-  <section class="section section--alt" aria-labelledby="faq-title">
-    <div class="container faq-wrap">
-      <SectionHeading id="faq-title" eyebrow="Preguntas frecuentes" title="Lo que normalmente me preguntan." />
-      <div class="faq">
-        {SERVICE_FAQS.map((f) => (
-          <details>
-            <summary>{f.question}</summary>
-            <p>{f.answer}</p>
-          </details>
-        ))}
-      </div>
-    </div>
-  </section>
 
   <section class="section">
     <div class="container">
@@ -118,14 +102,6 @@ import { SERVICE_GROUPS, COMMERCIAL_MODEL, SECTORS, SERVICE_FAQS } from '../data
   .monthly p { margin: 0; color: var(--navy) !important; max-width: 48rem; }
   @media (max-width: 679px) { .monthly { grid-template-columns: minmax(0, 1fr); } }
 
-  .faq-wrap { max-width: 56rem; }
-  .faq { border-top: 1px solid var(--line); }
-  .faq details { border-bottom: 1px solid var(--line); padding: 1.15rem 0; }
-  .faq summary { cursor: pointer; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after { content: '+'; color: var(--sky); font-size: 1.4rem; line-height: 1; transition: transform .2s; }
-  .faq details[open] summary::after { transform: rotate(45deg); }
-  .faq details p { margin: .75rem 0 0; color: var(--muted); max-width: 46rem; }
 
   @media (max-width: 1023px) {
     .caps__row { grid-template-columns: 2.5rem minmax(0, 1fr); gap: .35rem 1rem; }

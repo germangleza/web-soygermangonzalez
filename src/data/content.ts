@@ -74,7 +74,6 @@ export const HOME_START = {
     'Tu equipo pierde tiempo en tareas que podrían automatizarse.',
     'Quieres abrir una nueva línea, canal o alianza.',
   ],
-  activates: ['Growth digital', 'IA y automatización', 'Comercial y expansión'],
   cta: { label: 'Quiero hacer crecer mi negocio', href: '/llamada' },
 };
 

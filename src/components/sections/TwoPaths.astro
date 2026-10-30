@@ -12,8 +12,6 @@ import { HOME_START as p } from '../../data/content';
       <div>
         <p class="start__label">Te va a servir si…</p>
         <ul class="start__signals" role="list">{p.signals.map((s) => <li>{s}</li>)}</ul>
-        <p class="start__label">Normalmente activamos</p>
-        <ul class="start__tags" role="list">{p.activates.map((a) => <li>{a}</li>)}</ul>
         <a class="link-arrow" href={p.cta.href}>{p.cta.label} <span aria-hidden="true">↗</span></a>
       </div>
     </article>
@@ -27,8 +25,6 @@ import { HOME_START as p } from '../../data/content';
   .start__signals { list-style: none; padding: 0; margin: 0 0 1.75rem; display: grid; gap: .6rem; }
   .start__signals li { position: relative; padding-left: 1.6rem; color: var(--muted); }
   .start__signals li::before { content: '✓'; position: absolute; left: 0; color: var(--sky); font-weight: 700; }
-  .start__tags { list-style: none; padding: 0; margin: 0 0 1.75rem; display: flex; flex-wrap: wrap; gap: .5rem; }
-  .start__tags li { font-size: .875rem; font-weight: 600; padding: .35rem .8rem; border-radius: 99px; border: 1px solid var(--line); }
   .paths-lab { margin: 1.75rem 0 0; color: var(--muted); max-width: 44rem; }
   .paths-lab a { color: var(--accent-text); font-weight: 700; }
   @media (max-width: 1023px) { .start { grid-template-columns: minmax(0, 1fr); } }
