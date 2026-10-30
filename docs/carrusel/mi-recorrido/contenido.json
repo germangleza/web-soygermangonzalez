@@ -119,9 +119,9 @@
       "vertical": true,
       "eyebrow": "Si tienes un negocio que ya vende",
       "tamanoEyebrow": 36,
-      "titulo": "¿Dónde está *dejando dinero* tu negocio?",
-      "tamanoTitulo": 112,
-      "cierre": "**Comenta o mándame** *CRECER* **y lo revisamos en 20 minutos, sin costo 👇**",
+      "titulo": "¿Dónde está\n*dejando dinero?*",
+      "tamanoTitulo": 120,
+      "cierre": "**Comenta** *CRECER* **y lo revisamos en 20 minutos, sin costo 👇**",
       "tamanoCierre": 52
     }
   ]
