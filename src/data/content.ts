@@ -9,10 +9,10 @@ import build from '../assets/method/build.png';
 
 /** H04 — Mi método: método + modelo de trabajo en un solo flujo (sesión → plan → sprint → mensual). */
 export const METHOD = [
-  { num: '01', key: 'DETECTAR', tag: 'Sesión de oportunidades', text: 'Sin costo. Conozco tu negocio: en qué estás, qué te preocupa y dónde estás atorado.', image: detect, alt: 'Lupa sobre una roca: detectar la oportunidad' },
-  { num: '02', key: 'DISEÑAR', tag: 'Plan y propuesta', text: 'Priorizamos las acciones que más pueden mover tus ventas y definimos el sprint: entregables, tiempos y forma de trabajo.', image: design, alt: 'Plano arquitectónico de una casa: diseñar el plan' },
-  { num: '03', key: 'CONSTRUIR', tag: 'Sprint de 2 a 4 semanas', text: 'Activo al equipo correcto. Construimos, medimos y ajustamos.', image: activate, alt: 'Bloques de distintos materiales ensamblándose: construir' },
-  { num: '04', key: 'CRECER', tag: 'Cada mes', text: 'Definimos prioridades, ejecutamos y medimos, para que el crecimiento no dependa de un proyecto aislado.', image: build, alt: 'Casa terminada e iluminada: crecer' },
+  { num: '01', key: 'DETECTAR', tag: 'Sesión de oportunidades', text: 'Sin costo. Entiendo tu negocio y dónde estás atorado.', image: detect, alt: 'Lupa sobre una roca: detectar la oportunidad' },
+  { num: '02', key: 'DISEÑAR', tag: 'Plan y propuesta', text: 'Priorizamos acciones y definimos el sprint.', image: design, alt: 'Plano arquitectónico de una casa: diseñar el plan' },
+  { num: '03', key: 'CONSTRUIR', tag: 'Sprint de 2 a 4 semanas', text: 'Construimos, medimos y ajustamos.', image: activate, alt: 'Bloques de distintos materiales ensamblándose: construir' },
+  { num: '04', key: 'CRECER', tag: 'Cada mes', text: 'Definimos prioridades, ejecutamos y medimos.', image: build, alt: 'Casa terminada e iluminada: crecer' },
 ];
 
 /** Home — Con quién lo construyes (estrategia + empresas de ejecución). */
@@ -49,15 +49,17 @@ export const TALK_FORMATS = ['Conferencia', 'Workshop práctico', 'Sesión ejecu
 
 /** Home — Punto de partida: los problemas típicos de un negocio en marcha (situaciones, no clientes). */
 export const HOME_START = {
-  kicker: 'Negocio en marcha',
-  title: 'Quiero crecer con lo que ya tengo.',
+  kicker: '¿Te suena?',
+  title: 'Tu negocio ya vende, pero sientes que podría vender más.',
   signals: [
-    'Tienes clientes, pero dependes de recomendaciones y no de un sistema.',
+    'Los clientes llegan por recomendación, no por un sistema.',
     'Inviertes en anuncios o redes y no sabes qué está funcionando.',
-    'Tu sitio web no genera contactos.',
-    'Tu equipo pierde tiempo en tareas que podrían automatizarse.',
-    'Quieres abrir una nueva línea, canal o alianza.',
+    'Te escriben por WhatsApp y las consultas se pierden entre respuesta, seguimiento y cotización.',
+    'Tu sitio web no te trae contactos.',
+    'Tu equipo pierde horas en tareas que podrían automatizarse.',
+    'Quieres abrir una nueva línea o canal y no sabes por dónde empezar.',
   ],
+  close: 'Si te identificas con uno, empezamos por ahí.',
   cta: { label: 'Quiero hacer crecer mi negocio', href: '/llamada' },
 };
 

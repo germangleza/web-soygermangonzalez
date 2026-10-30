@@ -10,8 +10,8 @@ import { HOME_START as p } from '../../data/content';
         <h2 id="puertas-title">{p.title}</h2>
       </div>
       <div>
-        <p class="start__label">Te va a servir si…</p>
         <ul class="start__signals" role="list">{p.signals.map((s) => <li>{s}</li>)}</ul>
+        <p class="start__close">{p.close}</p>
         <a class="link-arrow" href={p.cta.href}>{p.cta.label} <span aria-hidden="true">↗︎</span></a>
       </div>
     </article>
@@ -21,7 +21,7 @@ import { HOME_START as p } from '../../data/content';
 <style>
   .start { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 2rem 3rem; }
   .start h2 { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.6rem); margin: 0; }
-  .start__label { font-family: var(--font-display); font-weight: 700; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 .75rem; }
+  .start__close { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.1rem, 1rem + .4vw, 1.3rem); margin: 0 0 1rem; }
   .start__signals { list-style: none; padding: 0; margin: 0 0 1.75rem; display: grid; gap: .6rem; }
   .start__signals li { position: relative; padding-left: 1.6rem; color: var(--muted); }
   .start__signals li::before { content: '✓'; position: absolute; left: 0; color: var(--sky); font-weight: 700; }
