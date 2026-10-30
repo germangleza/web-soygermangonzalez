@@ -26,7 +26,7 @@ export const METHOD = [
 
 /** Home — Con quién lo construyes (estrategia + empresas de ejecución). */
 export const HOME_TEAM = [
-  { name: 'Germán González', area: 'Estrategia y dirección', items: ['Diagnóstico y priorización de oportunidades', 'Nuevos negocios y productos: validación, oferta y lanzamiento', 'Sistemas comerciales: ventas, funnels, pricing y seguimiento'] },
+  { name: 'Germán González', area: 'Estrategia y dirección', items: ['Diagnóstico y priorización de oportunidades', 'Nuevas líneas, productos y canales: validación, oferta y lanzamiento', 'Sistemas comerciales: ventas, funnels, pricing y seguimiento'] },
   { name: 'Maguey Studio', url: 'https://www.magueystudio.mx', area: 'Marketing y growth', items: ['Posicionamiento y contenido', 'Campañas y adquisición de clientes', 'Sitios web que convierten'] },
   { name: 'Life Agents AI', url: 'https://lifeagent.mx', area: 'IA y automatización', items: ['Agentes de IA y atención por WhatsApp', 'Integración con CRM', 'Automatización de procesos de la operación'] },
 ];
@@ -127,4 +127,12 @@ export const SERVICE_FAQS = [
   { question: '¿Puedo trabajar contigo de forma continua?', answer: 'Sí, es el objetivo de muchos clientes. Después del primer sprint pasamos a un esquema mensual: cada mes definimos prioridades, ejecutamos y medimos resultados.' },
   { question: '¿Trabajas con negocios fuera de tu ciudad?', answer: 'Sí. Trabajo con negocios en cualquier parte de México.' },
   { question: '¿Qué pasa en la Opportunity Session? ¿Tiene costo?', answer: 'Es una conversación para conocer tu negocio: en qué estás, qué te preocupa y dónde estás atorado. A partir de ahí identificamos qué acciones podrían ayudarte. Por lanzamiento, no tiene costo.' },
+];
+
+/** Herramientas gratuitas de Builder Lab (home y lugares donde se listan todas). */
+export const LAB_TOOLS = [
+  { kicker: 'Checklist · IA y automatización', title: '¿Cuántas ventas se te escapan por WhatsApp?', text: '12 preguntas para ver dónde se pierden tus consultas y qué automatizar primero.', href: '/ventas-por-whatsapp' },
+  { kicker: 'Checklist · Visibilidad', title: '¿La IA recomienda tu negocio?', text: '10 verificaciones de tu presencia en Google y en asistentes de IA.', href: '/ia-recomienda-tu-negocio' },
+  { kicker: 'Diagnóstico · Clínicas', title: 'Presencia digital de tu clínica', text: 'Google Maps, web, reseñas, redes, anuncios e IA. Resultado inmediato.', href: '/diagnostico-clinicas' },
+  { kicker: 'Prompts · Ventas', title: '3 prompts para vender beneficios', text: 'De características a beneficios, propuesta de valor y mensajes comerciales.', href: '/builder-lab/3-prompts-valor' },
 ];

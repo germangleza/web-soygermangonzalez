@@ -1,33 +1,36 @@
 ---
-/** H02 — Dos puertas de entrada comerciales. */
+/** H02 — Dos puertas de entrada para negocios en marcha. Quien empieza desde cero va a Builder Lab. */
 import SectionHeading from '../ui/SectionHeading.astro';
 import BookCallButton from '../ui/BookCallButton.astro';
 ---
 <section class="section" aria-labelledby="puertas-title">
   <div class="container">
-    <SectionHeading id="puertas-title" eyebrow="El punto de partida" title="Ya sea que vendas hoy o estés por lanzar, empezamos por lo que más mueve tus ventas.">
-      <p class="lead">Puede que tengas un negocio que ya funciona y quieres llevarlo más lejos. O una idea que todavía no sabes cómo convertir en negocio.</p>
+    <SectionHeading id="puertas-title" eyebrow="El punto de partida" title="Si tu negocio ya vende, empezamos por lo que más mueve tus ventas.">
+      <p class="lead">Puede que quieras sacarle más a lo que ya tienes, o abrir algo nuevo sobre un negocio que ya funciona.</p>
     </SectionHeading>
     <div class="grid grid-2">
       <article class="card card--link path">
-        <span class="card__kicker">Ruta 01 · Negocio en marcha</span>
+        <span class="card__kicker">Ruta 01 · Vender más</span>
         <h3><a class="card__title-link" href="/que-hago?interes=problema#operacion">Quiero hacer crecer lo que ya tengo</a></h3>
-        <p>Más clientes, mejores campañas, una web que convierta, automatizar procesos o implementar IA.</p>
+        <p>Más clientes, mejores campañas, una web que convierta, responder y dar seguimiento por WhatsApp, automatizar procesos o implementar IA.</p>
         <div class="card__footer"><span class="link-arrow" aria-hidden="true">Hacer crecer mi negocio ↗</span></div>
       </article>
       <article class="card card--link card--dark path">
-        <span class="card__kicker">Ruta 02 · Negocio nuevo</span>
-        <h3><a class="card__title-link" href="/que-hago?interes=oportunidad#nuevos">Quiero lanzar algo nuevo</a></h3>
-        <p>Una empresa, producto, línea de negocio, canal o alianza que todavía no sabes cómo aterrizar.</p>
-        <div class="card__footer"><span class="link-arrow" style="color:var(--sky)" aria-hidden="true">Lanzar una oportunidad ↗</span></div>
+        <span class="card__kicker">Ruta 02 · Crecer hacia algo nuevo</span>
+        <h3><a class="card__title-link" href="/que-hago?interes=problema#operacion">Quiero abrir una nueva línea o canal</a></h3>
+        <p>Un producto, línea de negocio, canal de venta o alianza sobre un negocio que ya vende.</p>
+        <div class="card__footer"><span class="link-arrow" style="color:var(--sky)" aria-hidden="true">Abrir una nueva línea ↗</span></div>
       </article>
     </div>
     <p class="paths-close">En cualquiera de los dos casos, empezamos por entender qué resultado necesita mover el negocio.</p>
     <div class="actions"><BookCallButton variant="btn--dark" /></div>
+    <p class="paths-lab">¿Estás empezando desde cero o tienes una idea por validar? <a href="/builder-lab">En Builder Lab comparto herramientas y aprendizajes para construirla <span aria-hidden="true">↗</span></a></p>
   </div>
 </section>
 <style>
   .path { min-height: 15rem; }
   .path h3 { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
   .paths-close { margin: 2rem 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.15rem, 1rem + .5vw, 1.4rem); letter-spacing: -0.02em; max-width: 40rem; }
+  .paths-lab { margin: 1.75rem 0 0; color: var(--muted); max-width: 44rem; }
+  .paths-lab a { color: var(--accent-text); font-weight: 700; }
 </style>
