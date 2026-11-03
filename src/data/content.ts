@@ -65,10 +65,9 @@ export const HOME_START = {
 
 /** Home — Dónde más trabajo (en este orden). */
 export const SECTORS = [
-  { title: 'Clínicas y salud', text: 'Más pacientes: presencia digital, reputación y atención por WhatsApp.', link: { label: 'Evalúa la presencia digital de tu clínica', href: '/diagnostico-clinicas' } },
-  { title: 'Negocios B2B', text: 'Empresas que venden a otras empresas y necesitan un sistema comercial que escale.' },
-  { title: 'Tecnología', text: 'Startups y empresas de software que necesitan posicionarse, conseguir clientes y ordenar su proceso comercial.' },
-  { title: 'Negocios familiares', text: 'Empresas con historia que quieren modernizarse, profesionalizar su operación y crecer.' },
+  { title: 'Salud', text: 'Clínicas, consultorios, distribuidores de equipo médico y asilos que necesitan más pacientes o clientes: presencia digital, reputación y atención por WhatsApp.', link: { label: 'Evalúa la presencia digital de tu clínica', href: '/diagnostico-clinicas' } },
+  { title: 'B2B y negocios familiares', text: 'Empresas que venden a otras empresas y negocios con historia que necesitan un sistema comercial que escale y profesionalizar su operación.' },
+  { title: 'Tecnología', text: 'Startups y empresas de software que necesitan conseguir clientes, ordenar su proceso comercial y auditar su tecnología para que sea escalable y segura.' },
 ];
 /** Home — Preguntas frecuentes (respuestas de Germán). Alimentan también el schema FAQPage. */
 export const SERVICE_FAQS = [

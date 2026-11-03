@@ -1,12 +1,12 @@
 ---
-/** Home — Dónde más trabajo: clínicas, B2B, tecnología y negocios familiares. */
+/** Home — Dónde más trabajo: salud, B2B y negocios familiares, tecnología. */
 import SectionHeading from '../ui/SectionHeading.astro';
 import { SECTORS } from '../../data/content';
 ---
 <section class="section" aria-labelledby="sectores-title">
   <div class="container">
     <SectionHeading id="sectores-title" eyebrow="Dónde más trabajo" title="Negocios que ya venden, en cualquier parte de México." />
-    <ul class="grid grid-4 sectors" role="list">
+    <ul class="grid grid-3 sectors" role="list">
       {SECTORS.map((s, i) => (
         <li class="card">
           <span class="card__kicker">{String(i + 1).padStart(2, '0')}</span>
