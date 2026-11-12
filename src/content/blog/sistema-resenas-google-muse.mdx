@@ -1,0 +1,122 @@
+---
+title: "Sistema de reseñas: cómo pedirlas y contestarlas con Muse"
+description: "Tus clientes deciden por las reseñas, y Google y la IA también las leen. Cómo pedirlas con QR y WhatsApp, y cómo contestarlas con Muse de Meta."
+pubDate: 2026-11-12
+reviewedDate: 2026-11-12
+category: "negocios-growth"
+tags: ["reseñas", "google", "muse", "whatsapp", "automatización"]
+ctaType: "contacto"
+order: 1
+draft: false
+---
+import PromptCard from '../../components/ui/PromptCard.astro';
+
+Antes de visitarte, comprarte o agendar contigo, la gente revisa tus reseñas. Y no solo la gente: **Google y la IA también las leen** para decidir a quién recomendar.
+
+Este es el sistema que armamos para Ópticas Jarmar, explicado para que lo puedas replicar: **cómo pedir reseñas sin incomodar** y **cómo contestarlas sin que se te acumulen**.
+
+## Por qué las reseñas importan (más de lo que crees)
+
+**1. Las personas deciden con ellas.** Según la encuesta de consumidores 2026 de BrightLocal, 97% de los consumidores lee reseñas antes de elegir un negocio local. Y no cualquier reseña: la mayoría le da más peso a las recientes.
+
+**2. Google las usa para posicionarte.** En su guía para negocios locales, Google explica que la *prominencia* (qué tan conocido y bien valorado es tu negocio) es uno de los factores con los que ordena los resultados, y que más reseñas y mejores calificaciones pueden mejorar tu posición en Maps y en la búsqueda.
+
+**3. La IA también las lee.** Cuando alguien le pregunta a un asistente *“¿qué óptica me recomiendas en [ciudad]?”*, la respuesta se arma con lo que encuentra publicado sobre ti, y tus reseñas son parte importante de eso. La misma encuesta reporta que el uso de IA para buscar negocios locales pasó de 6% a 45% en un año.
+
+> 💡 **En corto:** pocas reseñas, viejas o sin respuesta = un negocio que se ve abandonado. Para la gente, para Google y para la IA.
+
+## Parte 1 · Cómo pedirlas
+
+La mayoría de los clientes contentos sí deja reseña. El problema es que **nadie se las pide**, o se las piden en el momento equivocado. Dos canales:
+
+### 📍 En sucursal: QR en el momento de la entrega
+
+El mejor momento es cuando el cliente **recibe lo que compró** y ve el resultado: sus lentes nuevos, su pedido, su servicio terminado.
+
+1. En tu **Perfil de Negocio de Google**, entra a **“Pedir reseñas”**: ahí obtienes el enlace directo y un **código QR**.
+2. Imprímelo en un tarjetón para el mostrador o en la bolsa/estuche de entrega.
+3. Entrena a tu equipo con una sola frase, al entregar:
+
+> *“¿Cómo te quedaron? Si tienes un minuto, nos ayuda mucho que nos dejes tu opinión en Google. Aquí está el código.”*
+
+**Tip:** que el QR lleve **directo** a dejar la reseña, no a tu perfil general. Cada clic extra es una reseña que se pierde.
+
+### 💬 Por WhatsApp: después de la compra
+
+No todos tienen tiempo en el mostrador. Para ellos, un mensaje unos días después, cuando ya usaron el producto.
+
+> *“Hola [Nombre], soy [tu nombre] de [Negocio]. ¿Cómo te han funcionado tus [producto]? Si tienes un minuto, tu opinión nos ayuda mucho: [enlace de reseña]. ¡Gracias por tu confianza!”*
+
+- **Cuándo:** entre 2 y 7 días después de la compra o entrega (lo justo para que ya lo hayan usado).
+- **Cómo:** con WhatsApp Business puedes guardarlo como **respuesta rápida** para mandarlo en segundos.
+- **Una sola vez.** Si no responde, no insistas.
+
+### ⚠️ Reglas para no perder tus reseñas
+
+Google prohíbe pedir reseñas **solo a los clientes contentos** o desalentar las negativas, y puede borrar reseñas cuando detecta estas prácticas. Para estar del lado correcto:
+
+- **Pídela a todos tus clientes**, no solo a los que crees que van a poner 5 estrellas. El momento de la entrega ayuda porque ahí la experiencia está fresca, no porque filtres a quién.
+- **No ofrezcas descuentos ni regalos** a cambio de reseñas.
+- **No presiones** ni las pidas mientras el cliente está esperando que lo atiendas.
+- **No las escribas tú** ni le pidas a tu equipo o familiares que las dejen.
+
+Si un cliente se va molesto, mejor: **atiéndelo y resuélvelo**. Una queja bien contestada genera más confianza que un perfil perfecto.
+
+## Parte 2 · Cómo contestarlas con Muse
+
+Pedir reseñas es la mitad. La otra mitad es **contestarlas todas**, rápido y bien. Ahí es donde se le cae a casi todos los negocios, y donde entra **Muse**, el agente de Meta.
+
+> **¿Aún no conoces Muse?** Aquí te explico qué es y cómo empezar: [Muse de Meta en México: cómo usarlo para Instagram, Facebook y más](/builder-lab/como-usar-muse-meta).
+
+Muse tiene su propio navegador: entra a tu perfil, lee las reseñas nuevas, redacta la respuesta y te la presenta. Tú solo apruebas.
+
+### Paso 1 · Dale tus reglas una vez
+
+Antes de que conteste nada, explícale cómo habla tu negocio. Este es el encargo base:
+
+<PromptCard num={1} title="Instrucciones de respuesta" when="una sola vez, al configurarlo.">
+“Vas a contestar las reseñas de [NEGOCIO], [qué vende] en [CIUDAD]. Tono: [cercano/profesional], en español de México, máximo 3 líneas. Siempre usa el nombre de la persona y menciona algo específico de su reseña. Nunca ofrezcas descuentos, nunca discutas y nunca compartas datos personales. En reseñas negativas: discúlpate, no te justifiques e invita a escribirnos a [WhatsApp/correo] para resolverlo.”
+</PromptCard>
+
+### Paso 2 · La rutina de cada día
+
+<PromptCard num={2} title="Revisión diaria" when="cada mañana.">
+“Entra a mi Perfil de Negocio de Google y a mi página de Facebook. Busca las reseñas que no tengan respuesta, redacta una para cada una siguiendo mis instrucciones y muéstramelas para aprobar.”
+</PromptCard>
+
+<PromptCard num={3} title="Reseñas negativas" when="cada vez que llegue una de 1 a 3 estrellas.">
+“Esta reseña es negativa. Avísame antes de responder, resúmeme de qué se queja y propón dos respuestas: una breve y una más detallada.”
+</PromptCard>
+
+### Paso 3 · Aprende de lo que dicen
+
+Las reseñas son la investigación de mercado más barata que tienes.
+
+<PromptCard num={4} title="Reporte mensual">
+“Revisa todas las reseñas del último mes. Dime los 3 temas que más elogian, las 3 quejas que más se repiten y qué cambiarías primero en el negocio.”
+</PromptCard>
+
+### ¿Contesta solo, sin que yo intervenga?
+
+Casi. Muse **redacta y te pide aprobación antes de publicar** algo a tu nombre. Es una regla de Meta, y es buena: tu respuesta pública es tu marca.
+
+En la práctica, tu trabajo pasa de *escribir* cada respuesta a **revisar y dar OK en un minuto**. Las de 4 y 5 estrellas las apruebas casi sin leer; las negativas sí las revisas con calma.
+
+> ⚠️ **Ten en cuenta:** Muse es un lanzamiento reciente y algunas funciones para negocios (como las Páginas de Facebook) llegaron primero a EE. UU. y Canadá. Revisa qué te aparece en tu cuenta y, la primera semana, verifica en Google que las respuestas se publicaron bien.
+
+## El sistema completo, en una línea
+
+**Entregas → pides la reseña (QR o WhatsApp) → Muse la contesta → tú apruebas → cada mes revisas qué te están diciendo.**
+
+## Cómo empezaría yo
+
+1. **Esta semana:** saca tu QR y tu enlace de Google. Imprime el tarjetón y guarda el mensaje de WhatsApp como respuesta rápida.
+2. **Anota cuántas reseñas tienes hoy** y tu calificación promedio.
+3. **Configura Muse** con tus instrucciones y deja que conteste las reseñas pendientes.
+4. **En un mes, compara:** cuántas reseñas nuevas llegaron y cuántas quedaron sin respuesta.
+
+## ¿Quieres que lo armemos para tu negocio?
+
+Si tienes una o varias sucursales y quieres este sistema funcionando sin cargarle más trabajo a tu equipo, **[cuéntame tu reto](/contacto)**.
+
+— Germán González Aranda
