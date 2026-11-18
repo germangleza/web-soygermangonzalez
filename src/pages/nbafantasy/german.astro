@@ -7,7 +7,7 @@ export const prerender = false;
 
 const privacyHeaders = { 'Cache-Control': 'private, no-store', 'X-Robots-Tag': 'noindex, nofollow' };
 const password = process.env.NBAFANTASY_ADMIN_PASSWORD;
-if (!password || password.length < 24) {
+if (!password) {
   return new Response('No disponible.', { status: 404, headers: privacyHeaders });
 }
 
