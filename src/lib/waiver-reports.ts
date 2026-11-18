@@ -1,5 +1,7 @@
+import { get, list, put } from '@vercel/blob';
 import { costPerPoint, pointsDifference } from './waiver-metrics';
 
+const reportPrefix = 'guillotina/87354/reports/';
 const reportKey = 'guillotina:87354:reports:v1';
 export const reportColumns = 'Jugador agregado\tPromedio agregado\tPuja FAAB\tJugador soltado\tPromedio soltado';
 
@@ -89,12 +91,36 @@ async function redis(command: string[]) {
 }
 
 export async function readReports(): Promise<WaiverReport[]> {
-  if (!storageConfig()) return [];
-  const values = await redis(['HVALS', reportKey]) as string[];
-  return values.map((value) => JSON.parse(value) as WaiverReport)
-    .sort((a, b) => b.season - a.season || b.week - a.week);
+  let reports: WaiverReport[] = [];
+  if (storageConfig()) {
+    const values = await redis(['HVALS', reportKey]) as string[];
+    reports = values.map((value) => JSON.parse(value) as WaiverReport);
+  } else if (process.env.BLOB_READ_WRITE_TOKEN) {
+    let cursor: string | undefined;
+    do {
+      const page = await list({ prefix: reportPrefix, cursor });
+      const pageReports = await Promise.all(page.blobs.map(async ({ pathname }) => {
+        const file = await get(pathname, { access: 'private', useCache: false });
+        if (!file || file.statusCode !== 200) throw new Error('Report is unavailable');
+        return await new Response(file.stream).json() as WaiverReport;
+      }));
+      reports.push(...pageReports);
+      cursor = page.hasMore ? page.cursor : undefined;
+    } while (cursor);
+  }
+  return reports.sort((a, b) => b.season - a.season || b.week - a.week);
 }
 
 export async function publishReport(report: WaiverReport) {
-  await redis(['HSET', reportKey, report.season + ':' + report.week, JSON.stringify(report)]);
+  if (storageConfig()) {
+    await redis(['HSET', reportKey, report.season + ':' + report.week, JSON.stringify(report)]);
+    return;
+  }
+  if (!process.env.BLOB_READ_WRITE_TOKEN) throw new Error('Report storage is not configured');
+  await put(reportPrefix + report.season + '/' + report.week + '.json', JSON.stringify(report), {
+    access: 'private',
+    contentType: 'application/json',
+    addRandomSuffix: false,
+    allowOverwrite: true,
+  });
 }
