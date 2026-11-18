@@ -1,6 +1,5 @@
 ---
 /** SiteFooter: nombre, posicionamiento, navegación, redes (solo confirmadas), aviso de privacidad. `minimal`: sin navegación (landings). */
-import { Image } from 'astro:assets';
 import logo from '../../assets/brand/logo-blanco.png';
 import { SITE, socialLinks } from '../../config/site.config';
 
@@ -14,7 +13,7 @@ const year = new Date().getFullYear();
     <div class="site-footer__top">
       <div class="site-footer__brand">
         <a href="/" aria-label={`${SITE.name} — Inicio`}>
-          <Image src={logo} alt="" width={150} densities={[1, 2]} loading="lazy" />
+          <img src={logo.src} alt="" width={150} height={55} loading="lazy" />
         </a>
         <p>{SITE.role} · {SITE.tagline}</p>
       </div>

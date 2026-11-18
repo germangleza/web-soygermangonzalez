@@ -1,6 +1,5 @@
 ---
 /** SiteHeader + MobileNav. Navegación principal con estado activo y menú móvil accesible. `minimal`: solo el logo. */
-import { Image } from 'astro:assets';
 import logo from '../../assets/brand/logo-blanco.png';
 import { SITE } from '../../config/site.config';
 
@@ -13,7 +12,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path === href 
 <header class="site-header" data-header>
   <div class="container site-header__inner">
     <a href="/" class="site-header__brand" aria-label={`${SITE.name} — Inicio`}>
-      <Image src={logo} alt="" width={112} densities={[1, 2]} loading="eager" fetchpriority="high" />
+      <img src={logo.src} alt="" width={112} height={41} loading="eager" fetchpriority="high" />
     </a>
 
     {!minimal && <>
