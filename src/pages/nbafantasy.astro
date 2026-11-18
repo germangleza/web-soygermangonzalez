@@ -1,0 +1,21 @@
+---
+/** Guillotina Waiver Analyzer: proyecto de analítica de fantasy basketball (en desarrollo). */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import StatusLabel from '../components/ui/StatusLabel.astro';
+---
+<BaseLayout
+  title="Guillotina Waiver Analyzer"
+  description="A fantasy basketball analytics project in development for a 16-team Yahoo Fantasy league: FAB spent, pickup vs. drop and FAB per extra point."
+>
+  <PageHero eyebrow="Fantasy basketball" title="Guillotina Waiver Analyzer" breadcrumbs={[{ name: 'Guillotina Waiver Analyzer', url: '/nbafantasy' }]}>
+    <p><StatusLabel tone="sky">In development</StatusLabel></p>
+  </PageHero>
+  <section class="section">
+    <div class="container">
+      <div class="prose">
+        <p>A fantasy basketball analytics project in development for a 16-team Yahoo Fantasy league. The planned weekly report will show what managers paid for completed waiver pickups, how each pickup compares with the player dropped, and how much FAB was spent per additional fantasy point.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
