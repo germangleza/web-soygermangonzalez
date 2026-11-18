@@ -12,6 +12,12 @@ export default defineConfig({
   // Sitio estático (SSG) + una función serverless para /api/lead.
   output: 'static',
   adapter: vercel(),
+  security: {
+    allowedDomains: [
+      { hostname: 'www.soygermangonzalez.com', protocol: 'https' },
+      { hostname: 'soygermangonzalez.com', protocol: 'https' },
+    ],
+  },
   integrations: [
     sitemap({
       filter: (page) => !SITEMAP_EXCLUDE.some((p) => new URL(page).pathname.replace(/\/$/, '') === p),
