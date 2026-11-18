@@ -1,0 +1,207 @@
+---
+import { createHash, timingSafeEqual } from 'node:crypto';
+import { parseReport, publishReport, reportColumns } from '../../lib/waiver-reports';
+import '../../styles/global.css';
+
+export const prerender = false;
+
+const privacyHeaders = { 'Cache-Control': 'private, no-store', 'X-Robots-Tag': 'noindex, nofollow' };
+const password = process.env.NBAFANTASY_ADMIN_PASSWORD;
+if (!password || password.length < 24) {
+  return new Response('No disponible.', { status: 404, headers: privacyHeaders });
+}
+
+const authorization = Astro.request.headers.get('authorization') ?? '';
+const encodedCredentials = /^Basic ([A-Za-z0-9+/]+=*)$/i.exec(authorization)?.[1] ?? '';
+const credentials = Buffer.from(encodedCredentials, 'base64').toString('utf8');
+const hash = (value: string) => createHash('sha256').update(value).digest();
+if (!timingSafeEqual(hash(credentials), hash('german:' + password))) {
+  return new Response('Inicio de sesión requerido.', {
+    status: 401,
+    headers: { ...privacyHeaders, 'WWW-Authenticate': 'Basic realm="Guillotina", charset="UTF-8"' },
+  });
+}
+for (const [key, value] of Object.entries(privacyHeaders)) Astro.response.headers.set(key, value);
+Astro.response.headers.set('Referrer-Policy', 'no-referrer');
+Astro.response.headers.set('Content-Security-Policy', "frame-ancestors 'none'; form-action 'self'; base-uri 'self'");
+
+const date = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Mexico_City', year: 'numeric', month: 'numeric' })
+  .formatToParts(new Date());
+const year = Number(date.find(({ type }) => type === 'year')?.value);
+const month = Number(date.find(({ type }) => type === 'month')?.value);
+let season = String(month >= 10 ? year : year - 1);
+let week = '';
+let rows = '';
+let error = '';
+if (Astro.request.method === 'POST') {
+  if (Astro.request.headers.get('origin') !== Astro.url.origin) {
+    return new Response('Origen inválido.', { status: 403, headers: privacyHeaders });
+  }
+  if (!Astro.request.headers.get('content-type')?.startsWith('application/x-www-form-urlencoded')) {
+    return new Response('Formato inválido.', { status: 415, headers: privacyHeaders });
+  }
+  const body = await Astro.request.text();
+  if (body.length > 160_000) return new Response('Reporte demasiado grande.', { status: 413, headers: privacyHeaders });
+  const form = new URLSearchParams(body);
+  season = form.get('season') ?? '';
+  week = form.get('week') ?? '';
+  rows = form.get('rows') ?? '';
+  let report;
+  try {
+    report = parseReport(Number(season), Number(week), rows);
+  } catch (cause) {
+    error = cause instanceof Error ? cause.message : 'Revisa los datos del reporte.';
+  }
+  if (report) {
+    try {
+      await publishReport(report);
+      return new Response(null, {
+        status: 303,
+        headers: { ...privacyHeaders, Location: '/nbafantasy?reporte=' + encodeURIComponent(report.season + ':' + report.week) },
+      });
+    } catch {
+      error = 'No se pudo guardar el reporte. Revisa la configuración de almacenamiento o vuelve a intentar.';
+    }
+  }
+}
+---
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Panel privado de waivers</title>
+  </head>
+  <body>
+    <main class="container private-panel">
+      <header>
+        <p>Guillotina de ludópatas</p>
+        <h1>Panel privado de waivers</h1>
+      </header>
+      <section aria-labelledby="sim-title">
+        <h2 id="sim-title">Simular una puja</h2>
+        <p>Usa puntos fantasy por partido y cuenta solo los juegos que podrías alinear.</p>
+        <form id="waiver-simulation">
+          <div class="field-grid">
+            <label>Promedio del jugador que entra<input data-stat="added" type="number" step="any" required value="35" /></label>
+            <label>Promedio del jugador que sale<input data-stat="dropped" type="number" step="any" required value="27" /></label>
+            <label>Juegos del jugador que entra<input data-stat="addedGames" type="number" min="0" max="14" required value="3" /></label>
+            <label>Juegos del jugador que sale<input data-stat="droppedGames" type="number" min="0" max="14" required value="4" /></label>
+            <label>Puja FAAB<input data-stat="bid" type="number" min="0" max="100" required value="16" /></label>
+            <label>Saldo FAAB actual<input data-stat="balance" type="number" min="0" max="100" required value="100" /></label>
+          </div>
+        </form>
+        <dl class="metrics" aria-live="polite">
+          <div><dt>Mejora por partido</dt><dd id="game-gain">—</dd></div>
+          <div><dt>FAAB por punto extra / partido</dt><dd id="game-price">—</dd></div>
+          <div><dt>Puntos netos en el matchup</dt><dd id="week-gain">—</dd></div>
+          <div><dt>FAAB por punto extra / matchup</dt><dd id="week-price">—</dd></div>
+          <div><dt>Saldo después de la puja</dt><dd id="new-balance">—</dd></div>
+        </dl>
+        <p id="budget-warning" role="status"></p>
+        <details>
+          <summary>Calcular promedio con el scoring de la liga</summary>
+          <form id="waiver-scoring">
+            <div class="field-grid">
+              {Object.entries({ pts: 'Puntos', threes: 'Triples', reb: 'Rebotes', ast: 'Asistencias', stl: 'Robos', blk: 'Bloqueos', to: 'Pérdidas' })
+                .map(([key, label]) => <label>{label}<input data-stat={key} type="number" step="any" min="0" value="0" required /></label>)}
+            </div>
+            <p>Promedio fantasy <output id="score" aria-live="polite">0</output></p>
+            <button type="button" data-target="added">Usar para quien entra</button>
+            <button type="button" data-target="dropped">Usar para quien sale</button>
+          </form>
+        </details>
+      </section>
+      <section aria-labelledby="publish-title">
+        <h2 id="publish-title">Actualizar reporte semanal</h2>
+        <p>Pega solo pujas ganadoras ya procesadas. Publicar la misma temporada y semana reemplaza su reporte completo.</p>
+        {error && <p class="error" role="alert">{error}</p>}
+        <form method="post">
+          <div class="field-grid compact">
+            <label>Año de inicio de temporada<input name="season" type="number" min="2000" max="2100" required value={season} /></label>
+            <label>Semana de Yahoo<input name="week" type="number" min="1" max="30" required value={week} /></label>
+          </div>
+          <label>Movimientos (pega las filas desde Excel o Sheets)
+            <textarea name="rows" rows="8" maxlength="80000" required placeholder={reportColumns} aria-describedby="report-columns">{rows}</textarea>
+          </label>
+          <p id="report-columns">Orden de columnas: jugador agregado, promedio agregado, puja FAAB, jugador soltado, promedio soltado. Puedes dejar las dos últimas vacías si no hubo baja.</p>
+          <button type="submit">Actualizar reporte público</button>
+        </form>
+        <p><a href="/nbafantasy">Ver el reporte público</a></p>
+      </section>
+    </main>
+  </body>
+</html>
+<script>
+  import { costPerPoint, faabLabel, fantasyScore, points, pointsDifference, scoringWeights } from '../../lib/waiver-metrics';
+
+  const simulation = document.querySelector<HTMLFormElement>('#waiver-simulation')!;
+  const scoring = document.querySelector<HTMLFormElement>('#waiver-scoring')!;
+  const read = (form: HTMLFormElement, name: string) => form.querySelector<HTMLInputElement>('[data-stat="' + name + '"]')!.valueAsNumber;
+  const show = (id: string, text: string) => { document.getElementById(id)!.textContent = text; };
+  const signed = (number: number) => (number > 0 ? '+' : '') + points.format(number);
+
+  function updateProjection() {
+    if (!simulation.checkValidity()) {
+      ['game-gain', 'game-price', 'week-gain', 'week-price', 'new-balance'].forEach((id) => show(id, '—'));
+      show('budget-warning', '');
+      return;
+    }
+    const added = read(simulation, 'added');
+    const dropped = read(simulation, 'dropped');
+    const bid = read(simulation, 'bid');
+    const balance = read(simulation, 'balance') - bid;
+    const game = pointsDifference(added, dropped);
+    const week = pointsDifference(added * read(simulation, 'addedGames'), dropped * read(simulation, 'droppedGames'));
+
+    show('game-gain', signed(game));
+    show('game-price', faabLabel(costPerPoint(bid, game)));
+    show('week-gain', signed(week));
+    show('week-price', faabLabel(costPerPoint(bid, week)));
+    show('new-balance', faabLabel(balance));
+    show('budget-warning', balance < 0 ? 'La puja supera tu saldo.' : '');
+  }
+
+  function score() {
+    if (!scoring.checkValidity()) {
+      show('score', '—');
+      return null;
+    }
+    const stats = Object.fromEntries(Object.keys(scoringWeights).map((name) => [name, read(scoring, name)]));
+    const total = fantasyScore(stats as Parameters<typeof fantasyScore>[0]);
+    show('score', points.format(total));
+    return total;
+  }
+
+  simulation.addEventListener('input', updateProjection);
+  scoring.addEventListener('input', score);
+  simulation.addEventListener('submit', (event) => event.preventDefault());
+  scoring.addEventListener('submit', (event) => event.preventDefault());
+  for (const button of scoring.querySelectorAll('button[data-target]')) {
+    button.addEventListener('click', () => {
+      const total = score();
+      const target = (button as HTMLButtonElement).dataset.target!;
+      if (total !== null) {
+        simulation.querySelector<HTMLInputElement>('[data-stat="' + target + '"]')!.valueAsNumber = total;
+        updateProjection();
+      }
+    });
+  }
+  updateProjection();
+</script>
+<style>
+  .private-panel { max-width: 64rem; padding-block: 2.5rem; display: grid; gap: 1.5rem; }
+  section { border: 1px solid #cbd8e4; border-radius: .85rem; padding: clamp(1rem, 3vw, 1.6rem); }
+  form { display: grid; gap: .7rem; }
+  .field-grid, .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: .75rem; }
+  .compact { max-width: 28rem; }
+  label { display: grid; gap: .25rem; }
+  :is(input, textarea) { width: 100%; font: inherit; padding: .5rem .65rem; border: 1px solid #a3b3c2; border-radius: .4rem; }
+  textarea { font-family: monospace; }
+  button { justify-self: start; background: #07192b; color: white; font: inherit; font-weight: 650; border: 0; border-radius: .4rem; padding: .55rem .85rem; cursor: pointer; }
+  .metrics { margin: 1rem 0; }
+  .metrics div { padding: .8rem; background: #f1f7fc; border-radius: .5rem; color: #07192b; }
+  .metrics dd { margin: 0; font-size: 1.3rem; font-weight: 750; }
+  details form { margin-top: .7rem; }
+  .error, #budget-warning { color: #a01a31; }
+</style>

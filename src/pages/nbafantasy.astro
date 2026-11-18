@@ -1,21 +1,95 @@
 ---
-/** Guillotina Waiver Analyzer: proyecto de analítica de fantasy basketball (en desarrollo). */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/ui/PageHero.astro';
-import StatusLabel from '../components/ui/StatusLabel.astro';
+import { faabLabel, points } from '../lib/waiver-metrics';
+import { readReports, reportMetrics } from '../lib/waiver-reports';
+
+export const prerender = false;
+
+Astro.response.headers.set('Cache-Control', 'no-store');
+const reports = await readReports().catch(() => null);
+const reportId = Astro.url.searchParams.get('reporte');
+const report = reportId
+  ? reports?.find(({ season, week }) => season + ':' + week === reportId)
+  : reports?.[0];
+const metrics = report && reportMetrics(report.moves);
+const published = report && new Intl.DateTimeFormat('es-MX', {
+  dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Mexico_City',
+}).format(new Date(report.publishedAt));
 ---
-<BaseLayout
-  title="Guillotina Waiver Analyzer"
-  description="A fantasy basketball analytics project in development for a 16-team Yahoo Fantasy league: FAB spent, pickup vs. drop and FAB per extra point."
->
-  <PageHero eyebrow="Fantasy basketball" title="Guillotina Waiver Analyzer" breadcrumbs={[{ name: 'Guillotina Waiver Analyzer', url: '/nbafantasy' }]}>
-    <p><StatusLabel tone="sky">In development</StatusLabel></p>
+<BaseLayout title="Guillotina Waiver Analyzer" description="Weekly report of completed Yahoo Fantasy Basketball waiver pickups, winning FAB bids and FAB per additional fantasy point.">
+  <PageHero eyebrow="Guillotina de ludópatas" title="Reporte de waivers">
+    <p>Pujas ganadoras y lo que rindió cada cambio en puntos fantasy por partido.</p>
   </PageHero>
   <section class="section">
-    <div class="container">
-      <div class="prose">
-        <p>A fantasy basketball analytics project in development for a 16-team Yahoo Fantasy league. The planned weekly report will show what managers paid for completed waiver pickups, how each pickup compares with the player dropped, and how much FAB was spent per additional fantasy point.</p>
-      </div>
+    <div class="container report">
+      {reports && reports.length > 0 && (
+        <form method="get" class="report-picker">
+          <label>Reporte
+            <select name="reporte">
+              {reports.map(({ season, week }) => (
+                <option value={season + ':' + week} selected={report?.season === season && report.week === week}>
+                  {season}–{String(season + 1).slice(-2)} · Semana {week}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button type="submit">Ver semana</button>
+        </form>
+      )}
+      {!reports && <p role="status">El historial está temporalmente fuera de servicio.</p>}
+      {reports && !report && <p>{reportId ? 'No hay un reporte publicado para esa semana.' : 'Todavía no se ha publicado el primer reporte semanal.'}</p>}
+      {report && metrics && (
+        <>
+          <h2>Semana {report.week}</h2>
+          <p>Actualizado el {published} (hora de Ciudad de México).</p>
+          <dl class="totals">
+            <div><dt>Movimientos</dt><dd>{metrics.rows.length}</dd></div>
+            <div><dt>FAAB gastado</dt><dd>{faabLabel(metrics.totalBid)}</dd></div>
+            <div><dt>FAAB promedio por punto extra</dt><dd>{faabLabel(metrics.weightedCost)}</dd></div>
+          </dl>
+          <div class="table-scroll" tabindex="0" aria-label="Movimientos completados">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Jugador agregado</th><th scope="col">Pts/partido</th>
+                  <th scope="col">Puja FAAB</th><th scope="col">FAAB/punto</th>
+                  <th scope="col">Jugador soltado</th><th scope="col">Pts/partido</th>
+                  <th scope="col">Cambio pts/partido</th><th scope="col">FAAB/punto extra</th>
+                </tr>
+              </thead>
+              <tbody>
+                {metrics.rows.map((row) => (
+                  <tr>
+                    <th scope="row">{row.added}</th><td>{points.format(row.addedAverage)}</td>
+                    <td>{faabLabel(row.bid)}</td><td>{faabLabel(row.grossCost)}</td>
+                    <td>{row.dropped ?? '—'}</td><td>{row.droppedAverage === null ? '—' : points.format(row.droppedAverage)}</td>
+                    <td>{row.gain === null ? '—' : (row.gain > 0 ? '+' : '') + points.format(row.gain)}</td>
+                    <td>{faabLabel(row.netCost)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p class="method">El costo por punto extra divide la puja entre la diferencia de promedios. El promedio semanal divide el FAAB total de las {metrics.positiveCount} mejoras medibles entre los puntos extra que sumaron. Si faltan datos o el cambio no mejora el promedio, la columna de costo extra muestra un guion.</p>
+        </>
+      )}
     </div>
   </section>
 </BaseLayout>
+<style>
+  .report { display: grid; gap: 1rem; }
+  .report-picker { display: flex; align-items: end; flex-wrap: wrap; gap: .65rem; }
+  .report-picker label { display: grid; gap: .25rem; }
+  .report-picker :is(select, button) { font: inherit; padding: .5rem .75rem; border: 1px solid #a3b3c2; border-radius: .5rem; color: #07192b; background: #fff; }
+  .report-picker button { cursor: pointer; background: #07192b; color: #fff; border-color: #07192b; }
+  .totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: .75rem; }
+  .totals div { border: 1px solid #cbd8e4; padding: 1rem; border-radius: .75rem; background: #f1f7fc; color: #07192b; }
+  .totals dd { margin: .15rem 0 0; font-weight: 750; font-size: 1.65rem; }
+  .table-scroll { overflow-x: auto; border: 1px solid #cbd8e4; border-radius: .75rem; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  th, td { text-align: left; padding: .7rem .85rem; border-bottom: 1px solid #cbd8e4; }
+  thead { background: #07192b; color: white; }
+  tbody tr:last-child > * { border-bottom: 0; }
+  .method { font-size: .9rem; max-width: 75ch; }
+</style>
