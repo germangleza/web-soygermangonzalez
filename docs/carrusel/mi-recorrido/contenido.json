@@ -16,7 +16,7 @@
       "titulo": "De un local en obra negra a *construir crecimiento para negocios*",
       "texto": "Soy Germán González. Este es mi recorrido.",
       "recorte": {
-        "src": "german-recorte.png",
+        "src": "german-recorte-blur.png",
         "ancho": 900,
         "derecha": -190
       },
@@ -24,7 +24,7 @@
     },
     {
       "layout": "foto",
-      "fondo": "jarmar.jpg",
+      "fondo": "jarmar-blur.jpg",
       "fondoPosicion": "center top",
       "tituloAbajo": true,
       "eyebrow": "Mi primer gran reto",
@@ -36,18 +36,18 @@
     },
     {
       "layout": "foto",
-      "fondo": "camaras-3.jpg",
+      "fondo": "camaras-3-blur.jpg",
       "fondoPosicion": "center",
       "degradadoFuerte": true,
       "eyebrow": "Abrir fue el comienzo",
-      "titulo": "El reto: pasar de 0 a *+80 pacientes al mes.*",
+      "titulo": "El reto: pasar de 0 a *+100 pacientes al mes.*",
       "tamanoTitulo": 96,
       "texto": "Ahí entendí que crecer no es suerte. Es **detectar dónde está la oportunidad y construir lo que falta.**",
       "tamanoTexto": 42
     },
     {
       "layout": "foto",
-      "fondo": "maguey.jpg",
+      "fondo": "maguey-blur.jpg",
       "fondoPosicion": "center 40%",
       "degradadoFuerte": true,
       "eyebrow": "Maguey Studio",
@@ -64,7 +64,7 @@
     },
     {
       "layout": "foto",
-      "fondo": "conferencia.jpg",
+      "fondo": "conferencia-blur.jpg",
       "fondoPosicion": "62% center",
       "eyebrow": "Crypto MX",
       "titulo": "Cofundé *una comunidad.*",
@@ -81,7 +81,7 @@
       "tamanoTitulo": 78,
       "texto": "Hoy ayudamos a múltiples negocios a **responder, dar seguimiento y vender** con agentes de IA en WhatsApp.",
       "tamanoTexto": 44,
-      "fondo": "life-agent-a.jpg",
+      "fondo": "life-agent-a-blur.jpg",
       "fondoPosicion": "45% center",
       "logo": {
         "src": "logo-life-agent.webp",
