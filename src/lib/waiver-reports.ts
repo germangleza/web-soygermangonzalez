@@ -3,7 +3,11 @@ import { costPerPoint, pointsDifference } from './waiver-metrics';
 
 const reportPrefix = 'guillotina/87354/reports/';
 const reportKey = 'guillotina:87354:reports:v1';
-export const reportColumns = 'Jugador agregado\tPromedio agregado\tPuja FAAB\tJugador soltado\tPromedio soltado';
+const snapshotPrefix = 'guillotina/87354/averages/';
+const snapshotKey = 'guillotina:87354:averages:v1';
+const legacyColumns = 'Jugador agregado\tPromedio agregado\tPuja FAAB\tJugador soltado\tPromedio soltado';
+export const reportColumns = legacyColumns + '\tManager';
+export const snapshotColumns = 'Jugador\tPromedio actual';
 
 export interface WaiverMove {
   added: string;
@@ -11,6 +15,15 @@ export interface WaiverMove {
   bid: number;
   dropped: string | null;
   droppedAverage: number | null;
+  manager?: string | null;
+}
+
+/** Promedios de una fecha posterior, para medir si los pickups se sostuvieron. */
+export interface AverageSnapshot {
+  season: number;
+  week: number;
+  publishedAt: string;
+  averages: { player: string; average: number }[];
 }
 
 export interface WaiverReport {
@@ -43,19 +56,23 @@ function parseNumber(raw: string, message: string) {
   return value;
 }
 
-export function parseReport(season: number, week: number, text: string): WaiverReport {
+function checkWeek(season: number, week: number) {
   if (!Number.isInteger(season) || season < 2000 || season > 2100 ||
       !Number.isInteger(week) || week < 1 || week > 30) {
     throw new Error('Indica el año de inicio de la temporada y una semana de Yahoo entre 1 y 30.');
   }
+}
+
+export function parseReport(season: number, week: number, text: string): WaiverReport {
+  checkWeek(season, week);
   const lines = text.split(/\r?\n/).filter((line) => line.trim());
-  if (lines[0]?.trim() === reportColumns) lines.shift();
+  if ([reportColumns, legacyColumns].includes(lines[0]?.trim())) lines.shift();
   if (!lines.length || lines.length > 250) throw new Error('Pega entre 1 y 250 movimientos completados.');
   const moves = lines.map((line, index): WaiverMove => {
     const columns = line.split('\t').map((cell) => cell.trim());
-    const [added, avg, offer, dropped = '', dropAvg = ''] = columns;
+    const [added, avg, offer, dropped = '', dropAvg = '', manager = ''] = columns;
     const label = 'Fila ' + (index + 1);
-    if (columns.length < 3 || columns.length > 5 || !added || added.length > 100 || dropped.length > 100) {
+    if (columns.length < 3 || columns.length > 6 || !added || added.length > 100 || dropped.length > 100 || manager.length > 60) {
       throw new Error(label + ' · revisa las columnas y los nombres.');
     }
     const addedAverage = parseNumber(avg, label + ' · falta el promedio válido del jugador agregado.');
@@ -63,9 +80,23 @@ export function parseReport(season: number, week: number, text: string): WaiverR
     if (!Number.isInteger(bid) || bid < 0 || bid > 100) throw new Error(label + ' · el FAAB debe ser un entero entre 0 y 100.');
     if (dropAvg && !dropped) throw new Error(label + ' · escribe el nombre del jugador soltado.');
     const droppedAverage = dropAvg ? parseNumber(dropAvg, label + ' · promedio inválido del jugador soltado.') : null;
-    return { added, addedAverage, bid, dropped: dropped || null, droppedAverage };
+    return { added, addedAverage, bid, dropped: dropped || null, droppedAverage, manager: manager || null };
   });
   return { season, week, moves, publishedAt: new Date().toISOString() };
+}
+
+export function parseSnapshot(season: number, week: number, text: string): AverageSnapshot {
+  checkWeek(season, week);
+  const lines = text.split(/\r?\n/).filter((line) => line.trim());
+  if (lines[0]?.trim() === snapshotColumns) lines.shift();
+  if (!lines.length || lines.length > 500) throw new Error('Pega entre 1 y 500 jugadores con su promedio actual.');
+  const averages = lines.map((line, index) => {
+    const [player = '', avg = '', ...rest] = line.split('\t').map((cell) => cell.trim());
+    const label = 'Fila ' + (index + 1);
+    if (rest.length || !player || player.length > 100) throw new Error(label + ' · usa dos columnas: jugador y promedio.');
+    return { player, average: parseNumber(avg, label + ' · promedio inválido.') };
+  });
+  return { season, week, averages, publishedAt: new Date().toISOString() };
 }
 
 function storageConfig() {
@@ -90,37 +121,57 @@ async function redis(command: string[]) {
   return payload.result;
 }
 
-export async function readReports(): Promise<WaiverReport[]> {
-  let reports: WaiverReport[] = [];
+async function readAll<T>(key: string, prefix: string): Promise<T[]> {
   if (storageConfig()) {
-    const values = await redis(['HVALS', reportKey]) as string[];
-    reports = values.map((value) => JSON.parse(value) as WaiverReport);
-  } else if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const values = await redis(['HVALS', key]) as string[];
+    return values.map((value) => JSON.parse(value) as T);
+  }
+  const items: T[] = [];
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
     let cursor: string | undefined;
     do {
-      const page = await list({ prefix: reportPrefix, cursor });
-      const pageReports = await Promise.all(page.blobs.map(async ({ pathname }) => {
+      const page = await list({ prefix, cursor });
+      const pageItems = await Promise.all(page.blobs.map(async ({ pathname }) => {
         const file = await get(pathname, { access: 'private', useCache: false });
         if (!file || file.statusCode !== 200) throw new Error('Report is unavailable');
-        return await new Response(file.stream).json() as WaiverReport;
+        return await new Response(file.stream).json() as T;
       }));
-      reports.push(...pageReports);
+      items.push(...pageItems);
       cursor = page.hasMore ? page.cursor : undefined;
     } while (cursor);
   }
-  return reports.sort((a, b) => b.season - a.season || b.week - a.week);
+  return items;
 }
 
-export async function publishReport(report: WaiverReport) {
+async function writeOne(key: string, prefix: string, item: { season: number; week: number }) {
   if (storageConfig()) {
-    await redis(['HSET', reportKey, report.season + ':' + report.week, JSON.stringify(report)]);
+    await redis(['HSET', key, item.season + ':' + item.week, JSON.stringify(item)]);
     return;
   }
   if (!process.env.BLOB_READ_WRITE_TOKEN) throw new Error('Report storage is not configured');
-  await put(reportPrefix + report.season + '/' + report.week + '.json', JSON.stringify(report), {
+  await put(prefix + item.season + '/' + item.week + '.json', JSON.stringify(item), {
     access: 'private',
     contentType: 'application/json',
     addRandomSuffix: false,
     allowOverwrite: true,
   });
+}
+
+const newestFirst = (a: { season: number; week: number }, b: { season: number; week: number }) =>
+  b.season - a.season || b.week - a.week;
+
+export async function readReports(): Promise<WaiverReport[]> {
+  return (await readAll<WaiverReport>(reportKey, reportPrefix)).sort(newestFirst);
+}
+
+export async function publishReport(report: WaiverReport) {
+  await writeOne(reportKey, reportPrefix, report);
+}
+
+export async function readSnapshots(): Promise<AverageSnapshot[]> {
+  return (await readAll<AverageSnapshot>(snapshotKey, snapshotPrefix)).sort(newestFirst);
+}
+
+export async function publishSnapshot(snapshot: AverageSnapshot) {
+  await writeOne(snapshotKey, snapshotPrefix, snapshot);
 }

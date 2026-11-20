@@ -2,12 +2,21 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/ui/PageHero.astro';
 import { faabLabel, points } from '../lib/waiver-metrics';
-import { readReports, reportMetrics } from '../lib/waiver-reports';
+import { readReports, readSnapshots, reportMetrics } from '../lib/waiver-reports';
+import { managerRanking, progressionThreshold, seasonMoves, verdictLabels, weeklyTrend } from '../lib/waiver-analysis';
 
 export const prerender = false;
 
 Astro.response.headers.set('Cache-Control', 'no-store');
-const reports = await readReports().catch(() => null);
+const [reports, snapshots] = await Promise.all([
+  readReports().catch(() => null),
+  readSnapshots().catch(() => []),
+]);
+const views = { semana: 'Semanal', ranking: 'Ranking global', progresion: 'Progresión' } as const;
+type View = keyof typeof views;
+const requestedView = Astro.url.searchParams.get('vista');
+const view: View = requestedView && requestedView in views ? requestedView as View : 'semana';
+
 const reportId = Astro.url.searchParams.get('reporte');
 const report = reportId
   ? reports?.find(({ season, week }) => season + ':' + week === reportId)
@@ -16,69 +25,317 @@ const metrics = report && reportMetrics(report.moves);
 const published = report && new Intl.DateTimeFormat('es-MX', {
   dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Mexico_City',
 }).format(new Date(report.publishedAt));
+
+const seasons = [...new Set((reports ?? []).map(({ season }) => season))];
+const requestedSeason = Number(Astro.url.searchParams.get('temporada'));
+const season = seasons.includes(requestedSeason) ? requestedSeason : report?.season ?? seasons[0];
+const seasonLabel = (value: number) => value + '–' + String(value + 1).slice(-2);
+const moves = season ? seasonMoves(reports ?? [], snapshots, season) : [];
+const ranking = managerRanking(moves);
+const trend = season ? weeklyTrend(reports ?? [], season) : [];
+const hasManagers = moves.some((move) => move.manager);
+const tracked = moves.filter((move) => move.verdict !== 'pending');
+const byGain = [...moves].sort((a, b) => (b.bestGain ?? -Infinity) - (a.bestGain ?? -Infinity));
+const bargains = moves
+  .filter((move) => move.bid <= 2 && (move.bestGain ?? 0) > 0)
+  .sort((a, b) => (b.bestGain ?? 0) - (a.bestGain ?? 0)).slice(0, 5);
+const busts = moves
+  .filter((move) => move.bestGain !== null && move.bestGain <= 0)
+  .sort((a, b) => b.bid - a.bid).slice(0, 5);
+
+const signed = (value: number | null) => value === null ? '—' : (value > 0 ? '+' : '') + points.format(value);
+const num = (value: number | null) => value === null ? '—' : points.format(value);
+const sortValue = (value: number | null) => value === null ? '' : String(value);
+const tabHref = (target: View) => {
+  const params = new URLSearchParams({ vista: target });
+  if (target === 'semana' && report) params.set('reporte', report.season + ':' + report.week);
+  if (target !== 'semana' && season && seasons.length > 1) params.set('temporada', String(season));
+  return '/nbafantasy?' + params;
+};
 ---
 <BaseLayout title="Guillotina Waiver Analyzer" description="Weekly report of completed Yahoo Fantasy Basketball waiver pickups, winning FAB bids and FAB per additional fantasy point.">
   <PageHero eyebrow="Guillotina de ludópatas" title="Reporte de waivers">
-    <p>Pujas ganadoras y lo que rindió cada cambio en puntos fantasy por partido.</p>
+    <p>Pujas ganadoras, lo que rindió cada cambio y cómo envejeció cada pickup.</p>
   </PageHero>
   <section class="section">
     <div class="container report">
       {reports && reports.length > 0 && (
-        <form method="get" class="report-picker">
-          <label>Reporte
-            <select name="reporte">
-              {reports.map(({ season, week }) => (
-                <option value={season + ':' + week} selected={report?.season === season && report.week === week}>
-                  {season}–{String(season + 1).slice(-2)} · Semana {week}
-                </option>
-              ))}
-            </select>
-          </label>
-          <button type="submit">Ver semana</button>
-        </form>
+        <nav class="tabs" aria-label="Vistas del reporte">
+          {Object.entries(views).map(([key, label]) => (
+            <a href={tabHref(key as View)} aria-current={view === key ? 'page' : undefined}>{label}</a>
+          ))}
+        </nav>
       )}
       {!reports && <p role="status">El historial está temporalmente fuera de servicio.</p>}
-      {reports && !report && <p>{reportId ? 'No hay un reporte publicado para esa semana.' : 'Todavía no se ha publicado el primer reporte semanal.'}</p>}
-      {report && metrics && (
+      {reports && reports.length === 0 && <p>Todavía no se ha publicado el primer reporte semanal.</p>}
+
+      {view === 'semana' && reports && reports.length > 0 && (
         <>
-          <h2>Semana {report.week}</h2>
-          <p>Actualizado el {published} (hora de Ciudad de México).</p>
+          <form method="get" class="report-picker auto-submit">
+            <input type="hidden" name="vista" value="semana" />
+            <label>Semana
+              <select name="reporte">
+                {reports.map(({ season, week }) => (
+                  <option value={season + ':' + week} selected={report?.season === season && report.week === week}>
+                    {seasonLabel(season)} · Semana {week}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <noscript><button type="submit">Ver semana</button></noscript>
+          </form>
+          {!report && <p>No hay un reporte publicado para esa semana.</p>}
+          {report && metrics && (
+            <>
+              <h2>Semana {report.week}</h2>
+              <p>Actualizado el {published} (hora de Ciudad de México).</p>
+              <dl class="totals">
+                <div><dt>Movimientos</dt><dd>{metrics.rows.length}</dd></div>
+                <div><dt>FAAB gastado</dt><dd>{faabLabel(metrics.totalBid)}</dd></div>
+                <div><dt>FAAB promedio por punto extra</dt><dd>{faabLabel(metrics.weightedCost)}</dd></div>
+              </dl>
+              <div class="table-scroll" tabindex="0" aria-label="Movimientos completados">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Jugador agregado</th>{metrics.rows.some((row) => row.manager) && <th scope="col">Manager</th>}
+                      <th scope="col">Pts/partido</th>
+                      <th scope="col">Puja FAAB</th><th scope="col">FAAB/punto</th>
+                      <th scope="col">Jugador soltado</th><th scope="col">Pts/partido</th>
+                      <th scope="col">Cambio pts/partido</th><th scope="col">FAAB/punto extra</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {metrics.rows.map((row) => (
+                      <tr>
+                        <th scope="row">{row.added}</th>{metrics.rows.some((r) => r.manager) && <td>{row.manager ?? '—'}</td>}
+                        <td>{points.format(row.addedAverage)}</td>
+                        <td>{faabLabel(row.bid)}</td><td>{faabLabel(row.grossCost)}</td>
+                        <td>{row.dropped ?? '—'}</td><td>{num(row.droppedAverage)}</td>
+                        <td>{signed(row.gain)}</td>
+                        <td>{faabLabel(row.netCost)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p class="method">El costo por punto extra divide la puja entre la diferencia de promedios. El promedio semanal divide el FAAB total de las {metrics.positiveCount} mejoras medibles entre los puntos extra que sumaron. Si faltan datos o el cambio no mejora el promedio, la columna de costo extra muestra un guion.</p>
+            </>
+          )}
+        </>
+      )}
+
+      {view !== 'semana' && season && seasons.length > 1 && (
+        <form method="get" class="report-picker auto-submit">
+          <input type="hidden" name="vista" value={view} />
+          <label>Temporada
+            <select name="temporada">
+              {seasons.map((value) => <option value={value} selected={value === season}>{seasonLabel(value)}</option>)}
+            </select>
+          </label>
+          <noscript><button type="submit">Ver temporada</button></noscript>
+        </form>
+      )}
+
+      {view === 'ranking' && season && (
+        <>
+          <h2>Temporada {seasonLabel(season)} · todas las semanas</h2>
           <dl class="totals">
-            <div><dt>Movimientos</dt><dd>{metrics.rows.length}</dd></div>
-            <div><dt>FAAB gastado</dt><dd>{faabLabel(metrics.totalBid)}</dd></div>
-            <div><dt>FAAB promedio por punto extra</dt><dd>{faabLabel(metrics.weightedCost)}</dd></div>
+            <div><dt>Movimientos</dt><dd>{moves.length}</dd></div>
+            <div><dt>FAAB gastado en la liga</dt><dd>{faabLabel(moves.reduce((total, move) => total + move.bid, 0))}</dd></div>
+            <div><dt>Semanas reportadas</dt><dd>{trend.length}</dd></div>
           </dl>
-          <div class="table-scroll" tabindex="0" aria-label="Movimientos completados">
-            <table>
+
+          <h3>Ranking de managers</h3>
+          {hasManagers ? (
+            <div class="table-scroll" tabindex="0" aria-label="Ranking de managers">
+              <table class="sortable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th><th scope="col">Manager</th>
+                    <th scope="col" data-sort="number">Movimientos</th><th scope="col" data-sort="number">FAAB gastado</th>
+                    <th scope="col" data-sort="number">Pts/partido ganados</th><th scope="col" data-sort="number">FAAB/punto extra</th>
+                    <th scope="col" data-sort="number">Aciertos</th><th scope="col" data-sort="number">Se cayeron</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ranking.map((row, index) => (
+                    <tr>
+                      <td>{index + 1}</td><th scope="row">{row.manager}</th>
+                      <td data-value={row.moves}>{row.moves}</td>
+                      <td data-value={row.spent}>{faabLabel(row.spent)}</td>
+                      <td data-value={row.gain}>{signed(row.gain)}</td>
+                      <td data-value={sortValue(row.costPerPoint)}>{faabLabel(row.costPerPoint)}</td>
+                      <td data-value={row.hits}>{row.hits}</td>
+                      <td data-value={row.misses}>{row.misses}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p class="note">El ranking por manager aparece cuando los reportes incluyen la columna «Manager».</p>
+          )}
+
+          <h3>Todos los pickups de la temporada</h3>
+          <p class="note">Haz clic en un encabezado para ordenar. «Pts/partido ganados» usa el seguimiento más reciente cuando existe; si no, el dato del día del pickup.</p>
+          <div class="table-scroll" tabindex="0" aria-label="Todos los pickups">
+            <table class="sortable">
               <thead>
                 <tr>
-                  <th scope="col">Jugador agregado</th><th scope="col">Pts/partido</th>
-                  <th scope="col">Puja FAAB</th><th scope="col">FAAB/punto</th>
-                  <th scope="col">Jugador soltado</th><th scope="col">Pts/partido</th>
-                  <th scope="col">Cambio pts/partido</th><th scope="col">FAAB/punto extra</th>
+                  <th scope="col">#</th><th scope="col" data-sort="number">Semana</th><th scope="col" data-sort="text">Jugador agregado</th>
+                  {hasManagers && <th scope="col" data-sort="text">Manager</th>}
+                  <th scope="col" data-sort="number">Puja FAAB</th><th scope="col" data-sort="text">Jugador soltado</th>
+                  <th scope="col" data-sort="number">Pts/partido ganados</th><th scope="col" data-sort="number">FAAB/punto extra</th>
+                  <th scope="col" data-sort="text">Progresión</th>
                 </tr>
               </thead>
               <tbody>
-                {metrics.rows.map((row) => (
+                {byGain.map((move, index) => (
                   <tr>
-                    <th scope="row">{row.added}</th><td>{points.format(row.addedAverage)}</td>
-                    <td>{faabLabel(row.bid)}</td><td>{faabLabel(row.grossCost)}</td>
-                    <td>{row.dropped ?? '—'}</td><td>{row.droppedAverage === null ? '—' : points.format(row.droppedAverage)}</td>
-                    <td>{row.gain === null ? '—' : (row.gain > 0 ? '+' : '') + points.format(row.gain)}</td>
-                    <td>{faabLabel(row.netCost)}</td>
+                    <td class="rank">{index + 1}</td><td data-value={move.week}>{move.week}</td>
+                    <th scope="row">{move.added}</th>
+                    {hasManagers && <td>{move.manager ?? '—'}</td>}
+                    <td data-value={move.bid}>{faabLabel(move.bid)}</td><td>{move.dropped ?? '—'}</td>
+                    <td data-value={sortValue(move.bestGain)}>{signed(move.bestGain)}</td>
+                    <td data-value={sortValue(move.netCostNow ?? move.netCost)}>{faabLabel(move.netCostNow ?? move.netCost)}</td>
+                    <td><span class:list={['verdict', 'verdict--' + move.verdict]}>{verdictLabels[move.verdict]}</span></td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p class="method">El costo por punto extra divide la puja entre la diferencia de promedios. El promedio semanal divide el FAAB total de las {metrics.positiveCount} mejoras medibles entre los puntos extra que sumaron. Si faltan datos o el cambio no mejora el promedio, la columna de costo extra muestra un guion.</p>
+
+          <div class="highlights">
+            <div>
+              <h3>Gangas (puja de $2 o menos)</h3>
+              {bargains.length ? (
+                <ol class="pick-list">{bargains.map((move) => <li><strong>{move.added}</strong> · {faabLabel(move.bid)} · {signed(move.bestGain)} pts/partido{move.manager && <> · {move.manager}</>}</li>)}</ol>
+              ) : <p class="note">Aún no hay gangas medibles.</p>}
+            </div>
+            <div>
+              <h3>FAAB que no rindió</h3>
+              {busts.length ? (
+                <ol class="pick-list">{busts.map((move) => <li><strong>{move.added}</strong> · {faabLabel(move.bid)} · {signed(move.bestGain)} pts/partido{move.manager && <> · {move.manager}</>}</li>)}</ol>
+              ) : <p class="note">Ningún pickup medible ha empeorado el roster.</p>}
+            </div>
+          </div>
+
+          <h3>Precio del mercado por semana</h3>
+          <div class="table-scroll" tabindex="0" aria-label="Precio del mercado por semana">
+            <table>
+              <thead>
+                <tr><th scope="col">Semana</th><th scope="col">Movimientos</th><th scope="col">FAAB gastado</th><th scope="col">Puja promedio</th><th scope="col">Puja más alta</th><th scope="col">FAAB/punto extra</th></tr>
+              </thead>
+              <tbody>
+                {trend.map((row) => (
+                  <tr>
+                    <th scope="row">{row.week}</th><td>{row.moves}</td><td>{faabLabel(row.spent)}</td>
+                    <td>{faabLabel(row.averageBid)}</td><td>{faabLabel(row.topBid)}</td><td>{faabLabel(row.weightedCost)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+
+      {view === 'progresion' && season && (
+        <>
+          <h2>¿Cómo envejecieron los pickups?</h2>
+          <p class="note">Compara el promedio del día del pickup con el promedio más reciente cargado después. Un jugador «Mejoró» o «Se cayó» si la diferencia neta contra el jugador soltado cambió {progressionThreshold} pts/partido o más.</p>
+          {tracked.length === 0 ? (
+            <p>Todavía no hay seguimiento de promedios para esta temporada.</p>
+          ) : (
+            <>
+              <dl class="totals">
+                {(['up', 'steady', 'down'] as const).map((verdict) => (
+                  <div><dt>{verdictLabels[verdict]}</dt><dd>{tracked.filter((move) => move.verdict === verdict).length}</dd></div>
+                ))}
+              </dl>
+              <div class="table-scroll" tabindex="0" aria-label="Progresión de pickups">
+                <table class="sortable">
+                  <thead>
+                    <tr>
+                      <th scope="col" data-sort="number">Semana</th><th scope="col" data-sort="text">Jugador agregado</th>
+                      {hasManagers && <th scope="col" data-sort="text">Manager</th>}
+                      <th scope="col" data-sort="number">Puja</th>
+                      <th scope="col" data-sort="number">Promedio al fichar</th><th scope="col" data-sort="number">Promedio ahora</th>
+                      <th scope="col" data-sort="text">Soltado</th><th scope="col" data-sort="number">Soltado ahora</th>
+                      <th scope="col" data-sort="number">Ganancia al fichar</th><th scope="col" data-sort="number">Ganancia ahora</th>
+                      <th scope="col" data-sort="number">Cambio</th><th scope="col" data-sort="text">Veredicto</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[...tracked].sort((a, b) => (b.change ?? 0) - (a.change ?? 0)).map((move) => (
+                      <tr>
+                        <td data-value={move.week}>{move.week}</td><th scope="row">{move.added}</th>
+                        {hasManagers && <td>{move.manager ?? '—'}</td>}
+                        <td data-value={move.bid}>{faabLabel(move.bid)}</td>
+                        <td data-value={move.addedAverage}>{num(move.addedAverage)}</td>
+                        <td data-value={sortValue(move.addedNow)}>{num(move.addedNow)} <small>(sem. {move.snapshotWeek})</small></td>
+                        <td>{move.dropped ?? '—'}</td><td data-value={sortValue(move.droppedNow)}>{num(move.droppedNow)}</td>
+                        <td data-value={sortValue(move.gain)}>{signed(move.gain)}</td>
+                        <td data-value={sortValue(move.gainNow)}>{signed(move.gainNow)}</td>
+                        <td data-value={sortValue(move.change)}>{signed(move.change)}</td>
+                        <td><span class:list={['verdict', 'verdict--' + move.verdict]}>{verdictLabels[move.verdict]}</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+          {moves.length > tracked.length && (
+            <p class="note">{moves.length - tracked.length === 1 ? '1 pickup aún no tiene' : moves.length - tracked.length + ' pickups aún no tienen'} un promedio posterior cargado.</p>
+          )}
         </>
       )}
     </div>
   </section>
 </BaseLayout>
+<script>
+  // Cambiar de semana/temporada al seleccionar, sin botón.
+  for (const select of document.querySelectorAll<HTMLSelectElement>('.auto-submit select')) {
+    select.addEventListener('change', () => select.form?.submit());
+  }
+  // Ordenar tablas al hacer clic en encabezados con data-sort.
+  for (const table of document.querySelectorAll<HTMLTableElement>('table.sortable')) {
+    const headers = [...table.tHead!.rows[0].cells];
+    headers.forEach((header, column) => {
+      const type = header.dataset.sort;
+      if (!type) return;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = header.textContent;
+      header.replaceChildren(button);
+      button.addEventListener('click', () => {
+        const descending = header.getAttribute('aria-sort') !== 'descending';
+        headers.forEach((cell) => cell.removeAttribute('aria-sort'));
+        header.setAttribute('aria-sort', descending ? 'descending' : 'ascending');
+        const body = table.tBodies[0];
+        const key = (row: HTMLTableRowElement) => {
+          const cell = row.cells[column];
+          return type === 'number' ? cell.dataset.value ?? '' : cell.textContent!.trim();
+        };
+        const rows = [...body.rows].sort((a, b) => {
+          const [x, y] = [key(a), key(b)];
+          if (x === '' || y === '') return x === y ? 0 : x === '' ? 1 : -1; // sin dato siempre al final
+          const order = type === 'number' ? Number(x) - Number(y) : x.localeCompare(y, 'es');
+          return descending ? -order : order;
+        });
+        body.append(...rows);
+        body.querySelectorAll<HTMLElement>('.rank').forEach((cell, index) => { cell.textContent = String(index + 1); });
+      });
+    });
+  }
+</script>
 <style>
   .report { display: grid; gap: 1rem; }
+  .report h3 { margin-top: 1.25rem; }
+  .tabs { display: flex; flex-wrap: wrap; gap: .4rem; border-bottom: 1px solid #cbd8e4; padding-bottom: .6rem; }
+  .tabs a { padding: .5rem .9rem; border-radius: 999px; text-decoration: none; font-weight: 650; color: #07192b; border: 1px solid #cbd8e4; }
+  .tabs a[aria-current='page'] { background: #07192b; color: #fff; border-color: #07192b; }
   .report-picker { display: flex; align-items: end; flex-wrap: wrap; gap: .65rem; }
   .report-picker label { display: grid; gap: .25rem; }
   .report-picker :is(select, button) { font: inherit; padding: .5rem .75rem; border: 1px solid #a3b3c2; border-radius: .5rem; color: #07192b; background: #fff; }
@@ -90,6 +347,15 @@ const published = report && new Intl.DateTimeFormat('es-MX', {
   table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; white-space: nowrap; }
   th, td { text-align: left; padding: .7rem .85rem; border-bottom: 1px solid #cbd8e4; }
   thead { background: #07192b; color: white; }
+  thead :global(button) { all: unset; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+  thead :global(th[aria-sort='descending'] button)::after { content: ' ↓'; }
+  thead :global(th[aria-sort='ascending'] button)::after { content: ' ↑'; }
   tbody tr:last-child > * { border-bottom: 0; }
-  .method { font-size: .9rem; max-width: 75ch; }
+  small { color: #5b6b7a; }
+  .verdict { display: inline-block; padding: .15rem .5rem; border-radius: 999px; font-size: .8rem; font-weight: 700; background: #eef2f6; color: #3b4a59; }
+  .verdict--up { background: #e3f6e8; color: #1d6b35; }
+  .verdict--down { background: #fde8e8; color: #a01a31; }
+  .highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1rem; }
+  .pick-list { padding-left: 1.2rem; display: grid; gap: .35rem; }
+  .method, .note { font-size: .9rem; max-width: 75ch; color: #3b4a59; }
 </style>

@@ -1,6 +1,6 @@
 ---
 import { createHash, timingSafeEqual } from 'node:crypto';
-import { parseReport, publishReport, reportColumns } from '../../lib/waiver-reports';
+import { parseReport, parseSnapshot, publishReport, publishSnapshot, reportColumns, snapshotColumns } from '../../lib/waiver-reports';
 import '../../styles/global.css';
 
 export const prerender = false;
@@ -33,6 +33,7 @@ let season = String(month >= 10 ? year : year - 1);
 let week = '';
 let rows = '';
 let error = '';
+let kind = 'report';
 if (Astro.request.method === 'POST') {
   if (Astro.request.headers.get('origin') !== Astro.url.origin) {
     return new Response('Origen inválido.', { status: 403, headers: privacyHeaders });
@@ -46,19 +47,21 @@ if (Astro.request.method === 'POST') {
   season = form.get('season') ?? '';
   week = form.get('week') ?? '';
   rows = form.get('rows') ?? '';
-  let report;
+  kind = form.get('kind') === 'snapshot' ? 'snapshot' : 'report';
+  let item;
   try {
-    report = parseReport(Number(season), Number(week), rows);
+    item = kind === 'snapshot'
+      ? parseSnapshot(Number(season), Number(week), rows)
+      : parseReport(Number(season), Number(week), rows);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Revisa los datos del reporte.';
   }
-  if (report) {
+  if (item) {
     try {
-      await publishReport(report);
-      return new Response(null, {
-        status: 303,
-        headers: { ...privacyHeaders, Location: '/nbafantasy?reporte=' + encodeURIComponent(report.season + ':' + report.week) },
-      });
+      const location = 'averages' in item
+        ? (await publishSnapshot(item), '/nbafantasy?vista=progresion')
+        : (await publishReport(item), '/nbafantasy?reporte=' + encodeURIComponent(item.season + ':' + item.week));
+      return new Response(null, { status: 303, headers: { ...privacyHeaders, Location: location } });
     } catch {
       error = 'No se pudo guardar el reporte. Revisa la configuración de almacenamiento o vuelve a intentar.';
     }
@@ -115,17 +118,35 @@ if (Astro.request.method === 'POST') {
       <section aria-labelledby="publish-title">
         <h2 id="publish-title">Actualizar reporte semanal</h2>
         <p>Pega solo pujas ganadoras ya procesadas. Publicar la misma temporada y semana reemplaza su reporte completo.</p>
-        {error && <p class="error" role="alert">{error}</p>}
+        {error && kind === 'report' && <p class="error" role="alert">{error}</p>}
         <form method="post">
+          <input type="hidden" name="kind" value="report" />
           <div class="field-grid compact">
             <label>Año de inicio de temporada<input name="season" type="number" min="2000" max="2100" required value={season} /></label>
-            <label>Semana de Yahoo<input name="week" type="number" min="1" max="30" required value={week} /></label>
+            <label>Semana de Yahoo<input name="week" type="number" min="1" max="30" required value={kind === 'report' ? week : ''} /></label>
           </div>
           <label>Movimientos (pega las filas desde Excel o Sheets)
-            <textarea name="rows" rows="8" maxlength="80000" required placeholder={reportColumns} aria-describedby="report-columns">{rows}</textarea>
+            <textarea name="rows" rows="8" maxlength="80000" required placeholder={reportColumns} aria-describedby="report-columns">{kind === 'report' ? rows : ''}</textarea>
           </label>
-          <p id="report-columns">Orden de columnas: jugador agregado, promedio agregado, puja FAAB, jugador soltado, promedio soltado. Puedes dejar las dos últimas vacías si no hubo baja.</p>
+          <p id="report-columns">Orden de columnas: jugador agregado, promedio agregado, puja FAAB, jugador soltado, promedio soltado. Puedes dejar vacías las columnas del soltado si no hubo baja. La sexta columna, manager, es opcional y activa el ranking por manager.</p>
           <button type="submit">Actualizar reporte público</button>
+        </form>
+      </section>
+      <section aria-labelledby="snapshot-title">
+        <h2 id="snapshot-title">Seguimiento de promedios</h2>
+        <p>Cada cierta semana, pega el promedio fantasy actual de los jugadores agregados y soltados en reportes anteriores. La pestaña «Progresión» compara contra el promedio del día del pickup. Publicar la misma semana reemplaza ese seguimiento.</p>
+        {error && kind === 'snapshot' && <p class="error" role="alert">{error}</p>}
+        <form method="post">
+          <input type="hidden" name="kind" value="snapshot" />
+          <div class="field-grid compact">
+            <label>Año de inicio de temporada<input name="season" type="number" min="2000" max="2100" required value={season} /></label>
+            <label>Semana de Yahoo<input name="week" type="number" min="1" max="30" required value={kind === 'snapshot' ? week : ''} /></label>
+          </div>
+          <label>Promedios actuales
+            <textarea name="rows" rows="8" maxlength="80000" required placeholder={snapshotColumns} aria-describedby="snapshot-columns">{kind === 'snapshot' ? rows : ''}</textarea>
+          </label>
+          <p id="snapshot-columns">Dos columnas: jugador y promedio fantasy por partido actual. Escribe los nombres igual que en el reporte (no importan acentos ni mayúsculas).</p>
+          <button type="submit">Publicar seguimiento</button>
         </form>
         <p><a href="/nbafantasy">Ver el reporte público</a></p>
       </section>
