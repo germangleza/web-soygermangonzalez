@@ -6,7 +6,8 @@ const reportKey = 'guillotina:87354:reports:v1';
 const snapshotPrefix = 'guillotina/87354/averages/';
 const snapshotKey = 'guillotina:87354:averages:v1';
 const legacyColumns = 'Jugador agregado\tPromedio agregado\tPuja FAAB\tJugador soltado\tPromedio soltado';
-export const reportColumns = legacyColumns + '\tManager';
+const managerColumns = legacyColumns + '\tManager';
+export const reportColumns = managerColumns + '\tSegunda puja';
 export const snapshotColumns = 'Jugador\tPromedio actual';
 
 export interface WaiverMove {
@@ -16,6 +17,8 @@ export interface WaiverMove {
   dropped: string | null;
   droppedAverage: number | null;
   manager?: string | null;
+  /** Segunda puja más alta, si se conoce (Yahoo la avisa por correo a quien pujó). */
+  secondBid?: number | null;
 }
 
 /** Promedios de una fecha posterior, para medir si los pickups se sostuvieron. */
@@ -31,6 +34,8 @@ export interface WaiverReport {
   week: number;
   publishedAt: string;
   moves: WaiverMove[];
+  /** Manager eliminado por la guillotina esa semana. */
+  eliminated?: string | null;
 }
 
 export function reportMetrics(moves: WaiverMove[]) {
@@ -63,16 +68,18 @@ function checkWeek(season: number, week: number) {
   }
 }
 
-export function parseReport(season: number, week: number, text: string): WaiverReport {
+export function parseReport(season: number, week: number, text: string, eliminated = ''): WaiverReport {
   checkWeek(season, week);
   const lines = text.split(/\r?\n/).filter((line) => line.trim());
-  if ([reportColumns, legacyColumns].includes(lines[0]?.trim())) lines.shift();
+  if ([reportColumns, managerColumns, legacyColumns].includes(lines[0]?.trim())) lines.shift();
+  const eliminatedName = eliminated.trim();
+  if (eliminatedName.length > 60) throw new Error('El nombre del manager eliminado es demasiado largo.');
   if (!lines.length || lines.length > 250) throw new Error('Pega entre 1 y 250 movimientos completados.');
   const moves = lines.map((line, index): WaiverMove => {
     const columns = line.split('\t').map((cell) => cell.trim());
-    const [added, avg, offer, dropped = '', dropAvg = '', manager = ''] = columns;
+    const [added, avg, offer, dropped = '', dropAvg = '', manager = '', second = ''] = columns;
     const label = 'Fila ' + (index + 1);
-    if (columns.length < 3 || columns.length > 6 || !added || added.length > 100 || dropped.length > 100 || manager.length > 60) {
+    if (columns.length < 3 || columns.length > 7 || !added || added.length > 100 || dropped.length > 100 || manager.length > 60) {
       throw new Error(label + ' · revisa las columnas y los nombres.');
     }
     const addedAverage = parseNumber(avg, label + ' · falta el promedio válido del jugador agregado.');
@@ -80,9 +87,13 @@ export function parseReport(season: number, week: number, text: string): WaiverR
     if (!Number.isInteger(bid) || bid < 0 || bid > 100) throw new Error(label + ' · el FAAB debe ser un entero entre 0 y 100.');
     if (dropAvg && !dropped) throw new Error(label + ' · escribe el nombre del jugador soltado.');
     const droppedAverage = dropAvg ? parseNumber(dropAvg, label + ' · promedio inválido del jugador soltado.') : null;
-    return { added, addedAverage, bid, dropped: dropped || null, droppedAverage, manager: manager || null };
+    const secondBid = second ? parseNumber(second.replace(/^\$\s*/, ''), label + ' · segunda puja inválida.') : null;
+    if (secondBid !== null && (!Number.isInteger(secondBid) || secondBid < 0 || secondBid > bid)) {
+      throw new Error(label + ' · la segunda puja debe ser un entero entre 0 y la puja ganadora.');
+    }
+    return { added, addedAverage, bid, dropped: dropped || null, droppedAverage, manager: manager || null, secondBid };
   });
-  return { season, week, moves, publishedAt: new Date().toISOString() };
+  return { season, week, moves, publishedAt: new Date().toISOString(), eliminated: eliminatedName || null };
 }
 
 export function parseSnapshot(season: number, week: number, text: string): AverageSnapshot {

@@ -3,7 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/ui/PageHero.astro';
 import { faabLabel, points } from '../lib/waiver-metrics';
 import { readReports, readSnapshots, reportMetrics } from '../lib/waiver-reports';
-import { managerRanking, progressionThreshold, seasonMoves, verdictLabels, weeklyTrend } from '../lib/waiver-analysis';
+import { managerRanking, progressionThreshold, seasonMoves, survival, verdictLabels, weeklyTrend } from '../lib/waiver-analysis';
+import { gamesByTeam, readSchedule, scheduleWindows } from '../lib/nba-schedule';
 
 export const prerender = false;
 
@@ -12,7 +13,7 @@ const [reports, snapshots] = await Promise.all([
   readReports().catch(() => null),
   readSnapshots().catch(() => []),
 ]);
-const views = { semana: 'Semanal', ranking: 'Ranking global', progresion: 'Progresión' } as const;
+const views = { semana: 'Semanal', ranking: 'Ranking global', progresion: 'Progresión', calendario: 'Juegos por semana' } as const;
 type View = keyof typeof views;
 const requestedView = Astro.url.searchParams.get('vista');
 const view: View = requestedView && requestedView in views ? requestedView as View : 'semana';
@@ -22,6 +23,8 @@ const report = reportId
   ? reports?.find(({ season, week }) => season + ':' + week === reportId)
   : reports?.[0];
 const metrics = report && reportMetrics(report.moves);
+const weekHasManagers = !!metrics?.rows.some((row) => row.manager);
+const weekHasSecondBids = !!metrics?.rows.some((row) => row.secondBid != null);
 const published = report && new Intl.DateTimeFormat('es-MX', {
   dateStyle: 'long', timeStyle: 'short', timeZone: 'America/Mexico_City',
 }).format(new Date(report.publishedAt));
@@ -34,6 +37,13 @@ const moves = season ? seasonMoves(reports ?? [], snapshots, season) : [];
 const ranking = managerRanking(moves);
 const trend = season ? weeklyTrend(reports ?? [], season) : [];
 const hasManagers = moves.some((move) => move.manager);
+const hasOverpay = moves.some((move) => move.overpay !== null);
+const spending = season ? survival(reports ?? [], season) : null;
+const windows = scheduleWindows(new Date());
+const schedule = view === 'calendario' ? await readSchedule().then((games) => gamesByTeam(games, windows)).catch(() => null) : null;
+const shortDate = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+const windowDates = (start: string, end: string) =>
+  shortDate.format(new Date(start + 'T00:00:00Z')) + ' – ' + shortDate.format(new Date(end + 'T00:00:00Z'));
 const tracked = moves.filter((move) => move.verdict !== 'pending');
 const byGain = [...moves].sort((a, b) => (b.bestGain ?? -Infinity) - (a.bestGain ?? -Infinity));
 const bargains = moves
@@ -59,15 +69,13 @@ const tabHref = (target: View) => {
   </PageHero>
   <section class="section">
     <div class="container report">
-      {reports && reports.length > 0 && (
         <nav class="tabs" aria-label="Vistas del reporte">
           {Object.entries(views).map(([key, label]) => (
             <a href={tabHref(key as View)} aria-current={view === key ? 'page' : undefined}>{label}</a>
           ))}
         </nav>
-      )}
-      {!reports && <p role="status">El historial está temporalmente fuera de servicio.</p>}
-      {reports && reports.length === 0 && <p>Todavía no se ha publicado el primer reporte semanal.</p>}
+      {view !== 'calendario' && !reports && <p role="status">El historial está temporalmente fuera de servicio.</p>}
+      {view !== 'calendario' && reports && reports.length === 0 && <p>Todavía no se ha publicado el primer reporte semanal.</p>}
 
       {view === 'semana' && reports && reports.length > 0 && (
         <>
@@ -89,6 +97,7 @@ const tabHref = (target: View) => {
             <>
               <h2>Semana {report.week}</h2>
               <p>Actualizado el {published} (hora de Ciudad de México).</p>
+              {report.eliminated && <p class="eliminated">Guillotina de la semana: <strong>{report.eliminated}</strong>.</p>}
               <dl class="totals">
                 <div><dt>Movimientos</dt><dd>{metrics.rows.length}</dd></div>
                 <div><dt>FAAB gastado</dt><dd>{faabLabel(metrics.totalBid)}</dd></div>
@@ -98,9 +107,11 @@ const tabHref = (target: View) => {
                 <table>
                   <thead>
                     <tr>
-                      <th scope="col">Jugador agregado</th>{metrics.rows.some((row) => row.manager) && <th scope="col">Manager</th>}
+                      <th scope="col">Jugador agregado</th>{weekHasManagers && <th scope="col">Manager</th>}
                       <th scope="col">Pts/partido</th>
-                      <th scope="col">Puja FAAB</th><th scope="col">FAAB/punto</th>
+                      <th scope="col">Puja FAAB</th>
+                      {weekHasSecondBids && <><th scope="col">2.ª puja</th><th scope="col">Pagó de más</th></>}
+                      <th scope="col">FAAB/punto</th>
                       <th scope="col">Jugador soltado</th><th scope="col">Pts/partido</th>
                       <th scope="col">Cambio pts/partido</th><th scope="col">FAAB/punto extra</th>
                     </tr>
@@ -108,9 +119,11 @@ const tabHref = (target: View) => {
                   <tbody>
                     {metrics.rows.map((row) => (
                       <tr>
-                        <th scope="row">{row.added}</th>{metrics.rows.some((r) => r.manager) && <td>{row.manager ?? '—'}</td>}
+                        <th scope="row">{row.added}</th>{weekHasManagers && <td>{row.manager ?? '—'}</td>}
                         <td>{points.format(row.addedAverage)}</td>
-                        <td>{faabLabel(row.bid)}</td><td>{faabLabel(row.grossCost)}</td>
+                        <td>{faabLabel(row.bid)}</td>
+                        {weekHasSecondBids && <><td>{faabLabel(row.secondBid ?? null)}</td><td>{row.secondBid == null ? '—' : faabLabel(Math.max(row.bid - row.secondBid - 1, 0))}</td></>}
+                        <td>{faabLabel(row.grossCost)}</td>
                         <td>{row.dropped ?? '—'}</td><td>{num(row.droppedAverage)}</td>
                         <td>{signed(row.gain)}</td>
                         <td>{faabLabel(row.netCost)}</td>
@@ -119,7 +132,7 @@ const tabHref = (target: View) => {
                   </tbody>
                 </table>
               </div>
-              <p class="method">El costo por punto extra divide la puja entre la diferencia de promedios. El promedio semanal divide el FAAB total de las {metrics.positiveCount} mejoras medibles entre los puntos extra que sumaron. Si faltan datos o el cambio no mejora el promedio, la columna de costo extra muestra un guion.</p>
+              <p class="method">El costo por punto extra divide la puja entre la diferencia de promedios. El promedio semanal divide el FAAB total de las {metrics.positiveCount} mejoras medibles entre los puntos extra que sumaron. Si faltan datos o el cambio no mejora el promedio, la columna de costo extra muestra un guion.{weekHasSecondBids && ' «Pagó de más» es la puja ganadora menos la segunda puja más $1, que era lo mínimo para ganar.'}</p>
             </>
           )}
         </>
@@ -155,6 +168,7 @@ const tabHref = (target: View) => {
                     <th scope="col">#</th><th scope="col">Manager</th>
                     <th scope="col" data-sort="number">Movimientos</th><th scope="col" data-sort="number">FAAB gastado</th>
                     <th scope="col" data-sort="number">Pts/partido ganados</th><th scope="col" data-sort="number">FAAB/punto extra</th>
+                    {hasOverpay && <th scope="col" data-sort="number">FAAB de más</th>}
                     <th scope="col" data-sort="number">Aciertos</th><th scope="col" data-sort="number">Se cayeron</th>
                   </tr>
                 </thead>
@@ -166,6 +180,7 @@ const tabHref = (target: View) => {
                       <td data-value={row.spent}>{faabLabel(row.spent)}</td>
                       <td data-value={row.gain}>{signed(row.gain)}</td>
                       <td data-value={sortValue(row.costPerPoint)}>{faabLabel(row.costPerPoint)}</td>
+                      {hasOverpay && <td data-value={sortValue(row.overpay)}>{faabLabel(row.overpay)}</td>}
                       <td data-value={row.hits}>{row.hits}</td>
                       <td data-value={row.misses}>{row.misses}</td>
                     </tr>
@@ -185,7 +200,7 @@ const tabHref = (target: View) => {
                 <tr>
                   <th scope="col">#</th><th scope="col" data-sort="number">Semana</th><th scope="col" data-sort="text">Jugador agregado</th>
                   {hasManagers && <th scope="col" data-sort="text">Manager</th>}
-                  <th scope="col" data-sort="number">Puja FAAB</th><th scope="col" data-sort="text">Jugador soltado</th>
+                  <th scope="col" data-sort="number">Puja FAAB</th>{hasOverpay && <th scope="col" data-sort="number">Pagó de más</th>}<th scope="col" data-sort="text">Jugador soltado</th>
                   <th scope="col" data-sort="number">Pts/partido ganados</th><th scope="col" data-sort="number">FAAB/punto extra</th>
                   <th scope="col" data-sort="text">Progresión</th>
                 </tr>
@@ -196,7 +211,7 @@ const tabHref = (target: View) => {
                     <td class="rank">{index + 1}</td><td data-value={move.week}>{move.week}</td>
                     <th scope="row">{move.added}</th>
                     {hasManagers && <td>{move.manager ?? '—'}</td>}
-                    <td data-value={move.bid}>{faabLabel(move.bid)}</td><td>{move.dropped ?? '—'}</td>
+                    <td data-value={move.bid}>{faabLabel(move.bid)}</td>{hasOverpay && <td data-value={sortValue(move.overpay)}>{faabLabel(move.overpay)}</td>}<td>{move.dropped ?? '—'}</td>
                     <td data-value={sortValue(move.bestGain)}>{signed(move.bestGain)}</td>
                     <td data-value={sortValue(move.netCostNow ?? move.netCost)}>{faabLabel(move.netCostNow ?? move.netCost)}</td>
                     <td><span class:list={['verdict', 'verdict--' + move.verdict]}>{verdictLabels[move.verdict]}</span></td>
@@ -220,6 +235,43 @@ const tabHref = (target: View) => {
               ) : <p class="note">Ningún pickup medible ha empeorado el roster.</p>}
             </div>
           </div>
+
+          <h3>¿Gastar salva de la guillotina?</h3>
+          {spending && spending.hasEliminations && hasManagers ? (
+            <>
+              <dl class="totals">
+                <div><dt>Siguen vivos ({spending.alive.count})</dt><dd>{faabLabel(spending.alive.perWeek)}<small> /semana</small></dd></div>
+                <div><dt>Eliminados ({spending.out.count})</dt><dd>{faabLabel(spending.out.perWeek)}<small> /semana</small></dd></div>
+              </dl>
+              <p class="note">FAAB promedio gastado por semana activa: a los eliminados solo se les cuentan las semanas que jugaron, para no castigarlos por haber salido antes.</p>
+              <div class="table-scroll" tabindex="0" aria-label="Gasto y supervivencia">
+                <table class="sortable">
+                  <thead>
+                    <tr>
+                      <th scope="col" data-sort="text">Manager</th><th scope="col" data-sort="number">FAAB gastado</th>
+                      <th scope="col" data-sort="number">FAAB/semana</th><th scope="col" data-sort="number">Movimientos</th>
+                      <th scope="col" data-sort="number">Estado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {spending.rows.map((row) => (
+                      <tr>
+                        <th scope="row">{row.manager}</th>
+                        <td data-value={row.spent}>{faabLabel(row.spent)}</td>
+                        <td data-value={sortValue(row.perWeek)}>{faabLabel(row.perWeek)}</td>
+                        <td data-value={row.moves}>{row.moves}</td>
+                        <td data-value={row.eliminatedWeek ?? 99}>{row.eliminatedWeek === null
+                          ? <span class="verdict verdict--up">Vivo</span>
+                          : <span class="verdict verdict--down">Eliminado sem. {row.eliminatedWeek}</span>}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          ) : (
+            <p class="note">Aparece cuando los reportes incluyen la columna «Manager» y el manager eliminado de cada semana.</p>
+          )}
 
           <h3>Precio del mercado por semana</h3>
           <div class="table-scroll" tabindex="0" aria-label="Precio del mercado por semana">
@@ -291,6 +343,38 @@ const tabHref = (target: View) => {
           )}
         </>
       )}
+      {view === 'calendario' && (
+        <>
+          <h2>Juegos por equipo</h2>
+          <p class="note">Los waivers corren el miércoles, así que «Esta semana» cuenta de miércoles a domingo. Las dos siguientes son semanas completas de Yahoo, de lunes a domingo. Fechas en hora del Este.</p>
+          {!schedule ? (
+            <p role="status">El calendario de la NBA no está disponible en este momento. Intenta más tarde.</p>
+          ) : (
+            <div class="table-scroll" tabindex="0" aria-label="Juegos por equipo">
+              <table class="sortable">
+                <thead>
+                  <tr>
+                    <th scope="col" data-sort="text">Equipo</th>
+                    {windows.map((window) => (
+                      <th scope="col" data-sort="number">{window.label}<br /><small>{windowDates(window.start, window.end)}</small></th>
+                    ))}
+                    <th scope="col" data-sort="number">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {schedule.map((row) => (
+                    <tr>
+                      <th scope="row">{row.team}</th>
+                      {row.counts.map((count) => <td data-value={count} class:list={['games', { 'games--many': count >= 4, 'games--few': count <= 2 }]}>{count}</td>)}
+                      <td data-value={row.total}><strong>{row.total}</strong></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </>
+      )}
     </div>
   </section>
 </BaseLayout>
@@ -307,8 +391,8 @@ const tabHref = (target: View) => {
       if (!type) return;
       const button = document.createElement('button');
       button.type = 'button';
-      button.textContent = header.textContent;
-      header.replaceChildren(button);
+      button.append(...header.childNodes);
+      header.append(button);
       button.addEventListener('click', () => {
         const descending = header.getAttribute('aria-sort') !== 'descending';
         headers.forEach((cell) => cell.removeAttribute('aria-sort'));
@@ -352,6 +436,11 @@ const tabHref = (target: View) => {
   thead :global(th[aria-sort='ascending'] button)::after { content: ' ↑'; }
   tbody tr:last-child > * { border-bottom: 0; }
   small { color: #5b6b7a; }
+  thead small { color: #c6d3df; font-weight: 400; }
+  .totals small { font-size: .9rem; font-weight: 500; }
+  .eliminated { color: #a01a31; }
+  .games--many { background: #e3f6e8; color: #1d6b35; font-weight: 700; }
+  .games--few { background: #fdf1e3; color: #8a4b0b; }
   .verdict { display: inline-block; padding: .15rem .5rem; border-radius: 999px; font-size: .8rem; font-weight: 700; background: #eef2f6; color: #3b4a59; }
   .verdict--up { background: #e3f6e8; color: #1d6b35; }
   .verdict--down { background: #fde8e8; color: #a01a31; }

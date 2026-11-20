@@ -40,6 +40,9 @@ export function seasonMoves(reports: WaiverReport[], snapshots: AverageSnapshot[
         ...row,
         week: report.week,
         manager: row.manager ?? null,
+        secondBid: row.secondBid ?? null,
+        /** FAAB pagado de más sobre la segunda puja (con $1 bastaba para ganar). */
+        overpay: row.secondBid === null || row.secondBid === undefined ? null : Math.max(row.bid - row.secondBid - 1, 0),
         snapshotWeek: snapshot?.week ?? null,
         addedNow, droppedNow, gainNow, change, verdict,
         netCostNow: costPerPoint(row.bid, gainNow),
@@ -68,6 +71,8 @@ export function managerRanking(moves: SeasonMove[]) {
       spent,
       gain: pointsDifference(gain, 0),
       costPerPoint: costPerPoint(measuredSpent, gain),
+      overpay: list.some((move) => move.overpay !== null)
+        ? list.reduce((total, move) => total + (move.overpay ?? 0), 0) : null,
       hits: list.filter((move) => move.verdict === 'up').length,
       misses: list.filter((move) => move.verdict === 'down').length,
     };
@@ -91,4 +96,71 @@ export function weeklyTrend(reports: WaiverReport[], season: number) {
         weightedCost: metrics.weightedCost,
       };
     });
+}
+
+const sameName = (a: string, b: string) => normalize(a) === normalize(b);
+
+/** ¿Gastar salva? Cruza el FAAB de cada manager con las eliminaciones de la guillotina. */
+export function survival(reports: WaiverReport[], season: number) {
+  const seasonReports = reports.filter((report) => report.season === season);
+  const lastWeek = Math.max(0, ...seasonReports.map((report) => report.week));
+  const eliminations = seasonReports
+    .filter((report) => report.eliminated)
+    .map((report) => ({ manager: report.eliminated!, week: report.week }));
+  const managers = new Map<string, { manager: string; spent: number; moves: number }>();
+  for (const move of seasonReports.flatMap((report) => report.moves)) {
+    if (!move.manager) continue;
+    const key = normalize(move.manager);
+    const entry = managers.get(key) ?? { manager: move.manager, spent: 0, moves: 0 };
+    entry.spent += move.bid;
+    entry.moves += 1;
+    managers.set(key, entry);
+  }
+  for (const { manager } of eliminations) {
+    if (!managers.has(normalize(manager))) managers.set(normalize(manager), { manager, spent: 0, moves: 0 });
+  }
+  const rows = [...managers.values()].map((entry) => {
+    const out = eliminations.find((elimination) => sameName(elimination.manager, entry.manager));
+    const weeksActive = out ? out.week : lastWeek;
+    return {
+      ...entry,
+      eliminatedWeek: out?.week ?? null,
+      perWeek: weeksActive > 0 ? entry.spent / weeksActive : null,
+    };
+  }).sort((a, b) => b.spent - a.spent);
+  const average = (list: typeof rows, pick: (row: (typeof rows)[number]) => number | null) => {
+    const values = list.map(pick).filter((value): value is number => value !== null);
+    return values.length ? values.reduce((total, value) => total + value, 0) / values.length : null;
+  };
+  const alive = rows.filter((row) => row.eliminatedWeek === null);
+  const out = rows.filter((row) => row.eliminatedWeek !== null);
+  return {
+    rows,
+    hasEliminations: eliminations.length > 0,
+    alive: { count: alive.length, spent: average(alive, (row) => row.spent), perWeek: average(alive, (row) => row.perWeek) },
+    out: { count: out.length, spent: average(out, (row) => row.spent), perWeek: average(out, (row) => row.perWeek) },
+  };
+}
+
+export const priceTierEdges = [20, 25, 30, 35];
+
+/** Precio de referencia: cuánto costó, en promedio, un jugador según su promedio fantasy al ficharlo. */
+export function priceTiers(reports: WaiverReport[], season: number) {
+  const moves = reports.filter((report) => report.season === season).flatMap((report) => report.moves);
+  const bounds = [-Infinity, ...priceTierEdges, Infinity];
+  return bounds.slice(0, -1).map((low, index) => {
+    const high = bounds[index + 1];
+    const label = low === -Infinity ? 'Menos de ' + high : high === Infinity ? low + ' o más' : low + ' a ' + (high - 0.1).toFixed(1);
+    const bids = moves.filter((move) => move.addedAverage >= low && move.addedAverage < high)
+      .map((move) => move.bid).sort((a, b) => a - b);
+    const middle = Math.floor(bids.length / 2);
+    return {
+      label,
+      count: bids.length,
+      average: bids.length ? bids.reduce((total, bid) => total + bid, 0) / bids.length : null,
+      median: bids.length ? (bids.length % 2 ? bids[middle] : (bids[middle - 1] + bids[middle]) / 2) : null,
+      min: bids.length ? bids[0] : null,
+      max: bids.length ? bids[bids.length - 1] : null,
+    };
+  });
 }

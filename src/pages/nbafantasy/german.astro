@@ -1,6 +1,8 @@
 ---
 import { createHash, timingSafeEqual } from 'node:crypto';
-import { parseReport, parseSnapshot, publishReport, publishSnapshot, reportColumns, snapshotColumns } from '../../lib/waiver-reports';
+import { parseReport, parseSnapshot, publishReport, publishSnapshot, readReports, reportColumns, snapshotColumns } from '../../lib/waiver-reports';
+import { priceTierEdges, priceTiers } from '../../lib/waiver-analysis';
+import { faabLabel } from '../../lib/waiver-metrics';
 import '../../styles/global.css';
 
 export const prerender = false;
@@ -34,6 +36,7 @@ let week = '';
 let rows = '';
 let error = '';
 let kind = 'report';
+let eliminated = '';
 if (Astro.request.method === 'POST') {
   if (Astro.request.headers.get('origin') !== Astro.url.origin) {
     return new Response('Origen inválido.', { status: 403, headers: privacyHeaders });
@@ -48,11 +51,12 @@ if (Astro.request.method === 'POST') {
   week = form.get('week') ?? '';
   rows = form.get('rows') ?? '';
   kind = form.get('kind') === 'snapshot' ? 'snapshot' : 'report';
+  eliminated = form.get('eliminated') ?? '';
   let item;
   try {
     item = kind === 'snapshot'
       ? parseSnapshot(Number(season), Number(week), rows)
-      : parseReport(Number(season), Number(week), rows);
+      : parseReport(Number(season), Number(week), rows, eliminated);
   } catch (cause) {
     error = cause instanceof Error ? cause.message : 'Revisa los datos del reporte.';
   }
@@ -67,6 +71,9 @@ if (Astro.request.method === 'POST') {
     }
   }
 }
+const reports = Astro.request.method === 'GET' ? await readReports().catch(() => null) : null;
+const tierSeason = reports?.[0]?.season;
+const tiers = reports && tierSeason ? priceTiers(reports, tierSeason) : null;
 ---
 <!doctype html>
 <html lang="es-MX">
@@ -115,6 +122,28 @@ if (Astro.request.method === 'POST') {
           </form>
         </details>
       </section>
+      <section aria-labelledby="tiers-title">
+        <h2 id="tiers-title">Precio de referencia por nivel</h2>
+        <p>Cuánto se pagó en la liga por jugadores según su promedio fantasy el día del pickup{tierSeason && <> (temporada {tierSeason}–{String(tierSeason + 1).slice(-2)})</>}. Solo lo ves tú.</p>
+        {!tiers ? (
+          <p>Aún no hay reportes para calcularlo.</p>
+        ) : (
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th scope="col">Pts/partido</th><th scope="col">Pickups</th><th scope="col">Promedio</th><th scope="col">Mediana</th><th scope="col">Mínimo</th><th scope="col">Máximo</th></tr></thead>
+              <tbody>
+                {tiers.map((tier) => (
+                  <tr>
+                    <th scope="row">{tier.label}</th><td>{tier.count}</td><td>{faabLabel(tier.average)}</td>
+                    <td>{faabLabel(tier.median)}</td><td>{faabLabel(tier.min)}</td><td>{faabLabel(tier.max)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        <p class="hint">Niveles cortados en {priceTierEdges.join(', ')} pts/partido. La mediana aguanta mejor una puja loca aislada que el promedio.</p>
+      </section>
       <section aria-labelledby="publish-title">
         <h2 id="publish-title">Actualizar reporte semanal</h2>
         <p>Pega solo pujas ganadoras ya procesadas. Publicar la misma temporada y semana reemplaza su reporte completo.</p>
@@ -124,11 +153,12 @@ if (Astro.request.method === 'POST') {
           <div class="field-grid compact">
             <label>Año de inicio de temporada<input name="season" type="number" min="2000" max="2100" required value={season} /></label>
             <label>Semana de Yahoo<input name="week" type="number" min="1" max="30" required value={kind === 'report' ? week : ''} /></label>
+            <label>Manager eliminado esa semana (opcional)<input name="eliminated" maxlength="60" value={kind === 'report' ? eliminated : ''} /></label>
           </div>
           <label>Movimientos (pega las filas desde Excel o Sheets)
             <textarea name="rows" rows="8" maxlength="80000" required placeholder={reportColumns} aria-describedby="report-columns">{kind === 'report' ? rows : ''}</textarea>
           </label>
-          <p id="report-columns">Orden de columnas: jugador agregado, promedio agregado, puja FAAB, jugador soltado, promedio soltado. Puedes dejar vacías las columnas del soltado si no hubo baja. La sexta columna, manager, es opcional y activa el ranking por manager.</p>
+          <p id="report-columns">Orden de columnas: jugador agregado, promedio agregado, puja FAAB, jugador soltado, promedio soltado. Puedes dejar vacías las columnas del soltado si no hubo baja. Opcionales: sexta columna, manager (activa el ranking por manager); séptima, la segunda puja más alta si la conoces (calcula cuánto se pagó de más).</p>
           <button type="submit">Actualizar reporte público</button>
         </form>
       </section>
@@ -215,7 +245,7 @@ if (Astro.request.method === 'POST') {
   section { border: 1px solid #cbd8e4; border-radius: .85rem; padding: clamp(1rem, 3vw, 1.6rem); }
   form { display: grid; gap: .7rem; }
   .field-grid, .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: .75rem; }
-  .compact { max-width: 28rem; }
+  .compact { max-width: 44rem; }
   label { display: grid; gap: .25rem; }
   :is(input, textarea) { width: 100%; font: inherit; padding: .5rem .65rem; border: 1px solid #a3b3c2; border-radius: .4rem; }
   textarea { font-family: monospace; }
@@ -225,4 +255,8 @@ if (Astro.request.method === 'POST') {
   .metrics dd { margin: 0; font-size: 1.3rem; font-weight: 750; }
   details form { margin-top: .7rem; }
   .error, #budget-warning { color: #a01a31; }
+  .table-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid #cbd8e4; }
+  .hint { font-size: .9rem; color: #3b4a59; }
 </style>
