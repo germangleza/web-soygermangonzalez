@@ -45,7 +45,9 @@ const shortDate = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'sho
 const windowDates = (start: string, end: string) =>
   shortDate.format(new Date(start + 'T00:00:00Z')) + ' – ' + shortDate.format(new Date(end + 'T00:00:00Z'));
 const tracked = moves.filter((move) => move.verdict !== 'pending');
-const byGain = [...moves].sort((a, b) => (b.bestGain ?? -Infinity) - (a.bestGain ?? -Infinity));
+// Mejor valor primero: menos FAAB por punto fantasy; en empate, el jugador que más produce.
+const byValue = [...moves].sort((a, b) =>
+  (a.grossCost ?? Infinity) - (b.grossCost ?? Infinity) || b.addedAverage - a.addedAverage);
 const bargains = moves
   .filter((move) => move.bid <= 2 && (move.bestGain ?? 0) > 0)
   .sort((a, b) => (b.bestGain ?? 0) - (a.bestGain ?? 0)).slice(0, 5);
@@ -193,27 +195,35 @@ const tabHref = (target: View) => {
           )}
 
           <h3>Todos los pickups de la temporada</h3>
-          <p class="note">Haz clic en un encabezado para ordenar. «Pts/partido ganados» usa el seguimiento más reciente cuando existe; si no, el dato del día del pickup.</p>
+          <p class="note">Ordenados del mejor al peor FAAB por punto. Toca un encabezado para ordenar por otra columna. «Pts/partido ganados» usa el seguimiento más reciente cuando existe; si no, el dato del día del pickup.</p>
           <div class="table-scroll" tabindex="0" aria-label="Todos los pickups">
-            <table class="sortable">
+            <table class="sortable pinned">
               <thead>
                 <tr>
-                  <th scope="col">#</th><th scope="col" data-sort="number">Semana</th><th scope="col" data-sort="text">Jugador agregado</th>
-                  {hasManagers && <th scope="col" data-sort="text">Manager</th>}
-                  <th scope="col" data-sort="number">Puja FAAB</th>{hasOverpay && <th scope="col" data-sort="number">Pagó de más</th>}<th scope="col" data-sort="text">Jugador soltado</th>
+                  <th scope="col">#</th><th scope="col" data-sort="text">Jugador</th>
+                  <th scope="col" data-sort="number">Pts/partido</th><th scope="col" data-sort="number" aria-sort="ascending">FAAB/punto</th>
+                  <th scope="col" data-sort="number">Puja FAAB</th>
                   <th scope="col" data-sort="number">Pts/partido ganados</th><th scope="col" data-sort="number">FAAB/punto extra</th>
+                  <th scope="col" data-sort="number">Semana</th>
+                  {hasManagers && <th scope="col" data-sort="text">Manager</th>}
+                  {hasOverpay && <th scope="col" data-sort="number">Pagó de más</th>}<th scope="col" data-sort="text">Jugador soltado</th>
                   <th scope="col" data-sort="text">Progresión</th>
                 </tr>
               </thead>
               <tbody>
-                {byGain.map((move, index) => (
+                {byValue.map((move, index) => (
                   <tr>
-                    <td class="rank">{index + 1}</td><td data-value={move.week}>{move.week}</td>
+                    <td class="rank">{index + 1}</td>
                     <th scope="row">{move.added}</th>
-                    {hasManagers && <td>{move.manager ?? '—'}</td>}
-                    <td data-value={move.bid}>{faabLabel(move.bid)}</td>{hasOverpay && <td data-value={sortValue(move.overpay)}>{faabLabel(move.overpay)}</td>}<td>{move.dropped ?? '—'}</td>
+                    <td data-value={move.addedAverage}>{points.format(move.addedAverage)}</td>
+                    <td data-value={sortValue(move.grossCost)}><strong>{faabLabel(move.grossCost)}</strong></td>
+                    <td data-value={move.bid}>{faabLabel(move.bid)}</td>
                     <td data-value={sortValue(move.bestGain)}>{signed(move.bestGain)}</td>
                     <td data-value={sortValue(move.netCostNow ?? move.netCost)}>{faabLabel(move.netCostNow ?? move.netCost)}</td>
+                    <td data-value={move.week}>{move.week}</td>
+                    {hasManagers && <td>{move.manager ?? '—'}</td>}
+                    {hasOverpay && <td data-value={sortValue(move.overpay)}>{faabLabel(move.overpay)}</td>}
+                    <td>{move.dropped ?? '—'}</td>
                     <td><span class:list={['verdict', 'verdict--' + move.verdict]}>{verdictLabels[move.verdict]}</span></td>
                   </tr>
                 ))}
@@ -435,6 +445,11 @@ const tabHref = (target: View) => {
   thead :global(th[aria-sort='descending'] button)::after { content: ' ↓'; }
   thead :global(th[aria-sort='ascending'] button)::after { content: ' ↑'; }
   tbody tr:last-child > * { border-bottom: 0; }
+  /* En celular el nombre del jugador queda fijo al deslizar la tabla. */
+  .pinned :is(thead th:nth-child(2), tbody th[scope='row']) { position: sticky; left: 0; z-index: 1; box-shadow: 1px 0 0 #cbd8e4, inset 0 -1px 0 #cbd8e4; }
+  .pinned thead th:nth-child(2) { background: #07192b; }
+  .pinned tbody th[scope='row'] { background: #fff; }
+  @media (max-width: 599px) { .pinned :is(th, td) { padding: .6rem .55rem; } }
   small { color: #5b6b7a; }
   thead small { color: #c6d3df; font-weight: 400; }
   .totals small { font-size: .9rem; font-weight: 500; }
