@@ -49,26 +49,26 @@
       "layout": "contenido",
       "eyebrow": "Siempre ha estado ahí",
       "tamanoEyebrow": 36,
-      "titulo": "Construir, vender y crear *siempre han sido parte de mí.*",
+      "titulo": "Construir, vender y crear _siempre han sido parte de mí._",
       "tamanoTitulo": 80,
       "items": [
         {
           "icono": "🛒",
-          "texto": "He **vendido y comercializado**"
+          "texto": "He **vendido y comercializado** diversos productos"
         },
         {
           "icono": "🚀",
-          "texto": "He **cofundado** proyectos y **una comunidad**"
+          "texto": "He **cofundado** proyectos diversos y **una comunidad**"
         },
         {
           "icono": "🎤",
-          "texto": "He hecho **eventos**"
+          "texto": "He hecho **eventos, conferencias y cursos**"
         }
       ],
       "cierre": "**Es mi día a día.**",
       "tamanoCierre": 60,
-      "centrar": true,
-      "vertical": true
+      "vertical": true,
+      "grande": true
     },
     {
       "layout": "foto",
