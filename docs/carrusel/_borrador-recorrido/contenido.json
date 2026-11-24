@@ -1,0 +1,157 @@
+{
+  "titulo": "De un local en obra negra a construir negocios con IA",
+  "meta": {
+    "url": "soygermangonzalez.com",
+    "urlFinal": "soygermangonzalez.com/sobre-mi",
+    "autor": "Germán González",
+    "usuario": "@germangleza",
+    "sinMarco": true
+  },
+  "laminas": [
+    {
+      "layout": "foto",
+      "fondo": "foto-1.jpg",
+      "fondoPosicion": "center",
+      "tamanoTitulo": 88,
+      "titulo": "De un local en obra negra a *construir crecimiento para negocios*",
+      "texto": "Soy Germán González. Este es mi recorrido.",
+      "recorte": {
+        "src": "german-recorte-blur.png",
+        "ancho": 900,
+        "derecha": -190
+      },
+      "conPie": true
+    },
+    {
+      "layout": "foto",
+      "fondo": "jarmar-blur.jpg",
+      "fondoPosicion": "center top",
+      "tituloAbajo": true,
+      "eyebrow": "Mi primer gran reto",
+      "titulo": "Llevar el negocio familiar de *Chiapas a Tijuana.*",
+      "tamanoTitulo": 84,
+      "texto": "Desde un local vacío hasta la apertura de una clínica.",
+      "tamanoTexto": 44,
+      "degradadoFuerte": true
+    },
+    {
+      "layout": "foto",
+      "fondo": "camaras-3-blur.jpg",
+      "fondoPosicion": "center",
+      "degradadoFuerte": true,
+      "eyebrow": "Abrir fue el comienzo",
+      "titulo": "El reto: pasar de 0 a *+100 pacientes al mes.*",
+      "tamanoTitulo": 96,
+      "texto": "Ahí entendí que crecer no es suerte. Es **detectar dónde está la oportunidad y construir lo que falta.**",
+      "tamanoTexto": 42
+    },
+    {
+      "layout": "contenido",
+      "eyebrow": "Siempre ha estado ahí",
+      "tamanoEyebrow": 36,
+      "titulo": "Construir, vender y crear *siempre han sido parte de mí.*",
+      "tamanoTitulo": 80,
+      "items": [
+        {
+          "icono": "🛒",
+          "texto": "He **vendido y comercializado**"
+        },
+        {
+          "icono": "🚀",
+          "texto": "He **cofundado** proyectos y **una comunidad**"
+        },
+        {
+          "icono": "🎤",
+          "texto": "He hecho **eventos**"
+        }
+      ],
+      "cierre": "**Es mi día a día.**",
+      "tamanoCierre": 60,
+      "centrar": true,
+      "vertical": true
+    },
+    {
+      "layout": "foto",
+      "fondo": "maguey-blur.jpg",
+      "fondoPosicion": "center 40%",
+      "degradadoFuerte": true,
+      "eyebrow": "Maguey Studio",
+      "titulo": "Cofundé un estudio para ayudar a otros negocios a *lanzar y crecer*",
+      "tamanoTitulo": 76,
+      "texto": "Con **estrategia y marketing digital.** Trabajando con decenas de clientes en México y el extranjero.",
+      "tamanoTexto": 44,
+      "logo": {
+        "src": "logo-maguey.webp",
+        "ancho": 420,
+        "x": 745,
+        "y": 945
+      }
+    },
+    {
+      "layout": "foto",
+      "fondo": "conferencia-blur.jpg",
+      "fondoPosicion": "62% center",
+      "eyebrow": "Crypto MX",
+      "titulo": "Cofundé *una comunidad.*",
+      "tamanoTitulo": 104,
+      "texto": "Creé contenido, colaboré con empresas, di conferencias y organicé eventos y hackatones.",
+      "tamanoTexto": 46,
+      "degradadoFuerte": true
+    },
+    {
+      "layout": "foto",
+      "degradadoFuerte": true,
+      "eyebrow": "Life Agent",
+      "titulo": "Cofundé una empresa de IA porque vi que muchos *perdían clientes en WhatsApp.*",
+      "tamanoTitulo": 78,
+      "texto": "Hoy ayudamos a múltiples negocios a **responder, dar seguimiento y vender** con agentes de IA en WhatsApp.",
+      "tamanoTexto": 44,
+      "fondo": "life-agent-a-blur.jpg",
+      "fondoPosicion": "45% center",
+      "logo": {
+        "src": "logo-life-agent.webp",
+        "ancho": 420,
+        "x": 745,
+        "y": 945
+      }
+    },
+    {
+      "layout": "contenido",
+      "pill": "Mi recorrido",
+      "eyebrow": "Mi mamá y mi pareja me dijeron:",
+      "tamanoEyebrow": 34,
+      "titulo": "“¿Por qué no haces *para ti* lo que haces _para tus clientes_?”",
+      "tamanoTitulo": 108,
+      "cierre": "**Y aquí estoy.**",
+      "tamanoCierre": 88,
+      "vertical": true
+    },
+    {
+      "layout": "contenido",
+      "pill": "Hoy",
+      "eyebrow": "Lo que estoy construyendo ahora",
+      "tamanoEyebrow": 36,
+      "titulo": "Distintos proyectos.\n*Una misma forma de construir.*",
+      "tamanoTitulo": 100,
+      "texto": "Encontrar **oportunidades de crecimiento** y construir lo que falta para capturarlo.",
+      "vertical": true,
+      "firma": {
+        "alto": 120
+      }
+    },
+    {
+      "layout": "contenido",
+      "eyebrow": "Si tienes un negocio que ya vende",
+      "tamanoEyebrow": 36,
+      "titulo": "¿Dónde está\n*dejando dinero?*",
+      "tamanoTitulo": 112,
+      "cierre": "**y lo revisamos en 20 minutos, sin costo 👇**",
+      "tamanoCierre": 58,
+      "vertical": true,
+      "texto": "**Comenta**",
+      "palabra": "CRECER",
+      "tamanoPalabra": 170,
+      "tamanoTexto": 58
+    }
+  ]
+}
